@@ -1,0 +1,145 @@
+<div class="control-section e-tab-section">
+  <div class="e-sample-resize-container" style="padding:20px 10px">
+    <!-- Render the Tab Component -->
+
+      <form action="" [formGroup]="boxTemplateForm" (ngSubmit)="onBoxFormSubmit()">
+
+        <div class="row">
+          <div class="col-md-4 form-group" >
+
+            <label for="tableName">Table Name</label>
+
+            <!-- <select name="" id="" class="form-control inputTitle" formControlName="tableName" #tableNameDropdown (click)="onTableDropdown(tableNameDropdown.value)">
+                  <option [value]="name" *ngFor="let name of tableNamesArray; let i=index" >{{name}}</option>
+                </select> -->
+
+            <ejs-dropdownlist [dataSource]='tableNamesArray' [allowFiltering]="true" formControlName="tableName"
+              (change)="onTableDropdown(tableDropdown.value)" #tableDropdown
+              class="tableNameDropdown"></ejs-dropdownlist>
+           
+              <span *ngIf="boxTemplateForm.get('tableName')?.invalid && boxTemplateForm.get('tableName')?.touched"
+              class="error-message">
+              Table Name is required.
+            </span>
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="fieldName">Field Name</label>
+            <!-- <select name="" id="" class="form-control inputTitle" formControlName="fieldName" (change)="onSecondDropdownChange($event)">
+                    <option value="">--Select--</option>
+                    <option [value]="name" *ngFor="let name of selectedTableFieldName; let i=index" >{{name}}</option>
+                </select> -->
+
+            <ejs-dropdownlist [dataSource]='selectedTableFieldName' [allowFiltering]="true" formControlName="fieldName"
+              (change)="onSecondDropdownChange(fieldNameDropdown.value)" #fieldNameDropdown
+              class="tableNameDropdown"></ejs-dropdownlist>
+              <div *ngIf="boxTemplateForm.get('fieldName')?.invalid && boxTemplateForm.get('fieldName')?.touched"
+              class="error-message">
+              Field Name is required.
+            </div>
+
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="labelName">Label Name</label>
+            <input type="text" formControlName="labelName" class="form-control inputTitle">
+          </div>
+  
+       
+        </div>
+
+        <div class="row">
+      
+          <div class="col-md-4 form-group">
+            <label for="tableName">Date Format</label>
+            <select name="" id="" class="form-control inputTitle  selectInputFeild" formControlName="dateFormat">
+              <option value="select">Select Format</option>
+              <option [value]="name" *ngFor="let name of formatData; let i=index">{{name}}</option>
+            </select>
+          </div>
+          <!-- <div class="col-md-4 form-group">
+              <label for="minDays">Min Days</label>
+              <input type="number" formControlName="minDays" class="form-control inputTitle">
+            </div> -->
+
+          <div class="col-md-4 form-group">
+            <label for="maxDays"> DateRange Restriction</label>
+            <input type="number" formControlName="maxDays" class="form-control inputTitle">
+          </div>
+
+          <div class="col-md-4 form-group">
+            <label for="" style="display: block;">Initial filter</label>
+            <!-- <input type="checkbox" formControlName="isInitialFilter" style="cursor: pointer;"> -->
+            <ejs-switch formControlName="isInitialFilter" cssClass="bar-color"></ejs-switch>
+          </div>
+          <!--    <div class="col-md-4 form-group">
+              <label for="minDate">Min Date</label>
+              <input type="date" formControlName="minDate" class="form-control inputTitle" 
+              >
+          </div>
+          
+          <div class="col-md-4 form-group">
+              <label for="maxDate">Max Date</label>
+              <input type="date" formControlName="maxDate" class="form-control inputTitle" >
+          </div>  -->
+        </div>
+
+      </form>
+
+<!-- 
+    <ejs-tab id="tab_default" #tabComponent heightAdjustMode='Auto'>
+      <e-tabitems>
+        <e-tabitem [header]='headerText[0]'>
+          <ng-template #content>
+            <form action="" [formGroup]="boxTemplateForm" (ngSubmit)="onBoxFormSubmit()">
+
+              <div class="row">
+                <div class="col-md-4 form-group">
+
+                  <label for="tableName">Table Name</label>
+
+
+                  <ejs-dropdownlist [dataSource]='tableNamesArray' [allowFiltering]="true" formControlName="tableName"
+                    (change)="onTableDropdown(tableDropdown.value)" #tableDropdown
+                    class="tableNameDropdown"></ejs-dropdownlist>
+                </div>
+                <div class="col-md-4 form-group">
+                  <label for="fieldName">Field Name</label>
+
+                  <ejs-dropdownlist [dataSource]='selectedTableFieldName' [allowFiltering]="true"
+                    formControlName="fieldName" (change)="onSecondDropdownChange(fieldNameDropdown.value)"
+                    #fieldNameDropdown class="tableNameDropdown"></ejs-dropdownlist>
+
+
+                </div>
+                <div class="col-md-4 form-group">
+                  <label for="labelName">Label Name</label>
+                  <input type="text" formControlName="labelName" class="form-control inputTitle">
+                </div>
+                <div class="col-md-4 form-group">
+                  <label for="tableName">Date Format</label>
+                  <select name="" id="" class="form-control inputTitle  selectInputFeild" formControlName="dateFormat">
+                    <option value="select">Select Format</option>
+                    <option [value]="name" *ngFor="let name of formatData; let i=index">{{name}}</option>
+                  </select>
+                </div>
+
+
+                <div class="col-md-4 form-group">
+                  <label for="maxDays"> DateRange Restriction</label>
+                  <input type="number" formControlName="maxDays" class="form-control inputTitle">
+                </div>
+
+                <div class="col-md-4 form-group">
+                  <label for="" style="display: block;">initial filter</label>
+                  <input type="checkbox" formControlName="isInitialFilter" style="cursor: pointer;">
+                </div>
+
+              </div>
+
+            </form>
+          </ng-template>
+        </e-tabitem>
+
+      </e-tabitems>
+    </ejs-tab> -->
+  </div>
+</div>

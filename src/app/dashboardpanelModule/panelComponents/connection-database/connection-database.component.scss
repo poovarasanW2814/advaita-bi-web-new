@@ -1,0 +1,183 @@
+@import "../../../core/sass/popup.scss";
+  
+.validation-error {
+    color: red;
+    font-size: 11px;
+  }
+  .inputValue{
+    height: 57px;
+    margin-bottom: 10px;
+  }
+  .focused {
+    animation: placeholderAnimation 200ms ease-in;
+  }
+  .registrationform{
+    width: 100%;
+    padding: 10px;
+
+  }
+  .form-control {
+    height: 28px !important;
+    font-size: 11px;
+   
+  }
+  label.labelName {
+    // width: 50%;
+    font-weight: 300;
+    font-size: 12px;
+}
+.e-dialog {
+  border-radius: 10px;
+}
+ .e-dialog .e-dlg-header-content{
+  border-radius: 10px 10px 0 0;
+}
+.tableTitle {
+  margin-bottom: 10px;
+  padding: 5px;
+  text-align: left;
+  font-size: 22px;
+  // background-color: white;
+  //font-weight: 600;
+}
+.formInfo{
+  padding: 15px;
+}
+#defaultDialog{
+  // max-height: 300px;
+  height: 400px;
+}
+  @keyframes placeholderAnimation {
+    from {
+      top: 20px;
+    }
+    to {
+      top: -10px;
+    }
+  }
+  .message-popup{
+    min-height: 30px;
+    height: auto;
+    padding: 5px 10px;
+    // background-color: #ccefb5;
+    display: flex;
+    justify-content: space-between;
+    // color: #059223;
+    font-size: 13px;
+    font-weight: 400;
+  }
+
+
+
+.table-container {
+  overflow-x: auto; /* Horizontal scrollbar */
+  overflow-y: auto; /* Vertical scrollbar */
+  max-width: 100%; /* Ensure table doesn't overflow container */
+}
+// div#defaultDialog_dialog-header {
+//   background: #CDC1FF;
+
+// }
+.action-column {
+  width: 250px;
+}
+.deleteBtn{
+  margin-left:15px
+}
+// .e-dialog .e-dlg-header-content+.e-dlg-content {
+//   padding-top: 0;
+//   background: #edf0f16e;
+// }
+
+// .e-btn-purple {
+//   background-color: #9977f9;
+//   color: white;
+//   font-size: 12px;
+// }
+
+// .e-btn-purple:hover {
+//   color: #9977f9;
+//   background-color: white;
+//   transition: all 0.3s;
+// }
+
+@media only screen and (max-width: 768px) and (orientation: landscape){
+  .tableTitle {
+    margin-bottom: 0px;
+    /* padding: 5px; */
+    text-align: left;
+    font-size: 18px;
+    font-weight: 600;
+ }
+ #defaultDialog {
+  height: 233px !important;
+    width: 375px !important;
+    top: 27px !important;
+  }
+  .action-column {
+    width: 100px; /* Adjust the width as needed */
+  }
+  .action-column button {
+    padding: 3px;
+    margin-left: 1px; /* Adjust button spacing for smaller screens */
+  }
+  .action-column i {
+    font-size: 8px; /* Adjust icon size for smaller screens */
+  }
+}
+
+/* Media query for smaller screens */
+@media only screen and (max-width: 768px) and (orientation: portrait){
+  #defaultDialog {
+    height: 328px;
+    width: 312px !important;
+    top: 17px !important;
+   }
+    .action-column {
+      width: 100px; /* Adjust the width as needed */
+    }
+    .action-column button {
+      padding: 3px;
+      margin-left: 1px; /* Adjust button spacing for smaller screens */
+    }
+    .action-column i {
+      font-size: 8px; /* Adjust icon size for smaller screens */
+    }
+    .tableTitle {
+      margin-bottom: 2px;
+      text-align: left;
+      font-size: 16px;
+      font-weight: 600;
+  }
+}
+
+
+.loader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+  z-index: 1000; /* Ensure it is above other elements */
+}
+
+.loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+

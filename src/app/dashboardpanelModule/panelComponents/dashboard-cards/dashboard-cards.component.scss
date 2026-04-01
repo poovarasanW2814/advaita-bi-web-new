@@ -1,0 +1,35 @@
+.card1 {
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  position: relative;
+  transition: transform 0.3s;
+}
+
+.card1:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  border: 3px solid rgb(176, 176, 247);
+}
+
+.card1 img {
+  width: 100%;
+  transition: filter 0.3s;
+}
+
+.card1:hover img {
+  filter: brightness(80%);
+}
+
+.card1-content {
+  padding: 16px;
+}
+
+.card1-title {
+  margin-top: 0;
+}
+
+
+

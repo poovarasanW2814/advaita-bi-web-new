@@ -1,0 +1,127 @@
+
+
+<!-- code for tataAig  -->
+
+
+<div class="login-container">
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="login-card div-with-corners">
+    <div class="card-left">
+      <!-- Login Form -->
+      <form [formGroup]="form" (ngSubmit)="Submit()">
+        
+        <div class="image-container">
+          <!-- <img loading="lazy" [src]="logoImgPath" alt=""> -->
+          <!-- <img loading="lazy" src="./../../../assets/images/SynthetaLogoDarkfont4.png" alt=""> -->        
+
+          <!-- <img loading="lazy" src="./../../../assets/images/AP logo.svg" alt="">         -->
+
+          <img loading="lazy" src="./../../../assets/images/tataAigUpdatedLogo.jpeg" alt="">        
+        </div>
+        <!-- <div class="loginLogo">
+          <span class="login">Login Syntheta V5.0</span>
+          <span class="login">Login</span>
+        </div> -->
+        <!-- <h4>Login Syntheta V4.1</h4> -->
+
+        <div class="form-group">
+          <!-- <label for="email">Email</label> -->
+          <input type="email" id="email" formControlName="username" class="form-control" placeholder="UserName" name="email" required />
+          <div *ngIf="(form.controls['username'].touched || form.controls['username'].dirty) && form.controls['username'].errors?.['required']"
+          class="error">
+            Username is required.
+          </div>
+        </div>
+        <div class="form-group">
+          <!-- <label for="password">Password</label> -->
+          <!-- <input type="password" id="password" class="form-control" placeholder="Password" name="password" required /> -->
+          <!-- <div class="form-group">
+            <input
+              type="password"
+              id="password"
+              [type]="isPasswordVisible ? 'text' : 'password'"
+              placeholder="Password"
+              name="password"
+              required
+              (focus)="isPasswordVisible = true"
+              (blur)="isPasswordVisible = false"
+              class="form-control"
+            />
+            <span  (click)="togglePasswordVisibility()" class="eye-icon">
+              <i class="fas" [ngClass]="isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'"></i>
+            </span>
+          </div> -->
+          
+        
+        </div>
+        <!-- <div class="form-group">
+          <input
+            type="password"
+            id="password"
+            [type]="isPasswordVisible ? 'text' : 'password'"
+            placeholder="Password"
+            formControlName="password"
+            class="form-control"
+          />
+          <span *ngIf="form.controls['password'].touched || form.controls['password'].dirty" 
+                (click)="togglePasswordVisibility()" 
+                class="eye-icon">
+            <i class="fas" [ngClass]="isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'"></i>
+          </span>
+          <div *ngIf="(form.controls['password'].touched || form.controls['password'].dirty) && form.controls['password'].errors?.['required']" class="error">
+            Password is required.
+          </div>
+        </div> -->
+        
+        <div class="form-group">
+          <input
+            type="password"
+            id="password"
+            type="password"
+            placeholder="Password"
+            formControlName="password"
+            class="form-control"
+          />
+   
+          <div *ngIf="(form.controls['password'].touched || form.controls['password'].dirty) && form.controls['password'].errors?.['required']" class="error">
+            Password is required.
+          </div>
+        </div>
+        
+        
+        <button type="submit" >Login</button>
+      </form>
+    </div>
+    <!-- <div class="card-right">
+      <img src="./../../../assets/images/Synthetaicon.png" alt="Login Image" />
+    </div> -->
+
+
+  </div>
+ 
+  <!-- <div class="backdrop" id="backdrop"></div>
+
+  <div class="progressBarEle">
+
+
+    <ejs-progressbar *ngIf="loaderFlag" cornerRadius='Circle' id='indeterminate' trackThickness=20 progressThickness=20
+      segmentCount=35 type='Circular' height='100' value=85 [isIndeterminate]='true' [animation]='animation'
+      progressColor="navy">
+    </ejs-progressbar>
+  </div> -->
+
+
+  <div *ngIf="loaderFlag" class="loader-backdrop">
+    <img class="loader-gif" src="../../../../assets/images/Splashscreen 2.gif" alt="Loading..." />
+  </div>
+
+</div>

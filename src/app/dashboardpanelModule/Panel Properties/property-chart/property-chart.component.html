@@ -1,0 +1,1692 @@
+<div class="control-section e-tab-section">
+    <div class="e-sample-resize-container">
+        <!-- Render the Tab Component -->
+        <ejs-tab id="tab_default" #tabComponent heightAdjustMode='Auto' [selectedItem]='selectedTabIndex'>
+            <e-tabitems>
+                <e-tabitem [header]='headerText[0]'>
+                    <ng-template #content>
+                        <form [formGroup]="dashboardCreationForm" (ngSubmit)="onDashboardCreationForm()">
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <label class="inputTitle" for="header">Title </label>
+                                    <input type="text" formControlName="title" class="form-control inputFeild ">
+                                </div>
+
+                                <div class="col-md-4 form-group">
+                                    <label for="tableName" class="inputTitle">Table Name
+
+                                        <span style="color:red; font-size: 14px;font-weight:600">*</span>
+                                    </label>
+
+                                    <!-- <select name="" id="" class="form-control selectFeild" formControlName="tableName"
+                                        #tableNameDropdown (click)="onTableDropdown(tableNameDropdown.value)">
+                                        <option [value]="name" *ngFor="let name of tableNamesArray; let i=index">
+                                            {{name}}</option>
+                                    </select> -->
+
+                                    <ejs-dropdownlist [dataSource]='tableNamesArray' [allowFiltering]="true"
+                                        formControlName="tableName" (change)="onTableDropdown(tableDropdown.value)"
+                                        #tableDropdown class="tableNameDropdown"></ejs-dropdownlist>
+
+                                    <div *ngIf="dashboardCreationForm.get('tableName')?.invalid && dashboardCreationForm.get('tableName')?.touched"
+                                        class="error-message">
+                                        Table Name is required.
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="type" class="inputTitle">
+                                        Chart Type <span style="color:red; font-size: 14px;font-weight:600">*</span>
+                                    </label>
+                                    <select name="" #chartType id="" (change)="onChartTypeSelect( chartType.value)"
+                                        formControlName="chartType" class="form-control selectFeild">
+                                        <option value="">--Select--</option>
+                                        <option value="Column">Column</option>
+                                        <!-- <option value="Bar">Bar</option> -->
+                                        <option value="Line">Line</option>
+                                        <!-- <option value="Spline">Spline</option> -->
+                                        <option value="Area">Area</option>
+                                        <option value="CombineChart">Combine Chart</option>
+                                        <option value="Pie">Pie</option>
+                                        <option value="Donut">Donut</option>
+                                        <option value="Polar">Polar</option>
+                                        <!--  <option value="StepLine">StepLine</option> -->
+                                        <!-- <option value="StackingLine100">StackingLine100</option>
+                                        <option value="StackingLine">StackingLine</option>
+                                        <option value="StepArea">StepArea</option>
+                                        <option value="StackingArea">StackingArea</option>
+                                        <option value="StackingStepArea">StackingStepArea</option>
+                                        <option value="StackingArea100">StackingArea100</option>
+                                        <option value="StackingColumn">StackingColumn</option>
+                                        <option value="StackingBar">StackingBar</option>
+                                        <option value="StackingBar100">StackingBar100</option>
+                                        <option value="Pyramid">Pyramid</option>
+                                        <option value="Funnel">Funnel</option> -->
+                                    </select>
+
+
+                                    <div *ngIf="dashboardCreationForm.get('chartType')?.invalid && dashboardCreationForm.get('chartType')?.touched"
+                                        class="error-message">
+                                        Chart Type is required.
+                                    </div>
+
+                                </div>
+
+
+
+
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <label for="backgroundColor" class="inputTitle">Background Color</label>
+                                    <input type="color" ejs-colorpicker formControlName="background"
+                                        class="form-control colorInput">
+                                </div>
+                                <!-- <div class="col-md-3 form-group">
+                                    <label for="groupBy" class="inputTitle">Group By</label>
+                                    <ejs-multiselect class="multiSelectField" formControlName="groupBy"
+                                        [dataSource]="selectedTableFieldName" mode="CheckBox"></ejs-multiselect>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="orderBy" class="inputTitle">Order By</label>
+                                    <ejs-multiselect formControlName="orderBy" [dataSource]="selectedTableFieldName"
+                                        class="multiSelectField" mode="CheckBox"></ejs-multiselect>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="orderByType" class="inputTitle">Order By Type</label>
+                                    <select name="" id="" formControlName="orderByType"
+                                        class="form-control selectFeild">
+                                        <option value="">Select </option>
+                                        <option value="ASC">ASC</option>
+                                        <option value="DESC">DESC</option>
+                                    </select>
+                                </div> -->
+                                <div class="col-md-4 form-group">
+                                    <div>
+                                        <label for="enableScrollbar" class="inputTitle">Add scrollbar </label>
+                                        <ejs-switch id="unchecked" cssClass="bar-color"
+                                            formControlName="enableScrollbar"></ejs-switch>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 form-group">
+                                    <div>
+                                        <label for="scrollbarPercentage" class="inputTitle"> Scrollbar Percentage
+                                        </label>
+
+                                        <select class="form-control selectFeild" formControlName="scrollbarPercentage">
+                                            <option value="0.01">1%</option>
+                                            <option value="0.02">2%</option>
+                                            <option value="0.03">3%</option>
+                                            <option value="0.04">4%</option>
+                                            <option value="0.05">5%</option>
+                                            <option value="0.06">6%</option>
+                                            <option value="0.07">7%</option>
+                                            <option value="0.08">8%</option>
+                                            <option value="0.09">9%</option>
+
+                                            <option value="0.1">10%</option>
+                                            <option value="0.2">20%</option>
+                                            <option value="0.3">30%</option>
+                                            <option value="0.4">40%</option>
+                                            <option value="0.5">50%</option>
+                                            <option value="0.6">60%</option>
+                                            <option value="0.7">70%</option>
+                                            <option value="0.8">80%</option>
+                                            <option value="0.9">90%</option>
+                                            <option value="1">100%</option>
+                                            <!-- <option for="0.1">1%</option> -->
+
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                             
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <label for="enableFilter" class="inputTitle">Enable Filter</label>
+                                        <ejs-switch id="unchecked" cssClass="bar-color"
+                                            formControlName="enableFilter"></ejs-switch>
+                                </div>
+
+                                <div class="col-md-4 form-group">
+                                    <label for="enableFilter" class="inputTitle">Enable Zoom</label>
+                                        <ejs-switch id="unchecked" cssClass="bar-color"
+                                            formControlName="enableZoom"></ejs-switch>
+                                </div>
+
+                                <div class="col-md-4 form-group">
+                                    <label for="enableClick" class="inputTitle">Select Drilldown clickType</label>
+                                      
+                               
+                                    <select name="" id="" formControlName="clickType"
+                                        class="form-control selectFeild">
+                                        <option value="Single">Single Click</option>
+                                        <option value="Double">Double Click</option>
+                                    </select>
+
+                                </div>
+
+
+                            </div>
+                            
+
+                            <!-- <div class="btnRight">
+                                <button class="btn btn-info">
+                                    Submit
+                                </button>
+                            </div> -->
+                        </form>
+
+                    </ng-template>
+                </e-tabitem>
+
+
+                <e-tabitem [header]='headerText[1]'>
+                    <ng-template #content>
+                        <form action="" [formGroup]="dashboardCreationForm">
+                            <div formGroupName="dimension">
+                                <div class="row">
+
+                                    <div class="col-md-3 form-group">
+                                        <label for="feildName" class="inputTitle">Field Name
+                                            <span style="color:red; font-size: 14px;font-weight:600">*</span>
+                                        </label>
+
+
+
+                                        <ejs-dropdownlist [dataSource]='selectedTableFieldName' [allowFiltering]="true"
+                                            formControlName="fieldName"
+                                            (change)="onDimensionFieldDropdown(fieldNameDropdown.value)"
+                                            #fieldNameDropdown class="tableNameDropdown"></ejs-dropdownlist>
+
+
+                                        <div *ngIf="dashboardCreationForm.get('measure?.fieldName')?.invalid && dashboardCreationForm.get('measure?.fieldName')?.touched"
+                                            class="error-message">
+                                            Field Name is required.
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <label for="labelName" class="inputTitle ">Label Name</label>
+                                        <input type="text" style="margin-top:10px" formControlName="labelName"
+                                            class="form-control inputFeild">
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <label for="labelName" class="inputTitle ">Title Name</label>
+                                        <input type="text" style="margin-top:10px" formControlName="levelTitle"
+                                            class="form-control inputFeild">
+                                    </div>
+
+
+
+
+                                    <div class="col-md-3 form-group">
+                                        <label for="levelNo" class="inputTitle">Level Number</label>
+
+                                        <select name="" id="" formControlName="level" style="margin-top:10px"
+                                            class="form-control selectFeild">
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                    </div>
+
+
+
+                                    <div class="col-md-12 form-group" style="text-align: right;">
+                                        <button type="button" class="e-btn e-btn-purple" *ngIf="!showUpdateButton"
+                                            (click)="onAddGrouping()">
+                                            Add
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-12 form-group" style="text-align: right; margin:10px">
+                                        <button class="e-btn e-btn-purple" *ngIf="showUpdateButton"
+                                            (click)="onUpdateDimensionSeries()" type="button">
+                                            Update
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="table-container">
+
+                            <!-- <table class="table table-bordered interactive-table"> -->
+                            <table class="table table-bordered ">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20px;">Sr No</th>
+                                        <th style="width: 100px;">Field Name</th>
+                                        <th style="width: 100px;">Label Name</th>
+                                        <th style="width: 100px;">Title Name</th>
+
+                                        <th style="width: 20px;">Level No</th>
+                                        <th style="width: 180px;">Raw Query</th>
+                                        <th style="width : 50px">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of dimensionGroupingArray; let i = index">
+                                        <td>{{ i + 1 }}</td>
+                                        <td style="max-width: 150px; word-wrap: break-word;">{{ item.fieldName }}</td>
+                                        <td style="max-width: 150px; word-wrap: break-word;">{{ item.labelName }}</td>
+                                        <td style="max-width: 150px; word-wrap: break-word;">{{ item.levelTitle }}</td>
+
+                                        <td>{{ item.level }}</td>
+                                        <td style="max-width: 250px; word-wrap: break-word;">{{ item.rawQuery }}</td>
+                                        <td style="cursor: pointer;">
+
+                                            <i class="fas fa-edit" style="margin-right:10px; cursor: pointer;"
+                                                [title]="'Edit'" (click)="onEditDiemsionSeries(item, i)"></i>
+                                            <i class="fas fa-trash-alt" [title]="'Delete'" style="cursor: pointer;"
+                                                (click)="onDeleteDiemnsionSeries(i, item)"></i>
+                                            <i class="fas fa-database" [title]="'Add Query'"
+                                                style="margin-left:10px; cursor: pointer;"
+                                                (click)="onOpenrawQuery(item, i, item.level)"></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+
+
+                        </div>
+                    </ng-template>
+                </e-tabitem>
+                <e-tabitem [header]='headerText[2]'>
+                    <ng-template #content>
+                        <form action="" [formGroup]="dashboardCreationForm">
+                            <div formGroupName="measure">
+                                <div class="row">
+                                    <div class="form-group col-md-3">
+                                        <label for="tableName" class="inputTitle">Table Name
+                                            <span style=" color: #f11313;
+                                            font-size: 11px;
+                                            font-weight: 700;"> *</span>
+
+                                        </label>
+
+                                        <ejs-dropdownlist [dataSource]='tableNamesArray' [allowFiltering]="true"
+                                            formControlName="tableName" (change)="onTableDropdown(tableDropdown.value)"
+                                            #tableDropdown class="tableNameDropdown"></ejs-dropdownlist>
+
+
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="feildName" class="inputTitle">Field Name
+
+                                            <span style=" color: #f11313;
+                                            font-size: 11px;
+                                            font-weight: 700;"> *</span>
+                                        </label>
+
+
+
+                                        <ejs-dropdownlist [dataSource]='selectedTableFieldName' [allowFiltering]="true"
+                                            formControlName="fieldName"
+                                            (change)="onMeasureFieldDropdown(fieldNameDropdown.value)"
+                                            #fieldNameDropdown class="tableNameDropdown"></ejs-dropdownlist>
+
+
+
+
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="seriesType" class="inputTitle">Series Type
+                                            <span style=" color: #f11313;
+                                            font-size: 11px;
+                                            font-weight: 700;"> *</span>
+                                        </label>
+
+
+                                        <select name="" formControlName="seriesType" class="form-control selectFeild">
+                                            <option value="">--Select--</option>
+                                            <option *ngFor="let option of seriesTypeOptions" [value]="option">{{ option
+                                                }}</option>
+                                        </select>
+
+                                        <div *ngIf="dashboardCreationForm.get('measure?.seriesType')?.invalid && dashboardCreationForm.get('measure?.seriesType')?.touched"
+                                            class="error-message">
+                                            Series Type is required.
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="labelName" class="inputTitle">Label Name</label>
+                                        <input type="text" formControlName="labelName" class="form-control inputFeild">
+                                    </div>
+
+
+                                    <!-- <div class="form-group col-md-3">
+                                        <label for="seriesType" class="inputTitle">Draw Type
+                                            <span style=" color: #f11313;
+                                            font-size: 11px;
+                                            font-weight: 700;"> *</span>
+                                        </label>
+
+
+                                        <select name="" formControlName="drawType" class="form-control selectFeild">
+                                            <option value="">--Select--</option>
+                                            <option *ngFor="let option of drawTypeSeriesArray" [value]="option">{{
+                                                option
+                                                }}</option>
+                                        </select>
+
+                                        <div *ngIf="dashboardCreationForm.get('measure?.drawType')?.invalid && dashboardCreationForm.get('measure?.drawType')?.touched"
+                                            class="error-message">
+                                            Draw Type is required.
+                                        </div>
+                                    </div> -->
+
+
+                                </div>
+                                <div class="row">
+
+
+                                    <div class="col-md-3 form-group">
+                                        <label for="fill" class="inputTitle">Series Color </label>
+                                        <input type="color" ejs-colorpicker formControlName="seriesColor"
+                                            class="form-control colorInput">
+                                    </div>
+
+                                    <div class="col-md-3 form-group">
+                                        <div formGroupName="dataLabel">
+
+                                            <div formGroupName="font">
+
+                                                <label class="inputTitle"> Font Color:</label>
+                                                <input type="color" ejs-colorpicker class="form-control colorInput"
+                                                    formControlName="color">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label for="expression" class="inputTitle">Expression</label>
+
+                                        <textarea name="" id="" rows="1" cols="60" style="height: 29px;
+                                        width: 475px;
+                                        border: 1px solid lightgray;
+                                        border-radius: 4px;
+                                        font-size: 10px;
+                                        padding: 8px 5px;" formControlName="expression"></textarea>
+
+                                        <div *ngIf="validationMessage && dashboardCreationForm.touched"
+                                            class="error-message">
+                                            Either Expression or Raw Query is required.
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 form-group">
+                                        <label for="isSecondaryAxis" class="inputTitle">Secondary Axis</label>
+
+                                        <ejs-switch id="unchecked" cssClass="bar-color"
+                                            formControlName="opposedPosition"></ejs-switch>
+                                    </div>
+
+                                    <div class="col-md-3 form-group">
+                                        <div formGroupName="marker">
+                                            <label for="showMarkers" class="inputTitle">Show Markers</label>
+                                            <ejs-switch formControlName="visible" cssClass="bar-color"></ejs-switch>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <div formGroupName="dataLabel">
+                                            <label for="showDataLabel" class="inputTitle">Show DataLabels</label>
+                                            <ejs-switch formControlName="visible" cssClass="bar-color"></ejs-switch>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <div formGroupName="dataLabel">
+                                            <label for="dataLabelPosition" class="inputTitle">DataLabel Position
+                                            </label>
+                                            <select name="EdgeLabel" formControlName="position"
+                                                class="form-control selectFeild" id="labelPosition">
+                                                <option value="">Select</option>
+                                                <option *ngFor="let item of columnChartPosition" [value]="item">{{item}}
+                                                </option>
+
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <div formGroupName="dataLabel">
+                                            <label for="dataLabelPosition" class="inputTitle">DataLabel Format
+                                            </label>
+                                            <select name="EdgeLabel" formControlName="format"
+                                                class="form-control selectFeild" id="labelPosition">
+                                                <option value="{value}">Select</option>
+                                                <option value="n">Number (1000)</option>
+                                                <option value="n1">Number (1000.0)</option>
+                                                <option value="n2">Number (1000.00)</option>
+                                                <option value="n3">Number (1000.000)</option>
+                                                <option value="p">Percentage (1%)</option>
+                                                <option value="p1">Percentage (1.0%)</option>
+                                                <option value="p2">Percentage (1.00%)</option>
+                                                <option value="p3">Percentage (1.000%)</option>
+                                                <option value="c">Currency ($1000)</option>
+                                                <option value="c1">Currency ($1000.0)</option>
+                                                <option value="c2">Currency ($1000.00)</option>
+                                                <option value="c3">Currency ($1000.000)</option>
+                                                <option value="{value}K">Thousands (K)</option>
+                                                <option value="{value}%">Percentage (%)</option>
+                                                <option value="{value}M">Millions (M)</option>
+                                                <option value="${value}">Currency</option>
+
+                                            </select>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <div formGroupName="dataLabel">
+
+                                            <div formGroupName="font">
+                                                <label class="inputTitle">Font Weight:</label>
+                                                <select class="form-control selectFeild" formControlName="fontWeight">
+                                                    <option *ngFor="let weight of fontWeights" [value]="weight">{{
+                                                        weight }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 form-group">
+                                        <div formGroupName="dataLabel">
+
+                                            <div formGroupName="font">
+
+                                                <label class="inputTitle">Font Size</label>
+                                                <input type="number" class="form-control inputFeild"
+                                                    formControlName="size">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 form-group">
+                                        <div formGroupName="dataLabel">
+
+                                            <label class="inputTitle">Datalabel Rotation</label>
+                                            <input type="number" class="form-control inputFeild"
+                                                formControlName="angle">
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <!-- <div class="row">
+                                    <div class="col-md-3 form-group">
+                                        <div formGroupName="dataLabel">
+
+                                            <label class="inputTitle">Datalabel Rotation</label>
+                                            <input type="number" class="form-control inputFeild"
+                                                formControlName="angle">
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+
+                            <div style="text-align: right; margin:10px ; cursor: pointer;">
+
+                                <!-- <button class="e-btn e-btn-purple" *ngIf="showAddButton" (click)="onAddSeries()" -->
+                                <button class="e-btn e-btn-purple" *ngIf="showAddButton" (click)="onAddMeasureSeries()"
+                                    type="button">
+                                    Add
+                                </button>
+                            </div>
+                            <div style="text-align: right; margin:10px; cursor: pointer">
+                                <button class="e-btn e-btn-purple" *ngIf="showUpdateButton" (click)="onUpdateSeries()"
+                                    type="button">
+                                    Update
+                                </button>
+                            </div>
+                        </form>
+
+                        <div style="margin:5px" class="table-wrapper">
+                            <div class="table-container">
+                                <table class="table table-bordered interactive-table  measureTable">
+                                    <thead>
+                                        <tr>
+
+                                            <th> Sr No </th>
+                                            <th>Table Name</th>
+                                            <th>Field Name</th>
+                                            <th> LabelName</th>
+                                            <th>Series Type</th>
+                                            <th>PolarSeries Type</th>
+                                            <th>Series Color</th>
+                                            <th>Expression</th>
+                                            <th>Secondary Axis</th>
+                                            <th>Markers</th>
+                                            <th>DataLabels</th>
+                                            <th>DataLabel Position</th>
+                                            <th>DataLabel Format</th>
+                                            <th>DataLabel Fontsize</th>
+                                            <th>DataLabel fontweight</th>
+                                            <th>DataLabel fontcolor</th>
+                                            <th>DataLabel Angle</th>
+                                            <th> Action</th>
+
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+                                        <tr *ngFor="let series of measureSeriesArray; let i=index">
+                                            <td style=" word-wrap: break-word;">{{i + 1}}</td>
+
+                                            <td>{{series?.tableName}}</td>
+                                            <td>{{series?.fieldName}}</td>
+                                            <td>{{series?.labelName}}</td>
+                                            <td>{{series?.seriesType}}</td>
+                                            <td>{{series?.drawType}}</td>
+                                            <td>{{series?.seriesColor}}</td>
+                                            <td>{{series?.expression}}</td>
+                                            <td>{{series?.opposedPosition}}</td>
+                                            <!-- <td>{{series.marker.visible}}</td>
+                                            <td>{{series.dataLabel.visible}}</td> -->
+                                            <td>{{series.marker?.visible}}</td>
+                                            <td>{{series.dataLabel?.visible}}</td>
+                                            <td>{{series.dataLabel?.position}}</td>
+                                            <td>{{series.dataLabel?.format}}</td>
+                                            <td>{{series.dataLabel?.font?.size}}</td>
+                                            <td>{{series.dataLabel?.font?.fontWeight}}</td>
+                                            <td>{{series.dataLabel?.font?.color}}</td>
+                                            <td>{{series.dataLabel?.angle}}</td>
+                                            <td style="cursor:pointer; font-size: 11px ">
+                                                <i class="fas fa-trash-alt" (click)="onDeleteSeries(i)"></i>
+                                                <i class="fas fa-edit" style="margin-left:10px"
+                                                    (click)="onEditSeries(series, i)"></i>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+
+
+                    </ng-template>
+                </e-tabitem>
+                <e-tabitem [header]='headerText[3]'>
+                    <!-- <ng-template #content>
+                        <app-chart-condition></app-chart-condition>
+                    </ng-template> -->
+
+                    <ng-template #content>
+                        <div id="ChartCondition" class="tab-pane active">
+                            <div class="col-md-12" id="modalBody" style="margin-right:1px;margin-top: 5px;">
+                                <form action="" [formGroup]="dashboardCreationForm">
+                                    <div class="">
+                                        <div class="row">
+                                            <div class="col-md-4 form-group">
+                                                <label for="groupBy" class="inputTitle">Group By</label>
+                                                <ejs-multiselect class="multiSelectField" formControlName="groupBy"
+                                                    [dataSource]="selectedTableFieldName"
+                                                    mode="CheckBox"></ejs-multiselect>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <label for="orderBy" class="inputTitle">Order By</label>
+                                                <ejs-multiselect formControlName="orderBy"
+                                                    [dataSource]="selectedTableFieldName" class="multiSelectField"
+                                                    mode="CheckBox"></ejs-multiselect>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <label for="orderByType" class="inputTitle">Order By Type</label>
+                                                <select name="" id="" formControlName="orderByType"
+                                                    class="form-control selectFeild">
+                                                    <option value="">Select </option>
+                                                    <option value="ASC">ASC</option>
+                                                    <option value="DESC">DESC</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- <input type="hidden" name="" value=""> -->
+                                    <div class="row">
+                                        <div class="col-md-9 border">
+                                            <fieldset>
+                                                <legend>Template condition:
+
+                                                </legend>
+                                                <div class="row">
+                                                    <div class="cleardiv  pull-right">
+                                                        <!-- <button type="submit"
+                                                            class="btn btn-light btn-sm">Submit</button> -->
+                                                        <button type="button" (click)="onClearConditions()" ejs-button
+                                                            cssClass='e-btn e-btn-purple'
+                                                            id="chartbtnCleardimCondition">Clear</button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="">
+                                                    <!-- <textarea name="conditions" cols="40" rows="6" class="form-control"
+                                                        id="pop_chart_condition" formControlName="conditions"
+                                                        [(ngModel)]="conditionValue">
+                                                   </textarea> -->
+
+                                                    <textarea name="conditions" cols="40" rows="6" class="form-control"
+                                                        id="pop_chart_condition" formControlName="conditions"
+                                                        [(ngModel)]="conditionValue"
+                                                        (click)="updateCursorPositionCondition($event)"
+                                                        (input)="updateCursorPositionCondition($event)"></textarea>
+
+                                                </div>
+                                                <div class="actionbuttons">
+                                                    <div class="rows">
+                                                        <button type="button" ejs-button
+                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
+                                                            value="+">+</button>
+                                                        <button type="button" ejs-button
+                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
+                                                            value="-">-</button>
+                                                        <button type="button" ejs-button
+                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
+                                                            value="*">*</button>
+                                                        <button type="button" ejs-button
+                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
+                                                            value="/">/</button>
+                                                        <button type="button" ejs-button
+                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
+                                                            value="==">==</button>
+                                                        <button type="button" ejs-button
+                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
+                                                            value="<">&lt;</button>
+                                                        <button type="button" ejs-button
+                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
+                                                            value="<=">&lt;=</button>
+                                                        <button type="button" ejs-button
+                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
+                                                            value="!=">!=</button>
+                                                        <button type="button" ejs-button
+                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
+                                                            value=">=">&gt;=</button>
+                                                        <button type="button" ejs-button
+                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
+                                                            value=">">&gt;</button>
+                                                        <button type="button" ejs-button
+                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
+                                                            value="and">and</button>
+                                                        <button type="button" ejs-button
+                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
+                                                            value="or">or</button>
+                                                        <button type="button" ejs-button
+                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
+                                                            value="not">not</button>
+                                                        <button type="button" ejs-button
+                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
+                                                            value="(">(</button>
+                                                        <button type="button" ejs-button
+                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
+                                                            value=")">)</button>
+
+
+                                                    </div>
+
+                                                </div>
+
+
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-md-3 border">
+                                            <fieldset>
+                                                <legend>Select Table:
+
+                                                </legend>
+
+                                                <!-- <select class="select form-control" id="Chart_gettablename_dimCondition"
+                                            (change)="FieldNames_Condition(this);" style="border-radius:1.35rem!important;margin-bottom: 5px;">
+                                            <option value="NO" selected="">--Select---</option>
+                                
+                                            <option [value]="item" *ngFor="let item of selectedTableFieldName">{{item}}</option>
+                                
+                                         
+                                
+                                          </select> -->
+                                                <!-- <select name="" id="" class="form-control selectFeild"
+                                                    formControlName="tableName" #tableNameDropdown
+                                                    (click)="onTableDropdown(tableNameDropdown.value)">
+                                                    <option [value]="name"
+                                                        *ngFor="let name of tableNamesArray; let i=index">{{name}}
+                                                    </option>
+                                                </select> -->
+
+
+
+                                                <input type="text" class="form-control tableInputTitle"
+                                                    formControlName="tableName">
+
+
+                                                <div class="tabldiv">
+                                                    <div class="headerstylepopup">
+                                                        <h5 class="popuph5style">Selected Table Field Names</h5>
+                                                    </div>
+                                                    <div class="Tablelist" style="height: 111px;">
+                                                        <ul class="list-group">
+                                                            <li class="list-group-items"
+                                                                (click)="addToConditionTextarea(name)"
+                                                                *ngFor="let name of selectedTableFieldName">
+                                                                {{name}}
+                                                            </li>
+                                                        </ul>
+                                                        <!-- <select name="" id="" class="form-control " formControlName="fieldName" (change)="onSecondDropdownChange($event)">
+                                                <option value="">--Select--</option>
+                                                <option [value]="name" *ngFor="let name of selectedTableFieldName; let i=index" >{{name}}</option>
+                                            </select>                -->
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </ng-template>
+                </e-tabitem>
+
+                <e-tabitem [header]='headerText[4]'>
+                    <ng-template #content>
+                        <form [formGroup]="dashboardCreationForm" (ngSubmit)="onDashboardCreationForm()">
+
+                            <div class="row">
+                                <div class="col-md-3 form-group">
+                                    <div formGroupName="chartArea">
+                                        <div formGroupName="border">
+                                            <label for="chartAreaWidth" class="inputTitle">ChartArea Border
+                                                Width</label>
+                                            <input type="number" formControlName="width"
+                                                class="form-control inputFeild">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <div formGroupName="chartArea">
+                                        <div formGroupName="border">
+                                            <label for="color" class="inputTitle">ChartArea Border Color</label>
+                                            <input type="color" ejs-colorpicker formControlName="color"
+                                                class="form-control colorInput">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div></div>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div></div>
+
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-3 form-group">
+                                    <div formGroupName="tooltip">
+                                        <label for="tooltip" style="display: block;" class="inputTitle">
+                                            Show Tooltip
+                                        </label>
+                                        <ejs-switch formControlName="enable" cssClass="bar-color"></ejs-switch>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-3 form-group">
+                                    <div formGroupName="tooltip">
+                                        <label for="tooltip" style="display: block;" class="inputTitle">
+                                            Show Combined Tooltip
+                                        </label>
+                                        <ejs-switch formControlName="shared" cssClass="bar-color"></ejs-switch>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-3 form-group">
+                                    <label for="tooltipFormat" class="inputTitle">Tooltip Format</label>
+
+                                    <select name="" id="" formControlName="tooltipFormat"
+                                        class="form-control selectFeild">
+                                        <option value="">Select </option>
+                                        <option value="Percentage">Percentage</option>
+                                        <option value="Value">Value</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="datalabelFormat" class="inputTitle">DataLabel Format</label>
+
+                                    <select name="" id="" formControlName="datalabelFormat"
+                                        class="form-control selectFeild">
+                                        <option value="">Select </option>
+                                        <option value="Percentage">Percentage</option>
+                                        <option value="Value">Value</option>
+                                        <option value="Both">Both</option>
+                                        <option value="ValueWithLabel"> Value With Label</option>
+                                        <option value="ValueWithPercentage">Percentage With Label</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 form-group">
+                                    <div formGroupName="legends">
+                                        <label for="legends" style="display: block;" class="inputTitle">
+                                            Show Legends :
+                                        </label>
+                                        <ejs-switch formControlName="visible" cssClass="bar-color"></ejs-switch>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <div formGroupName="legends">
+                                        <label class="inputTitle">
+                                            Legends Position :
+                                        </label>
+                                        <select name="" id="" formControlName="position"
+                                            class="form-control selectFeild">
+                                            <option value="">Select</option>
+                                            <option value="Top">Top</option>
+                                            <option value="Bottom">Bottom</option>
+                                            <option value="Left">Left</option>
+                                            <option value="Right">Right</option>
+                                            <!-- <option value="Middle">Middle</option> -->
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <div formGroupName="legends">
+                                        <div formGroupName="textStyle">
+                                            <label class="inputTitle">
+                                                Legends Font Size :
+                                            </label>
+                                            <input type="number" class="form-control 
+                                              inputFeild" formControlName="size" name="" id="">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <div formGroupName="legends">
+                                        <div formGroupName="textStyle">
+                                            <label class="inputTitle">
+                                                Legends Font color :
+                                            </label>
+                                            <input type="color" ejs-colorpicker formControlName="color"
+                                                class=" form-control colorInput" name="" id="">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <!-- <div class="btnRight">
+                                <button class="btn btn-info">
+                                    Submit
+                                </button>
+                            </div> -->
+                        </form>
+                    </ng-template>
+                </e-tabitem>
+                <e-tabitem [header]='headerText[5]'>
+                    <ng-template #content>
+                        <div class="axisDiv">
+
+                            <!-- <div class="axisTitle">
+                                <p>
+                                    <b> X Axis Properties</b>
+                                </p>
+                            </div> -->
+                            <div class=" primaryXAxis">
+                                <form action="" [formGroup]="dashboardCreationForm">
+                                    <div formGroupName="primaryXAxis">
+                                        <div class="row">
+                                            <div class="col-md-3 form-group">
+                                                <label for="" class="inputTitle"> Title</label>
+                                                <input type="text" formControlName="title"
+                                                    class="form-control inputFeild">
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <label for="labelFormat" class="inputTitle"> Label Format</label>
+                                                <select name="" id="" formControlName="labelFormat"
+                                                    class="form-control selectFeild">
+                                                    <option value="">Select</option>
+                                                    <option value="yMMM">yMMM</option>
+                                                    <option value="yy-MMM">Year-Month</option>
+                                                    <option value="y">y</option>
+                                                    <option value="yMd">Year-Month-Date</option>
+                                                    <option value="EEEE">Week Days</option>
+                                                    <option value="MMM">Month</option>
+                                                    <option value="hm">HoursMinutes</option>
+                                                    <option value="hms">hms</option>
+                                                    <option value="dd MMM">dd MMM</option>
+                                                    <option value="dd-MMM-yy">dd-MMM-yy</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <label for="gridLinesWidth" class="inputTitle"> Interval
+                                                </label>
+                                                <input type="number" formControlName="interval"
+                                                    class="form-control inputFeild">
+
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <div formGroupName="majorGridLines">
+                                                    <label for="gridLinesWidth" class="inputTitle"> GridLine
+                                                        Width</label>
+                                                    <input type="number" formControlName="width"
+                                                        class="form-control inputFeild">
+
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <div formGroupName="majorGridLines">
+                                                    <label for="gridLinesColor" class="inputTitle"> GridLine
+                                                        Color</label>
+                                                    <input type="color" ejs-colorpicker formControlName="color"
+                                                        class="form-control colorInput">
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <div formGroupName="majorTickLines">
+                                                    <label for="tickLinesWIdth" class="inputTitle"> TickLine
+                                                        Width</label>
+                                                    <input type="number" formControlName="width"
+                                                        class="form-control inputFeild">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <div formGroupName="majorTickLines">
+
+
+                                                    <label for="tickLinesColor" class="inputTitle"> TickLine
+                                                        Color</label>
+                                                    <input type="color" ejs-colorpicker formControlName="color"
+                                                        class="form-control colorInput">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <div formGroupName="lineStyle">
+                                                    <label for="lineStyleWidth" class="inputTitle"> LineStyle
+                                                        Width</label>
+                                                    <input type="number" formControlName="width"
+                                                        class="form-control inputFeild">
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-3 form-group">
+                                                <label for="" class="inputTitle">Trim</label>
+                                                <ejs-switch id="unchecked" style="display:block" cssClass="bar-color"
+                                                    formControlName="enableTrim"></ejs-switch>
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <label for="" class="inputTitle">Label Position</label>
+                                                <select name="" id="" class="form-control selectFeild"
+                                                    formControlName="labelPosition">
+                                                    <option value="">Select</option>
+                                                    <option value="Outside">Outside</option>
+                                                    <option value="Inside">Inside</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-3 form-group">
+                                                <label for="xAxisLabelWidth" class="inputTitle">Label
+                                                    Width
+                                                </label>
+                                                <input type="number" formControlName="maximumLabelWidth"
+                                                    class="form-control inputFeild">
+                                            </div>
+
+
+
+
+                                            <div class="col-md-3 form-group">
+                                                <label for="" class="inputTitle">Label Rotation</label>
+                                                <select name="" id="" class="form-control selectFeild"
+                                                    formControlName="labelRotation">
+                                                    <option value="">Select</option>
+                                                    <option value="30">30</option>
+                                                    <option value="-45">-45</option>
+                                                    <option value="45">45</option>
+                                                    <option value="60">60</option>
+                                                    <option value="90">90</option>
+                                                    <option value="120">120</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <div formGroupName="lineStyle">
+                                                    <label for="lineStyleColor" class="inputTitle"> LineStyle
+                                                        Color</label>
+                                                    <input type="color" ejs-colorpicker formControlName="color"
+                                                        class="form-control colorInput">
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <label for="labelIntersectAction" class="inputTitle">label Intersect
+                                                    Action</label>
+
+                                                <select name="Intersect" formControlName="labelIntersectAction"
+                                                    class="form-control selectFeild" id="labelIntersectAction">
+                                                    <option value="">Select</option>
+                                                    <option value="Hide">Hide</option>
+                                                    <option value="Trim">Trim</option>
+                                                    <option value="Wrap">Wrap</option>
+                                                    <option value="MultipleRows">MultipleRows</option>
+                                                    <option value="Rotate45">Rotate45</option>
+                                                    <option value="Rotate90">Rotate90</option>
+                                                    <option value="None">None</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-3 form-group">
+                                                <div formGroupName="titleStyle" class="">
+                                                    <label for="gridLinesWidth" class="inputTitle"> Font Size
+                                                    </label>
+                                                    <input type="number" formControlName="size"
+                                                        class="form-control inputFeild">
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="col-md-3 form-group">
+                                                <div formGroupName="titleStyle" class="">
+                                                    <label for="gridLinesWidth" class="inputTitle"> Font Color
+                                                    </label>
+                                                    <input type="color" ejs-colorpicker formControlName="color"
+                                                        class="form-control inputFeild">
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-3 form-group">
+                                                <label for="labelPlacement" class="inputTitle">Label Placement</label>
+                                                <select id="labelPlacement" class="form-control selectFeild"
+                                                    formControlName="labelPlacement">
+                                                    <option value="">Select</option>
+                                                    <option value="OnTicks">OnTicks</option>
+                                                    <option value="BetweenTicks">BetweenTicks</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- <div class="col-md-3 form-group">
+                                                <label for="" class="inputTitle">Interval</label>
+                                                <input type="number" formControlName="interval"
+                                                    class="form-control inputFeild">
+                                            </div> -->
+                                            <!-- <div class="col-md-3 form-group">
+                                                <label for="intervalType" class="inputTitle">Interval Type</label>
+                                                <select name="" id="" formControlName="intervalType"
+                                                    class="form-control selectFeild">
+                                                    <option value="">Select</option>
+                                                    <option value="Years">Years</option>
+                                                    <option value="Months">Months</option>
+                                                    <option value="Days">Days</option>
+                                                    <option value="Hours">Hours</option>
+                                                    <option value="Minutes">Minutes</option>
+                                                    <option value="Seconds">Seconds</option>
+                                                </select>
+                                            </div> -->
+                                            <!-- <div class="col-md-3 form-group">
+                                                <label for="" class="inputTitle">Minimum</label>
+                                                <input type="number" formControlName="minimum"
+                                                    class="form-control inputFeild">
+
+                                            </div>
+
+                                            <div class="col-md-3 form-group">
+                                                <label for="" class="inputTitle">Maximum</label>
+                                                <input type="number" formControlName="maximum"
+                                                    class="form-control inputFeild">
+                                            </div> -->
+                                        </div>
+                                    </div>
+
+                                    <!-- <div style="margin:10px 0px; text-align: right;">
+                                        <button class="btn btn-info">
+                                            Submit
+                                        </button>
+                                    </div>        -->
+                                </form>
+                            </div>
+                        </div>
+                    </ng-template>
+                </e-tabitem>
+                <e-tabitem [header]='headerText[6]'>
+                    <ng-template #content>
+                        <div class="axisDiv">
+
+                            <div class=" primaryYAxis">
+                                <form action="" [formGroup]="dashboardCreationForm">
+                                    <div formGroupName="primaryYAxis">
+                                        <!-- Title & Font Settings -->
+                                        <div class="row">
+                                            <div class="col-md-3 form-group">
+                                                <label for="" class="inputTitle">Title</label>
+                                                <input type="text" formControlName="title"
+                                                    class="form-control inputFeild">
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <div formGroupName="titleStyle">
+                                                    <label for="gridLinesWidth" class="inputTitle">Title Font Size</label>
+                                                    <input type="number" formControlName="size"
+                                                        class="form-control inputFeild">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <div formGroupName="titleStyle">
+                                                    <label for="gridLinesWidth" class="inputTitle">Title Font Color</label>
+                                                    <input type="color" ejs-colorpicker formControlName="color"
+                                                        class="form-control inputFeild">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Axis Range Settings -->
+                                        <div class="row">
+                                            <div class="col-md-3 form-group">
+                                                <label for="interval" class="inputTitle">Interval</label>
+                                                <input type="number" formControlName="interval"
+                                                    class="form-control inputFeild">
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <label for="minimum" class="inputTitle">Minimum</label>
+                                                <input type="number" formControlName="minimum"
+                                                    class="form-control inputFeild">
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <label for="maximum" class="inputTitle">Maximum</label>
+                                                <input type="number" formControlName="maximum"
+                                                    class="form-control inputFeild">
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <label for="" class="inputTitle">Label Rotation</label>
+                                                <select name="" id="" class="form-control selectFeild"
+                                                    formControlName="labelRotation">
+                                                    <option value="">Select</option>
+                                                    <option value="30">30</option>
+                                                    <option value="-45">-45</option>
+                                                    <option value="45">45</option>
+                                                    <option value="60">60</option>
+                                                    <option value="90">90</option>
+                                                    <option value="120">120</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Grid Lines Settings -->
+                                        <div class="row">
+                                            <div class="col-md-3 form-group">
+                                                <div formGroupName="majorGridLines">
+                                                    <label for="gridLinesWidth" class="inputTitle">GridLine Width</label>
+                                                    <input type="number" formControlName="width"
+                                                        class="form-control inputFeild">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <div formGroupName="majorGridLines">
+                                                    <label for="gridLinesColor" class="inputTitle">GridLine Color</label>
+                                                    <input type="color" ejs-colorpicker formControlName="color"
+                                                        class="form-control colorInput">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <div formGroupName="majorTickLines">
+                                                    <label for="tickLinesWIdth" class="inputTitle">TickLine Width</label>
+                                                    <input type="number" formControlName="width"
+                                                        class="form-control inputFeild">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <div formGroupName="majorTickLines">
+                                                    <label for="tickLinesColor" class="inputTitle">TickLine Color</label>
+                                                    <input type="color" ejs-colorpicker formControlName="color"
+                                                        class="form-control colorInput">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Line Style Settings -->
+                                        <div class="row">
+                                            <div class="col-md-3 form-group">
+                                                <div formGroupName="lineStyle">
+                                                    <label for="lineStyleWidth" class="inputTitle">LineStyle Width</label>
+                                                    <input type="number" formControlName="width"
+                                                        class="form-control inputFeild">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <div formGroupName="lineStyle">
+                                                    <label for="lineStyleColor" class="inputTitle">LineStyle Color</label>
+                                                    <input type="color" ejs-colorpicker formControlName="color"
+                                                        class="form-control colorInput">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+                                    </div>
+                                    <!-- <div style="margin:10px 0px; text-align: right;" >
+                                        <button class="btn btn-info">
+                                            Submit
+                                        </button>
+                                    </div>               -->
+                                </form>
+                            </div>
+                        </div>
+                    </ng-template>
+                </e-tabitem>
+
+                <e-tabitem [header]='headerText[7]'>
+                    <ng-template #content>
+                        <div class="axisDiv">
+                            <form action="" [formGroup]="dashboardCreationForm">
+                                <div formGroupName="axis">
+                                    <!-- Title & Font Settings -->
+                                    <div class="row">
+                                        <div class="col-md-3 form-group">
+                                            <label for="" class="inputTitle">Title</label>
+                                            <input type="text" formControlName="title" class="form-control inputFeild">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <div formGroupName="titleStyle">
+                                                <label for="gridLinesWidth" class="inputTitle">Title Font Size</label>
+                                                <input type="number" formControlName="size"
+                                                    class="form-control inputFeild">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <div formGroupName="titleStyle">
+                                                <label for="gridLinesWidth" class="inputTitle">Title Font Color</label>
+                                                <input type="color" ejs-colorpicker formControlName="color"
+                                                    class="form-control inputFeild">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label for="labelFormat" class="inputTitle">Label Format</label>
+                                            <select name="" id="" class="form-control selectFeild"
+                                                formControlName="labelFormat">
+                                                <option value="">Select</option>
+                                                <option value="{value}%">%</option>
+                                                <option value="${value}">$</option>
+                                                <option value="{value}#">#</option>
+                                                <option value="{value}°C">°C</option>
+                                                <option value="{value}°F">°F</option>
+                                                <option value="{value}K">K</option>
+                                                <option value="{value}M">M</option>
+                                                <option value="{value}MB">MB</option>
+                                                <option value="{value}c">c</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Axis Range & Label Settings -->
+                                    <div class="row">
+                                        <div class="col-md-3 form-group">
+                                            <label for="interval" class="inputTitle">Interval</label>
+                                            <input type="number" formControlName="interval"
+                                                class="form-control inputFeild">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label for="minimum" class="inputTitle">Minimum</label>
+                                            <input type="number" formControlName="minimum"
+                                                class="form-control inputFeild">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label for="maximum" class="inputTitle">Maximum</label>
+                                            <input type="number" formControlName="maximum"
+                                                class="form-control inputFeild">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label for="tickLinesWIdth" class="inputTitle">Label Rotation</label>
+                                            <input type="number" formControlName="labelRotation"
+                                                class="form-control inputFeild">
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <!-- Label Style Settings -->
+                                    <div class="row">
+                                        <div class="col-md-3 form-group">
+                                            <div formGroupName="labelStyle">
+                                                <label for="gridLinesWidth" class="inputTitle">Label Font Size</label>
+                                                <input type="number" formControlName="size"
+                                                    class="form-control inputFeild">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <div formGroupName="labelStyle">
+                                                <label for="tickLinesWIdth" class="inputTitle">Label Font Color</label>
+                                                <input type="color" ejs-colorpicker formControlName="color"
+                                                    class="form-control inputFeild">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div style="margin:10px 0px; text-align: right;" >
+                                    <button class="btn btn-info">
+                                        Submit
+                                    </button>
+                                </div>               -->
+                            </form>
+                        </div>
+                    </ng-template>
+                </e-tabitem>
+
+                <e-tabitem [header]='headerText[8]'>
+                    <ng-template #content>
+                        <div class="axisDiv">
+                            <form action="" [formGroup]="dashboardCreationForm">
+                                <div formGroupName="conditionalFormat">
+                                    <div class="row">
+                                        <div class="col-md-4 form-group">
+                                            <label for="" class="inputTitle">FieldName</label>
+                                            <ejs-dropdownlist [dataSource]='selectedTableFieldName' #fieldNameDropdown
+                                                [allowFiltering]="true" formControlName="fieldName"
+                                                class="tableNameDropdown"></ejs-dropdownlist>
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <label for="" class=" inputTitle" >Conditions</label>
+
+                                                
+                                        <select name="" id="" class=" form-control selectFeild"
+                                                formControlName="condition"
+                                                (change)="onSelectCondtionFormatValue($event)">
+                                                <option value="">Select</option>
+                                                <option value="<">LessThan</option>
+                                                <option value="Between">Between</option>
+                                                <option value="<=">LessThanOrEqualTo</option>
+                                                <option value=">">GreaterThan</option>
+                                                <option value=">=">GreaterThanOrEqualTo</option>
+                                                <option value="=">Equals</option>
+                                                <option value="!=">NotEquals</option>
+                                                </select>
+                                        </div>
+
+                                        <div class="col-md-4 form-group">
+                                             <label for="" class="inputTitle">Enter Value</label>
+
+                                                <!-- <input type="number" class="form-control inputFeild" formControlName="value1"> -->
+                                                <input type="string" class="form-control inputFeild" formControlName="value1">
+                                        </div>
+                                        
+                                        <div class="col-md-4 form-group">
+                                               <label for="" class="inputTitle">Enter Max Value</label>
+                                                <input type="number" class="form-control inputFeild" formControlName="value2">
+                                        </div>
+
+
+                                        <div class="col-md-4 form-group">
+                                             <label for="" class="inputTitle">Series Color</label>
+                                            <input ejs-colorpicker id='color-picker2' #colorpicker1  formControlName="color"    class="form-control colorInput" type="color">
+                                        </div>
+
+                                        <div class="col-md-12">
+                                                <div style="text-align: right; margin-bottom:10px">
+                                    <button ejs-button type="button" *ngIf="showConditionAddBtn"
+                                        (click)="onAddConditionFormat()" class="e-btn e-btn-purple ">
+                                        Add
+                                    </button>
+                                    <button ejs-button type="button" *ngIf="updateConditonBtn"
+                                        (click)="onUpdateConditonObj()" class="e-btn e-btn-purple ">
+                                        Update
+                                    </button>
+                                     </div>
+                                        </div>
+
+
+                                    </div>
+                                    </div>
+                            </form>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <!-- Add after the form in the conditional format tab -->
+<div class="table-container">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Sr No</th>
+                <th>Field Name</th> 
+                <th>Condition</th>
+                <th>Value 1</th>
+                <th>Value 2</th>
+                <th>Color</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let format of conditionalFormatArray; let i = index">
+                <td>{{i + 1}}</td>
+                <td>{{format.fieldName}}</td>
+                <td>{{format.condition}}</td>
+                <td>{{format.value1}}</td>
+                <td>{{format.value2}}</td>
+                <td>
+                    <div [style.background-color]="format.color" 
+                         style="width: 25px; height: 25px; border: 1px solid #ccc;">
+                    </div>
+                </td>
+                <td>
+                    <i class="fas fa-edit" style="margin-right:10px; cursor: pointer;"
+                       [title]="'Edit'" (click)="onEditConditionalFormat(format, i)"></i>
+                    <i class="fas fa-trash-alt" [title]="'Delete'" 
+                       style="cursor: pointer;" (click)="onDeleteConditionalFormat(i)"></i>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </e-tabitem>
+
+            </e-tabitems>
+        </ejs-tab>
+
+        <div>
+            <ejs-dialog id="rawQueryDimension" #rawQueryDimension [isModal]='isModal' [visible]='false'
+                [header]="'Add Raw Query'" [allowDragging]='true' [animationSettings]='animationSettings'
+                [showCloseIcon]='true' [target]='target' [width]='1000'>
+
+                <ng-template #content>
+                    <div style="padding:20px 10px">
+                        <form action="" [formGroup]="dashboardCreationForm">
+                            <div formGroupName="dimension">
+
+                                <!-- <input type="hidden" name="" value=""> -->
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <fieldset>
+                                            <legend>Raw Query:
+
+                                            </legend>
+                                            <div class="row">
+                                                <div class="cleardiv  pull-right">
+                                                    <button type="button" (click)="onCopyRawQuery()"
+                                                        class="e-btn e-btn-purple"
+                                                        id="chartbtnCopyRawQuery">Copy</button>
+                                                    &nbsp;
+                                                    <span *ngIf="copyMessage" style="position:absolute; top:10px; left:50%; transform:translateX(-50%);
+             background:#323232; color:#fff; padding:6px 12px;
+             border-radius:6px; font-size:13px;">
+                                                        {{ copyMessage }}
+                                                    </span>
+
+
+                                                    <button type="button" (click)="onClearRawQuery()" ejs-button
+                                                        cssClass='e-btn e-btn-purple'
+                                                        id="chartbtnCleardimCondition">Clear</button>
+                                                </div>
+                                            </div>
+
+                                            <div class="">
+                                                <!-- <textarea name="conditions" cols="40" rows="7" class="form-control"
+                                                    id="pop_chart_condition" [(ngModel)]="rawQueryValue"
+                                                    formControlName="rawQuery">
+
+                                                    <div *ngIf="validationMessage && dashboardCreationForm.touched"
+                                                      class="error-message">
+                                                         Either Expression or Raw Query is required.
+                                                     </div>
+                                               </textarea> -->
+
+                                                <textarea name="conditions" cols="40" rows="8" class="form-control"
+                                                    id="pop_chart_expression" formControlName="rawQuery"
+                                                    [(ngModel)]="rawQueryValue" (click)="updateCursorPosition($event)"
+                                                    (input)="updateCursorPosition($event)">
+
+
+                                                    <div *ngIf="validationMessage && dashboardCreationForm.touched"
+                                                    class="error-message">
+                                                        Either Expression or Raw Query is required.
+                                                    </div>
+                                            
+                                              </textarea>
+
+
+
+
+                                            </div>
+                                            <div class="actionbuttons">
+
+                                                <div class=" border">
+                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
+                                                        style="margin-left:0px" (click)="addRawQueryText($event)"
+                                                        value="+">+</button>
+                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
+                                                        (click)="addRawQueryText($event)" value="-">-</button>
+                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
+                                                        (click)="addRawQueryText($event)" value="*">*</button>
+                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
+                                                        (click)="addRawQueryText($event)" value="/">/</button>
+                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
+                                                        (click)="addRawQueryText($event)" value="==">==</button>
+                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
+                                                        (click)="addRawQueryText($event)" value="<">&lt;</button>
+                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
+                                                        (click)="addRawQueryText($event)" value="<=">&lt;=</button>
+                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
+                                                        (click)="addRawQueryText($event)" value="!=">!=</button>
+                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
+                                                        (click)="addRawQueryText($event)" value=">=">&gt;=</button>
+                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
+                                                        (click)="addRawQueryText($event)" value=">">&gt;</button>
+                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
+                                                        (click)="addRawQueryText($event)" value="and">and</button>
+                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
+                                                        (click)="addRawQueryText($event)" value="or">or</button>
+                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
+                                                        (click)="addRawQueryText($event)" value="not">not</button>
+                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
+                                                        (click)="addRawQueryText($event)" value="(">(</button>
+                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
+                                                        (click)="addRawQueryText($event)" value=")">)</button>
+                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
+                                                        (click)="addRawQueryText($event)"
+                                                        value="{apply_filters}">Apply_Filters</button>
+                                                </div>
+
+
+                                            </div>
+
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-3 border">
+                                        <fieldset>
+                                            <legend>Select Table:
+
+                                            </legend>
+                                            <!-- <select name="" id="" class="form-control selectFeild"
+                                                formControlName="tableName" #tableNameDropdown
+                                                (click)="onTableDropdown(tableNameDropdown.value)">
+                                                <option [value]="name" *ngFor="let name of tableNamesArray; let i=index">
+                                                    {{name}}</option>
+                                            </select> -->
+
+                                            <input type="text" class="form-control tableInputTitle"
+                                                formControlName="tableName">
+
+
+                                            <div class="tabldiv">
+                                                <div class="headerstylepopup">
+                                                    <h5 class="popuph5style">Selected Table Field Names</h5>
+                                                </div>
+                                                <div class="Tablelist" style="height: 142px;">
+                                                    <ul class="list-group">
+                                                        <li class="list-group-items" (click)="addToTextarea(name)"
+                                                            *ngFor="let name of selectedTableFieldName">
+                                                            {{name}}
+                                                        </li>
+                                                    </ul>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="col-md-12 form-group" style="text-align: right; margin-top:15px">
+                                    <button class="e-btn e-btn-purple" (click)="onOkButtonClick()">
+                                        Add
+                                    </button>
+                                </div>
+
+
+                            </div>
+                        </form>
+                    </div>
+
+
+                </ng-template>
+
+            </ejs-dialog>
+        </div>
+
+
+    </div>
+</div>

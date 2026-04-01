@@ -1,0 +1,241 @@
+
+.first-row, .process-row {
+  width: calc(100% + 15px);
+  margin: 0 -7.5px;
+}
+.heading {
+  // font-size: 36px;
+  // // margin-top: 1px;
+  // font-style: normal;
+  // color: rgba(2, 2, 2, 0.54)
+  margin-bottom: 10px;
+  //padding: 5px;
+  text-align: left;
+  font-size: 22px;
+}
+
+.tableTitle {
+  margin-bottom: 10px;
+  padding: 5px;
+  text-align: left;
+  font-size: 22px;
+  // background-color: white;
+  //font-weight: 600;
+}
+.row.first-row>*, .process-row>* {
+  padding: 0px 7.5px !important;
+}
+.input-group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+}
+.input-group:not(.has-validation)>.dropdown-toggle:nth-last-child(n+3), .input-group:not(.has-validation)>:not(:last-child):not(.dropdown-toggle):not(.dropdown-menu) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.input-group>:not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+  margin-left: -1px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.metaset_join_set {
+    padding-top: 20px;
+    margin-top: 10px;
+}
+.tableJointHeading{
+  margin-bottom: 10px;
+  background-color: rgb(242, 242, 248);
+  margin-right: -10px;
+  margin-left: -10px;
+  padding: 8px 0px;
+}
+
+.fieldBtns{
+  font-size: 17px;
+  
+  cursor: pointer;
+  margin-top: 5px
+}
+.inputBox{
+  height: 28px;
+  padding: 3px 12px;
+  font-size: 12px;
+}
+.inputLabel{
+  font-size: 12px;
+  font-weight: 500;
+}
+.progressBarEle {
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1600;
+  padding: 20px;
+  
+  }
+.popup {
+  display: none;
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+  width: 345px;
+}
+
+.popup-content {
+  text-align: center;
+  padding-top:20px ;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.popup-message {
+  margin-bottom: 20px;
+}
+
+.backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  // height: 100%;
+  height: 100vh;
+  background-color: rgba(216, 206, 206, 0.5);
+  z-index: 1;
+}
+
+.jointableDiv{
+  border:1px solid rgb(230, 230, 238); margin-bottom:10px; padding:10px
+}
+.joinTableMainDiv{
+  margin-bottom: 10px;
+                     background-color: rgb(242, 242, 248);
+                     margin-right: -10px;
+                     margin-left: -10px;
+                     padding: 8px 0px;
+}
+// #defaultDialog_dialog-header{
+//   background: rgba(0, 163, 245, 0.945);
+
+// }
+// .e-btn-purple {
+//   background-color: #9977f9;
+//   color: white;
+//   font-size: 12px;
+// }
+
+// .e-btn-purple:hover {
+//   color: #9977f9;
+//   background-color: white;
+//   transition: all 0.3s;
+// }
+.e-dialog {
+  border-radius: 10px;
+}
+
+.e-dialog .e-dlg-header-content {
+  border-radius: 10px 10px 0 0;
+}
+
+// .e-dialog.e-draggable>.e-dlg-header-content {
+//   background: #CDC1FF
+// }
+
+
+// .e-dialog .e-dlg-header-content+.e-dlg-content {
+//   padding-top: 0;
+//   background: #edf0f16e;
+// }
+
+
+@media only screen and (max-width: 768px) and (orientation: landscape){
+  .control-section{
+    padding:8px 
+  }
+  .joinBtn{
+    text-align: right
+  }
+  .heading {
+    font-size: 20px;
+    font-style: normal;
+    margin: 5px 0px 8px;
+  }
+  #defaultDialog{
+    width: 383px !important;
+    top: 24px !important;
+    height: 230px !important;
+  }
+  .progressBarEle {
+    position: absolute;
+    top: 58%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1600;
+    padding: 20px;
+  }
+}
+
+@media only screen and (max-width: 768px) and (orientation: portrait) {
+
+  #defaultDialog{
+    width: 343px !important;
+    // top: -60px !important
+  }
+  .tableTitle {
+    margin-bottom: 20px;
+    text-align: left;
+    font-size: 26px;
+    font-weight: 600;
+    font-family: math;
+  }
+
+  .joinBtn{
+    text-align: right
+  }
+
+  .e-dialog.e-draggable>.e-dlg-header-content {
+    cursor: move;
+    border-color: rgba(0, 0, 0, 0);
+    background: #3a98e3;
+  }
+  .jointableDiv{
+    border: 1px solid rgb(230, 230, 238);
+    margin-bottom: 10px;
+    padding: 10px;
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 211px
+  }
+  .inputBox {
+    height: 28px;
+    padding: 3px 12px;
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+  .progressBarEle {
+    position: absolute;
+    top: 58%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1600;
+    padding: 20px;
+}
+
+}
+
+

@@ -1,0 +1,72 @@
+<div class="control-section drag" style="padding:20px 10px;">
+
+      
+      <div>
+        <form action="" [formGroup]="userMappingForm" (ngSubmit)="onMappingFormSubmit()">
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="tableName">Tabel Name</label>
+
+                  <ejs-dropdownlist [dataSource]='tableNamesArray' [allowFiltering]="true" formControlName="tableName"
+                  (change)="onTableDropdown(tableDropdown.value)" #tableDropdown
+                  class="tableNameDropdown"></ejs-dropdownlist>
+
+                  
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="tableName">Field Name</label>
+
+
+                    <ejs-dropdownlist [dataSource]='fieldNamesArray' [allowFiltering]="true"
+                    formControlName="fieldName"  class="tableNameDropdown"></ejs-dropdownlist>
+
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="tableName"> Role</label>
+         
+                    <ejs-dropdownlist [dataSource]='RolesArray' [allowFiltering]="true"
+                    formControlName="roleName" [fields]="roleFields"  class="tableNameDropdown"></ejs-dropdownlist>
+
+                </div>
+            </div>
+         
+            <div class="form-group" style="text-align: right;">
+                <button ejs-button class="e-btn e-btn-purple" *ngIf="saveflag">
+                    Add 
+                </button>
+                <button ejs-button class="e-btn e-btn-purple" (click)="updateForm()" type="button" *ngIf="updateFlag">
+                    Update 
+                </button>
+            </div>
+        </form>
+      </div>
+      <div>
+        <ejs-grid [dataSource]='userMappingArr' height="100">
+            <e-columns>
+                <e-column field= "roleName" headerText="Role"  ></e-column>
+                <e-column field= "tableName" headerText="TableName" ></e-column>
+                <e-column field= "fieldName" headerText="FieldName" ></e-column>
+                <e-column headerText='Action' width='160'>
+                  <ng-template #template let-userMappingArr>
+                    <button ejs-button cssClass="e-flat-icon" (click)="editRecord(userMappingArr)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button ejs-button cssClass="e-flat-icon" style="margin-left:15px" (click)="deleteRecord(userMappingArr)">
+                      <i class="fas fa-trash"  ></i>
+                    </button>
+               
+                
+                  </ng-template>
+                  
+              </e-column>
+            </e-columns>
+        </ejs-grid>
+    </div>
+
+    <div style="text-align: right; margin-top:10px">
+        <button ejs-button class="e-btn e-btn-purple" (click)="onSubmit()">
+            Save 
+        </button>
+    </div>
+
+  </div>

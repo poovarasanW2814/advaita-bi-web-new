@@ -1,0 +1,86 @@
+<div class="row justify-content-center  vh-100" style="margin-top:30px">
+  <div class="col-md-5">
+    <div class="Formborder p-4 shadow-lg rounded text-center">
+      <div class="profile-section mb-4">
+        <i class="fas fa-user-circle user-icon"></i>
+        <h3 class="mt-2">{{ userName | titlecase }}</h3>
+
+      </div>
+      <form [formGroup]="registrationForm" class="text-left">
+        <!-- <div class="form-group">
+          <label class="labelName">User Name</label>
+          <input type="text" formControlName="username" class="form-control input-field" (focus)="onInputFocus($event)"
+            (blur)="onInputBlur($event)" />
+        </div> -->
+
+        <div class="form-group mt-3">
+          <!-- <label class="labelName">Current Password</label> -->
+          <input type="password" class="form-control input-field" placeholder="Current Password"
+            formControlName="current_password" (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" />
+
+          <div class="validation-error" *ngIf="registrationForm.get('current_password')!.invalid 
+            && (registrationForm.get('current_password')!.touched || registrationForm.get('current_password')!.dirty)">
+
+            <div *ngIf="registrationForm.get('current_password')!.errors?.['error']">
+              {{ registrationForm.get('current_password')!.errors?.['error'] }}
+            </div>
+
+            <!-- <span *ngIf="registrationForm.get('new_password')!.errors?.['minLength']">
+                {{ registrationForm.get('new_password')!.errors?.['minLength'] }}
+              </span>
+  
+              <span *ngIf="registrationForm.get('new_password')!.errors?.['uppercase']">
+                {{ registrationForm.get('new_password')!.errors?.['uppercase'] }}
+              </span>
+  
+              <span *ngIf="registrationForm.get('new_password')!.errors?.['number']">
+                {{ registrationForm.get('new_password')!.errors?.['number'] }}
+              </span>
+  
+              <span *ngIf="registrationForm.get('new_password')!.errors?.['specialCharacter']">
+                {{ registrationForm.get('new_password')!.errors?.['specialCharacter'] }}
+              </span>
+  
+              <span *ngIf="registrationForm.get('new_password')!.errors?.['letterCount']">
+                {{ registrationForm.get('new_password')!.errors?.['letterCount'] }}
+              </span> -->
+
+          </div>
+
+
+        </div>
+
+
+        <div class="form-group mt-3">
+          <input type="password" class="form-control input-field" formControlName="new_password"
+            (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" placeholder="New Password" />
+
+          <div class="validation-error" *ngIf="registrationForm.get('new_password')!.invalid 
+          && (registrationForm.get('new_password')!.touched || registrationForm.get('new_password')!.dirty)">
+
+            <div *ngIf="registrationForm.get('new_password')!.errors?.['error']">
+              {{ registrationForm.get('new_password')!.errors?.['error'] }}
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+
+        <!-- <div class="form-group mt-3">
+          <label class="labelName">Confirm Password</label>
+          <input type="password" class="form-control input-field" formControlName="confirmPassword"
+            (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" />
+        </div> -->
+
+        <div class="mt-4 text-center">
+          <button type="button" (click)="onUpdate()" class="btn btn-primary btn-animate px-4">
+            <span>Reset Password</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

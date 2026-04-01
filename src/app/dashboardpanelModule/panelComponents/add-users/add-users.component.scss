@@ -1,0 +1,268 @@
+
+@import "./../../../core/sass/popup.scss";
+
+.validation-error {
+  color: red;
+  font-size: 11px;
+  // height: 15px; 
+}
+.inputValue{
+  height: 57px;
+  margin-bottom: 10px;
+}
+.focused {
+  animation: placeholderAnimation 200ms ease-in;
+}
+.registrationform{
+  width: 100%;
+  padding: 10px;
+
+}
+.form-control {
+  height: 28px !important;
+  font-size: 11px;
+  // display: flex;
+  // flex-direction: column;
+}
+label.labelName {
+  // width: 50%;
+  font-weight: 300;
+  font-size: 12px;
+}
+// div#defaultDialog_dialog-header {
+//   background: #e5e9e994;
+// }
+.e-dialog {
+  border-radius: 10px;
+}
+ .e-dialog .e-dlg-header-content{
+  border-radius: 10px 10px 0 0;
+}
+
+// .tableTitle {
+//   margin-bottom: 10px;
+//   text-align: left;
+//   font-size: 22px;
+// // background-color: white;
+// // font-weight: 600;
+// }
+.accessDiv{
+height: 100%;
+width: 100%;
+}
+
+
+.formInfo{
+padding:15px 10px;
+}
+
+// #defaultDialog{
+// // max-height: 300px;
+// //height: 400px;
+// }
+
+// #defaultDialog_dialog-header , #roleDialogBox_dialog-header, #userUploadPopup_dialog-header{
+//   background: #CDC1FF;
+// }
+// #defaultDialog_dialog-content, #roleDialogBox_dialog-content, #userUploadPopup_dialog-content{
+//   padding-top: 15px;
+//   background: #F5EFFF;
+// }
+// .e-footer-content{
+//   background: #F5EFFF;
+
+// }
+.progressBarEle {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1600;
+  padding: 20px;
+  
+  }
+
+  .pointer{
+    cursor: pointer;
+  }
+  // .e-btn-purple {
+  //   background-color: #9977f9;
+  //   color: white;
+  //   font-size: 12px;
+  // }
+  
+  // .e-btn-purple:hover {
+  //   color: #9977f9;
+  //   background-color: white;
+  //   transition: all 0.3s;
+  // }
+
+  // .e-dialog.e-draggable>.e-dlg-header-content {
+  //   background: #CDC1FF
+  // }
+
+//   .e-switch-wrapper.bar-color .e-switch-inner,
+// .e-switch-wrapper.bar-color .e-switch-on {
+//   background-color: #9977f9;
+//   border-color: #9977f9;
+// }
+// .e-switch-wrapper.bar-color .e-switch-inner,
+// .e-switch-wrapper.bar-color .e-switch-off {
+//   background-color: lightgrey;
+//   border-color: lightgrey;
+// }
+
+// .e-switch-wrapper.bar-color .e-switch-handle {
+//   background-color: #fff;
+// }
+
+
+@keyframes placeholderAnimation {
+  from {
+    top: 20px;
+  }
+  to {
+    top: -10px;
+  }
+}
+
+@media only screen and (max-width: 767px) and (orientation: landscape){
+  #defaultDialog{
+    height: 226px;
+    width: 312px !important;
+    top: 27px !important;
+    } 
+    .tableTitle {
+      margin-bottom: 0px;
+      text-align: left;
+      font-size: 21px;
+      font-weight: 600;
+    }
+    .progressBarEle {
+      position: absolute;
+      top: 60%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1600;
+      padding: 20px;
+  }
+}
+
+@media only screen and (max-width: 768px)  and (orientation: portrait){
+  #defaultDialog{
+    height: 364px;
+    width: 312px !important;
+    }   
+}
+
+.tableNameDropdown input.e-input, .e-input-group input.e-input, .e-input-group.e-control-wrapper input.e-input, textarea.e-input, .e-input-group textarea.e-input, .e-input-group.e-control-wrapper textarea.e-input {
+  border: 0 solid;
+  // border-width: 0 0 1px 0;
+  height: auto;
+  line-height: inherit;
+  margin: 0;
+  margin-bottom: 4px;
+  outline: none;
+  padding: 1px 0 4px;
+  text-indent: 0;
+  width: 100%;
+}
+
+.tableNameDropdown  .e-input-group.e-control-wrapper.e-ddl.e-lib.e-keyboard{
+width: 100%;
+  height: 26px !important;
+  margin-bottom: 0px;
+  border: 1px solid #d5cdcd7d;
+  background: white;
+  padding: 0px 0px 6px 9px;
+  line-height: 4.3;
+  font-size: 11px;
+}
+
+.tableNameDropdown .e-input-group-icon.e-ddl-icon.e-search-icon{
+  font-size: 10px;
+}
+.e-footer-content{
+  background:rgba(241, 243, 247, 0.898);
+}
+// #userUploadPopup_dialog-header{
+//   background: #d3d3d33b;
+//     margin-bottom: 18px;
+// }
+// #userUploadPopup .e-footer-content{
+//   background: #d3d3d33b;
+// }
+
+
+//code for reset password
+
+.field-container {
+  margin-bottom: 1rem;
+}
+
+.field {
+  position: relative;
+}
+
+.field input {
+  width: 100%;
+  padding: 8px 35px 8px 30px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.fas.fa-lock {
+  position: absolute;
+  left: 10px;
+  top: 70%;
+  transform: translateY(-50%);
+  color: #999;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 70%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #555;
+}
+
+.password-eye-icon{
+  position: absolute;
+  right: 22px;
+  top: 52%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #555;
+}
+
+
+.validation-error {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.password-info {
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.password-info ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+
+
+/* Hide the built-in eye icon in Edge */
+input::-ms-reveal {
+  display: none;
+}
+
+/* Hide the built-in eye icon in WebKit-based browsers (Chrome, Safari) */
+input::-webkit-credentials-auto-fill-button {
+  display: none;
+}

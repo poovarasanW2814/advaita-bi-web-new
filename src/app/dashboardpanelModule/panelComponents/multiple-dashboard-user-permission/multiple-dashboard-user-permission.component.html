@@ -1,0 +1,137 @@
+<div class="row">
+
+    <div class="col-md-12" style="padding:25px 15px 0px">
+      <!-- <div class="table-contaier" style="height: 300px;overflow-y: auto;">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>
+                <span style="display: block;">Dashboard Name</span>
+                <span>Select All</span>
+  
+              </th>
+              <th>
+  
+                <span style="display: block;">
+                  View
+                </span>
+  
+                <span> <input type="checkbox" [(ngModel)]="selectAllPermissions.can_view"
+                    (change)="toggleGlobalSelect('can_view')">
+                </span>
+              </th>
+              <th>
+               
+  
+                <span style="display: block;">
+                  Create
+                </span>
+  
+                <span> <input type="checkbox" [(ngModel)]="selectAllPermissions.can_create"
+                  (change)="toggleGlobalSelect('can_create')">
+                
+                </span>
+              </th>
+              <th>
+         
+  
+                <span style="display: block;">
+                  Update
+                </span>
+  
+                <span> <input type="checkbox" [(ngModel)]="selectAllPermissions.can_update"
+                  (change)="toggleGlobalSelect('can_update')">
+                </span>
+  
+  
+              </th>
+              <th>
+             
+  
+                <span style="display: block;">
+                  Delete
+                </span>
+  
+                <span> <input type="checkbox" [(ngModel)]="selectAllPermissions.can_delete"
+                  (change)="toggleGlobalSelect('can_delete')">
+                </span>
+  
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+  
+            <tr *ngFor="let dashboard of dashboards">
+              <td>{{ dashboard.dashboard_name }}</td>
+              <td>
+                <input type="checkbox" [(ngModel)]="dashboard.can_view">
+              </td>
+              <td>
+                <input type="checkbox" [(ngModel)]="dashboard.can_create">
+              </td>
+              <td>
+                <input type="checkbox" [(ngModel)]="dashboard.can_update">
+              </td>
+              <td>
+                <input type="checkbox" [(ngModel)]="dashboard.can_delete">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </div> -->
+    <div *ngIf="isLoading" class="loader-overlay">
+      <div class="loader-circle"></div>
+    </div>
+      <div class="table-container" style="height: 300px; overflow-y: auto;">
+  
+        
+        <table *ngIf="!isLoading" class="table table-bordered">
+          <thead>
+            <tr>
+              <th style="width: 40%;">Dashboard Name</th>
+          <th style="width: 15%;">View</th>
+          <th style="width: 15%;">Create</th>
+          <th style="width: 15%;">Update</th>
+          <th style="width: 15%;">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Select All Row -->
+            <tr>
+              <td><strong>Select All</strong></td>
+              <td>
+                <input type="checkbox" [(ngModel)]="selectAllPermissions.can_view" (change)="toggleGlobalSelect('can_view')">
+              </td>
+              <td>
+                <input type="checkbox" [(ngModel)]="selectAllPermissions.can_create" (change)="toggleGlobalSelect('can_create')">
+              </td>
+              <td>
+                <input type="checkbox" [(ngModel)]="selectAllPermissions.can_update" (change)="toggleGlobalSelect('can_update')">
+              </td>
+              <td>
+                <input type="checkbox" [(ngModel)]="selectAllPermissions.can_delete" (change)="toggleGlobalSelect('can_delete')">
+              </td>
+            </tr>
+      
+            <!-- Dashboard Rows -->
+            <tr *ngFor="let dashboard of dashboards">
+              <td>{{ dashboard.dashboard_name }}</td>
+              <td>
+                <input type="checkbox" [(ngModel)]="dashboard.can_view" >
+              </td>
+              <td>
+                <input type="checkbox" [(ngModel)]="dashboard.can_create">
+              </td>
+              <td>
+                <input type="checkbox" [(ngModel)]="dashboard.can_update">
+              </td>
+              <td>
+                <input type="checkbox" [(ngModel)]="dashboard.can_delete">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- <button (click)="submitPermissions()">Submit</button> -->

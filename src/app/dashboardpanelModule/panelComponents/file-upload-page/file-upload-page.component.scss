@@ -1,0 +1,126 @@
+@import "../../../core/sass/popup.scss";
+
+.custom-form {
+  // max-width: 1000px;
+  // margin: auto;
+
+  max-width: 1107px;
+  /* margin: auto; */
+  margin: 9px 21px;
+}
+
+.e-dialog {
+  border-radius: 10px;
+}
+
+.e-dialog .e-dlg-header-content {
+  border-radius: 10px 10px 0 0;
+}
+
+.radio-group {
+  // display: flex;
+  // justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.radio-label {
+  margin-left: 5px;
+}
+.tableTitle {
+  margin-bottom: 10px;
+  padding: 5px;
+  text-align: left;
+  font-size: 22px;
+  // background-color: white;
+  //font-weight: 600;
+}
+.form-group {
+  margin-bottom: 20px;
+}
+
+.uploadFileDiv {
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+
+
+}
+
+// .btn-primary {
+//   background-color: #007bff;
+//   color: #fff;
+//   border: none;
+//   padding: 10px 20px;
+//   border-radius: 5px;
+//   cursor: pointer;
+// }
+
+// .btn-primary:hover {
+//   background-color: #0056b3;
+// }
+
+// .e-btn-purple {
+//   // background-color: #9977f9;
+//   color: white;
+//   font-size: 12px;
+
+//   box-shadow: -3px -3px 6px 0 #fff, 3px 3px 6px 0 #bfc3cf;
+//   background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, .898) 109.98%);
+//   border: none
+
+
+// }
+
+// .e-btn-purple:hover {
+//   // color: #9977f9;
+
+//   color: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, .898) 109.98%);
+//   background-color: white;
+//   transition: all 0.3s;
+// }
+
+// .e-dialog.e-draggable>.e-dlg-header-content {
+//   background: #CDC1FF
+// }
+
+.progressBarEle {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-49%, -114%);
+}
+
+
+.tableNameDropdown input.e-input,
+.e-input-group input.e-input,
+.e-input-group.e-control-wrapper input.e-input,
+textarea.e-input,
+.e-input-group textarea.e-input,
+.e-input-group.e-control-wrapper textarea.e-input {
+  border: 0 solid;
+  // border-width: 0 0 1px 0;
+  height: auto;
+  line-height: inherit;
+  margin: 0;
+  margin-bottom: 4px;
+  outline: none;
+  padding: 1px 0 4px;
+  text-indent: 0;
+  width: 100%;
+}
+
+.tableNameDropdown .e-input-group.e-control-wrapper.e-ddl.e-lib.e-keyboard {
+  width: 100%;
+  height: 26px !important;
+  margin-bottom: 0px;
+  border: 1px solid #d5cdcd7d;
+  background: white;
+  padding: 0px 0px 6px 9px;
+  line-height: 4.3;
+  font-size: 11px;
+}
+
+.tableNameDropdown .e-input-group-icon.e-ddl-icon.e-search-icon {
+  font-size: 10px;
+}

@@ -1,0 +1,23 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+tr {
+  border-bottom: 1px solid #ddd;
+}
+
+.col-md-2 {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  
+}
+
+input[type="checkbox"] {
+  margin: 0;
+}
+.row{
+  margin-right: 0px;
+  margin-left: 0px;
+}

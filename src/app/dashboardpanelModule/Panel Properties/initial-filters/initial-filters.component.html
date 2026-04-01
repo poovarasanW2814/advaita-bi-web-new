@@ -1,0 +1,171 @@
+<div class="control-section" style="padding:10px 5px;">
+    <div>
+      <div class="formDiv">
+        <form action="" [formGroup]="filterForm" (ngSubmit)="onInitialFilterSubmit()">
+  
+            <div class="row">
+              <div class="col-md-4 form-group">
+                    <label for="tableName">Table Name</label>                   
+                    <!-- <select name="" id="" class="form-control inputTitle" formControlName="tableName" #tableNameDropdown (click)="onTableDropdown(tableNameDropdown.value)">
+                      <option value="">--Select--</option>
+
+                      <option [value]="name" *ngFor="let name of tableNamesArray; let i=index" >{{name}}</option>
+                    </select> -->
+
+                    <ejs-dropdownlist [dataSource]='tableNamesArray' [allowFiltering]="true" formControlName="tableName"  popupHeight="200"
+                    (change)="onTableDropdown(tableDropdown.value)" #tableDropdown
+                    class="tableNameDropdown"></ejs-dropdownlist>
+
+                    <div *ngIf="filterForm.get('tableName')?.invalid && filterForm.get('tableName')?.touched"
+                    class="error-message">
+                    Table Name is required.
+                    </div>
+
+
+              </div>
+              <div class="col-md-4 form-group">
+                  <label for="fieldName">Field Name</label>
+                  <!-- <select name="" id="" class="form-control inputTitle" formControlName="fieldName" >
+                      <option value="">--Select--</option>
+                      <option [value]="name" *ngFor="let name of selectedTableFieldName; let i=index" >{{name}}</option>
+                  </select> -->
+
+                  <ejs-dropdownlist [dataSource]='selectedTableFieldName' [allowFiltering]="true"
+                  formControlName="fieldName" 
+                  #fieldNameDropdown class="tableNameDropdown"></ejs-dropdownlist>
+
+                  <div *ngIf="filterForm.get('fieldName')?.invalid && filterForm.get('fieldName')?.touched"
+                  class="error-message">
+                  Field Name is required.
+                  </div>
+
+              </div>
+              <div class="col-md-4 form-group">
+                  <label for="labelName">Label Name</label>
+                  <input type="text" formControlName="labelName"  class="form-control inputTitle">
+              </div>
+
+              <!-- <div class="col-md-3 form-group">
+                  <label for="type">Type</label>
+                  <select name="" id="" class="form-control inputTitle" formControlName="type" >
+                      <option value="">--Select--</option>
+                      <option value="character">CHARACTER</option>
+                      <option value="number">NUMBER</option>
+                      <option value="date">DATE</option>
+                      <option value="dateTime">DATE-TIME</option>
+                      <option value="dateRange">DATE-RANGE</option>
+                      <option value="time">TIME</option>                        
+                  </select>
+              </div> -->
+          </div>
+
+          <div class="row">
+            <div class="col-md-4 form-group">
+              <label for="filterType">Filter Type</label>
+              <select id="filterType" class="form-control inputTitle" formControlName="filterType">
+                <option value="">--Select--</option>
+                <option value="date">Date</option>
+                <option value="day">Day</option>
+                <option value="week">Week</option>
+                <option value="month">Month</option>
+                <option value="year">Year</option>
+              </select>
+
+              <div *ngIf="filterForm.get('filterType')?.invalid && filterForm.get('filterType')?.touched"
+              class="error-message">
+              Filter Type is required.
+              </div>
+
+            </div>
+            
+            <div class="col-md-4 form-group" *ngIf="filterForm.get('filterType')?.value">
+              <label for="currentOrPrevious">Select</label>
+              <select id="currentOrPrevious" class="form-control inputTitle" formControlName="currentOrPrevious">
+                <option value="">--Select--</option>
+                <option value="current">Current {{ firstDropdownValue }}</option>
+                <option value="previous">No of Previous {{ firstDropdownValue }}</option>
+              </select>
+
+              <div *ngIf="filterForm.get('currentOrPrevious')?.invalid && filterForm.get('currentOrPrevious')?.touched"
+              class="error-message">
+              Current/Previous Page is required.
+              </div>
+
+            </div>
+            
+            <div class="col-md-4 form-group" *ngIf="filterForm.get('currentOrPrevious')?.value == 'previous'">
+              <label for="previousNumber">Enter value</label>
+              <input type="number" [value]="1" name="" class="form-control inputTitle" id="" formControlName="previousNumber">
+           
+            </div>
+          </div>
+          </form>
+    </div>
+    </div>
+    <!-- <ejs-tab id="tab_default" #tabComponent heightAdjustMode='Auto'>
+        <e-tabitems>
+            <e-tabitem [header]='headerText[0]'>
+              <ng-template #content>
+                <div class="formDiv">
+                    <form action="" [formGroup]="filterForm" (ngSubmit)="onInitialFilterSubmit()">
+              
+                        <div class="row">
+                          <div class="col-md-4 form-group">
+                                <label for="tableName">Table Name</label>                   
+                             
+                                <ejs-dropdownlist [dataSource]='tableNamesArray' [allowFiltering]="true" formControlName="tableName"  popupHeight="200"
+                                (change)="onTableDropdown(tableDropdown.value)" #tableDropdown
+                                class="tableNameDropdown"></ejs-dropdownlist>
+
+
+                          </div>
+                          <div class="col-md-4 form-group">
+                              <label for="fieldName">Field Name</label>
+                         
+                              <ejs-dropdownlist [dataSource]='selectedTableFieldName' [allowFiltering]="true"
+                              formControlName="fieldName" 
+                              #fieldNameDropdown class="tableNameDropdown"></ejs-dropdownlist>
+          
+                          </div>
+                          <div class="col-md-4 form-group">
+                              <label for="labelName">Label Name</label>
+                              <input type="text" formControlName="labelName"  class="form-control inputTitle">
+                          </div>
+                          <div class="col-md-4 form-group">
+                            <label for="filterType">Filter Type:</label>
+                            <select id="filterType" class="form-control inputTitle" formControlName="filterType">
+                              <option value="">--Select--</option>
+                              <option value="date">Date</option>
+                              <option value="day">Day</option>
+                              <option value="week">Week</option>
+                              <option value="month">Month</option>
+                              <option value="year">Year</option>
+                            </select>
+                          </div>
+                          
+                          <div class="col-md-4 form-group" *ngIf="filterForm.get('filterType')?.value">
+                            <label for="currentOrPrevious">Select</label>
+                            <select id="currentOrPrevious" class="form-control inputTitle" formControlName="currentOrPrevious">
+                              <option value="">--Select--</option>
+                              <option value="current">Current {{ firstDropdownValue }}</option>
+                              <option value="previous">No of Previous {{ firstDropdownValue }}</option>
+                            </select>
+                          </div>
+                          
+                          <div class="col-md-4 form-group" *ngIf="filterForm.get('currentOrPrevious')?.value == 'previous'">
+                            <label for="previousNumber">Enter value</label>
+                            <input type="number" [value]="1" name="" class="form-control inputTitle" id="" formControlName="previousNumber">
+                         
+                          </div>
+                       
+                      </div>
+      
+                      </form>
+                </div>
+             
+              </ng-template>
+          </e-tabitem>
+          
+        </e-tabitems>
+    </ejs-tab> -->
+</div>

@@ -1,0 +1,231 @@
+@import "../../../core/sass/popup.scss";
+// @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@700&display=swap');
+
+.validation-error {
+  color: red;
+  font-size: 11px;
+}
+
+.container {
+  margin: 20px auto;
+  width: 99%;
+}
+
+.table-wrapper {
+  height: 300px; /* Define your preferred height here */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.table {
+  width: 100%;
+  table-layout: fixed; /* Optional: Makes the table more compact */
+}
+#defaultDialog_title, #roleDialogBox_dialog-header, #roleDbPermissionDlgBox_title{
+  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+  font-weight: 400 !important;
+}
+
+.inputValue {
+  height: 57px;
+  margin-bottom: 10px;
+}
+
+.centered-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.focused {
+  animation: placeholderAnimation 200ms ease-in;
+}
+
+.registrationform {
+  width: 100%;
+  // padding: 10px;
+
+}
+
+.form-control {
+  height: 28px !important;
+  font-size: 11px;
+
+}
+
+label.labelName {
+  font-weight: 300;
+  font-size: 12px;
+}
+
+.accessDiv {
+  height: 100%;
+  width: 100%;
+  padding:10px 5px
+}
+
+// .tableTitle {
+//   margin-bottom: 10px;
+//   text-align: left;
+//   font-size: 22px;
+//   // font-family: 'Helvetica', sans-serif;
+//    font-weight: 600;
+//    color: #264a9f;
+// }
+
+.formInfo {
+  padding: 15px;
+}
+
+// #defaultDialog {
+//   height: 400px;
+// }
+// #roleDialogBox{
+//   border-radius: 20px;
+// }
+// .e-dialog.e-draggable>.e-dlg-header-content {
+//   background: #CDC1FF
+// }
+// .e-dialog {
+//   border-radius: 10px;
+// }
+//  .e-dialog .e-dlg-header-content{
+//   border-radius: 10px 10px 0 0;
+// }
+// #defaultDialog_dialog-content,
+// #roleDialogBox_dialog-content {
+//   padding-top: 15px;
+//   background: #F5EFFF;
+// }
+
+// .e-footer-content {
+//   background: #F5EFFF;
+
+// }
+
+// .btn-grey {
+//   background-color: #2b8f93;
+//   color: white;
+//   font-size: 12px;
+//   border-radius: 3px;
+//   border: 1px solid #2b8f93;
+
+// }
+
+// .btn-grey:hover {
+//   color: #2b8f93;
+//   background-color: white;
+
+// }
+
+// .e-btn-purple {
+//   // background-color: #9977f9;
+//   color: white;
+//   font-size: 12px;
+// }
+// .e-btn-purple-sm {
+//   // background-color: #9977f9;
+//   // color: white;
+//   // font-size: 10px;
+//   padding: 4px 5px;
+// }
+
+
+// .e-btn-purple:hover , .e-btn-purple-sm:hover {
+//   color: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, .898) 109.98%);
+  
+//   background-color: white;
+//   transition: all 0.3s;
+// }
+
+// .e-switch-wrapper.bar-color .e-switch-inner.e-switch-active,
+// .e-switch-wrapper.bar-color:hover .e-switch-inner.e-switch-active .e-switch-on {
+//   background-color: #4d841d;
+//   border-color: #4d841d;
+// }
+
+// .e-switch-wrapper.bar-color .e-switch-inner,
+// .e-switch-wrapper.bar-color .e-switch-on {
+//   background-color: #9977f9;
+//   border-color: #9977f9;
+// }
+// .e-switch-wrapper.bar-color .e-switch-inner,
+// .e-switch-wrapper.bar-color .e-switch-off {
+//   background-color: lightgrey;
+//   border-color: lightgrey;
+// }
+
+// .e-switch-wrapper.bar-color .e-switch-handle {
+//   background-color: #fff;
+// }
+
+
+
+@media only screen and (max-width: 767px) and (orientation: landscape) {
+
+  #defaultDialog {
+    width: 344px !important;
+    height: 220px !important;
+    top: 25px !important;
+
+  }
+
+  .tableTitle {
+    margin-bottom: -18px;
+
+  }
+
+  // .addBtn {
+  //   text-align: right;
+  // }
+
+  // .registrationform {
+  //   width: 100%;
+  //   padding: 0px;
+  // }
+
+  #defaultDialog_dialog-content,
+  #roleDialogBox_dialog-content {
+    padding: 0px
+  }
+}
+
+
+@media only screen and (max-width: 768px) and (orientation: portrait) {
+  #defaultDialog {
+    height: 364px;
+    width: 312px !important;
+  }
+
+  .tableTitle {
+    margin-bottom: 20px;
+    text-align: left;
+    font-size: 26px;
+    font-weight: 600;
+    font-family: math;
+  }
+
+  .addBtn {
+    text-align: right;
+  }
+
+  // .registrationform {
+  //   width: 100%;
+  //   // padding: 10px 1px;
+  // }
+
+}
+
+@keyframes placeholderAnimation {
+  from {
+    top: 20px;
+  }
+
+  to {
+    top: -10px;
+  }
+}
+
+.e-footer-content{
+  background:rgba(241, 243, 247, 0.898);
+}

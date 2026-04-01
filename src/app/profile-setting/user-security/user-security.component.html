@@ -1,0 +1,75 @@
+<div class="password-page">
+  <div class="password-container">
+    <h2 class="page-title">Change Password</h2>
+
+    <div class="password-form-container">
+      <form [formGroup]="passwordForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <div class="label-container">
+            <label>New Password</label>
+            <div class="info-icon" (click)="togglePasswordRequirements($event)">
+              <i class="fas fa-question-circle"></i>
+              <div class="requirements-popup" *ngIf="showPasswordRequirements">
+                <h4>Password Requirements:</h4>
+                <ul>
+                  <li>{{passwordRequirements.minLength}}</li>
+                  <li>{{passwordRequirements.uppercase}}</li>
+                  <li>{{passwordRequirements.lowercase}}</li>
+                  <li>{{passwordRequirements.number}}</li>
+                  <li>{{passwordRequirements.special}}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="input-container">
+            <input 
+              type="password" 
+              formControlName="new_password"
+              placeholder="Enter new password"
+              (focus)="onInputFocus($event)" 
+              (blur)="onInputBlur($event)"
+            >
+          </div>
+          <div class="error-message" *ngIf="getPasswordErrors('new_password').length > 0">
+            <div *ngFor="let error of getPasswordErrors('new_password')">
+              {{ error }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="label-container">
+            <label>Confirm Password</label>
+            <div class="info-icon" (click)="togglePasswordRequirements($event)">
+              <i class="fas fa-question-circle"></i>
+            </div>
+          </div>
+          <div class="input-container">
+            <input 
+              type="password" 
+              formControlName="confirm_Password"
+              placeholder="Confirm your password"
+              (focus)="onInputFocus($event)" 
+              (blur)="onInputBlur($event)"
+            >
+          </div>
+          <div class="error-message" *ngIf="getPasswordErrors('confirm_Password').length > 0">
+            <div *ngFor="let error of getPasswordErrors('confirm_Password')">
+              {{ error }}
+            </div>
+          </div>
+
+          <div class="error-message" *ngIf="shouldShowPasswordMismatch()">
+            Passwords do not match.
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="e-btn e-btn-purple" >
+            Save Password
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

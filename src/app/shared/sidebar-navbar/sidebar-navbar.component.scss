@@ -1,0 +1,187 @@
+
+
+//////=============================================
+
+.sidebar-content {
+    // padding: 70px 15px;
+    padding: 65px 10px;
+  }
+   
+  
+  // .sidebar-content1 {
+  //     padding: 70px 15px;
+  //     width: calc(100% - 200px);
+  //   }
+    .width1{
+      width: calc(100% - 200px) ;
+      margin-left: 200px !important;
+    }
+    .width2{
+      width: calc(100% - 60px);
+      margin-left: 60px !important;
+    }
+    .width3{
+      width: calc(100%);
+      margin-left: 00px !important;
+    }
+  
+    .header {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+      height: 55px;
+      position: relative;
+    }
+    
+  
+    #sidebar-section {
+      padding: 0px !important;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+     // min-height: 600px;
+    }
+    #sidebar-section #target {
+      // background: linear-gradient(-141deg, #eef5f7 14%, #eef2fb 100%);
+      // background-color:#e2e7eb5c;
+      //  min-height: 640px;
+  
+       background-color: rgba(226, 231, 235, 0.3607843137);
+       min-height: 718px;
+       height: 100%;
+    }
+  
+    ejs-sidebar#dockSidebar {
+      background: white;
+      border-right: 1px solid lightgrey;
+      position: fixed;
+      top: 54 !important;
+      left: 0;
+      height: 100%; /* Adjust height according to your design */
+      margin-top: 54px;
+      text-align: center;
+  }
+  
+    .bootstrap5 #dockSidebar {
+      background: #FFFFFF;
+    }
+    #dockSidebar ul {
+      padding: 0px;
+    }
+    
+    #dockSidebar li.sidebar-item .e-icons {
+      font-size: 20px;
+    }
+    #dockSidebar li {
+      list-style-type: none;
+      cursor: pointer;
+      padding: 5px;
+      height: 40px;
+      font-size: 13px;
+    }
+  
+  
+    li:hover{
+      background: #eef4f7;
+      border-left: 4px solid #057ece;
+    }
+  
+  
+    span.e-icons {
+      line-height: 2;
+    }
+    
+    #dockSidebar .e-listview {
+      border: 0px;
+  }
+  
+    .menu {
+      display: inline-block;
+      position: absolute;
+      height: 55px;
+      border-right: 1px solid rgba(0, 0, 0, 0.12);
+    }
+  
+    .dashboardParent {
+      width: 100%;
+    }
+    .menuBar {
+      position: absolute;
+      top: 9px;
+      cursor: pointer;
+      left: 72px;
+      font-size: 18px;
+  }
+    .LogOut {
+      position: absolute;
+      right: 8px;
+      top: 11px;
+      cursor: pointer;
+      i{
+        font-size: 22px;
+        padding: 7px;
+      }
+    }
+    
+  
+    #head {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 9999; /* Ensure the header appears above other content */
+      background-color: white;
+  
+    }
+  
+  .Lenovologo{
+    font-weight: 700;
+    padding: 1px 13px;
+    margin: 7px 3px 9px;
+    color: white;
+    background-color: rgb(180, 17, 17);
+  }
+  
+  .non-mobile-button {
+    display: block; /* Display for non-mobile devices */
+  }
+  
+  .mobile-button {
+    display: none; /* Hide by default for mobile devices */
+  }
+  
+  .dashboardTitle{
+    font-size: 18px;
+    /* margin: 33px 5px; */
+    font-weight: 600;
+    padding: 4px 5px;
+    font-family: none;
+  }
+  /* CSS for smaller screens (mobile devices) */
+  @media only screen and (max-width: 768px) {
+  
+    .non-mobile-button {
+      display: none; /* Hide for mobile devices */
+    }
+  
+    .mobile-button {
+      display: block; /* Display for mobile devices */
+    }
+    .dashboardNameDiv{
+      text-align: center;
+      padding-top: 15px;
+      padding-left: 96px;
+      width: 321px;
+    }
+    .dashboardTitle {
+      font-size: 11px;
+      white-space: normal; /* Allow the text to wrap to the next line */
+      max-width: 100%; /* Set maximum width to the container width */
+      // margin: 0;
+      // white-space: nowrap; /* Prevent line breaks within the text */
+      // overflow: hidden; /* Hide overflow text */
+      // text-overflow: ellipsis; /* Show ellipsis (...) for overflow text */
+      // max-width: 100%; /* Set maximum width to the container width */
+    }
+  }
+  
+  
+  // .sidebar-content[_ngcontent-cxi-c80] {
+  //   padding: 65px 5px;
+  // }

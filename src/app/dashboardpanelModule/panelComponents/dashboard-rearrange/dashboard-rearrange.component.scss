@@ -1,0 +1,108 @@
+
+@import '../../../core/sass/popup.scss';
+
+.submitBtn{
+    text-align: right;
+    margin-top:10px
+}
+:host ::ng-deep .e-list-item {
+  margin: 13px 21px 5px;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  box-shadow: 0px 1px 1px 1px lightgrey;
+  height: 90px !important;
+}
+:host ::ng-deep .e-list-item .dashboard_name{
+  font-size: 23px;
+  margin: 5px 5px 0px;
+  font-weight: 500;
+  font-family:  monospace
+}
+:host ::ng-deep .e-list-item .description{
+  font-size: 18px
+}
+.heading{
+  margin-bottom: 10px;
+ // padding: 5px;
+  text-align: left;
+  font-size: 22px;
+  
+}
+.e-dialog {
+  border-radius: 10px;
+}
+
+.e-dialog .e-dlg-header-content {
+  border-radius: 10px 10px 0 0;
+}
+
+label {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+
+#popup-message{
+  font-size: 30px;
+}
+.e-dialog .e-dlg-header-content+.e-dlg-content {
+  padding-top: 0;
+  background: #edf0f16e;
+}
+
+
+@media only screen and (max-width: 767px) and (orientation: landscape){
+  .heading {
+    font-size: 22px;
+    font-style: normal;
+    margin: 5px 0px 8px;
+  }
+  .text-danger {
+    color: #e31511;
+    font-size: 12px;
+  }
+  .submitBtn[_ngcontent-fxn-c237] {
+    text-align: right;
+    margin-top: 0px;
+  }
+  :host ::ng-deep .e-list-item .dashboard_name {
+    font-size: 15px;
+    margin: 5px 5px 6px;
+    font-weight: 500;
+    font-family: system-ui;
+  }
+  :host ::ng-deep .e-list-item .description {
+    font-size: 12px;
+   }
+   #defaultDialog{
+    max-height: 284px;
+    top: 30px !important;
+    height: 225px;
+   }
+   #defaultDialog_dialog-header{
+    padding: 10px;
+   }
+}
+
+@media only screen and (max-width: 768px) and (orientation: portrait){
+  :host ::ng-deep .e-list-item .dashboard_name {
+    font-size: 14px;
+    margin: 5px 5px 4px;
+    font-weight: 500;
+  }
+
+  :host ::ng-deep .e-list-item .description {
+    font-size: 9px;
+  }
+  .heading {
+    font-size: 22px;
+    font-weight: 600;
+    color: rgba(2, 2, 2, 0.54);
+    margin: 7px 5px
+  }
+
+}
+
+

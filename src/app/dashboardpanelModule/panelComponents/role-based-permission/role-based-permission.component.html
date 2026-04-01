@@ -1,0 +1,80 @@
+<div class="">
+    <div class="formDiv">
+     
+          <form [formGroup]="permissionForm" (ngSubmit)="onFormSubmit()">
+            
+            <div style=" text-align: center; font-size: 18px;">
+                <label for="roleName" *ngIf="roleValue">Role : <span style="color:blue"> {{roleValue.role}}</span>
+
+                </label>
+            </div>
+
+            <br>
+          
+            <div formGroupName="permissions" style="border: 1px solid lightgray;max-height: 300px; overflow-y: auto;">
+                <div class="headingDiv bg-warning" style="background-color: lightgray;">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <label for="">Form Name</label>
+                    </div>
+                    <div class="col-md-2">
+                      <label for="">Select All</label>
+                    </div>
+                    <div class="col-md-2">
+                      <label for="">View</label>
+                    </div>
+                    <div class="col-md-2">
+                      <label for="">Create</label>
+                    </div>
+                    <div class="col-md-2">
+                      <label for="">Update</label>
+                    </div>
+                    <div class="col-md-2">
+                      <label for="">Delete</label>
+                    </div>
+                    <!-- <div class="col-md-2">
+                      <label for="">Download</label>
+                    </div> -->
+                  </div>
+                </div>
+                <div *ngFor="let permission of permissionRows">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <span style="font-size: 13px;">{{ permission.label }}</span>
+                    </div>
+                    <div class="col-md-2">
+                      <div formGroupName="{{ permission.key }}">
+                        <input style="cursor:pointer"
+                          type="checkbox"
+                          class="selectBox"
+                          formControlName="selectAll"
+                          (change)="toggleAllPermissions(permission.key,$event)"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div formGroupName="{{ permission.key }}">
+                        <input type="checkbox" style="cursor:pointer" class="selectBox" formControlName="view" />
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div formGroupName="{{ permission.key }}">
+                        <input type="checkbox" style="cursor:pointer" class="selectBox" formControlName="create" />
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div formGroupName="{{ permission.key }}">
+                        <input type="checkbox" style="cursor:pointer" class="selectBox" formControlName="update" />
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div formGroupName="{{ permission.key }}">
+                        <input type="checkbox" style="cursor:pointer" class="selectBox" formControlName="delete" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+    </div>
+</div>

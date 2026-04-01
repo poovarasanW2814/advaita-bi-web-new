@@ -1,0 +1,711 @@
+//////=============================================
+
+// .sidebar-content {
+//   // padding: 70px 15px;
+//   padding: 65px 10px;
+// }
+.dashboardParent {
+  width: 100%;
+  padding: 65px 10px;
+  background: #f5f5f5;
+  z-index: 999;
+} 
+
+// .sidebar-content1 {
+//     padding: 70px 15px;
+//     width: calc(100% - 200px);
+//   }
+  .width1{
+    width: calc(100% - 200px) ;
+    margin-left: 200px !important;
+  }
+  .width2{
+    width: calc(100% - 60px);
+    margin-left: 60px !important;
+  }
+  .width3{
+    width: calc(100%);
+    margin-left: 00px !important;
+  }
+
+  .header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    height: 55px;
+    position: relative;
+  }
+  
+  #dockSidebar .e-listview .e-list-icon {
+    margin-right: 12px;
+    height: 12px;
+    width: 18px;
+}
+
+  #sidebar-section {
+    padding: 0px !important;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+   // min-height: 600px;
+  }
+  #sidebar-section #target {
+    // background: linear-gradient(-141deg, #eef5f7 14%, #eef2fb 100%);
+    // background-color:#e2e7eb5c;
+    //  min-height: 640px;
+    // position: relative;
+     background-color: rgba(226, 231, 235, 0.3607843137);
+     min-height: 1000px;
+     height: 100%;
+     overflow: hidden;
+  }
+
+  ejs-sidebar#dockSidebar {
+    background: white;
+    border-right: 1px solid lightgrey;
+    position: fixed;
+    // top: 54 !important;
+    left: 0;
+    height: 100%; /* Adjust height according to your design */
+    margin-top: 54px;
+    text-align: center;
+}
+
+  .bootstrap5 #dockSidebar {
+    background: #FFFFFF;
+  }
+  #dockSidebar ul {
+    padding: 0px;
+  }
+  
+  #dockSidebar li.sidebar-item .e-icons {
+    font-size: 20px;
+    
+  }
+  #dockSidebar li {
+    list-style-type: none;
+    cursor: pointer;
+    padding: 5px;
+    height: 40px;
+    font-size: 13px;
+    color: rgba(13, 53, 148, 0.898);
+    background-color: white;
+    
+  }
+
+
+  #dockSidebar .e-list-parent > .e-list-item:hover {
+    // background: #F5EFFF;
+    // border-left: 4px solid #057ece;
+    // background: #9977f9;
+    color: white;
+    transition: 0.6s ease;
+    font-weight: 600;
+    background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, 0.898) 109.98%);
+  }
+  
+  #dockSidebar .e-list-item.bg-purple:hover {
+    color: white;
+    background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, 0.898) 109.98%);
+  }
+
+
+  .menuBar1 span.e-icons {
+    line-height: 2;
+  }
+  
+  #dockSidebar .e-listview {
+    border: 0px;
+}
+
+  .menu {
+    display: inline-block;
+    position: absolute;
+    height: 55px;
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
+
+  .menuBar {
+    position: absolute;
+    top: 9px;
+    cursor: pointer;
+    left: 72px;
+    font-size: 18px;
+}
+  .LogOut {
+    position: absolute;
+    right: 8px;
+    top: 11px;
+    cursor: pointer;
+    i{
+      font-size: 22px;
+      padding: 7px;
+    }
+  }
+  
+
+  #head {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999; /* Ensure the header appears above other content */
+    background-color: white;
+
+  }
+
+.Lenovologo{
+  font-weight: 700;
+  padding: 1px 13px;
+  margin: 7px 3px 9px;
+  color: white;
+  background-color: rgb(180, 17, 17);
+}
+
+.non-mobile-button {
+  display: block; /* Display for non-mobile devices */
+}
+
+.mobile-button {
+  display: none; /* Hide by default for mobile devices */
+}
+
+.dashboardTitle{
+  font-size: 16px;
+  font-weight: 600;
+  padding: 4px 390px;
+  font-family: none;
+}
+.menuBar1{
+  // margin: 0px 12px 7px; */
+  font-size: 26px;
+  padding: 4px 18px 10px 18px;
+  border-right: 1px solid lightgrey;
+  /* padding-right: 38px; */
+  height: 54px;
+  cursor: pointer;
+}
+
+/* CSS for smaller screens (mobile devices) */
+@media only screen and (max-width: 768px) {
+
+  .non-mobile-button {
+    display: none; /* Hide for mobile devices */
+  }
+
+  .mobile-button {
+    display: block; /* Display for mobile devices */
+  }
+  .dashboardNameDiv{
+    text-align: center;
+    padding-top: 15px;
+    padding-left: 96px;
+    width: 321px;
+  }
+  .dashboardTitle {
+    font-size: 11px;
+    white-space: normal; /* Allow the text to wrap to the next line */
+    max-width: 100%; /* Set maximum width to the container width */
+    // margin: 0;
+    // white-space: nowrap; /* Prevent line breaks within the text */
+    // overflow: hidden; /* Hide overflow text */
+    // text-overflow: ellipsis; /* Show ellipsis (...) for overflow text */
+    // max-width: 100%; /* Set maximum width to the container width */
+  }
+}
+
+
+///////////////// css for tataAig images /////////////////////////////
+
+// .menu1{
+//   width: 100px; /* Set the width */
+//   //  height: 150px; /* Set the height */
+//   overflow: hidden; /* Hide any part of the image that overflows */
+//   padding-left: 5px;
+//   // display: flex;
+//   // justify-content: center;
+//   // align-items: center;
+// }
+
+
+// .menu1 img{
+//   // width: 134px;
+//   width: 100%; /* Image takes 100% width of its parent */
+//   height: 100%; /* Image takes 100% height of its parent */
+//   object-fit: contain; 
+// }
+
+
+// for syntheta
+.menu1 {
+  width: 90px;
+  height: 51px;
+  overflow: hidden;
+  display: flex;
+  padding: 5px 5px 5px 10px;
+}
+
+for tataAig
+// .menu1 {
+//   width: 83px;
+//   height: 53px;
+//   overflow: hidden;
+//   display: flex;
+//   padding-left: 5px;
+//   /* padding: 5px 5px 5px 10px; */
+// }
+
+.menu1.img-set {
+  width: 115px;
+}
+
+.menu1 img {
+  width: 100%; /* Ensure the image takes the full width of the container */
+  height: 100%; /* Ensure the image takes the full height of the container */
+  object-fit: inherit; /* Scale the image to fit within the container */
+}
+
+.e-dropdown-popup ul .e-item .e-menu-icon, .non-mobile-button , .mobile-button, .e-dropdown-popup ul .e-item, .e-dropdown-popup ul{
+  // color: rgba(0, 0, 0, .87);
+  color: rgba(13, 53, 148, 0.898);
+  background-color: whitesmoke;
+}
+
+// .e-dropdown-popup ul .e-item .e-menu-icon:hover, .non-mobile-button:hover , .mobile-button:hover, .e-dropdown-popup ul .e-item:hover, .e-dropdown-popup ul:hover {
+//   // color: rgba(0, 0, 0, .87);
+//   background-color: rgba(13, 53, 148, 0.898);
+//   color: whitesmoke;
+// }
+
+
+// .sidebar-content[_ngcontent-cxi-c80] {
+//   padding: 65px 5px;
+// }
+
+
+// #target {
+//   display: flex;
+//   flex-direction: row;
+//   height: 100%;
+// }
+
+// #sidebar-content {
+//   flex: 0 0 auto; /* Adjusts the size based on the sidebar content */
+// }
+
+// .dashboardParent {
+//   flex: 1; /* Takes up the remaining space */
+//   overflow: hidden;
+//   padding: 65px 10px;
+// }
+
+/* Updated Chat Widget Styles */
+.chat-widget {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+.wizardChatbot-btn{
+  background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, 0.898) 109.98%);
+    border: 1px solid white;
+    color: white;
+    border-radius: 5px;
+    padding: 3px 11px;
+    font-size: 12px;
+}
+.chat-button {
+  background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, 0.898) 109.98%);
+  color: white;
+  border: none;
+  border-radius: 50px; 
+  padding: 5px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  i {
+    font-size: 20px;
+  }
+}
+
+.chat-popup {
+  position: fixed;
+  bottom: 73px;
+  right: 20px;
+  width: 550px;
+  max-width: 550px;
+  height: 450px;
+  max-height: 500px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+  display: none;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  
+  &.show-popup {
+    display: block;
+    animation: slideIn 0.3s ease;
+  }
+}
+
+// .e-aiassistview .e-footer .e-input-group.e-multi-line-input .e-textarea {
+//   min-height: 30px !important;
+//   height: 100% !important;
+// }
+
+// textarea.e-input, .e-input-group textarea, .e-input-group textarea.e-input, .e-input-group.e-input-focus textarea, .e-input-group.e-input-focus textarea.e-input, .e-input-group.e-control-wrapper textarea, .e-input-group.e-control-wrapper.e-input-focus textarea, .e-input-group.e-control-wrapper textarea.e-input, .e-input-group.e-control-wrapper.e-input-focus textarea.e-input, .e-float-input textarea, .e-float-input.e-control-wrapper textarea {
+//   line-height: 1.5;
+//   min-height: 36px;
+//   min-width: 0;
+//   padding: 4px 0 4px;
+//   resize: vertical;
+// }
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-header {
+  background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, 0.898) 109.98%);
+  padding: 16px 20px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-title {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+
+  i {
+    font-size: 24px;
+    color: white;
+  }
+
+  div {
+    h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 4px 0 0;
+      font-size: 13px;
+      opacity: 0.9;
+    }
+  }
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+
+  &:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+// .chat-body {
+//   // height: calc(100% - 80px);
+//   // overflow: hidden;
+// }
+
+// :host ::ng-deep .custom-aiassistview .e-footer .e-input-group,
+// :host ::ng-deep .custom-aiassistview .e-aiassistview .e-footer .e-input-group.e-multi-line-input {
+//   height: 60px !important;
+//   padding: 7px 6px 5px 2px;
+//   overflow: auto;
+//   // border: none !important;
+// }
+
+
+/* Updated AI Assist View Custom Styles */
+// .custom-aiassistview {
+//   height: 100%;
+  
+//   ::ng-deep {
+//     .e-assist-view {
+//       height: 100%;
+//       border: none;
+      
+//       .e-assist-input {
+//         padding: 16px;
+//         border-top: 1px solid #eee;
+//         background: #fff;
+//         position: sticky;
+//         bottom: 0;
+        
+//         .e-input {
+//           border-radius: 8px;
+//           border: 1px solid #ddd;
+//           padding: 12px;
+//           font-size: 14px;
+          
+          
+//           &:focus {
+//             border-color: #057ece;
+//             box-shadow: 0 0 0 2px rgba(5, 126, 206, 0.1);
+//           }
+//         }
+//       }
+      
+//       .e-assist-suggestions {
+//         padding: 16px;
+        
+//         .e-suggest-item {
+//           padding: 8px 12px;
+//           border-radius: 6px;
+//           transition: background-color 0.2s;
+//           cursor: pointer;
+          
+//           &:hover {
+//             background-color: #f0f7ff;
+//           }
+//         }
+//       }
+
+//       .e-assist-responses {
+//         padding: 16px;
+        
+//         .e-response-item {
+//           background: #f8f9fa;
+//           border-radius: 8px;
+//           padding: 12px;
+//           margin-bottom: 12px;
+          
+//           &:last-child {
+//             margin-bottom: 0;
+//           }
+//         }
+//       }
+
+//       // Hide the default header
+//       .e-assist-header {
+//         display: none;
+//       }
+//     }
+//   }
+  
+// }
+// .e-aiassistview .e-view-container, .e-aiassistview .e-footer {
+//   width: max(70%, 477px);
+// }
+
+// .e-aiassistview .e-footer .e-input-group.e-multi-line-input .e-textarea   {
+//   padding: 15px 8px 15px 12px !important;
+// }
+/* Responsive Styles */
+@media screen and (max-width: 480px) {
+  .chat-popup {
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    right: 0;
+    border-radius: 0;
+  }
+  
+  .chat-button {
+    padding: 10px 20px;
+    font-size: 14px;
+    
+    i {
+      font-size: 18px;
+    }
+  }
+}
+
+
+// .custom-aiassistview .e-footer .e-input-group , .e-aiassistview .e-footer .e-input-group.e-multi-line-input, .custom-aiassistview .e-footer .e-input-group, .e-input-group e-control-wrapper e-multi-line-input e-auto-width {
+//   height: 55px !important;
+//   overflow: auto !important;
+// }
+
+
+
+// containers css
+
+.ai-response-container {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.ai-response-container h1,
+.ai-response-container h2,
+.ai-response-container h3 {
+  color: #333;
+}
+
+.ai-response-container table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+
+.ai-response-container th,
+.ai-response-container td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.ai-response-container th {
+  background-color: #f2f2f2;
+}
+
+.ai-response-container tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.ai-response-container .insight {
+  margin-bottom: 10px;
+}
+
+.ai-response-container .recommendation {
+  margin-bottom: 15px;
+  padding-left: 15px;
+  border-left: 3px solid #007bff;
+}
+
+.ai-response-container code,
+.ai-response-container pre {
+  background-color: #f5f5f5;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-family: monospace;
+}
+
+
+
+// css for tooltip
+.tooltip-text {
+  display: none;
+  position: absolute;
+top: 66px;
+    right: 106px;
+  background-color: #c5c5d1;
+  color: #140101;
+  padding: 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  width: 350px;
+  z-index: 9999;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+  text-align: left;
+  line-height: 1.5;
+  transition: opacity 0.3s ease;
+}
+
+.tooltip-text.show {
+  display: block;
+}
+
+.info-tooltip-wrapper:hover .tooltip-text {
+  display: block;
+}
+
+.tooltip-text code.syntax {
+  background-color:#c5c5d1;
+  color: #032846;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.tooltip-text .note {
+  font-size: 13px;
+  color: #100000;
+  display: block;
+  margin-top: 6px;
+}
+
+
+////// css for chat widget
+
+.default-aiassistview {
+    height: 350px;
+    width: 550px;
+    // margin: 0 auto;
+    padding: 10px;
+    // border: none;
+}
+
+.e-aiassistview{
+  border: none !important;
+}
+
+.e-aiassistview .e-view-container, .e-aiassistview .e-footer {
+    width: max(70%, 509px) !important;
+}
+.e-aiassistview .e-footer .e-input-group .e-textarea {
+    padding: 6px 8px 6px 12px !important;
+    // font-size: 15px !important;
+    // height: 40px !important;
+}
+
+
+// .default-aiassistview .banner-content .e-assistview-icon:before {
+//     font-size: 20px;
+//     height: 40px;
+// }
+
+// .default-aiassistview .banner-content {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     height: 330px;
+//     text-align: center;
+// }
+
+
+.arrow-click-area {
+  position: absolute;
+  right: 0;
+  top: 45%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.arrow-click-area::before {
+  content: "";
+  position: absolute;
+  inset: -20px;
+}
+
+.no-hover {
+  pointer-events: none;
+}

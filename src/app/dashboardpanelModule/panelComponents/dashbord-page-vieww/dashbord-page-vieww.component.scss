@@ -1,0 +1,2262 @@
+.layout {
+  position: relative;
+}
+
+/* Keep InputBox suggestion dropdown above neighboring dashboard panels */
+::ng-deep #createDashboard .e-panel.inputbox-panel,
+::ng-deep #createDashboard .e-panel.inputbox-panel .e-panel-container,
+::ng-deep #createDashboard .e-panel.inputbox-panel .e-panel-content {
+  overflow: visible !important;
+}
+
+::ng-deep #createDashboard .e-panel.inputbox-panel:focus-within {
+  z-index: 3000 !important;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.panel-loading-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: rgba(255,255,255,0.95);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+}
+
+.panel-loading-spinner {
+  width: 35px;
+  height: 35px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #094e98;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+// icons alignment
+.panelHeader{
+  font-size: 11px;
+  padding: 0;      /* remove left/right padding */
+  margin: 0;   
+  display: flex;
+  text-align: left;
+  color: black;
+  align-items: center;  
+  font-weight: 600; 
+  flex: 1;
+  justify-content: flex-start;
+  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+  line-height: 1 !important;
+  min-height: 20px;
+}
+.chart-wrapper {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
+}
+
+/* Hide the chart when collapsed */
+.chart-wrapper.collapsed {
+  max-height: 0 !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* When expanded */
+.chart-wrapper:not(.collapsed) {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.copyText {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+  padding:5px 0px 2px 0px; /* Reduced vertical padding */
+  min-height: 24px; /* Reduced min-height */
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  vertical-align: middle !important;
+}
+.copyText > div:last-child {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+/* Fix expand/collapse icon alignment */
+.expand-collapse-icon {
+  cursor: pointer;
+  font-size: 11px;
+  padding: 2px;
+  transition: transform 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 2px;
+  line-height: 1;
+}
+
+.expand-collapse-icon.collapsed {
+  transform: rotate(-90deg);
+}
+
+.expand-collapse-icon:not(.collapsed) {
+  transform: rotate(0deg);
+}
+
+/* Fix alignment for icons within copyText */
+.copyText i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: baseline;
+
+}
+.copyText > div {
+  display: flex !important;
+  align-items: baseline;
+}
+
+/* Override all inline styles */
+.copyText div[style*="display"] {
+  display: flex !important;
+  align-items: center;
+}
+
+/* Fix all buttons */
+.copyText button,
+.copyText button[ejs-dropdownbutton] {
+  display: inline-flex !important;
+  align-items: center;
+  vertical-align: middle !important;
+}
+/* Fix filter buttons alignment in ListBox/MultiSelectDropDown */
+.copyText a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: grey;
+  padding: 2px;
+  text-decoration: none;
+  margin: 0
+}
+
+.copyText a i {
+  margin: 0;
+}
+
+/* Fix dropdown button alignment */
+#excelChartDropdown, #excelDropdown {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 2px;
+}
+
+/* Ensure proper spacing for info icons */
+.copyText .fas.fa-info-circle {
+  margin-right: 2px;
+}
+.copyText > div[style*="cursor: pointer"] {
+  gap: 3px !important; // Override inline styles if any
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+/* Fix panelRow layout for Kanban */
+.panelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 6px 8px;
+  min-height: 32px;
+}
+
+.panelRow > div:last-child {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+// 
+.heightDiv {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+
+
+.e-card-header-subtitle {
+  font-size: 20px;
+}
+
+.listbox-container {
+  // max-height: 100%;
+  overflow-y: auto;
+}
+
+.e-listbox-wrapper,
+.e-listbox-container,
+.e-listboxtool-wrapper {
+  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif", "-apple-system", "BlinkMacSystemFont";
+
+  font-size: 11px !important;
+}
+
+.e-listbox-wrapper:not(.e-list-template) .e-list-item,
+.e-listbox-wrapper .e-list-nrt,
+.e-listbox-wrapper .e-selectall-parent,
+.e-listbox-container:not(.e-list-template) .e-list-item,
+.e-listbox-container .e-list-nrt,
+.e-listbox-container .e-selectall-parent,
+.e-listboxtool-wrapper:not(.e-list-template) .e-list-item,
+.e-listboxtool-wrapper .e-list-nrt,
+.e-listboxtool-wrapper .e-selectall-parent {
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: unset;
+  font-size: 11px;
+  padding: 8px 8px 0px;
+  height: 23px;
+}
+.e-listbox-wrapper .e-checkbox-wrapper, .e-listbox-container .e-checkbox-wrapper, .e-listboxtool-wrapper .e-checkbox-wrapper {
+  margin: 1px 6px 0 0;
+  text-indent: 0;
+  vertical-align: middle;
+}
+
+.e-checkbox-wrapper .e-frame,
+.e-css.e-checkbox-wrapper .e-frame {
+  border: 1px solid;
+  border-radius: 2px;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-block !important;
+  font-family: "e-icons";
+  height: 14px;
+  line-height: 6px;
+  padding: 2px 0;
+  text-align: center;
+  vertical-align: middle;
+  width: 14px;
+}
+
+.dashboard_Title {
+  height: 40px;
+  // background: #fff;
+  margin-bottom: 12px;
+  color: rgba(0, 0, 0, 0.692);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 6px;
+  display: flex;
+  justify-content: space-between;
+  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+  
+}
+
+
+
+
+.progressBarEle {
+  position: absolute;
+  left: 40%;
+  transform: translateX(-50%, -50%);
+  z-index: 1500;
+  padding: 20px;
+  top: 50%
+}
+.progressBarEle1{
+  
+  position: absolute;
+  left: -2%;
+  z-index: 1600;
+  padding: 20px;
+   top: 2% !important;
+   height: 20px;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 2000;
+  width: 345px;
+  max-height: 300px; /* Limit the height to avoid overflowing */
+  overflow-y: auto;  /* Make the popup scrollable if content exceeds height */
+}
+
+.popup-content {
+  text-align: center;
+  padding-top: 20px;
+  word-wrap: break-word; /* Ensure long words wrap */
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.popup-message {
+  margin-bottom: 20px;
+  max-width: 100%;  /* Ensure the message stays within the box */
+  word-wrap: break-word;  /* Break long words to avoid overflow */
+  overflow: hidden;  /* Prevent horizontal overflow */
+}
+
+.backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 700px;
+  background-color: rgba(216, 206, 206, 0.5);
+  z-index: 1600;
+}
+
+
+.backdrop1 {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-height:700px;
+  background-color: rgba(216, 206, 206, 0.5);
+  z-index: 2000;
+  /* Set a higher z-index value */
+}
+
+e-chip-list.e-chip.e-outline .e-chip,
+.e-chip-list .e-chip.e-outline {
+  background-color: unset !important;
+  /* Unset the default background-color */
+}
+
+e-chip-list.e-chip.e-outline .e-chip,
+.e-chip-list .e-chip.e-outline {
+  border-color: #bdbdbd;
+  color: rgba(0, 0, 0, 0.87);
+  border-width: 1px;
+}
+
+.icon-container {
+
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.labels {
+  color: black;
+  padding-right: 5px;
+  //font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+}
+
+.labels2 {
+  color: black;
+  padding-right: 5px;
+ // font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+  display: inline-block;
+  width: 105px;
+  text-align: left;
+}
+
+.cardHeight {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.details-containers {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  height: 100%;
+  flex-direction: column;
+  padding-left: 10px;
+}
+
+.cardHeight1{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.spinner-wrapper {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.spinner-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  animation: none;
+  z-index: 0;
+}
+
+.spin-border {
+  animation: spin 1s linear infinite;
+}
+
+.icon-static {
+  position: relative;
+  z-index: 1;
+  font-size: 7px;
+  color: rgb(6, 0, 0);
+  line-height: 20px;
+  text-align: center;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+button.downloadBtn:disabled {
+  background-color: inherit !important;
+  color: inherit !important;
+  opacity: 1 !important;
+  pointer-events: none;
+}
+
+.panel-container {
+  height: 100%;
+  width: 100%;
+}
+
+.filterInputControl {
+  margin-bottom: 7px;
+  height: 27px;
+  font-size: 11px;
+  margin-top: 3px;
+}
+.initialfilterDiv{
+  padding: 9px 8px 11px;
+  height: 35px;
+  border: 1px solid #19191a;
+  margin-top: 12px;
+  border-radius: 20px;
+  width: 313px;
+}
+
+#excelDropdown.e-dropdown-btn, .e-dropdown-btn.e-btn {
+
+  padding: 2px 8px 2px !important;
+}
+
+#excelDropdown .e-dropdown-btn .e-btn-icon, .e-dropdown-btn.e-btn .e-btn-icon {
+  font-size: 11px !important;
+  .e-quick-popup-wrapper {
+    max-width: 500px !important;
+    width: 80% !important;
+  }
+}
+
+.cacheRefreshHeading{
+  margin-right: 17px;
+  display: inline; font-size: 11px;   color: #264a9f;
+
+}
+
+
+
+.multiselect-container {
+  height: 100%;
+  width: 100%;
+  padding: 5px 20px;
+  display: flex;
+  align-items: center;
+  /* Center vertically */
+  justify-content: center;
+  /* Center horizontally */
+}
+
+
+.chip-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  margin: 5px;
+  background-color: #f0ebeb;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.cancel-icon {
+  margin-left: 8px;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+.e-dropdownbase .e-list-item.e-item-focus, .e-dropdownbase .e-list-item.e-active, .e-dropdownbase .e-list-item.e-active.e-hover, .e-dropdownbase .e-list-item.e-hover {
+  background-color:rgb(243, 239, 239) !important;
+
+}
+
+
+
+.e-dropdownbase .e-list-item, .e-dropdownbase .e-list-item.e-item-focus {
+    color: black;
+  font-family: emoji;
+  min-height: 20px;
+  width: 100%;
+  padding-right: 0px !important;
+}
+
+.listboxItem{
+  width: 100% !important;
+  display: flex !important;
+  box-sizing: border-box !important;
+}
+
+/* app.component.css */
+.listbox-item {
+  display: flex;
+  align-items: center;
+//  padding: 2px; /* Adjust padding as needed */
+  box-sizing: border-box;
+  width: 100%; /* Ensures the div spans the entire width of the list item */
+  height: 100%; /* Ensures the div spans the entire height of the list item */
+}
+
+.e-list-item .matched {
+  background-color: white !important;
+  // background-color: rgb(68, 250, 32) !important;
+}
+
+.e-list-item .not-matched {
+  background-color: rgb(209, 200, 200) !important;
+}
+
+.e-listbox-wrapper .e-list-item{
+  padding: 7px 5px 0px;
+  display: flex;
+}
+.e-list-parent .e-list-item:hover{
+  background-color: white;
+}
+.e-dropdownbase .e-list-item, .e-dropdownbase .e-list-item.e-item-focus {
+  background-color: white !important;
+  color: black;
+  font-family: emoji;
+  min-height: 29px;
+}
+.e-dropdownbase .e-list-item.e-item-focus, .e-dropdownbase .e-list-item.e-active, .e-dropdownbase .e-list-item.e-active.e-hover, .e-dropdownbase .e-list-item.e-hover {
+  background-color: white !important;
+}
+.e-multiselect.e-input-group.e-control-wrapper.e-input-focus::before, .e-multiselect.e-input-group.e-control-wrapper.e-input-focus::after {
+  background: #9977f9;
+}
+select.form-control.filteredItemList {
+  height: 22px;
+  font-size: 12px;
+}
+.multiselectDrop{
+  width: 100% !important;
+  display: inline!important;
+  padding: 5px 5px 5px 5px !important; /* Adjust padding as needed */
+  box-sizing: border-box !important;
+}
+
+.e-checkbox-wrapper .e-frame.e-check, .e-css.e-checkbox-wrapper .e-frame.e-check {
+  background-color: white;
+  // border-color: rgba(0, 0, 0, 0);
+  color: black;
+  border-color: black;
+}
+
+
+
+// .e-switch-wrapper .e-switch-handle.e-switch-active, .e-css.e-switch-wrapper .e-switch-handle.e-switch-active {
+//   background-color: #8df977;
+// }
+//  .e-switch-handle:not(.e-switch-active), .e-switch-handle:not(.e-switch-active) {
+//   background-color: rgb(244, 248, 10);
+// }
+.titleHeader{
+//  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif";
+      font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+  font-weight: 400;
+}
+#listboxObj .e-selectall-parent{
+  padding: 8px 5px 5px !important;
+    height: 31px !important;
+    font-size: 10px !important;
+}
+
+#defaultDialog_title{
+  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+  font-weight: 400 !important;
+}
+
+.e-headercell, .e-row .e-rowcell.e-templatecell{
+      font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+}
+
+
+.percentage-cell::after {
+  content: '%';
+}
+
+.labels1 {
+  color: black;
+  padding-right: 5px;
+  text-align: center;
+  word-wrap: break-word; /* Allow wrapping */
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  //font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+  margin-bottom:5px
+
+}
+
+.note-container {
+  margin-top: 5px;
+  padding: 0px 10px;
+  background-color: #f0f8ff;
+  border-left: 4px solid #007bff;
+  border-radius: 5px;
+}
+
+.note-text {
+  font-size: 12px;
+  color: #555;
+  display: flex;
+  align-items: center;
+}
+
+.note-text i {
+  margin-right: 5px;
+  font-size: 14px;
+ color: #007bff;
+}
+.filter-label , .filter-label i{
+  font-size: 14px;
+  font-style: inherit;
+  color: #fcf5f5;
+
+}
+
+
+// code for card template 
+
+.card {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: fit-content !important;
+  padding: 10px 15px;
+}
+
+.content-container {
+  display: flex;
+  align-items: center; /* Default alignment */
+  justify-content: center; /* Default alignment */
+  width: 100%;
+  flex-wrap: wrap; /* Allow wrapping on small widths */
+  gap: 10px; /* Space between elements */
+}
+
+/* Layout options */
+.horizontal-layout {
+  flex-direction: row; /* Icon and label side by side */
+}
+
+.vertical-layout {
+  flex-direction: column; /* Icon above label */
+  justify-content: center; /* Center-align vertically */
+}
+
+.reverse-horizontal-layout {
+  flex-direction: row-reverse; /* Label first, icon second */
+  justify-content: space-between; 
+}
+
+.space-between-layout {
+  flex-direction: row; /* Icon and label side by side */
+  justify-content: space-between; /* Add space between icon and label */
+  width: 100%; /* Ensure full width for space distribution */
+}
+
+.Cardlabel {
+  word-wrap: break-word; /* Allow wrapping */
+  overflow: hidden;
+  display: block;
+  //font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+  text-align: center; /* Center-align text */
+}
+
+i {
+  display: inline-block;
+  text-align: center;
+}
+
+.popupHeader{
+  color: #264a9f;
+}
+
+.e-grid .e-leftfreeze.e-freezeleftborder {
+  border-right-color: rgb(210, 212, 212);
+}
+
+
+/* Full-screen overlay */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(246, 246, 246, 0.3); /* Semi-transparent background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Circular loader animation */
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #fff;
+  border-top-color: #007bff; /* Blue accent */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Keyframe animation for rotation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.e-listbox-wrapper:not(.e-list-template) .e-list-item{
+  white-space: nowrap;
+    overflow: visible;
+    text-overflow: unset;
+    font-size: 12px;
+    padding: 9px 8px 5px;
+    height: 31px;
+    border: 1px solid #ded6d6;
+    margin-bottom: 3px;
+}
+
+.e-dialog .e-footer-content {
+  box-sizing: border-box;
+  padding: 13px 10px 10px 10px;
+  background: rgba(232, 238, 239, 0.9);
+}
+
+
+
+.tableNameDropdown input.e-input, .e-input-group input.e-input, .e-input-group.e-control-wrapper input.e-input, textarea.e-input, .e-input-group textarea.e-input, .e-input-group.e-control-wrapper textarea.e-input {
+    border: 0 solid;
+    // border-width: 0 0 1px 0;
+    height: auto;
+    line-height: inherit;
+    margin: 0;
+    margin-bottom: 4px;
+    outline: none;
+    padding: 1px 0 4px;
+    text-indent: 0;
+    width: 100%;
+}
+.tableNameDropdown  .e-input-group.e-control-wrapper.e-ddl.e-lib.e-keyboard{
+	width: 100%;
+    height: 26px !important;
+    margin-bottom: 0px;
+    border: 1px solid #d5cdcd7d;
+    background: white;
+    padding: 0px 0px 6px 9px;
+    line-height: 4.3;
+    font-size: 14px;
+}
+
+.tableNameDropdown .e-input-group-icon.e-ddl-icon.e-search-icon{
+    font-size: 12px;
+}
+
+/* Default popup size */
+.e-quick-popup-wrapper {
+  max-width: 400px !important;   /* limit width */
+  width: auto !important;
+}
+
+
+
+
+
+// Add these CSS rules to style all grid cells with the specified font family
+
+// Style for header cells
+.e-grid .e-headercell {
+  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+}
+
+// Style for content cells
+.e-grid .e-rowcell {
+  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+}
+
+// Style for group caption cells
+.e-grid .e-groupcaption {
+  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+}
+
+// Style for footer cells
+.e-grid .e-summarycell {
+  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+}
+
+// Style for filter bar cells
+.e-grid .e-filterbar {
+  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+}
+
+// // Style for column menu
+// .e-grid .e-columnmenu {
+//   font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+// }
+
+// Style for pager
+.e-grid .e-pager {
+  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+}
+
+// Style for toolbar items
+.e-grid .e-toolbar {
+  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+}
+
+// Style for grid content
+.e-grid .e-content {
+  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+}
+
+// Style for template cells
+.e-grid .e-templatecell {
+  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+}
+
+
+
+
+
+////////////// new css for box ///////////////
+
+
+// New improved box styling
+.dashboard-box-wrapper {
+  height: 100%;
+  width: 100%;
+  padding: 0px; // Remove padding to eliminate white space
+}
+
+.dashboard-box {
+  height: 100%;
+  width: 100%;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: none;
+  position: relative;
+  border-radius: 2px;
+}
+
+.dashboard-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.box-content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  // padding: 16px 20px;
+  padding: 12px 3px 4px 5px;
+  box-sizing: border-box;
+}
+
+// Single item layout
+.box-content.single-item {
+  justify-content: flex-start;
+  // align-items: flex-start;
+  align-items: center;
+  text-align: left;
+
+  .box-main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: calc(100% - 100px);
+    // padding: 6px 0;
+
+    .label-container {
+      margin-bottom: 8px;
+      width: 100%;
+    }
+
+    .value-container {
+      margin-bottom: 0;
+      width: 100%;
+    }
+  }
+
+  .box-icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    position: absolute;
+    right: 7px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+}
+
+// Multiple items layout
+.box-content.multiple-items {
+  justify-content: space-between;
+  align-items: center;
+
+  .box-main-content {
+    flex: 1;
+    width: calc(100% - 100px); // Reserve more space for icon
+    max-width: calc(100% - 100px);
+  }
+
+  .box-icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    position: absolute;
+    right: 7px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+}
+
+
+.box-items-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.box-item-row {
+  display: grid;
+  grid-template-columns: 144px 12px 1fr;
+  align-items: flex-start;
+  gap: 0px;
+  width: 100%;
+  max-width: calc(100% - 100px); // Increase space for icon
+}
+
+.box-label-col {
+  display: flex;
+  justify-content: flex-start;
+  text-align: left;
+  padding: 0 2px 0 0;
+  overflow: visible;
+  align-items: flex-start;
+}
+
+.box-separator {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+  line-height: 1.3;
+  text-align: center;
+  padding-top: 2px;
+}
+
+.box-value-col {
+  display: flex;
+  justify-content: flex-start;
+  text-align: left;
+  padding: 0 0 0 2px;
+}
+
+.box-label {
+  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+  // font-weight: 500;
+  color: rgba(0, 0, 0, 0.8);
+  white-space: normal;
+  overflow: visible;
+  word-wrap: break-word;
+  word-break: break-word;
+  // line-height: 1.3;
+  line-height: 1;
+  font-size: 14px; // Default font size for desktop
+  max-width: 100%;
+  display: block;
+
+
+
+  &.multiple {
+    // font-size: 12px !important;
+    line-height: 1;
+  }
+}
+
+.empty-record-template {
+  white-space: nowrap;
+}
+
+.empty-record-template .e-grid-empty-record {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.box-value {
+  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+  // font-weight: 600;
+  color: rgba(0, 0, 0, 0.9);
+  font-size: 16px; // Default font size for desktop
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+
+  &.multiple {
+    // font-size: 14px !important;
+    line-height: 1.2;
+  }
+}
+
+// Legacy cardHeight for backward compatibility
+.cardHeight {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 17px 14px 12px 9px;
+  border-radius: 1px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+// media query 
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  // Tablet-specific box styling
+
+  .panel-loading-spinner {
+    width: 28px;
+    height: 28px;
+    border-width: 3px;
+    border-top-width: 3px;
+  }
+
+
+  .dashboard-box-wrapper {
+    padding: 3px;
+  }
+
+  .dashboard-box {
+    border-radius: 2px;
+  }
+
+  .box-content {
+    padding: 10px 12px;
+  }
+
+  .box-content.single-item {
+    // Change tablet layout to left-aligned like desktop
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+
+    .box-main-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      width: calc(100% - 45px);
+      padding: 6px 0;
+
+      .label-container {
+        margin-bottom: 5px;
+        width: 100%;
+      }
+
+      .value-container {
+        width: 100%;
+      }
+    }
+
+    .box-icon-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 35px;
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+  }
+
+  .box-content.multiple-items {
+    .box-main-content {
+      width: calc(100% - 47px);
+    }
+
+    .box-icon-container {
+      width: 35px;
+      right: 10px;
+    }
+  }
+
+  .box-items-grid {
+    gap: 3px;
+  }
+
+  .box-item-row {
+    gap: 0px;
+    grid-template-columns: 100px 10px 1fr;
+  }
+
+  .box-label {
+    font-size: 11px !important;
+
+    &.multiple {
+      font-size: 11px !important;
+    }
+  }
+
+  .box-value {
+    font-size: 14px !important;
+
+    &.multiple {
+      font-size: 13px !important;
+    }
+  }
+
+  .box-separator {
+    font-size: 12px;
+  }
+
+  .box-label-col {
+    padding: 0 3px 0 0;
+    justify-content: flex-start;
+    text-align: left;
+    overflow: hidden;
+  }
+
+  .box-value-col {
+    padding: 0 0 0 3px;
+  }
+
+  // Legacy styles
+  .labels {
+    font-size: 10px !important;
+    /* Default font size for labels */
+  }
+
+  .value {
+    font-size: 14px !important;
+    /* Default font size for values */
+  }
+
+  .icon-container {
+    font-size: 18px !important;
+    /* Default font size for icons */
+  }
+
+  .e-quick-popup-wrapper {
+    max-width: 500px !important;
+    width: 80% !important;
+  }
+
+}
+
+@media only screen and (max-width: 768px) and (orientation: landscape) {
+
+  .panel-loading-spinner {
+    width: 20px;
+    height: 20px;
+    border-width: 2px;
+    border-top-width: 2px;
+  }
+
+
+  .backdrop {
+    min-height: 320px;
+  }
+
+ .e-quick-popup-wrapper {
+    max-width: 90% !important;
+    width: 90% !important;
+  }
+  .progressBarEle {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1500;
+    padding: 20px;
+    top: 11% !important;
+  }
+
+  .backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 719px;
+    background-color: rgba(216, 206, 206, 0.5);
+    z-index: 1600;
+  }
+
+  // Mobile landscape box styling
+  .dashboard-box-wrapper {
+    padding: 2px;
+  }
+
+  .dashboard-box {
+    border-radius: 2px;
+  }
+
+  .box-content {
+    padding: 6px 8px;
+  }
+
+  .box-content.single-item {
+    // Change mobile landscape layout to left-aligned like desktop
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+
+    .box-main-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      width: calc(100% - 35px);
+      padding: 3px 0;
+
+      .label-container {
+        margin-bottom: 3px;
+        width: 100%;
+      }
+
+      .value-container {
+        width: 100%;
+      }
+    }
+
+    .box-icon-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 25px;
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+  }
+
+  .box-content.multiple-items {
+    .box-main-content {
+      width: calc(100% - 32px);
+    }
+
+    .box-icon-container {
+      width: 25px;
+      right: 6px;
+    }
+  }
+
+  .box-items-grid {
+    gap: 2px;
+  }
+
+  .box-item-row {
+    gap: 0px;
+    grid-template-columns: 80px 8px 1fr;
+  }
+
+  .box-label {
+    font-size: 10px !important;
+
+    &.multiple {
+      font-size: 9px !important;
+    }
+  }
+
+  .box-value {
+    font-size: 12px !important;
+
+    &.multiple {
+      font-size: 11px !important;
+    }
+  }
+
+  .box-separator {
+    font-size: 10px;
+  }
+
+  .box-label-col {
+    padding: 0 2px 0 0;
+    justify-content: flex-start;
+    text-align: left;
+    overflow: hidden;
+  }
+
+  .box-value-col {
+    padding: 0 0 0 2px;
+  }
+
+  // Legacy styles
+  .labels {
+    font-size: 10px !important;
+    /* Default font size for labels */
+  }
+
+  .value {
+    font-size: 14px !important;
+    /* Default font size for values */
+  }
+
+  .icon-container {
+    font-size: 16px !important;
+    /* Default font size for icons */
+  }
+
+  .Cardlabel {
+    font-size: 20px !important;
+    /* Default font size for labels */
+  }
+
+  .details-containers {
+    gap: 1px 4px;
+    row-gap: 1px;
+    column-gap: 4px;
+  }
+
+  .details-containers .labels2 {
+    margin-bottom: 0px;
+    padding-right: 2px;
+    font-size: 12px;
+  }
+
+  .details-containers .value {
+    margin-bottom: 0px;
+    padding-left: 0px;
+    margin-left: 0px;
+  }
+
+}
+
+
+@media only screen and (max-width: 768px) and (orientation: portrait) {
+
+  .panel-loading-spinner {
+    width: 20px;
+    height: 20px;
+    border-width: 2px;
+    border-top-width: 2px;
+  }
+
+
+  .Cardlabel {
+    font-size: 17px !important;
+    /* Default font size for labels */
+  }
+
+  // Mobile-specific box styling
+  .dashboard-box-wrapper {
+    padding: 2px;
+  }
+
+  .dashboard-box {
+    border-radius: 2px;
+  }
+
+  .box-content {
+    padding: 8px 10px;
+  }
+
+  .box-content.single-item {
+    // Change mobile single item layout to left-aligned like desktop
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+
+    .box-main-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      width: calc(100% - 40px);
+      padding: 4px 0;
+
+      .label-container {
+        margin-bottom: 4px;
+        width: 100%;
+      }
+
+      .value-container {
+        width: 100%;
+      }
+    }
+
+    .box-icon-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+  }
+
+  .box-content.multiple-items {
+    .box-main-content {
+      width: calc(100% - 38px);
+    }
+
+    .box-icon-container {
+      width: 30px;
+      right: 8px;
+    }
+  }
+
+  .box-items-grid {
+    gap: 3px;
+  }
+
+  .box-item-row {
+    gap: 0px;
+    grid-template-columns: 90px 8px 1fr;
+  }
+
+  .box-label {
+    font-size: 13px !important;
+
+    &.multiple {
+      font-size: 13px !important;
+    }
+  }
+
+  .box-value {
+    font-size: 13px !important;
+
+    &.multiple {
+      font-size: 13px !important;
+    }
+  }
+
+  .box-separator {
+    font-size: 11px;
+  }
+
+  .box-label-col {
+    padding: 0 2px 0 0;
+    justify-content: flex-start;
+    text-align: left;
+    overflow: hidden;
+  }
+
+  .box-value-col {
+    padding: 0 0 0 2px;
+  }
+
+  // Legacy support
+ .details-containers {
+    grid-template-columns: auto auto; // Make columns adjust to content
+    gap: 2px 4px; // Reduce gap in mobile view
+
+    .labels2 {
+      padding-right: 2px;
+      font-size: 12px;
+      min-width: auto; // Remove minimum width constraint
+    }
+
+    .value {
+      text-align: left;
+    }
+  }
+
+
+
+
+  .dashboard_Title {
+
+    // height: 82px;
+    background: #fff;
+    margin-bottom: 12px;
+    color: #000;
+    font-size: 18px;
+    font-weight: 700;
+    flex-direction: column;
+    padding: 10px 9px;
+    display: flex;
+    justify-content: space-between;
+            min-height: 85px;
+        height: 100%;
+  }
+
+  // .filterBtn {
+  //   // text-align: right;
+  // }
+
+  .cacheRefreshHeading{
+    margin-right: 17px;
+  color: #264a9f;
+  display: block; font-size: 15px; 
+  }
+
+  .progressBarEle {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1500;
+    padding: 20px;
+    top: 50%;
+    top: 100px !important;
+    top: 224px !important;
+  }
+
+  .backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 719px;
+    background-color: rgba(216, 206, 206, 0.5);
+    z-index: 1600;
+  }
+
+  .popup {
+    display: none;
+    position: fixed;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 2000;
+    width: 245px;
+  }
+
+  .panel-container {
+    height: calc(100vw * (70/100));
+    /* Maintain aspect ratio (70/100) */
+    width: 100vw;
+  }
+
+  .multiselect-container {
+    /* Mobile-specific styles */
+    padding: 10px;
+    /* Adjust padding for smaller screens */
+  }
+
+  div#multiselectelement_popup.e-ddl.e-popup.e-lib.e-control.e-ddl-device.e-ddl-device-filter.e-popup-full-page.e-popup-open {
+    position: absolute;
+    inset: 43% 50% 50% 58% !important;
+    transform: translate(-50%, -50%);
+    width: 75% !important;
+  }
+
+
+  .e-ddl.e-popup.e-lib.e-control.e-ddl-device.e-ddl-device-filter.e-popup-full-page.e-popup-open {
+    max-height: 100%;
+    width: 84% !important;
+    visibility: visible;
+    z-index: 1001;
+    position: absolute;
+    top: 15% !important;
+    left: 10% !important;
+  }
+
+   .e-quick-popup-wrapper {
+    max-width: 90% !important;
+    width: 90% !important;
+  }
+
+}
+
+/* Apply to both header and cell text */
+.custom-font-grid .e-headercell,
+.custom-font-grid .e-rowcell {
+  // font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+
+  // font-size: 14px;
+  // font-weight: bold;
+  // color: black;
+}
+
+/* Dynamically hide grid header */
+.hide-header {
+  ::ng-deep .e-gridheader {
+    display: none !important;
+  }
+}
+
+::ng-deep .custom-font-pivot .e-headercell,
+
+::ng-deep .custom-font-pivot .e-pivotvaluecell,
+
+::ng-deep .custom-font-pivot .e-valuescontent,
+
+::ng-deep .custom-font-pivot .e-pivotfieldlist .e-headercell,
+
+::ng-deep .custom-font-pivot .e-pivotfieldlist .e-treeview .e-text-content,
+
+::ng-deep .custom-font-pivot .e-valuesheader,
+
+::ng-deep .custom-font-pivot .e-cell,
+
+::ng-deep .custom-font-pivot .e-rowcell,
+
+::ng-deep .custom-font-pivot .e-headertext,
+
+::ng-deep .custom-font-pivot .e-grid,
+
+::ng-deep .custom-font-pivot .e-tooltip {
+    font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+
+}
+
+// ::ng-deep .custom-font-pivot .e-sort {
+//   display: inline-block !important;
+//   font-family: 'e-icons' !important;
+// }
+
+// ::ng-deep .e-grid .e-headercelldiv {
+//   overflow: visible !important;
+//   white-space: normal !important;
+//   display: flex !important;
+//   align-items: center;
+// }
+
+::ng-deep .e-pivotview .e-headercelldiv {
+    overflow: visible !important;
+  white-space: normal !important;
+  text-align: center !important;
+  justify-content: center !important;
+  display: flex !important;
+  align-items: center;
+}
+
+::ng-deep .e-pivotview .e-headertext {
+  width: 100% !important;
+  text-align: center !important;
+}
+
+// Fix for Tabular layout - prevent row overlapping on value columns
+::ng-deep .e-pivotview .e-grid .e-rowcell {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+}
+
+::ng-deep .e-pivotview .e-grid .e-headercell {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+}
+
+// Ensure proper column spacing in Tabular layout
+::ng-deep .e-pivotview .e-gridcontent table {
+  table-layout: fixed !important;
+  width: 100% !important;
+}
+
+// Fix row headers to prevent overlap
+::ng-deep .e-pivotview .e-grid .e-rowcell:first-child {
+  text-align: left !important;
+  padding-left: 8px !important;
+  font-weight: 500 !important;
+}
+
+// Ensure value cells don't overlap
+::ng-deep .e-pivotview .e-valuescontent .e-rowcell {
+  text-align: center !important;
+  // padding-right: 8px !important;
+}
+
+::ng-deep .e-pivotview .e-valuescontent .e-rowcell .e-cellvalue,
+::ng-deep .e-pivotview .e-pivotvaluecell .e-cellvalue,
+::ng-deep .e-pivotview .e-pivotvaluecell,
+::ng-deep .e-pivotview .e-valuescontent .e-cellvalue {
+  display: block !important;
+  width: 100% !important;
+  text-align: center !important;
+  justify-content: center !important;
+}
+
+
+
+
+// table css
+::ng-deep .show-borders .e-rowcell,
+::ng-deep .show-borders .e-headercell {
+  border: 1px solid #ebeaea !important;
+}
+
+::ng-deep .no-borders .e-rowcell,
+::ng-deep .no-borders .e-headercell,
+::ng-deep .no-borders .e-rowcell::after,
+::ng-deep .no-borders .e-gridcontent,
+::ng-deep .no-borders .e-row,
+::ng-deep .no-borders .e-grid {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .no-borders .e-rowcell {
+  border-bottom: none !important;
+}
+
+// ::ng-deep .e-grid .e-row:hover,
+// ::ng-deep .e-grid .e-rowcell:hover {
+//   // background-color: transparent !important;
+// }
+
+// ::ng-deep .e-grid .e-selectionbackground {
+//   // background-color: transparent !important;
+// }
+
+// ::ng-deep .e-grid .e-focused {
+//   background-color: transparent !important;
+//   box-shadow: none !important;
+// }
+
+.e-grid.e-gridhover:not(.e-rowdrag)
+
+.e-row:not(.e-disable-gridhover):not(.e-editedrow):not(.e-detailrow):hover
+
+.e-rowcell:not(.e-cellselectionbackground):not(.e-active):not(.e-updatedtd):not(.e-indentcell) {
+
+background-color: transparent !important;
+
+}
+
+
+.e-multi-select-wrapper .e-chips-close.e-close-hooker {
+  cursor: pointer;
+  font-size: 10px;
+  margin-top: 0;
+  top: 0;
+  height: auto;
+  position: relative;
+  right: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+}
+
+
+
+
+
+/* ============================================
+   KANBAN SWIMLANE FIXED HEIGHT WITH SCROLLBAR
+   ============================================ */
+
+/* Fixed height for the content area of each swimlane row */
+::ng-deep .kanban-overview .e-content-cells {
+  height: 300px; /* Adjust this value as needed */
+  overflow-y: auto;
+}
+
+/* Style the scrollbar - Webkit browsers */
+::ng-deep .kanban-overview .e-content-cells::-webkit-scrollbar {
+  width: 8px;
+}
+
+::ng-deep .kanban-overview .e-content-cells::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::ng-deep .kanban-overview .e-content-cells::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::ng-deep .kanban-overview .e-content-cells::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.manual-popup-inline {
+  display: inline-block;
+  padding: 4px 10px;
+  background-color: #323232;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 13px;
+  white-space: nowrap;
+  animation: fadeInOutInline 2s ease forwards;
+}
+
+@keyframes fadeInOutInline {
+  0% {
+    opacity: 0;
+    transform: translateX(-5px);
+  }
+
+  10% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-5px);
+  }
+}
+
+// ::ng-deep .e-menu-item {
+//   min-height: 24px; /* Adjust as needed */
+//   padding: 4px 10px; /* Adjust vertical padding */
+// }
+
+// ::ng-deep .e-menu-icon {
+//   font-size: 14px; /* Adjust icon size if needed */
+//   line-height: 1; /* Ensure icon is vertically centered */
+// }
+
+// ::ng-deep .e-pivot-toolbar {
+//   min-height: 30px !important;
+//   height: 30px !important;
+// }
+
+
+// ::ng-deep .e-pivotchart-type-dialog {
+//   position: absolute !important;
+//   top: 50% !important;
+//   left: 50% !important;
+//   transform: translate(-50%, -50%) !important;
+//   overflow: auto !important;
+//   width: min(500px, 95%) !important;
+//   max-width: 95% !important;
+//   max-height: 90% !important;
+
+//   z-index: 2501 !important;
+// }
+
+// /* ✅ Ensure the parent panel/container has position: relative */
+// ::ng-deep .e-pivotview,
+// ::ng-deep .e-pivotchart {
+//   position: relative !important;
+// }
+
+// /* Limit dialog content height */
+// ::ng-deep .e-pivotchart-type-dialog .e-dlg-content {
+//   max-height: 300px !important;
+//   overflow-y: auto !important;
+//   padding: 10px !important;
+// }
+
+// ::ng-deep .e-pivotchart-type-dialog .e-dlg-header {
+//   font-size: 13px !important;
+//   padding: 6px 10px !important;
+//   min-height: unset !important;
+// }
+
+// /* ✅ Overlay should also be absolute to the panel */
+// ::ng-deep .e-dlg-overlay {
+//   position: absolute !important;
+//   background-color: rgba(0, 0, 0, 0.45) !important;
+//   backdrop-filter: blur(2px);
+//   z-index: 2500 !important;
+//   pointer-events: all !important;
+//   overflow: auto;
+// }
+
+// // .heightDiv.chart-view {
+// //   overflow: auto !important;
+// // }
+
+// // /* Ensure the pivot chart container doesn't exceed parent height */
+// // ::ng-deep .heightDiv.chart-view .e-pivotview {
+// //   height: 100% !important;
+// //   max-height: 100%;
+// // }
+
+// // /* Allow chart to grow beyond container to trigger scrollbars */
+// // ::ng-deep .heightDiv.chart-view .e-chart {
+// //   min-height: 100%;
+// //   height: auto !important;
+// // }
+
+// /* ============================================
+//    CHART TYPE DIALOG STYLING - Clean Version
+//    ============================================ */
+
+// /* Remove conflicting styles first */
+// ::ng-deep .e-pivotchart-type-dialog {
+//   position: absolute !important;
+//   top: 50% !important;
+//   left: 50% !important;
+//   transform: translate(-50%, -50%) !important;
+//   width: 90% !important;
+//   max-width: 600px !important;
+//   max-height: 70% !important;
+//   height: auto !important;
+//   z-index: 2501 !important;
+//   display: flex !important;
+//   flex-direction: column !important;
+//   background: white !important;
+//   border-radius: 4px !important;
+//   overflow: visible !important;
+//   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+// }
+
+// /* Dialog header - blue gradient background */
+// ::ng-deep .e-pivotchart-type-dialog .e-dlg-header-content {
+//  background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, 0.898) 109.98%);
+//   padding: 2px 16px !important;
+//   flex-shrink: 0 !important;
+//   border-radius: 4px 4px 0 0 !important;
+//   display: flex !important;
+//   align-items: center !important;
+//   justify-content: space-between !important;
+//   position: relative !important;
+// }
+
+// ::ng-deep .e-pivotchart-type-dialog .e-dlg-header {
+//   color: white !important;
+//   font-size: 18px !important;
+//   font-weight: 500 !important;
+//   font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+//   margin: 0 !important;
+//   flex: 1 !important;
+// }
+
+// /* Close button styling */
+// ::ng-deep .e-pivotchart-type-dialog .e-dlg-closeicon-btn {
+//   position: absolute !important;
+//   right: 15px;  
+//   left: unset !important;
+//   top: 50% !important;
+//   transform: translateY(-50%) !important;
+//   color: white !important;
+//   background: transparent !important;
+//   border: none !important;
+//   padding: 4px !important;
+//   margin: 0 !important;
+//   width: 28px !important;
+//   height: 28px !important;
+//   display: flex !important;
+//   align-items: center !important;
+//   justify-content: center !important;
+//   order : 2 !important;
+// }
+// .e-dialog .e-dlg-header-content .e-btn.e-dlg-closeicon-btn{
+//   left:270px !important
+
+// }
+// ::ng-deep .e-pivotchart-type-dialog .e-dlg-closeicon-btn:hover {
+//   background: rgba(255, 255, 255, 0.2) !important;
+//   border-radius: 4px !important;
+// }
+
+// /* Dialog content area */
+// ::ng-deep .e-pivotchart-type-dialog .e-dlg-content {
+//   padding: 7px 18px !important;
+//   background: white !important;
+//   overflow: visible !important;
+//   flex: 1 !important;
+// }
+
+// /* Chart Type dropdown container */
+// ::ng-deep .e-chart-type-option-container {
+//   margin-bottom: 8px !important;
+//   padding-bottom : 5px !important;
+// }
+
+// ::ng-deep .e-chart-type-option-text {
+//   display: none !important;
+//   font-size: 13px !important;
+//   font-weight: 500 !important;
+//   margin-bottom: 5px !important;
+//   color: #333 !important;
+//   font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+// }
+// /* Container to hold both checkboxes horizontally */
+// ::ng-deep .e-dialog-multiple-axis {
+//   display: inline-block !important;
+//   width: calc(50% - 20px) !important;
+//   margin-right: 10px !important;
+//   margin-bottom: 12px !important;
+//   padding: 2px 10px !important;
+//   border-radius: 4px !important;
+//   border: 1px solid #ddd !important;  // Changed from #ddd
+//   // background: #e0f7fa !important;  // Changed from white
+//   vertical-align: top !important;
+// }
+
+// ::ng-deep .e-dialog-show-legend {
+//   display: inline-block !important;
+//   width: calc(50% - 20px) !important;
+//   margin-left: 10px !important;
+//   margin-bottom: 12px !important;
+//   padding: 2px 10px !important;
+//   border-radius: 4px !important;
+//   border: 1px solid #ddd !important;
+//   // background: #e0f7fa !important;
+//   vertical-align: top !important;
+// }
+
+// /* Checkbox styling */
+// ::ng-deep .e-dialog-multiple-axis .e-checkbox,
+// ::ng-deep .e-dialog-show-legend .e-checkbox {
+//   margin-right: 8px !important;
+// }
+
+// ::ng-deep .e-dialog-multiple-axis .e-frame.e-check::after {
+//   color: white !important;
+// }
+
+// ::ng-deep .e-dialog-show-legend .e-frame.e-check::after {
+//   color: white !important;
+// }
+
+// /* Multiple Axis Mode container */
+// ::ng-deep .e-pivotview .e-pivotchart-type-dialog .e-multiple-axes-mode-container {
+//   clear: both !important;
+//   margin-top: 0px !important;
+//   margin-bottom: 12px !important;
+//   padding-top:7px;
+// }
+
+// ::ng-deep .e-multiple-axes-mode-text {
+//   font-size: 13px !important;
+//   font-weight: 500 !important;
+//   margin-bottom: 5px !important;
+//   color: #333 !important;
+//   font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+// }
+
+// /* Footer buttons - reversed order */
+// ::ng-deep .e-pivotchart-type-dialog .e-footer-content {
+//   display: flex !important;
+//   justify-content: flex-end !important;
+//   gap: 10px !important;
+//   padding: 10px 20px !important;
+//   background: white !important;
+//   border-top: 1px solid #eee !important;
+//   flex-shrink: 0 !important;
+// }
+
+// /* Cancel button - should appear first (left) */
+// ::ng-deep .e-pivotchart-type-dialog .e-cancel-btn {
+//   order: 1 !important;
+//   background: #f5f5f5 !important;
+//   color: #666 !important;
+//   border: 1px solid #ddd !important;
+//   padding: -1px 24px !important;
+//   font-size: 14px !important;
+//   font-weight: 500 !important;
+//   text-transform: uppercase !important;
+//   border-radius: 4px !important;
+//   font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+// }
+
+// ::ng-deep .e-pivotchart-type-dialog .e-cancel-btn:hover {
+//   background: #e0e0e0 !important;
+// }
+
+// /* OK button - should appear last (right) in pink/magenta */
+// ::ng-deep .e-pivotchart-type-dialog .e-ok-btn {
+//   order: 2 !important;
+//   background: #e91e63 !important;
+//   color: white !important;
+//   border: none !important;
+//   padding: 8px 32px !important;
+//   font-size: 14px !important;
+//   font-weight: 500 !important;
+//   text-transform: uppercase !important;
+//   border-radius: 4px !important;
+//   font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+// }
+
+// ::ng-deep .e-pivotchart-type-dialog .e-ok-btn:hover {
+//   background: #c2185b !important;
+// }
+
+// /* Dropdown styling */
+// ::ng-deep .e-pivotchart-type-dialog .e-input-group {
+//   border: 1px solid #ddd !important;
+//   border-radius: 4px !important;
+//   background: white !important;
+//   height: 36px !important;
+// }
+
+// ::ng-deep .e-pivotchart-type-dialog .e-input-group:focus-within {
+//   border-color: #1fb6e6 !important;
+// }
+
+// ::ng-deep .e-pivotchart-type-dialog .e-input {
+//   font-size: 13px !important;
+//   padding: 6px 12px !important;
+//   font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+// }
+
+// /* Disabled state for Multiple Axis Mode dropdown */
+// ::ng-deep .e-pivotchart-type-dialog .e-disabled {
+//   opacity: 0.6 !important;
+//   background: #f9f9f9 !important;
+// }
+
+// /* Overlay should also be absolute to stay within panel */
+// ::ng-deep .e-dlg-overlay {
+//   position: absolute !important;
+//   top: 0 !important;
+//   left: 0 !important;
+//   right: 0 !important;
+//   bottom: 0 !important;
+//   background-color: rgba(0, 0, 0, 0.45) !important;
+//   backdrop-filter: blur(2px);
+//   z-index: 2500 !important;
+//   pointer-events: all !important;
+// }
+
+// /* Ensure parent container has position relative */
+// ::ng-deep .e-pivotview,
+// ::ng-deep .e-pivotchart {
+//   position: relative !important;
+// }
+
+// /* ✅ Show scrollbar when dialog is open */
+// .heightDiv.chart-view {
+//   overflow: hidden !important; /* Default: hidden */
+// }
+
+// .heightDiv.chart-view:has(.e-pivotchart-type-dialog),
+// .heightDiv.chart-view:has(.e-dlg-overlay) {
+//   overflow: auto !important; /* Show scrollbar when dialog is present */
+// }
+
+// /* Ensure the pivot chart container doesn't exceed parent height */
+// ::ng-deep .heightDiv.chart-view .e-pivotview {
+//   height: 100% !important;
+//   max-height: 100%;
+// }
+
+// /* Allow chart to grow beyond container to trigger scrollbars */
+// ::ng-deep .heightDiv.chart-view .e-chart {
+//   min-height: 100%;
+//   height: auto !important;
+// }
+
+
+.gauge-parent {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  ejs-circulargauge {
+    flex: 1;
+    min-height: 0;
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+
+
+

@@ -1,0 +1,75 @@
+<div class="">
+    <div class="formDiv">
+        <form [formGroup]="permissionForm" (ngSubmit)="onFormSubmit()">
+            <div class="row">
+                <div class="col-md-5" style="padding-left:0px">
+                    <label for="roleName">Select Role</label>
+                    <ejs-dropdownlist [dataSource]='rolesArray' [allowFiltering]="true" formControlName="roleName"
+                        (change)="onSelectRole($event)" [popupHeight]="200" [fields]="rolefields"
+                        class="tableNameDropdown"></ejs-dropdownlist>
+                </div>
+                <div class="col-md-5" style="padding-left:0px">
+                    <label for="username">Select User</label>
+                    <ejs-dropdownlist [dataSource]='filteredUsersArray' [allowFiltering]="true"
+                        formControlName="username" [fields]="userFields" (change)="onSelectUser($event)"
+                        [popupHeight]="200" class="tableNameDropdown"></ejs-dropdownlist>
+                </div>
+            </div>
+            <br>
+            <div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                Dashboard Name
+                            </th>
+                            <th>
+                                Select All
+                            </th>
+                            <th>
+                                View
+                            </th>
+                            <th>
+                                Create
+                            </th>
+                            <th>
+                                Update
+                            </th>
+                            <th>
+                                Delete
+                            </th>
+                            <th>
+                                Download
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr formGroupName="permissions">
+                            <td>
+                                {{dashboard_Name}}
+                            </td>
+                            <td>
+                                <input type="checkbox" formControlName="allSelect" (change)="selectAll($event)">
+                            </td>
+                            <td>
+                                <input type="checkbox" formControlName="can_view" name="" id="">
+                            </td>
+                            <td>
+                                <input type="checkbox" formControlName="can_create" name="" id="">
+                            </td>
+                            <td>
+                                <input type="checkbox" formControlName="can_update" name="" id="">
+                            </td>
+                            <td>
+                                <input type="checkbox" formControlName="can_delete" name="" id="">
+                            </td>
+                            <td>
+                                <input type="checkbox" formControlName="can_download" name="" id="">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>

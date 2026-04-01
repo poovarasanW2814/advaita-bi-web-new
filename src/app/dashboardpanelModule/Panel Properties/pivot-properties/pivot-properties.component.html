@@ -1,0 +1,1135 @@
+<div class="control-section e-tab-section">
+    <div class="e-sample-resize-container">
+        <!-- Render the Tab Component -->
+        <ejs-tab id="tab_default" #tabComponent heightAdjustMode='Auto'>
+            <e-tabitems>
+                <e-tabitem [header]='headerText[0]'>
+                    <ng-template #content>
+                        <div class="gridForm">
+                            <form [formGroup]="generalForm" (ngSubmit)="onGeneralFormSubmit()">
+                                <div class="row">
+                                    <div class="col-md-4 form-group">
+                                        <label for="tableTilte" class="labelFeild">Table Title</label>
+                                        <input type="text" formControlName="header" class="form-control inputFeild">
+                                    </div>
+                                    <div class="col-md-4 form-group">
+                                        <label for="selectTableName" class="labelFeild">Table Name</label>
+                                        <!-- <select name="" id=""  formControlName="tableName" class="form-control selectInputFeild" (change)="onFirstDropdownChange($event)">
+                                            <option value="select">Select TableName</option>
+                                            <option [value]="name" *ngFor="let name of tableNamesArray; let i=index" >{{name}}</option>
+                                        </select> -->
+
+                                        <!-- <select name="" id="" class="form-control selectInputFeild"
+                                            formControlName="tableName" #tableNameDropdown
+                                            (click)="onTableDropdown(tableNameDropdown.value)">
+                                            <option [value]="name" *ngFor="let name of tableNamesArray; let i=index">
+                                                {{name}}</option>
+                                        </select> -->
+
+
+                                        <ejs-dropdownlist [dataSource]='tableNamesArray' [allowFiltering]="true"
+                                            formControlName="tableName" (change)="onTableDropdown(tableDropdown.value)"
+                                            #tableDropdown class="tableNameDropdown"></ejs-dropdownlist>
+
+                                    </div>
+
+
+                                    <div class="col-md-4 form-group">
+                                        <label for="" class="labelFeild">Grand Average Type</label>
+                                        <select name="" id="" class="form-control selectInputFeild"
+                                            formControlName="grandTotalAverageType">
+                                            <option value="">Select</option>
+                                            <option value="AverageWithZero">Average with visible data</option>
+                                            <option value="AverageWithoutZero">Average with exluding 0 </option>
+                                            <option value="AverageWithAllData">Average with all data</option>
+
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-4 form-group">
+                                        <label for="" class="labelFeild">Expand Column</label>
+
+                                        <ejs-switch [checked]="true" cssClass="bar-color"
+                                            formControlName="expandAll"></ejs-switch>
+                                    </div>
+
+                                    <div class="col-md-4 form-group">
+                                        <label for="" class="labelFeild">Show Total Average</label>
+
+                                        <ejs-switch [checked]="true" cssClass="bar-color"
+                                            formControlName="showGrandAvg"></ejs-switch>
+                                    </div>
+<!-- 
+                                    <div class="col-md-4 form-group">
+                                        <label for="" class="labelFeild">Show RowWise Average</label>
+
+                                        <ejs-switch [checked]="true" cssClass="bar-color"
+                                            formControlName="rowWiseAvg"></ejs-switch>
+                                    </div> -->
+
+
+                                    <div class="col-md-4 form-group">
+                                        <label for="" class="labelFeild">Show GrandTotals</label>
+
+                                        <ejs-switch [checked]="true" cssClass="bar-color"
+                                            formControlName="showGrandTotals"></ejs-switch>
+                                    </div>
+
+                                    <div class="col-md-4 form-group">
+                                        <label for="" class="labelFeild">Show RowWise GrandTotal</label>
+
+                                        <ejs-switch [checked]="true" cssClass="bar-color"
+                                            formControlName="showRowGrandTotals"></ejs-switch>
+                                    </div>
+                                    <div class="col-md-4 form-group">
+                                        <label for="" class="labelFeild">Show ColumnWise GrandTotal</label>
+
+                                        <ejs-switch [checked]="true" cssClass="bar-color"
+                                            formControlName="showColumnGrandTotals"></ejs-switch>
+                                    </div>
+
+                                    <div class="col-md-4 form-group">
+                                        <label for="" class="labelFeild">Enable Sorting</label>
+
+                                        <ejs-switch [checked]="true" cssClass="bar-color"
+                                            formControlName="enableSorting"></ejs-switch>
+                                    </div>
+                                     <div class="col-md-4 form-group">
+                                        <label for="" class="labelFeild">Enable Classic Layout</label>
+
+                                        <ejs-switch [checked]="true" cssClass="bar-color"
+                                            formControlName="enableClassicLayout"
+                                            (change)="onClassicLayoutToggle($event)"></ejs-switch>
+                                    </div>
+
+                                     <div class="col-md-4 form-group">
+                        <label for="defaultView" class="labelFeild">Display Option</label>
+                        <select name="" id="defaultView" class="form-control selectInputFeild"
+                            formControlName="defaultView" (change)="onDefaultViewChange($event)">
+                            <option value="table">Table</option>
+                            <option value="chart">Chart</option>
+                            <option value="both">Both</option>
+                        </select>
+                    </div>
+                    
+                        <div class="col-md-4 form-group" *ngIf="selectedDefaultView === 'chart'">
+                        <label for="chartType" class="labelFeild">Chart Type</label>
+                        <select name="" id="chartType" class="form-control selectInputFeild"
+                            formControlName="chartType">
+                            <option value="">Select Chart Type</option>
+                            <option value="Column">Column</option>
+                            <option value="Bar">Bar</option>
+                            <option value="Line">Line</option>
+                            <option value="Area">Area</option>
+                            <option value="Scatter">Scatter</option>
+                            <option value="Polar">Polar</option>
+                            <option value="StackingColumn">Stacking Column</option>
+                            <option value="StackingBar">Stacking Bar</option>
+                            <option value="StackingArea">Stacking Area</option>
+                            <option value="StackingLine">Stacking Line</option>
+                            <option value="StepLine">Step Line</option>
+                            <option value="StepArea">Step Area</option>
+                            <option value="Spline">Spline</option>
+                            <option value="SplineArea">Spline Area</option>
+                            <option value="StackingColumn100">Stacking Column 100%</option>
+                            <option value="StackingBar100">Stacking Bar 100%</option>
+                            <option value="StackingArea100">Stacking Area 100%</option>
+                            <option value="StackingLine100">Stacking Line 100%</option>
+                            <option value="Bubble">Bubble</option>
+                            <option value="Pareto">Pareto</option>
+                            <option value="Radar">Radar</option>
+                            <option value="Pie">Pie</option>
+                            <option value="Doughnut">Doughnut</option>
+                            <option value="Funnel">Funnel</option>
+                            <option value="Pyramid">Pyramid</option>
+                        </select>
+                    </div>
+
+                                    <!-- <div class="col-md-4 form-group">
+                                        <label for="" class="labelFeild">Enable HeaderPosition</label>
+
+                                        <ejs-switch [checked]="true" formControlName ="enableHeaderAlignment" cssClass="bar-color"
+                                            ></ejs-switch>
+                                    </div> -->
+
+                                    <!-- <div class="col-md-4 form-group">
+                                    
+
+                                      <label for="" class="labelFeild">Header Alignment</label>
+
+                                      <select name="" id="" formControlName="fieldHeaders"
+                                      class="form-control selectInputFeild">
+                                      <option value="">Select </option>
+                                      <option value="Left">Left</option>
+                                      <option value="Right">Right</option>
+                                      <option value="Center">Center</option>
+                                  </select>
+                                    </div> -->
+
+                                </div>
+                            </form>
+
+
+                        </div>
+
+                    </ng-template>
+                </e-tabitem>
+                <e-tabitem [header]='headerText[1]'>
+                    <ng-template #content>
+
+                        <form action="" [formGroup]="generalForm" (ngSubmit)="onGeneralFormSubmit()">
+                            <div class="row" formGroupName="dataSourceSettings">
+                                <div class="col-md-3 form-group">
+                                    <label for="tableName" class="labelFeild">Table Name</label>
+
+                                    <!-- <select name="" id="" formControlName="tableName"  class="form-control selectInputFeild" (change)="onFirstDropdownChange($event)">
+                                        <option value="">--Select--</option>
+                                        <option [value]="name" *ngFor="let name of tableNamesArray; let i=index" >{{name}}</option>
+                                    </select> -->
+
+                                    <!-- <select name="" id="" class="form-control selectInputFeild"
+                                        formControlName="tableName" #tableNameDropdown
+                                        (click)="onTableDropdown(tableNameDropdown.value)">
+                                        <option [value]="name" *ngFor="let name of tableNamesArray; let i=index">
+                                            {{name}}</option>
+                                    </select> -->
+
+                                    <ejs-dropdownlist [dataSource]='tableNamesArray' [allowFiltering]="true"
+                                        formControlName="tableName" (change)="onTableDropdown(tableDropdown.value)"
+                                        #tableDropdown class="tableNameDropdown"></ejs-dropdownlist>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="labelName" class="labelFeild"> Field Type</label>
+                                    <select name="" id="" formControlName="feildType"
+                                        (change)="onFieldTypeChange($event)" class="form-control selectInputFeild">
+                                        <option value="Column">Column</option>
+                                        <option value="Value">Value</option>
+                                        <option value="Row">Row</option>
+                                        <option value="format">Format</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="feildName" class="labelFeild">Field Name</label>
+                                    <!-- <select name="" id="" formControlName="name" (click)="onFieldDropdownChange($event)"
+                                        class="form-control selectInputFeild">
+                                        <option value="">--Select--</option>
+                                        <option [value]="name" *ngFor="let name of selectedTableFieldName; let i=index">
+                                            {{name}}</option>
+                                    </select> -->
+
+                                    <ejs-dropdownlist [dataSource]='selectedTableFieldName' [allowFiltering]="true"
+                                        formControlName="name" (change)="onFieldDropdownChange(fieldNameDropdown.value)"
+                                        #fieldNameDropdown class="tableNameDropdown"></ejs-dropdownlist>
+
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="labelName" class="labelFeild">Label Name</label>
+                                    <input type="text" formControlName="caption" [(ngModel)]="headerTextValue"
+                                        class="form-control inputFeild">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="formatType" class="labelFeild">Format Type</label>
+                                    <select name="" id="" (change)="onFormatTypeChange($event)"
+                                        formControlName="formatType" class="form-control selectInputFeild">
+                                        <option value="">--Select--</option>
+                                        <option value="CalculatedField">CalculatedField</option>
+                                        <!-- <option value="expression">Expression</option> -->
+
+
+                                        <option  value="string">String</option>
+                                        <option  value="date">Date</option>
+                                        <option  value="Number">Number</option>
+                                        <option  value="Currency">Currency
+                                        </option>
+                                        <option  value="Percentage">Percentage
+                                        </option>
+
+                                        <!-- <option *ngIf="selectedFieldType != 'format'" value="Sum">Sum</option>
+                                        <option *ngIf="selectedFieldType != 'format'" value="Avg">Average</option>
+                                        <option *ngIf="selectedFieldType != 'format'" value="Count">Count</option>
+                                        <option *ngIf="selectedFieldType != 'format'" value="DistinctCount">
+                                            DistinctCount</option>
+                                        <option *ngIf="selectedFieldType != 'format'" value="Min">Min</option>
+                                        <option *ngIf="selectedFieldType != 'format'" value="Max">Max</option>
+                                        <option *ngIf="selectedFieldType != 'format'" value="Median">Median</option>
+                                        <option *ngIf="selectedFieldType != 'format'" value="Index">Index</option>
+                                        <option *ngIf="selectedFieldType != 'format'" value="RunningTotals">
+                                            RunningTotals</option>
+                                        <option *ngIf="selectedFieldType != 'format'" value="PercentageOfGrandTotal">%
+                                            Of GrandTotal</option>
+                                        <option *ngIf="selectedFieldType != 'format'" value="PercentageOfColumnTotal">%
+                                            Of ColumnTotal</option>
+                                        <option *ngIf="selectedFieldType != 'format'" value="PercentageOfRowTotal">% Of
+                                            RowTotal</option>
+                                        <option *ngIf="selectedFieldType != 'format'" value="PercentageOfParentTotal">%
+                                            Of ParentTotal</option>
+                                        <option *ngIf="selectedFieldType != 'format'"
+                                            value="PercentageOfParentColumnTotal">% Of ParentColumnTotal</option>
+                                        <option *ngIf="selectedFieldType != 'format'"
+                                            value="PercentageOfParentRowTotal">% Of ParentRowTotal</option> -->
+
+
+                                    </select>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="format" class="labelFeild">Format</label>
+                                    <select name="" id="" formControlName="format"
+                                        class="form-control selectInputFeild">
+                                        <option value="">--Select--</option>
+
+                                        <option value="N0" *ngIf="selectedFormatType == 'Number'">Number (0 decimal)
+                                        </option>
+                                        <option value="N1" *ngIf="selectedFormatType == 'Number'">Number (1 decimal)
+                                        </option>
+                                        <option value="N2" *ngIf="selectedFormatType == 'Number'">Number (2 decimals)
+
+                                        <option value="#,##0" *ngIf="selectedFormatType == 'Number'">Number (with commas
+                                            for thousands)</option>
+
+                                        <option value="C0" *ngIf="selectedFormatType == 'Currency'">Currency (0 decimal)
+                                        </option>
+                                        <option value="C1" *ngIf="selectedFormatType == 'Currency'">Currency (1 decimal)
+                                        </option>
+                                        <option value="C2" *ngIf="selectedFormatType == 'Currency'">Currency (2
+                                            decimals)</option>
+                                        <option value="P0" *ngIf="selectedFormatType == 'Percentage'">Percentage (0
+                                            decimal)</option>
+                                        <option value="P1" *ngIf="selectedFormatType == 'Percentage'">Percentage (1
+                                            decimal)</option>
+                                        <option value="P2" *ngIf="selectedFormatType == 'Percentage'">Percentage (2
+                                            decimals)</option>
+                                        <option value="###0 '%'" *ngIf="selectedFormatType == 'Percentage'">Percent (0
+                                            decimal, e.g., 12%)</option>
+                                        <option value="###0.0 '%'" *ngIf="selectedFormatType == 'Percentage'">Percent (1
+                                            decimal, e.g., 12.3%)</option>
+                                        <option value="###0.00 '%'" *ngIf="selectedFormatType == 'Percentage'">Percent
+                                            (2 decimals, e.g., 12.34%)</option>
+                                        <option value="###0.000 '%'" *ngIf="selectedFormatType == 'Percentage'">Percent
+                                            (3 decimals, e.g., 12.345%)</option>
+
+                                        <option value="MMMM" *ngIf="selectedFormatType == 'date'">Month</option>
+                                        <option value="yyyy" *ngIf="selectedFormatType == 'date'">Year</option>
+                                        <!-- <option value="HH:mm:ss" *ngIf="selectedFormatType == 'date'">HH:MM:SS</option> -->
+
+
+                                        <option value="yyyy-MMM" *ngIf="selectedFormatType == 'date'">Year-Month
+                                        </option>
+                                        <option value="MMM-yyyy" *ngIf="selectedFormatType == 'date'">Month-Year
+                                        </option>
+                                        <option value="yyyy-MM-dd" *ngIf="selectedFormatType == 'date'">Year-Month-Date
+                                        </option>
+                                        <option value="MM-yyyy-dd" *ngIf="selectedFormatType == 'date'">Month-Year-Date
+                                        </option>
+                                        <option value="dd/MM/yyyy" *ngIf="selectedFormatType == 'date'">Date/Month/Year
+                                        </option>
+                                        <option value="yyyy-MMM-dd" *ngIf="selectedFormatType == 'date'">YYYY-mmm-dd
+                                        </option>
+                                        <option value="dd/MM/yyyy hh:mm" *ngIf="selectedFormatType == 'date'">
+                                            Date/Month/Year hh:mm</option>
+
+                                    </select>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="valueFormat" class="labelFeild">Show (%)</label>
+                                    <!-- <select name="" id="" formControlName="valueFormat" class="form-control selectInputFeild">
+                                        <option value="$">$</option>
+                                        <option value="%">%</option>
+                                    </select> -->
+
+
+                                    <ejs-switch [checked]="false" style="display: block;"
+                                        formControlName="valueFormat"></ejs-switch>
+                                </div>
+
+                                <div class="col-md-3 form-group">
+                                    <label for="valueFormat" class="labelFeild">Sorting Order</label>
+                                    <select name="" id="" formControlName="order" class="form-control selectInputFeild">
+                                        <option value="">Select</option>
+                                        <option value="Ascending">Ascending </option>
+                                        <option value="Descending">Descending</option>
+                                    </select>
+
+
+                                </div>
+                                
+
+                                <div class="col-md-3 form-group">
+                                    <label for="valueFormat" class="labelFeild">Select Sorting Type</label>
+                                    <select name="" id="" formControlName="dataType" class="form-control selectInputFeild">
+                                        <option value="">Select</option>
+                                       <option value="string">Alphabetical</option>
+                                       <option value="number">Alphanumeric</option>
+                                    </select>
+
+                                </div>
+
+
+
+                                <div class="col-md-12 form-group" *ngIf="selectedFieldType === 'Value'">
+
+                                    <label for="labelName" class="labelFeild"> Expression</label>
+                              
+                                      <select
+    *ngIf="!showCustomExpressionBox"
+    class="form-control selectInputFeild"
+    formControlName="expression"
+    (change)="onExpressionDropdownChange($event)">
+    <option value="">--Select--</option>
+    <option *ngFor="let opt of valueFieldFormatOptions" [value]="opt">{{opt}}</option>
+  </select>
+
+    <textarea
+    *ngIf="showCustomExpressionBox"
+    name="expression"
+    id="expression"
+    class="form-control inputFeild"
+    formControlName="expression"
+    rows="1"
+    cols="1"
+    placeholder="e.g., Sum(Field1) + Sum(Field2)">
+  </textarea>
+
+
+                                    <!-- <textarea name="expression" id="expression" class="form-control inputFeild"
+                                        formControlName="expression" rows="1" cols="1"
+                                        [placeholder]="selectedFormatType === 'CalculatedField' ? 'e.g., Sum(Field1) + Sum(Field2)' : ''">
+                                    </textarea> -->
+
+
+
+
+                                </div>
+
+                                <div class="col-md-12" style="text-align:right; margin:5px 0px">
+
+                                    <button class="e-btn e-btn-purple" *ngIf="showAddButton" (click)="onAddColumn()"
+                                        type="button">
+                                        Add
+                                    </button>
+                                    <button class="e-btn e-btn-purple" (click)="onUpdateObj()" *ngIf="showUpdateButton"
+                                        type="button">
+                                        update
+                                    </button>
+                                </div>
+
+                            </div>
+                            <div class="" style="max-height: 200px; overflow-y: auto;">
+                                <!-- <div class="tableTitle">
+                                    <p>
+                                        Field Details
+                                    </p>
+                                </div> -->
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr No</th>
+                                            <th>Table Name</th>
+                                            <th>Field Name</th>
+                                            <th>Label Name</th>
+                                            <th>Field Type</th>
+                                            <th>Format</th>
+                                            <th>Format Type</th>
+
+                                            <th>Expression</th>
+                                            <th>Value Format</th>
+
+                                             <th> Sorting Order</th>
+                                             <th> Sorting DataType</th>
+
+                                             
+                                          <!--  <th>Value</th>
+                                            <th>Background Color</th>
+                                            <th> Color</th> -->
+                                            <th>Action</th>
+                                        </tr>
+
+
+
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of fieldDetailsArray; let i = index">
+                                            <td>
+                                                {{i + 1}}
+                                            </td>
+                                            <td>
+                                                {{item.tableName}}
+                                            </td>
+                                            <td>
+                                                {{item.name}}
+                                            </td>
+                                            <td>
+                                                {{item.caption}}
+                                            </td>
+
+                                            <td>
+                                                {{item.feildType}}
+                                            </td>
+                                            <td>
+                                                {{item.format}}
+                                            </td>
+                                            <td>
+                                                {{item.formatType}}
+                                            </td>
+                                            <td>
+                                                {{item.expression}}
+                                            </td>
+
+                                            <td>
+                                                {{item.valueFormat}}
+                                            </td>
+                                            <td>
+                                                {{item.order}}
+                                           </td>
+
+                                           <td>
+                                                {{item.dataType}}
+                                           </td>
+                                           
+                                           <!--   <td>
+                                                {{item.backgroundColor}}
+                                            </td>
+                                            <td>
+                                                {{item.color}}
+                                            </td> -->
+                                            <td>
+                                                <i class="fas fa-trash-alt" (click)="onDeleteColumn(i)"></i>
+                                                <i class="fas fa-edit" style="margin-left:5px"
+                                                    (click)="onEditColumn(item, i)"></i>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- <div  class="col-md-12" style="text-align: right;">
+                                <button class="btn .e-btn-purple" >
+                                    Submit
+                                </button>
+                                
+                            </div> -->
+                        </form>
+
+
+                    </ng-template>
+                </e-tabitem>
+                <e-tabitem [header]='headerText[2]'>
+                    <ng-template #content>
+
+
+                        <div id="ChartCondition" class="tab-pane active">
+                            <div class="" id="modalBody" style="margin-right:1px;">
+                                <form action="" [formGroup]="generalForm">
+                                    <div class="row border">
+                                        <div class="col-md-4 form-group">
+                                            <label for="" class="orderBy labelFeild">Order By</label>
+
+                                            <ejs-multiselect formControlName="orderBy"
+                                                [dataSource]="selectedTableFieldName" class="multiSelectField"
+                                                mode="CheckBox"></ejs-multiselect>
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <label for="" class="orderByType labelFeild">Order By Type</label>
+                                            <select name="" id="" formControlName="orderByType"
+                                                class="form-control selectInputFeild">
+                                                <option value="">Select </option>
+                                                <option value="ASC">ASC</option>
+                                                <option value="DESC">DESC</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <label for="" class="groupy labelFeild">Group By</label>
+
+                                            <ejs-multiselect class="multiSelectField" formControlName="groupBy"
+                                                [dataSource]="selectedTableFieldName" mode="CheckBox"></ejs-multiselect>
+                                        </div>
+                                    </div>
+                                    <div class=" row border">
+                                        <div class="col-md-9  border" style="padding-right:5px ;">
+                                            <fieldset>
+                                                <legend>Template conditions:
+
+                                                </legend>
+                                                <div class="row">
+                                                    <div class="cleardiv  pull-right">
+                                                        <button type="button" (click)="onClearConditions()"
+                                                            class="e-btn e-btn-purple"
+                                                            id="chartbtnCleardimCondition">Clear</button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="">
+                                                    <textarea name="conditions" cols="40" rows="6" class="form-control"
+                                                        id="pop_chart_condition" formControlName="condition"
+                                                        [(ngModel)]="conditionValue"
+                                                        (click)="updateCursorPositionCondition($event)"
+                                                        (input)="updateCursorPositionCondition($event)"></textarea>
+                                                </div>
+                                                <div class="actionbuttons">
+
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addText($event)" value="+">+</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addText($event)" value="-">-</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addText($event)" value="*">*</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addText($event)" value="/">/</button>
+
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addText($event)" value="==">==</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addText($event)" value="<">&lt;</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addText($event)" value="<=">&lt;=</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addText($event)" value="!=">!=</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addText($event)" value=">=">&gt;=</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addText($event)" value=">">&gt;</button>
+
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addText($event)" value="and">and</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addText($event)" value="or">or</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addText($event)" value="not">not</button>
+
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addText($event)" value="(">(</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addText($event)" value=")">)</button>
+                                                </div>
+
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-md-3 border" style="padding-left:0px">
+                                            <fieldset>
+                                                <legend>Select Table: </legend>
+
+                                                <input type="text" class="form-control tableInputTitle"
+                                                    formControlName="tableName">
+                                                <div class="tabldiv">
+                                                    <div class="headerstylepopup">
+                                                        <h6 class="popuph5style">Selected Table Field Names</h6>
+                                                    </div>
+                                                    <div class="Tablelist" style="height:112px">
+                                                        <ul class="list-group">
+                                                            <li class="list-group-items"
+                                                                (click)="addToConditionTextarea(name)"
+                                                                *ngFor="let name of selectedTableFieldName">
+                                                                {{name}}
+                                                            </li>
+                                                        </ul>
+
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </ng-template>
+                </e-tabitem>
+                <e-tabitem [header]='headerText[3]'>
+                    <ng-template #content>
+
+                        <!-- <app-chart-condition></app-chart-condition> -->
+
+                        <div id="Chartexpression" class="tab-pane active">
+                            <div id="modalBody" style="margin-right:1px">
+                                <form action="" [formGroup]="generalForm">
+                                    <div class="row border">
+                                        <div class="col-md-9 border">
+                                            <fieldset>
+                                                <legend>Raw Query:</legend>
+                                                <div class="row">
+                                                    <div class="cleardiv  pull-right">
+
+                                                                                         
+                                  <button type="button" (click)="onCopyRawQuery()"
+                                                        class="e-btn e-btn-purple" 
+                                                        id="chartbtnCopyRawQuery">Copy</button>
+                                                    &nbsp;
+                                                    <span *ngIf="copyMessage" style="position:absolute; top:10px; left:50%; transform:translateX(-50%);
+             background:#323232; color:#fff; padding:6px 12px;
+             border-radius:6px; font-size:13px;">
+                                                        {{ copyMessage }}
+                                                    </span>
+
+
+                                                    
+                                                        <button type="button" (click)="onClearRawQuery()"
+                                                            class="e-btn e-btn-purple">Clear</button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="">
+                                                    <textarea name="conditions" cols="40" rows="8" class="form-control"
+                                                        id="pop_chart_expression" formControlName="rawQuery"
+                                                        [(ngModel)]="rawQueryValue"
+                                                        (click)="updateCursorPosition($event)"
+                                                        (input)="updateCursorPosition($event)">
+                                                       </textarea>
+                                                </div>
+                                                <div class="actionbuttons">
+
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addRawQueryText($event)" value="+">+</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addRawQueryText($event)" value="-">-</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addRawQueryText($event)" value="*">*</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addRawQueryText($event)" value="/">/</button>
+
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addRawQueryText($event)" value="==">==</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addRawQueryText($event)" value="<">&lt;</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addRawQueryText($event)" value="<=">&lt;=</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addRawQueryText($event)" value="!=">!=</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addRawQueryText($event)" value=">=">&gt;=</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addRawQueryText($event)" value=">">&gt;</button>
+
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addRawQueryText($event)" value="and">and</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addRawQueryText($event)" value="or">or</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addRawQueryText($event)" value="not">not</button>
+
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addRawQueryText($event)" value="(">(</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addRawQueryText($event)" value=")">)</button>
+                                                    <button type="button" class="e-btn e-btn-purple oper"
+                                                        (click)="addRawQueryText($event)"
+                                                        value="{apply_filters}">Apply_Filters</button>
+
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-md-3 border" style="padding-left:0px">
+                                            <fieldset>
+                                                <legend>Select Table: </legend>
+
+                                                <input type="text" class="form-control tableInputTitle"
+                                                    formControlName="tableName">
+                                                <div class="tabldiv">
+                                                    <div class="headerstylepopup">
+                                                        <h6 class="popuph5style">Selected Table Field Names</h6>
+                                                    </div>
+                                                    <div class="Tablelist" style="height:145px">
+                                                        <ul class="list-group">
+                                                            <li class="list-group-items" (click)="addToTextarea(name)"
+                                                                *ngFor="let name of selectedTableFieldName">
+                                                                {{name}}
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </ng-template>
+                </e-tabitem>
+                <e-tabitem [header]='headerText[4]'>
+                    <ng-template #content>
+                        <form action="" [formGroup]="generalForm">
+                            <div formGroupName="formattingCondition">
+                                <div class="row">
+
+                                    <div class="col-md-3 form-group">
+                                        <label for="fieldName" class="labelFeild">Value Field Name</label>
+                                        <!-- <ejs-dropdownlist id='ddlelement' [dataSource]='valuesArray'></ejs-dropdownlist> -->
+                                        <!-- <select name="" id="" formControlName="measureField" class="form-control selectInputFeild">
+                                           <option value="">Select </option>
+                                           <option [value]="item.name" *ngFor="let item of valuesArray">{{item.name}}</option>
+                                       </select> -->
+
+                                        <!-- <select name="" id="" formControlName="measureField"
+                                            class="form-control selectInputFeild">
+                                            <option value="">--Select--</option>
+                                            <option [value]="name"
+                                                *ngFor="let name of selectedTableFieldName; let i=index">
+                                                {{name}}</option>
+                                        </select> -->
+
+                                        <ejs-dropdownlist [dataSource]='selectedTableFieldName' [allowFiltering]="true"
+                                            formControlName="measureField" #fieldNameDropdown
+                                            class="tableNameDropdown"></ejs-dropdownlist>
+                                    </div>
+
+
+                                    <div class="col-md-3 form-group">
+                                        <label for="fieldName" class="labelFeild">Condition</label>
+
+                                        <select name="" id="" class="form-control selectInputFeild"
+                                            formControlName="conditionFormat"
+                                            (change)="onSelectCondtionFormatValue($event)">
+                                            <option value="">Select</option>
+                                            <option value="LessThan">LessThan</option>
+                                            <option value="Between">Between</option>
+                                            <option value="LessThanOrEqualTo">Less Than Or EqualTo</option>
+                                            <option value="GreaterThan">Greater Than</option>
+                                            <option value="GreaterThanOrEqualTo">Greater Than Or EqualTo</option>
+                                            <option value="Equals">Equals</option>
+                                            <option value="NotEquals">NotEquals</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <label for="fieldName" class="labelFeild">Enter Start Value</label>
+                                        <input type="number" formControlName="value1" class="form-control inputFeild">
+                                    </div>
+
+
+
+                                    <div class="col-md-3 form-group" *ngIf="selectedConditionType === 'Between'">
+                                        <label for="fieldName" class="labelFeild">Enter End Value</label>
+                                        <input type="number" formControlName="value2" class="form-control inputFeild">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 form-group">
+                                        <label for="fieldName" class="labelFeild">Enter Reference Value</label>
+
+                                        <select name="" id="" formControlName="value3"
+                                            class="form-control selectInputFeild">
+                                            <option value="">Select</option>
+                                            <option value="grandTotal">Grand Total</option>
+                                            <option value="grandAverage">Grand Average Total</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- <div class="col-md-3 form-group">
+                                        <label for="fieldName">Reference Field Name</label>
+                                    
+                                        <select name="" id=""  formControlName="referenceFieldName"
+                                        class="form-control selectInputFeild">
+                                             <option value="">--Select--</option>
+                                             <option [value]="name" *ngFor="let name of selectedTableFieldName; let i=index">
+                                                 {{name}}</option>
+                                         </select>
+                                     </div> -->
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="fontSize" class="labelFeild">Font Size</label>
+                                        <input type="text" formControlName="fontSize" class="form-control inputFeild">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="fontSize" class="labelFeild" style="display: block;">Font
+                                            Color</label>
+                                        <input ejs-colorpicker formControlName="Fontcolor" type="color"
+                                            class="form-control">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="fontSize" class="labelFeild" style="display: block;">Background
+                                            Color</label>
+                                        <input ejs-colorpicker formControlName="BackgroundColor" type="color"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div style="text-align: right; margin-bottom:10px">
+                                    <button ejs-button type="button" *ngIf="showConditionAddBtn"
+                                        (click)="onAddConditionFormat()" class="e-btn e-btn-purple ">
+                                        Add
+                                    </button>
+                                    <button ejs-button type="button" *ngIf="updateConditonBtn"
+                                        (click)="onUpdateConditonObj()" class="e-btn e-btn-purple ">
+                                        Update
+                                    </button>
+                                </div>
+                            </div>
+
+
+
+                        </form>
+
+                        <div style="max-height: 200px; overflow-y: auto;">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Sr No
+                                        </th>
+                                        <th>Field Name</th>
+                                        <th>Condition</th>
+                                        <th>Start Value</th>
+                                        <th *ngIf="selectedConditionType === 'Between'">End Value</th>
+                                        <th>Expression</th>
+                                        <!--  <th >Reference Field</th> -->
+
+                                        <th>Background Color</th>
+                                        <th>Font Color</th>
+                                        <th>Font Size</th>
+                                        <th>Font Family</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of conditionalFormatSettingsArray; let i=index">
+                                        <td>{{ i + 1}}</td>
+                                        <td>{{item.measure}}</td>
+                                        <td>{{item.conditions}}</td>
+
+                                        <td>{{item.value1}}</td>
+                                        <td *ngIf="selectedConditionType === 'Between'">{{item.value2}}</td>
+                                        <td>{{item.value3}}</td>
+                                        <!--   <td >{{item.referenceFieldName}}</td> -->
+
+
+                                        <td>{{item.style.backgroundColor}}</td>
+                                        <td>{{item.style.color}}</td>
+                                        <td>{{item.style.fontSize}}</td>
+                                        <td>{{item.style.fontFamily}}</td>
+                                        <td style="cursor:pointer">
+                                            <i class="fas fa-trash-alt" (click)="onDeleteConditionObj(i)"></i>
+                                            <i class="fas fa-edit" style="margin-left:5px"
+                                                (click)="onEditConditionObj(item, i)"></i>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </ng-template>
+                </e-tabitem>
+                <e-tabitem [header]='headerText[5]'>
+    <ng-template #content>
+        <div class="gridForm">
+            <form action="" [formGroup]="generalForm">
+                <div formGroupName="headerConditonalFormatting">
+                    <div class="row">
+                      
+                        <div class="form-group col-md-4">
+                            <label class="labelFeild">Field Name</label>
+
+                            <ng-container *ngIf="showAddHeaderConditionBtn">
+                                <ejs-multiselect 
+                                    [dataSource]='selectedTableFieldName'  
+                                    showSelectAll='true'
+                                    #headerFieldNameDropdown 
+                                    mode="CheckBox"
+                                    [popupHeight]='"250px"'
+                                    formControlName="fieldName" 
+                                    [popupWidth]="'280px'" 
+                                    popupHeight='200px'>
+                                </ejs-multiselect>
+                            </ng-container>
+
+                            <ng-container *ngIf="showUpdateHeaderConditionBtn">
+                                <input 
+                                    type="text" 
+                                    formControlName="fieldName" 
+                                    class="form-control inputFeild"
+                                >
+                            </ng-container>
+                        </div>
+                      
+                        <div class="form-group col-md-4">
+                            <label class="labelFeild" style="display: block;">Background Color</label>
+                            <input 
+                                type="color" 
+                                formControlName="backgroundColor" 
+                                ejs-colorpicker 
+                                id='color-picker-header-bg' 
+                                #colorpickerHeaderBg>
+                        </div>
+                      
+                        <div class="form-group col-md-4">
+                            <label class="labelFeild" style="display: block;">Text Color</label>
+                            <input 
+                                type="color" 
+                                formControlName="color" 
+                                ejs-colorpicker 
+                                id='color-picker-header-text' 
+                                #colorpickerHeaderText>
+                        </div>
+                    </div>
+                      
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label class="labelFeild">Font Size</label>
+                            <input 
+                                type="number" 
+                                formControlName="fontSize" 
+                                class="form-control inputFeild">
+                        </div>
+                      
+                        <div class="form-group col-md-4">
+                            <label class="labelFeild">Font Style</label>
+                            <select formControlName="fontStyle" class="form-control selectInputFeild">
+                                <option value="">Select</option>
+                                <option value="normal">Normal</option>
+                                <option value="italic">Italic</option>
+                                <option value="bold">Bold</option>
+                            </select>
+                        </div>
+                      
+                        <div class="form-group col-md-4">
+                            <label class="labelFeild">Font Weight</label>
+                            <select formControlName="fontWeight" class="form-control selectInputFeild">
+                                <option value="">Select</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400 (Normal)</option>
+                                <option value="500">500</option>
+                                <option value="600">600</option>
+                                <option value="700">700 (Bold)</option>
+                                <option value="800">800</option>
+                                <option value="900">900</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="text-align: right; margin-bottom:10px">
+                        <button 
+                            ejs-button 
+                            type="button" 
+                            *ngIf="showAddHeaderConditionBtn"
+                            (click)="addHeaderConditionFormatting()" 
+                            class="e-btn e-btn-purple">
+                            Add
+                        </button>
+                        <button 
+                            ejs-button 
+                            type="button" 
+                            *ngIf="showUpdateHeaderConditionBtn"
+                            (click)="onUpdateHeaderConditonalFormatting()" 
+                            class="e-btn e-btn-purple">
+                            Update
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <div style="margin:20px 0 5px">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Field Name</th>
+                            <th>Background</th>
+                            <th>Text Color</th>
+                            <th>Font Size</th>
+                            <th>Font Style</th>
+                            <th>Font Weight</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let field of headerFeildDetailsArray; let i = index">
+                            <td>{{ field.fieldName }}</td>
+                            <td>{{ field.backgroundColor }}</td>
+                            <td>{{ field.color }}</td>
+                            <td>{{ field.fontSize }}</td>
+                            <td>{{ field.fontStyle }}</td>
+                            <td>{{ field.fontWeight }}</td>
+                            <td style="cursor: pointer;">
+                                <i class="fas fa-trash-alt" (click)="onDeleteHeaderFormat(i)"></i>
+                                <i class="fas fa-edit" style="margin-left:5px"
+                                    (click)="onEditHeaderFormat(i, field)"></i>
+                            </td>
+                        </tr>
+                        <tr *ngIf="headerFeildDetailsArray.length === 0">
+                            <td colspan="7" style="text-align: center; color: #999;">
+                                No header formatting rules added yet
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </ng-template>
+                </e-tabitem>
+                 <e-tabitem [header]="headerText[6]">
+                     <ng-template #content>
+                        <form action="" [formGroup]="generalForm">
+                            <div class="row">
+                                <div class="col-md-3 form-group">
+                                    <div>
+                                        <label for="enableScrollbar" class="labelFeild">Add scrollbar </label>
+                                        <ejs-switch  id="enableScrollbar" cssClass="bar-color" formControlName="enableScrollbar"></ejs-switch>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="enableZoom" class="labelFeild">Enable Zoom</label>
+                                    <ejs-switch 
+                                        id="enableZoom" 
+                                        cssClass="bar-color"
+                                        formControlName="enableZoom">
+                                    </ejs-switch>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                <label for="scrollbarPercentage" class="labelFeild">Scrollbar Percentage</label>
+                                <select class="form-control selectInputFeild" formControlName="scrollbarPercentage">
+                                    <option value="0.01">1%</option>
+                                    <option value="0.02">2%</option>
+                                    <option value="0.03">3%</option>
+                                    <option value="0.04">4%</option>
+                                    <option value="0.05">5%</option>
+                                    <option value="0.06">6%</option>
+                                    <option value="0.07">7%</option>
+                                    <option value="0.08">8%</option>
+                                    <option value="0.09">9%</option>
+                                    <option value="0.1">10%</option>
+                                    <option value="0.2">20%</option>
+                                    <option value="0.3">30%</option>
+                                    <option value="0.4">40%</option>
+                                    <option value="0.5">50%</option>
+                                    <option value="0.6">60%</option>
+                                    <option value="0.7">70%</option>
+                                    <option value="0.8">80%</option>
+                                    <option value="0.9">90%</option>
+                                    <option value="1">100%</option>
+                                </select>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                <label for="hideXAxisTitle" class="labelFeild">Hide X-Axis Title</label>
+                                <ejs-switch 
+                                    id="hideXAxisTitle" 
+                                    cssClass="bar-color"
+                                    formControlName="hideXAxisTitle">
+                                </ejs-switch>
+                                </div>
+                            </div>
+                           <div class="row">
+                            <div class="col-md-3 form-group">
+                                <label for="hideYAxisTitle" class="labelFeild">Hide Y-Axis Title</label>
+                                <ejs-switch 
+                                    id="hideYAxisTitle" 
+                                    cssClass="bar-color"
+                                    formControlName="hideYAxisTitle">
+                                </ejs-switch>
+                            </div>
+                             <div class="col-md-3 form-group">
+                                    <label for="xAxisTitleFontSize" class="labelFeild">X-Axis Title Font Size</label>
+                                    <input type="number" id="xAxisTitleFontSize" class="form-control inputFeild" formControlName="xAxisTitleFontSize">
+                            </div>
+                            <div class="col-md-3 form-group">
+                                    <label for="yAxisTitleFontSize" class="labelFeild">Y-Axis Title Font Size</label>
+                                    <input type="number" id="yAxisTitleFontSize" class="form-control inputFeild" formControlName="yAxisTitleFontSize">
+                            </div>
+                            </div>
+                           
+                        </form>
+                     </ng-template>
+                </e-tabitem>
+
+            </e-tabitems>
+        </ejs-tab>
+    </div>
+</div>

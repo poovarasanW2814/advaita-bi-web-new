@@ -1,0 +1,337 @@
+<!-- form.component.html -->
+<div class="form-container">
+  <div class="control-section e-tab-section">
+    <div class="e-sample-resize-container">
+      <ejs-tab id="tab_default" #tabComponent heightAdjustMode='Auto'>
+        <e-tabitems>
+          <e-tabitem [header]='headerText[0]' tabIndex='0'>
+            <ng-template #content>
+              <div>
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                  <div class="row">
+
+                    <div class="col-md-4 form-group">
+                      <label for="tableName">Table Name</label>
+                      <!-- <input type="text" id="tableName" class="form-control" formControlName="tableName" /> -->
+                      <ejs-dropdownlist [dataSource]='tableNamesArray' [allowFiltering]="true"
+                        formControlName="tableName" (change)="onTableDropdown(tableDropdown.value)" #tableDropdown
+                        class="tableNameDropdown"></ejs-dropdownlist>
+
+
+                      <div *ngIf="form.get('tableName')?.invalid && form.get('tableName')?.touched"
+                        class="error-message">
+                        Table Name is required.
+                      </div>
+
+                    </div>
+                    <div class="col-md-4 form-group">
+                      <label for="labelName">Label Name</label>
+                      <input type="text" id="labelName" class="form-control" formControlName="labelName" />
+                      
+                    </div>
+
+
+
+                    <div class="col-md-4 form-group">
+                      <label for="textSize">Label Fontsize</label>
+                      <input type="number" id="textSize " class="form-control" formControlName="textSize" />
+                    </div>
+
+             
+
+                 
+
+
+                  </div>
+
+                  <div class="row">
+
+                
+
+                    <div class="col-md-4 form-group">
+                      <label for="backgroundColor" style="margin-right:10px">Background Color :</label>
+                      <!-- <input type="color" id="backgroundColor" class="form-control" formControlName="backgroundColor" /> -->
+                      <input ejs-colorpicker type="color" formControlName="backgroundColor" id="colorpicker" />
+                    </div>
+
+
+
+                    <div class="col-md-4 form-group">
+                      <label for="textColor" style="margin-right:10px">Text Color : </label>
+                      <input type="color" ejs-colorpicker id="textColor" class="form-control"
+                        formControlName="textColor" />
+                    </div>
+
+                    <div class="col-md-4 form-group">
+
+                    </div>
+
+                    <!-- <div class="col-md-12">
+                      <label for="lastDataRefreshQuery"> Last DataRefresh Query</label>
+                      <textarea formControlName="lastDataRefreshQuery" name="" cols="40" rows="3" class="form-control textarea" id="" ></textarea>
+                  
+                    </div>-->
+
+
+                  </div>
+
+                </form>
+              </div>
+
+
+            </ng-template>
+          </e-tabitem>
+          <e-tabitem [header]='headerText[1]' tabIndex='0'>
+            <ng-template #content>
+              <div >
+                <div id="ChartCondition" class="tab-pane active">
+                  <div class="col-md-12" id="modalBody" style="margin-right:1px;margin-top: 5px">
+                    <form action="" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+                      <!-- <input type="hidden" name="" value=""> -->
+                      <div class="row" >
+                        <div class="col-md-9 border">
+                          <fieldset>
+                            <legend>Raw Query:
+
+                            </legend>
+                            <div class="cleardiv  pull-right">
+
+                                                              <button type="button" (click)="onCopyRawQuery()"
+                                                        class="e-btn e-btn-purple" 
+                                                        id="chartbtnCopyRawQuery">Copy</button>
+                                                    &nbsp;
+                                                    <span *ngIf="copyMessage" style="position:absolute; top:10px; left:50%; transform:translateX(-50%);
+             background:#323232; color:#fff; padding:6px 12px;
+             border-radius:6px; font-size:13px;">
+                                                        {{ copyMessage }}
+                                                    </span>
+
+                                                    
+                              <button type="button" class="e-btn e-btn-purple" style="margin-bottom:5px"
+                                (click)="onClearRawQuery()">Clear</button>
+                            </div>
+
+                            <div class="">
+
+                              <textarea name="conditions" cols="40" rows="9" class="form-control textarea"
+                                id="pop_chart_expression" formControlName="rawQuery" [(ngModel)]="rawQueryValue"   (click)="updateCursorPosition($event)"
+                                (input)="updateCursorPosition($event)">
+                                                      </textarea>
+                              
+                                                      <!-- <textarea name="conditions" cols="40" rows="6" class="form-control textarea"
+                                                      id="pop_chart_expression" formControlName="rawQuery"
+                                                      [(ngModel)]="rawQueryValue"
+                                                      (click)="updateCursorPosition($event)"
+                                                      (input)="updateCursorPosition($event)">
+                                                                                                    
+                                                     </textarea>                              -->
+          
+
+                              <div *ngIf="form.get('rawQuery')?.invalid && form.get('rawQuery')?.touched"
+                                class="error-message">
+                                Raw Query is required.
+                              </div>
+
+                              
+                            </div>
+                            <div class="actionbuttons">
+
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)"
+                                value="+">+</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)"
+                                value="-">-</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)"
+                                value="*">*</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)"
+                                value="/">/</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)"
+                                value="==">==</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)"
+                                value="<">&lt;</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)"
+                                value="<=">&lt;=</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)"
+                                value="!=">!=</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)"
+                                value=">=">&gt;=</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)"
+                                value=">">&gt;</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)"
+                                value="and">and</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)"
+                                value="or">or</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)"
+                                value="not">not</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)"
+                                value="(">(</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)"
+                                value=")">)</button>
+                               <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)"
+                                value="{apply_filters}">Apply_Filters</button>
+                            </div>
+
+
+                          </fieldset>
+                        </div>
+
+                        <!-- <div style="width:1%"></div> -->
+                        <!-- 
+                        <div style="border: 1px solid lightgrey;
+                          padding: 10px 10px; width:30%"> -->
+
+
+                        <div class="col-md-3 border">
+
+
+                          <fieldset>
+                            <legend>Selected Table:
+                            </legend>
+                            <input type="text" class="form-control tableInputTitle" formControlName="tableName"
+                             >
+                            <div class="tabldiv">
+                              <div class="headerstylepopup">
+                                <h5 class="popuph5style">Selected Table Field Names</h5>
+                              </div>
+                              <div class="Tablelist" style="height: 161px;">
+                                <ul class="list-group">
+                                  <li class="list-group-items" (click)="addToTextarea(name)"
+                                    *ngFor="let name of selectedTableFieldName">
+                                    {{name}}
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </fieldset>
+                        </div>
+                      </div>
+
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+
+            </ng-template>
+
+          </e-tabitem>
+
+          <e-tabitem [header]='headerText[2]' tabIndex='0'>
+            <ng-template #content>
+              <div >
+                <div id="ChartCondition" class="tab-pane active">
+                  <div class="col-md-12" id="modalBody" style="margin-right:1px;margin-top: 5pxx">
+                    <form action="" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+                      <!-- <input type="hidden" name="" value=""> -->
+                      <div class=" row" >
+                        <div class="col-md-9 border" >
+                          <fieldset>
+                            <legend> Last DataRefresh Query
+
+                            </legend>
+                            <div class="cleardiv  pull-right">
+
+                              <button type="button" class="e-btn e-btn-purple" style="margin-bottom:5px"
+                                (click)="onClearLastDataRefreshQuery()">Clear</button>
+                            </div>
+
+                            <div class="">
+
+                              <textarea name="conditions" cols="40" rows="9" class="form-control textarea"
+                                id="pop_chart_condition" formControlName="lastDataRefreshQuery"
+                                [(ngModel)]="lastRefreshDataQuery"  (click)="updateCursorPositionCondition($event)"
+                                (input)="updateCursorPositionCondition($event)">
+                                                      </textarea>
+
+                                                      <!-- <textarea name="conditions" cols="40" rows="6" class="form-control"
+                                                      id="pop_chart_condition" formControlName="conditions"
+                                                      [(ngModel)]="conditionValue"
+                                                      (click)="updateCursorPositionCondition($event)"
+                                                      (input)="updateCursorPositionCondition($event)"></textarea> -->
+
+                              <!-- <div *ngIf="form.get('rawQuery')?.invalid && form.get('rawQuery')?.touched"
+                                class="error-message">
+                                Raw Query is required.
+                              </div> -->
+                            </div>
+                            <div class="actionbuttons">
+
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addLastRefreshQueryText($event)"
+                                value="+">+</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addLastRefreshQueryText($event)"
+                                value="-">-</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addLastRefreshQueryText($event)"
+                                value="*">*</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addLastRefreshQueryText($event)"
+                                value="/">/</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addLastRefreshQueryText($event)"
+                                value="==">==</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addLastRefreshQueryText($event)"
+                                value="<">&lt;</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addLastRefreshQueryText($event)"
+                                value="<=">&lt;=</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addLastRefreshQueryText($event)"
+                                value="!=">!=</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addLastRefreshQueryText($event)"
+                                value=">=">&gt;=</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addLastRefreshQueryText($event)"
+                                value=">">&gt;</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addLastRefreshQueryText($event)"
+                                value="and">and</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addLastRefreshQueryText($event)"
+                                value="or">or</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addLastRefreshQueryText($event)"
+                                value="not">not</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addLastRefreshQueryText($event)"
+                                value="(">(</button>
+                              <button type="button" class="e-btn e-btn-purple oper" (click)="addLastRefreshQueryText($event)"
+                                value=")">)</button>
+
+                            </div>
+
+
+                          </fieldset>
+                        </div>
+
+                        <!-- <div style="width:1%"></div> -->
+
+                        <div class="col-md-3 border">
+                          <fieldset>
+                            <legend>Selected Table:
+                            </legend>
+
+                            <input type="text" class="form-control tableInputTitle" formControlName="tableName"
+                             >
+                            <div class="tabldiv">
+                              <div class="headerstylepopup">
+                                <h5 class="popuph5style">Selected Table Field Names</h5>
+                              </div>
+                              <div class="Tablelist" style="height: 161px;">
+                                <ul class="list-group">
+                                  <li class="list-group-items" (click)="addToRefreshTExtArea(name)"
+                                    *ngFor="let name of selectedTableFieldName">
+                                    {{name}}
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </fieldset>
+                        </div>
+                      </div>
+
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+
+            </ng-template>
+
+          </e-tabitem>
+        </e-tabitems>
+      </ejs-tab>
+    </div>
+  </div>
+
+</div>

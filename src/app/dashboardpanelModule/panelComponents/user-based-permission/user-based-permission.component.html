@@ -1,0 +1,159 @@
+<div class="">
+    <div class="formDiv">
+      <!-- <div>
+          <h3>
+              User Based Acess
+          </h3>
+      </div> -->
+  
+          <form [formGroup]="permissionForm" (ngSubmit)="onFormSubmit()">
+            
+            <div class="row">
+              <div class="col-md-5" style="padding-left:0px">
+                <label for="roleName" *ngIf="userAccessObj">Role Name : <span>{{userAccessObj.role}}</span> </label>
+                <!-- <input type="text" class="form-control" formControlName="roleName"> -->
+  <!-- 
+                <select name="" id="" class="form-control" formControlName="roleName">
+                    <option value="">Select</option>
+                    <option value="item.role"  *ngFor="let item of rolesArray">{{item.role}}</option>
+                </select> -->
+              </div>
+              <div class="col-md-5" style="padding-left:0px">
+                <!-- <label for="roleName">Select User</label> -->
+                <label for="roleName" *ngIf="userAccessObj">User Name : <span>{{userAccessObj.username}}</span> </label>
+  
+                <!-- <input type="text" class="form-control" formControlName="roleName"> -->
+    
+                <!-- <select name="" id="" class="form-control" formControlName="username">
+                    <option value="">Select</option>
+                    <option value="item.username"  *ngFor="let item of usersArray">{{item.username}}</option>
+                </select> -->
+              </div>
+            </div>
+  
+  
+            <br>
+          
+            <div formGroupName="permissions" style="border: 1px solid lightgray;max-height: 300px; overflow-y: auto; ">
+                <div class="headingDiv bg-warning" style="background-color: lightgray;">
+                    <div class="row" >
+                    
+                        <div class="col-md-2">
+                            <label for="">
+                                Form Name 
+                            </label>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="">Select All</label>
+                           
+                        </div>
+                        <div class="col-md-2">
+                          <label for="">
+                              View  
+                          </label>
+                           
+                      </div>
+                        <div class="col-md-2">
+                            <label for="">
+                                Create  
+                            </label>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="">
+                                Update  
+                            </label>
+                             
+                        </div>
+                      
+    
+                        <div class="col-md-2">
+                            <label for="">
+                                Delete  
+                            </label>
+                             
+                        </div>
+                        <!-- <div class="col-md-2">
+                            <label for="">
+                                Download  
+                            </label>
+                             
+                        </div> -->
+                    </div>
+                </div>
+               
+              <div *ngFor="let permission of permissionRows">
+                <div class="row">
+                    <div class="col-md-2">
+                        <span style="font-size: 13px;">
+                            {{ permission.label }}
+                        </span>
+                        <!-- <label for="">{{ permission.key }}</label> -->
+                        <!-- <h4>{{ permission.key }}</h4> -->
+                    </div>
+                    <div class="col-md-2" >
+                        <!-- <input type="checkbox"    formControlName="selectAll" (change)="selectAll(permission.key)"> -->
+
+                        <div formGroupName="{{ permission.key }}">
+                            <input style="cursor:pointer"
+                              type="checkbox"
+                              class="selectBox"
+                              formControlName="selectAll"
+                              (change)="toggleAllPermissions(permission.key,$event)"
+                            />
+                        </div>
+
+                    </div>
+                    <div class="col-md-2">
+                      <div formGroupName="{{ permission.key }}">
+                          <!-- <label for="view">View:</label> -->
+                          <input style="cursor:pointer" type="checkbox" formControlName="view">
+                      </div>
+  
+                  </div>
+                    <div class="col-md-2">
+                        <div formGroupName="{{ permission.key }}">
+                            <!-- <label for="view">View:</label> -->
+                            <input style="cursor:pointer" type="checkbox" formControlName="create">
+                        </div>
+  
+                    </div>
+                    <div class="col-md-2">
+                        <div formGroupName="{{ permission.key }}">
+                            <!-- <label for="view">View:</label> -->
+                            <input style="cursor:pointer" type="checkbox" formControlName="update">
+                        </div>
+  
+                    </div>
+                  
+                    <div class="col-md-2">
+                        <div formGroupName="{{ permission.key }}">
+                            <!-- <label for="view">View:</label> -->
+                            <input style="cursor:pointer" type="checkbox" formControlName="delete">
+                        </div>
+  
+                    </div>
+                    <!-- <div class="col-md-2">
+                        <div formGroupName="{{ permission.key }}">
+                            <input type="checkbox" formControlName="download">
+                        </div>
+  
+                    </div> -->
+                </div>
+  
+              </div>
+          
+           
+            </div>
+          
+            <!-- <div style="text-align: right; margin-top:10px">
+               <button class="e-btn e-info" ejs-button>
+                Submit
+               </button>
+  
+            </div> -->
+            </form>
+          
+          
+    </div>
+  </div>
+  

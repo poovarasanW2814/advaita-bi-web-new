@@ -1,0 +1,45 @@
+<div class="popup1" id="popup1">
+  <div class="popup-content1">
+    <span class="close1" (click)="removePopup()">&times;</span> 
+    <div id="popup-message1" class="popup-message1">
+      <div class="successDiv" *ngIf="isSuccess">
+
+        <i class="fas fa-check-circle green iconSuccess"></i>
+        <h3 style="font-size: 22px">
+          Success !
+        </h3>
+
+        <p class="truncate">
+        
+          {{message}}
+        </p>
+               
+        <button class="btn btn-success" (click)="closePopup()">
+          OK 
+        </button>
+      </div>
+
+      <div class="errorDiv" *ngIf="!isSuccess">
+        <i class="fas fa-exclamation-circle orange iconSuccess"></i>
+        <h3  style="font-size: 22px">
+         Warning !
+        </h3>
+        <p class="truncate">
+       
+          {{message}}
+     
+        </p>
+        <button class="btn btn-warning"  (click)="closePopup()">
+         OK        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="backdrop2" id="backdrop2"></div>
+
+
+
+
+
+

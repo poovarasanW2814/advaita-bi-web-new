@@ -1,0 +1,71 @@
+   // ======================== progess bar code 
+.loader-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  background: rgba(211, 195, 195, 0.5);
+  z-index: 1400;
+}
+
+.progressBar {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1500;
+  //transition: opacity 0.3s ease; /* Example transition effect */
+
+}
+
+
+
+// mov code css
+// .loader-backdrop {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   min-height: 100vh;
+//   height: 100%;
+//   background: rgba(226, 218, 218, 0.5);
+//   z-index: 1400;
+// }
+
+// .loader-video {
+//   position: fixed;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+//   z-index: 1500;
+//   width: 300px; /* Adjust the width to make it smaller */
+//   height: auto;
+//   border-radius: 10px; /* Optional: to give it rounded corners */
+// }
+
+
+// css for gif file
+
+// .loader-backdrop {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   min-height: 100vh;
+//   height: 100%;
+//   background: rgba(211, 195, 195, 0.5);
+//   z-index: 1400;
+// }
+
+// .loader-gif {
+//   position: fixed;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+//   z-index: 1500;
+//   width: 400px; /* Adjust size as needed */
+//   height: auto;
+//   border-radius: 10px; /* Optional for rounded corners */
+// }

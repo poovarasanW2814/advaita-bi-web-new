@@ -1,0 +1,261 @@
+<div class="control-section" style="padding:15px">
+   <div class="row">
+      <div class="col-md-11" style="padding-left:0px">
+         <div class="tableTitle">
+            <span class="heading popupHeader" style="cursor: pointer;">
+               Add Table Join
+            </span>
+
+            <div class="spinner-border text-primary" role="status">
+               <span class="sr-only">Loading...</span>
+            </div>
+         </div>
+      </div>
+      <div class="col-md-1 joinBtn">
+
+
+
+         <button class="e-btn e-btn-purple"   *ngIf="(!permissionObj || permissionObj?.can_create) !== false"
+         (click)="dialogBtnClick()">
+            <span>
+              <i class="fas fa-plus"></i> 
+            </span>
+            
+         </button>
+      </div>
+   </div>
+
+   
+
+   <div class="row"  style="margin-top: 17px;">
+      <ejs-grid [dataSource]='tableJoinsArray' #grid autofit="true">
+         <e-columns>
+             <e-column field= "table_join_name" headerText="Table Join Name"></e-column>
+             <e-column field= "primary_tableName" headerText="Primary TableName" ></e-column>
+             <e-column field= "secondary_tableName" headerText="Secondary TableName" ></e-column>
+             <e-column field= "primary_table_alias" headerText="PrimaryTable AliasName" ></e-column>
+             <e-column field= "secondary_table_alias" headerText="SecondaryTable AliasName" ></e-column>
+             <e-column field= "join_type" headerText="Join Type" ></e-column>
+             <e-column headerText='Action' >
+               <ng-template #template let-tableJoinsArray>
+                 <button ejs-button cssClass="e-flat-icon e-btn-purple" style="cursor: pointer;" (click)="onEditJoin(tableJoinsArray)">
+                   <i class="fas fa-edit"></i>
+                 </button>
+                 <button ejs-button cssClass="e-flat-icon e-btn-purple" style="cursor: pointer;" (click)="onDeleteJoin(tableJoinsArray)" style="margin-left:10px"
+                   >
+                   <i class="fas fa-trash" ></i>
+                 </button>
+               </ng-template>
+             </e-column>
+             
+         </e-columns>
+     </ejs-grid>
+   </div>
+
+   <ejs-dialog id="defaultDialog" #defaultDialog [isModal]='isModal' [visible]='visible' [header]="'Add Table Join'"
+      [allowDragging]='dialogdragging' [animationSettings]='animationSettings' [showCloseIcon]='dialogCloseIcon'
+      (open)="dialogOpen()" (close)="dialogClose()" [target]='target' [width]='dialogWidth'>
+      <div class=" registrationforms">
+         <form id="metadata_create_form_id" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+
+            <div class="modal-body metadeta-firstpopup">
+               <!-- <div class="first-process">
+                  <div class="row first-row">
+                     <div class="col-md-6 dataset_form">
+                        <div class="form-group">
+                           <label for="" class="inputLabel">Table Join Name*</label>
+                           <input type="text" class="form-control inputBox "
+                              formControlName="jointTableName">
+                        </div>
+                     </div>
+                     <div class="col-md-4">
+                        <div>
+
+                        </div>
+                     </div>
+                     <div class="col-md-2 dataset_form">
+                        <div class="form-group">
+                           <label for="">Add Row</label>
+                           <button class="e-btn e-btn-purple" type="button" (click)="addTableJoint()">
+                              Add Row
+                           </button>
+                        </div>
+                     </div>
+                  </div>
+
+               </div> -->
+               <div class="row">
+                  <div class="col-md-6 dataset_form">
+                     <div class="form-group">
+                        <label for="" class="inputLabel">Table Join Name </label>
+                        <input type="text" class="form-control inputBox "
+                           formControlName="table_join_name">
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <div class="form-group">
+                        <label for="connectionName"  class="inputLabel">Connection Name</label>
+                        <select name="" id="" (change)="onConnectionNameSelect($event)" formControlName="connection_id"
+                           class="form-control inputBox">
+                           <option value=""></option>
+                           <option [value]="'internal' + '-' + 0">{{ 'internal' }}</option>
+                           <option [value]="dbName.connection_id "
+                              *ngFor="let dbName of connectionDetailsArray; let i = index">{{dbName.connection_name}}
+                           </option>
+                      
+                        </select>
+                     </div>
+                  </div>
+              
+               </div>
+               <div>
+
+                  <div 
+                   class="jointableDiv">
+
+                     <div class="row joinTableMainDiv" >
+                        <div class="col-md-4 form-group">
+                           <label for="" class="inputLabel">Select Primary Table </label>
+
+                           <select name="" id="" class="form-control  inputBox" formControlName="primaryTableName"
+                              #tableNameDropdown (click)="onTableDropdown(tableNameDropdown.value)">
+                              <option value="">Select</option>
+                              <option [value]="name" *ngFor="let name of tableNamesArray; let i=index">{{name}}</option>
+                           </select>
+                        </div>
+                        <div class="col-md-4 form-group">
+                           <div id="metadata_create_join_type">
+                           <label for="" class="inputLabel">Select Join Type </label>
+
+                              <select class="form-control inputBox" formControlName="join_type">
+
+                                 <option value="">Join Type</option>
+                                 <option value="left">Left</option>
+
+                                 <option value="right">Right</option>
+
+                                 <option value="inner">Inner JOIN</option>
+
+                                 <option value="outer"> OUTER JOIN</option>
+
+                                 <option value="cross"> Cross JOIN</option>
+
+
+                              </select>
+                           </div>
+                        </div>
+                        <div class="col-md-4 form-group">
+                           <label for="" class="inputLabel">Select Secondary Table </label>
+
+                           <select name="" id="" class="form-control inputBox" formControlName="secondaryTableName"
+                              #tableNameTwoDropdown (click)="onTableTwoDropdown(tableNameTwoDropdown.value)">
+                              <option value="">Select</option>
+
+                              <option [value]="name" *ngFor="let name of tableNamesArray; let i=index">{{name}}</option>
+                           </select>
+                        </div>
+                        <div class="col-md-4 form-group">
+                           <div class="form-group">
+                              <label for="" class="inputLabel">Primary Table Alias Name </label>
+                              <input type="text" class="form-control inputBox "
+                                 formControlName="primary_table_alias">
+                           </div>
+                        </div>
+                        <div class="col-md-4 form-group">
+
+                        </div>
+                        <div class="col-md-4 form-group">
+                           <div class="form-group">
+                              <label for="" class="inputLabel">Secondary Table Alias Name  </label>
+                              <input type="text" class="form-control inputBox "
+                                 formControlName="secondary_table_alias">
+                           </div>
+                        </div>
+
+                     </div>
+                     <div formArrayName="tableJointsArr">
+                        <ng-container   *ngFor="let tbleJoint of tableJointsArrControls; let i = index" [formGroupName]="i">
+                           <div class="row" style="margin-bottom: 6px;">
+                              <div class="col-md-3">
+                                 <select name="" id="" formControlName="primary_table_param"
+                                    class="form-control inputBox">
+                                    <option value="">--Select--</option>
+                                    <option [value]="name" *ngFor="let name of selectedTableFieldName; let i=index">
+                                       {{name}}
+                                    </option>
+                                 </select>
+                              </div>
+                              <div class="col-md-3">
+                                 <select class="form-control inputBox" formControlName="operator">
+                                    <option value="">Select Operator</option>
+                                    <option value="=">
+                                       = </option>
+                                    <option value="<=">
+                                       <= </option>
+                                    <option value=">="> >= </option>
+                                    <option value=""> != </option>
+                                    <option value="<"> < </option>
+                                    <option value=">"> > </option>
+                                 </select>
+                              </div>
+                              <div class="col-md-3">
+
+                                 <select name="" id="" formControlName="secondary_table_param"
+                                    class="form-control inputBox">
+                                    <option value="">--Select--</option>
+                                    <option [value]="name" *ngFor="let name of selectedSecondaryTableFieldNameArr; let i=index">
+                                       {{name}}
+                                    </option>
+                                 </select>
+                              </div>
+                              <div class="col-md-3">
+                                 <div class="fieldBtns">
+
+                                    <span id="target2" type="button" (click)="addTableJoint()"
+                                       style="display: inline-block; margin-right:10px">
+                                       <i class="fas fa-plus-circle"></i>
+
+                                    </span>
+                                    <span *ngIf="i > 0" (click)="removeTableJoint(i)">
+                                       <i class="fas fa-minus-circle"></i>
+                                   </span>
+
+                                 </div>
+
+                              </div>
+                           </div>
+                        </ng-container>
+                     </div>
+
+                  </div>
+
+               </div>
+               <div class="mt_28 d-flex" style="text-align: right;">
+                  <button class="e-btn e-btn-purple" *ngIf="submitFlag" id="create_btn" type="submit">Create</button>
+                  <button class="e-btn e-btn-purple" (click)="updateTableJoin()" *ngIf="updateFlag" id="update_btn" type="button">Update</button>
+
+               </div>
+            </div>
+         </form>
+
+      </div>
+   </ejs-dialog>
+
+   <!-- <div class="popup" id="popup">
+      <div class="popup-content">
+        <span class="close" (click)="closePopup()">&times;</span>
+        <div id="popup-message" class="popup-message"></div>
+        <button (click)="closePopup()" class="e-btn e-btn-purple">Ok</button>
+      </div>
+    </div>
+    <div class="backdrop" id="backdrop"></div> -->
+
+    
+    <!-- <div class="progressBarEle">
+      <ejs-progressbar  *ngIf="loaderFlag"  cornerRadius='Circle' id='indeterminate' trackThickness=20  progressThickness=20  segmentCount=30  type='Circular' height='100' value=40
+      [isIndeterminate]='true' [animation]='animation' progressColor="navy"
+      >
+     </ejs-progressbar>
+   </div> -->
+
+</div>

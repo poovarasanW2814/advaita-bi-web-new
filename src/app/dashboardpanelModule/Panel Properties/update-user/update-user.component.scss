@@ -1,0 +1,192 @@
+// .Formborder {
+//     border: 1px solid #e0e0e0;
+//     padding: 30px;
+//     margin-top: 20px;
+//     border-radius: 15px;
+//     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+//     background-color: #ffffff;
+//     transition: box-shadow 0.3s ease;
+//   }
+  
+//   .Formborder:hover {
+//     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+//   }
+  
+//   .user-icon img {
+//     width: 100px;
+//     height: 100px;
+//     border: 3px solid #007bff;
+//     padding: 5px;
+//     transition: transform 0.3s ease, border-color 0.3s ease;
+//   }
+  
+//   .user-icon img:hover {
+//     transform: scale(1.1);
+//     border-color: #0056b3;
+//   }
+  
+//   .user-icon h3 {
+//     font-size: 24px;
+//     font-weight: 600;
+//     color: #333;
+//     margin-top: 15px;
+//   }
+  
+//   .formInfo .inputValue {
+//     position: relative;
+//     margin-bottom: 25px;
+//   }
+  
+  .labelName {
+    display: block;
+    // margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+    font-size: 12px;
+  }
+  
+//   .formInfo .inputValue .form-control {
+//     width: 100%;
+//     padding: 12px;
+//     border: 1px solid #ccc;
+//     border-radius: 8px;
+//     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+//   }
+  
+//   .formInfo .inputValue .form-control:focus {
+//     border-color: #007bff;
+//     box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+//     outline: none;
+//   }
+  
+//   .formInfo .inputValue .focus-border {
+//     position: absolute;
+//     bottom: 0;
+//     left: 0;
+//     width: 0;
+//     height: 2px;
+//     background-color: #007bff;
+//     transition: width 0.3s ease;
+//   }
+  
+//   .formInfo .inputValue .form-control:focus ~ .focus-border {
+//     width: 100%;
+//   }
+  
+//   .btn-primary {
+//     background-color: #007bff;
+//     border: none;
+//     padding: 12px 25px;
+//     border-radius: 8px;
+//     color: #fff;
+//     cursor: pointer;
+//     transition: background-color 0.3s ease, transform 0.2s ease;
+//   }
+  
+//   .btn-primary:hover {
+//     background-color: #0056b3;
+//     transform: translateY(-2px);
+//   }
+  
+//   .btn-animate {
+//     position: relative;
+//     overflow: hidden;
+//   }
+  
+//   .btn-animate span {
+//     position: relative;
+//     z-index: 1;
+//   }
+  
+//   .btn-animate:after {
+//     content: '';
+//     position: absolute;
+//     top: 50%;
+//     left: 50%;
+//     width: 300%;
+//     height: 300%;
+//     background-color: rgba(255, 255, 255, 0.3);
+//     border-radius: 50%;
+//     transition: all 0.5s ease;
+//     transform: translate(-50%, -50%) scale(0);
+//     z-index: 0;
+//   }
+  
+//   .btn-animate:hover:after {
+//     transform: translate(-50%, -50%) scale(1);
+//   }
+.Formborder {
+    background: linear-gradient(135deg, #e0e8f0, #f0ebf8);
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+  }
+  
+  .user-icon {
+    font-size: 60px;
+    // color: #b8bed0;
+    color : rgba(13, 53, 148, .898) 
+    
+  }
+  
+  .profile-section {
+    display: flex;
+    align-items: center;
+  }
+  
+  .input-group-text {
+    background: #f0f0f0;
+    border: none;
+    border-radius: 8px 0 0 8px;
+    padding: 10px;
+  }
+  
+  .input-field {
+    padding: 12px;
+    border-radius: 0 8px 8px 0;
+    border: none;
+    outline: none;
+    width: 100%;
+    transition: all 0.3s ease;
+  }
+  
+  .input-field:focus {
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .btn-animate {
+    // background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, .898) 109.98%);
+    background : rgba(13, 53, 148, .898) ;
+
+    border: none;
+    padding: 8px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: bold;
+  }
+  
+  .btn-animate:hover {
+    transform: scale(1.08);
+    background: white;
+    color : rgba(13, 53, 148, .898) 
+
+  }
+  
+  .justify-content-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .validation-error {
+    color: red;
+    font-size: 11px;
+    // height: 15px; 
+  }
+  .mb-4{
+    margin-bottom: 20px;
+  }
+  .mt-2{
+    margin: 10px;
+    color : rgba(13, 53, 148, .898) 
+
+  }

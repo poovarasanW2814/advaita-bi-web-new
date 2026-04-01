@@ -1,0 +1,312 @@
+<!-- <div class="row">
+  <div class="col-md-2">
+    <div>
+
+    </div>
+  </div>
+  <div class="col-md-8">
+    <ejs-message  #msg_success_icon id="msg_success_icon" severity="Success" [showCloseIcon]="true">
+      <ng-template #content>
+          <h6>{{resMessage}}</h6>
+      </ng-template>
+  </ejs-message>
+
+  <ejs-message  #msg_error_icon id="msg_error_icon" severity="Error" [showCloseIcon]="true">
+      <ng-template #content>
+          <h6>{{resMessage}}</h6>
+      </ng-template>
+  </ejs-message>
+ 
+  </div>
+  <div class="col-md-2">
+    <div>
+      
+    </div>
+  </div>
+</div> -->
+<div class="parentDiv">
+  <!-- <div *ngIf="displayPopup" class="popup" [ngClass]="{ 'success': success, 'error': !success }">
+    {{ message }}
+  </div> -->
+
+  <div class="tableTitle popupHeader">
+    <span>
+      File Upload
+    </span>
+  </div>
+  
+  <!-- <div class="popup" id="popup">
+    <div class="popup-content">
+      <span class="close" (click)="closePopup()">&times;</span>
+      <div id="popup-message" class="popup-message"></div>
+      <button (click)="closePopup()" class="e-btn e-btn-purple">Ok</button>
+    </div>
+  </div>
+  <div class="backdrop" id="backdrop"></div>
+   -->
+
+  <div class=" uploadFileDiv">
+
+    <div class="row">
+    
+      <div class="col-md-12">
+        <form [formGroup]="myForm" (ngSubmit)="onPreview()" class="custom-form">
+  
+          <div class="radio-group">
+            <label style="margin-right:10px">
+              <input type="radio" formControlName="target_db" value="internal" (click)="switchTargetDB('internal')">
+              <span class="radio-label">Internal DB</span>
+            </label>
+            <label>
+              <input type="radio" formControlName="target_db" (click)="switchTargetDB('external')" value="external">
+              <span class="radio-label">External DB</span>
+            </label>
+          </div>
+  
+          <div *ngIf="myForm.get('target_db')?.value === 'external'">
+            <div class="radio-group" >
+              <label style="margin-right:10px">
+                <input type="radio" formControlName="selectedOption" value="new">
+                <span class="radio-label">New Table</span>
+              </label>
+              <label>
+                <input type="radio" formControlName="selectedOption" value="existing">
+                <span class="radio-label">Existing Table</span>
+              </label>
+            </div>
+    
+    
+            <div *ngIf="myForm.get('selectedOption')?.value === 'new'" class="new-table-section">
+              <div formGroupName="newTableData">
+                <div class="form-group">
+                  <label for="connectionName">Connection Name</label>
+                  <!-- <select name="" id="" (change)="onConnectionNameSelect($event)" formControlName="connectionName" class="form-control">
+                    <option value="">Select</option>
+                    <option [value]="'internal' + '-' + 0">{{ 'internal' }}</option>
+                    <option [value]="dbName.connection_name + '-' + dbName.connection_id " *ngFor="let dbName of connectionDetailsArray; let i = index">{{dbName.connection_name}}
+                    </option>
+                </select> -->
+
+                <ejs-dropdownlist [dataSource]='connectionDetailsArray' class="tableNameDropdown" formControlName="connectionName"
+                (change)='onConnectionNameSelect($event)' [popupHeight]="320"
+                [fields]='connectionFields'></ejs-dropdownlist>
+
+
+                </div>
+                <div class="form-group">
+                  <label for="tableName">Table Name</label>
+                  <input type="text" formControlName="tableName" class="form-control">
+                  <!-- <select name="" id="" class="form-control selectFeild" formControlName="tableName"  >
+                    <option value="select">Select TableName</option>
+                    <option [value]="name" *ngFor="let name of tableNamesArray; let i=index" >{{name}}</option>
+                </select> -->
+                </div>
+     
+                <div class="form-group">
+                  <label for="fileName">File Name</label>
+                  <!-- <input type="file" id="fileInput" (change)="onFileChange($event)" accept=".csv, text, .xlsx" formControlName="file" class="form-control"> -->
+                  <input type="file"  formControlName="file" accept=".csv, text, .xlsx"  class="form-control fileInput" name="" >
+                </div>
+              </div>
+            </div>
+    
+            <div *ngIf="myForm.get('selectedOption')?.value === 'existing'" class="existing-table-section">
+           
+              <div formGroupName="existingTableData">
+                
+            <div class="form-group">
+              <label for="connectionName">Connection Name</label>
+              <!-- <select name="" id="" (change)="onConnectionNameSelect($event)" formControlName="connectionName" class="form-control">
+                <option value="">Select</option>
+                <option [value]="'internal' + '-' + 0">{{ 'internal' }}</option>
+                <option [value]="dbName.connection_name + '-' + dbName.connection_id " *ngFor="let dbName of connectionDetailsArray; let i = index">{{dbName.connection_name}}
+                </option>
+            </select> -->
+
+            <ejs-dropdownlist [dataSource]='connectionDetailsArray' class="tableNameDropdown" formControlName="connectionName"
+            (change)='onConnectionNameSelect($event)' [popupHeight]="320"
+            [fields]='connectionFields'></ejs-dropdownlist>
+
+
+            </div>
+                <div class="form-group">
+                  <label for="selectTable">Select Table</label>
+                  <!-- <select  class="form-control" formControlName="tableName">
+                    <option value="">Select</option>  
+                     <option [value]="name" *ngFor="let name of tableNamesArray; let i=index" >{{name}}</option>
+    
+                  </select> -->
+
+                  <ejs-dropdownlist [dataSource]='tableNamesArray' class="tableNameDropdown" formControlName="tableName"
+                  [popupHeight]="320"
+                  ></ejs-dropdownlist>
+                </div>
+      
+                <div class="form-group">
+                  <label for="" style="margin-right:10px">Is Append</label>
+                  <ejs-switch formControlName="is_append">
+    
+                  </ejs-switch>
+                  <label for=""style="margin-left:10px">Is Replace</label>
+                </div>
+                <!-- <div class="form-group">
+                  <label for="">Drag and Drop file</label>
+                  <ejs-uploader #defaultupload [autoUpload]='false' [dropArea]='dropEle' [asyncSettings]='path' (success)="onUploadSuccess($event)" (failure)="onUploadFailure($event)"></ejs-uploader>
+                </div> -->
+      
+                <div class="form-group">
+                  <label for="">Select File</label>
+                  <!-- <input type="file" id="fileInput" formControlName="file" accept=".csv, text, .xlsx" (change)="onFileChange($event)" class="form-control" name="" id=""> -->
+                  <input type="file"  formControlName="file" accept=".csv, text, .xlsx"  class="form-control fileInput" name="" >
+                </div>
+              </div>
+    
+            </div>
+    
+            <div style="margin-top:10px; text-align: right;">
+              <!-- <button type="submit" ejs-button class="btn btn-primary">Upload</button> -->
+              <button type="sybmut" style="margin-right:10px"   class="e-btn e-btn-purple">Preview</button>
+    
+            </div>
+          </div>
+          <div *ngIf="myForm.get('target_db')?.value === 'internal'">
+            <div class="radio-group" >
+              <label style="margin-right:10px">
+                <input type="radio" formControlName="selectedOption" value="new">
+                <span class="radio-label">New Table</span>
+              </label>
+              <label>
+                <input type="radio" formControlName="selectedOption" value="existing">
+                <span class="radio-label">Existing Table</span>
+              </label>
+            </div>
+    
+    
+            <div *ngIf="myForm.get('selectedOption')?.value === 'new'" class="new-table-section">
+              <div formGroupName="newTableData">
+                <!-- <div class="form-group">
+                  <label for="connectionName">Connection Name</label>
+                  <select name="" id="" (change)="onConnectionNameSelect($event)" formControlName="connectionName" class="form-control">
+                    <option value=""></option>
+                    <option [value]="dbName.connection_name + '-' + dbName.connection_id " *ngFor="let dbName of connectionDetailsArray; let i = index">{{dbName.connection_name}}
+                    </option>
+                </select>
+                </div> -->
+                <div class="form-group">
+                  <label for="tableName">Table Name</label>
+                  <input type="text" formControlName="tableName" class="form-control">
+             
+  
+                
+                </div>
+     
+                <div class="form-group">
+                  <label for="fileName">File Name</label>
+                  <!-- <input type="file" id="fileInput" (change)="onFileChange($event)" formControlName="file" accept=".csv, text, .xlsx" class="form-control"> -->
+                  <input type="file"  formControlName="file" accept=".csv, text, .xlsx"  class="form-control fileInput" name="" >
+                </div>
+              </div>
+            </div>
+    
+            <div *ngIf="myForm.get('selectedOption')?.value === 'existing'" class="existing-table-section">
+           
+              <div formGroupName="existingTableData">
+                
+            <!-- <div class="form-group">
+              <label for="connectionName">Connection Name</label>
+              <select name="" id="" (change)="onConnectionNameSelect($event)" formControlName="connectionName" class="form-control">
+                <option value=""></option>
+                <option [value]="dbName.connection_name + '-' + dbName.connection_id " *ngFor="let dbName of connectionDetailsArray; let i = index">{{dbName.connection_name}}
+                </option>
+            </select>
+            </div> -->
+                <div class="form-group">
+                  <label for="selectTable">Select Table</label>
+                  <!-- <select name="" id="" class="form-control selectFeild" formControlName="tableName"  >
+                    <option value="select">Select TableName</option>
+                    <option [value]="name" *ngFor="let name of internalTableNameArray; let i=index" >{{name}}</option>
+                </select> -->
+
+                <ejs-dropdownlist [dataSource]='tableNamesArray' class="tableNameDropdown" formControlName="tableName"
+                [popupHeight]="320"
+                ></ejs-dropdownlist>
+
+                
+                </div>
+      
+                <div class="form-group">
+                  <label for="" style="margin-right:10px">Is Append</label>
+                  <ejs-switch formControlName="is_append">
+    
+                  </ejs-switch>
+                  <label for=""style="margin-left:10px">Is Replace</label>
+                </div>
+                <!-- <div class="form-group">
+                  <label for="">Drag and Drop file</label>
+                  <ejs-uploader #defaultupload [autoUpload]='false' [dropArea]='dropEle' [asyncSettings]='path' (success)="onUploadSuccess($event)" (failure)="onUploadFailure($event)"></ejs-uploader>
+                </div> -->
+      
+                <div class="form-group">
+                  <label for="">Select File</label>
+                  <!-- <input type="file" id="fileInput" formControlName="file" accept=".csv, text, .xlsx" (change)="onFileChange($event)" class="form-control" name="" id=""> -->
+                  <input type="file"  formControlName="file" accept=".csv, text, .xlsx"  class="form-control fileInput" name="" >
+                </div>
+              </div>
+    
+            </div>
+    
+            <div style="margin-top:10px; text-align: right;">
+              <button type="sybmut" style="margin-right:10px"   class="e-btn e-btn-purple">Preview</button>
+              <!-- <button class="e-btn e-btn-purple" (click)="onSubmit()">
+                Upload 
+              </button> -->
+             
+    
+            </div>
+          </div>
+  
+        </form>
+      </div>
+<!--     
+      <div class="col-md-12">
+        <div class="progressBarEle">
+  
+          <ejs-progressbar  *ngIf="loaderFlag"  cornerRadius='Circle' id='indeterminate' trackThickness=15  progressThickness=20  segmentCount=30  type='Circular' height='100' value=40
+          [isIndeterminate]='true' [animation]='animation' progressColor="navy">
+         </ejs-progressbar>
+         </div>
+      </div> -->
+    </div>
+  </div>
+
+  <div class="control-section drag">
+ 
+    <ejs-dialog id="defaultDialog" #defaultDialog [isModal]='isModal'  [visible]='visible'
+      [header]='dialogHeader' [allowDragging]='dialogdragging' [header]="uploadedFileName" [animationSettings]='animationSettings'
+      [showCloseIcon]='dialogCloseIcon'  [target]='target'
+      [width]='dialogWidth'>
+
+      <ng-template #content>
+
+        <div style="padding:10px">
+          <ejs-grid #grid (dataBound)="onDataBound(grid)"  [dataSource]="gridDatasource" [autoFit]="true" [scrollLeft]="true">
+
+          </ejs-grid>
+        </div>
+
+    
+      </ng-template>
+      <ng-template #footerTemplate>
+        <button class="e-btn e-btn-purple"  *ngIf="permissionObj.can_create" (click)="onSubmit()">
+          Upload 
+        </button>
+        <button class="e-btn e-btn-purple"  *ngIf=" permissionObj.can_update" (click)="onCancel()">
+          Cancel
+        </button>
+       </ng-template>
+    </ejs-dialog>
+  </div>
+
+</div>
+
+  

@@ -1,0 +1,453 @@
+
+
+.headingDiv{
+  display:flex; justify-content: space-between; margin-bottom: 25px; cursor: pointer;
+}
+.filterInputControl {
+  margin-bottom: 10px;
+  height: 27px;
+  font-size: 11px;
+  margin-top: 3px;
+}
+.e-dashboardlayout.e-control .e-panel {
+background: #fff;
+box-shadow: 0 2px 5px 0 rgba(141, 232, 197, 0.15);
+box-sizing: border-box;
+position: absolute;
+border-radius: 15px !important;
+}
+
+
+label{
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.cardHeight{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    // padding:10px 10px
+}
+.details-containers{
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  height: 100%;
+  flex-direction: column;
+  padding-left: 10px;
+}
+
+
+
+.e-card-header-title{
+font-size: 13px;
+}
+.e-card-header-subtitle{
+font-size: 28px;
+}
+.e-footer-content{
+  padding-right: 35px;
+}
+.progressBarEle {
+position: absolute;
+// top: 30%;
+left: 50%;
+transform: translate(-50%);
+z-index: 1600;
+padding: 20px;
+
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1600;
+  width: 345px;
+}
+
+.popup-content {
+  text-align: center;
+  padding-top:20px ;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.popup-message {
+  margin-bottom: 20px;
+}
+
+.backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(216, 206, 206, 0.5);
+  z-index: 1500;
+}
+
+#multiselectelement_popup .e-list-item, .e-listbox-wrapper .e-list-item{
+  white-space: nowrap;
+  // word-wrap: break-word;
+  overflow: visible;
+  text-overflow: unset;
+  font-size: 11px;
+  padding: 8px 8px 0px;
+  height: 23px;
+
+}
+
+.e-checkbox-wrapper .e-frame, .e-css.e-checkbox-wrapper .e-frame {
+  border: 1px solid;
+  border-radius: 2px;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "e-icons";
+  height: 14px;
+  line-height: 6px;
+  padding: 2px 0;
+  text-align: center;
+  vertical-align: middle;
+  width: 14px;
+}
+
+.icon-container {
+    padding-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.labels {
+  // margin-bottom: 2px;
+  color:black;
+  padding-right:5px;
+  // font-family:'Times New Roman', Times, serif;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.labels2 {
+  color:black;
+  padding-right:5px;
+  display: inline-block;
+  width: 105px;
+  text-align: left;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  
+  
+}
+
+
+
+.sticky-container {
+  position: -webkit-sticky; /* For Safari */
+  position: sticky;
+  top: 0; /* Adjust as needed */
+  z-index: 1000; /* Ensure it stays on top of other content */
+  // background-color: white; /* Ensure the background color matches your layout */
+  padding: 10px; /* Optional: Add padding if needed */
+  text-align: right;
+}
+
+
+
+
+@media only screen and (max-width: 767px) and (orientation: landscape){
+  // #connectionFormPopup{
+  //   top: 15px !important;
+  // }
+  .headingDiv {
+    flex-direction: column;
+  }
+  #userMappingModel{
+
+    width: 388px !important;
+    top: 25px !important;
+    height: 253px !important;
+  }
+  #dashboardTitlePopup{
+    width: 400px;
+    top: 25px !important;
+    height: 249px !important;
+  }
+}
+
+
+
+/* Media query for smaller screens */
+@media only screen and (max-width: 768px) and (orientation: portrait){
+  .headingDiv{
+   flex-direction: column;
+  }
+
+}
+
+
+// .e-dialog .e-dlg-header-content {
+//  // border-bottom: none;
+//  // padding: 18px;
+//  // background: #149de194;
+// }
+
+
+ .control-section {
+  position: relative;
+}
+
+
+.kpi-box {
+  width: 100%;
+  height: 100%;
+   padding: 10px;
+  // border-radius: 8px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.kpi-box-containers{
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  height: 100%;
+  flex-direction: column;
+  padding-left: 10px;
+}
+
+
+.cardHeight1{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+   min-width: fit-content !important;
+
+}
+
+.labels1 {
+  color: black;
+  padding-right: 5px;
+  text-align: center;
+  word-wrap: break-word; /* Allow wrapping */
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Ensures icons align with multi-line text */
+  gap: 5px;
+  height: auto;
+
+}
+
+.header-text {
+  flex: 1;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal; /* Allows text to wrap */
+  font-size: 12px; /* Adjust size as needed */
+  margin-top:2px;
+
+}
+
+.icon-group {
+  cursor: pointer;
+  white-space: nowrap; /* Keeps icons on a single line */
+  margin-left: 10px;
+}
+
+.icon-group i {
+  margin-right: 10px;
+  font-size: 12px; /* Adjust size as needed */
+}
+#createDashboard .e-panel-header{
+  border-bottom: none;
+  color: rgba(0, 0, 0, .54);
+  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif", "-apple-system", "BlinkMacSystemFont";
+  font-size: 12px !important;
+  font-weight: 500;
+  height: 30px;
+  padding: 5px 6px !important;
+}
+
+  
+
+.card {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: fit-content !important;
+  padding: 10px 15px;
+}
+
+.content-container {
+  display: flex;
+  align-items: center; /* Default alignment */
+  justify-content: center; /* Default alignment */
+  width: 100%;
+  flex-wrap: wrap; /* Allow wrapping on small widths */
+  gap: 10px; /* Space between elements */
+}
+
+/* Layout options */
+.horizontal-layout {
+  flex-direction: row; /* Icon and label side by side */
+}
+
+.vertical-layout {
+  flex-direction: column; /* Icon above label */
+  justify-content: center; /* Center-align vertically */
+}
+
+.reverse-horizontal-layout {
+  flex-direction: row-reverse; /* Label first, icon second */
+  justify-content: space-between; 
+}
+
+.space-between-layout {
+  flex-direction: row; /* Icon and label side by side */
+  justify-content: space-between; /* Add space between icon and label */
+  width: 100%; /* Ensure full width for space distribution */
+}
+
+.Cardlabel {
+  word-wrap: break-word; /* Allow wrapping */
+  overflow: hidden;
+  display: block;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  text-align: center; /* Center-align text */
+}
+
+i {
+  display: inline-block;
+  text-align: center;
+}
+
+.e-dlg-overlay {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+
+
+.e-grid .e-leftfreeze.e-freezeleftborder {
+  border-right-color: rgb(210, 212, 212);
+}
+
+// ::ng-deep .e-grid .e-headercelldiv {
+//   overflow: visible !important;
+//   white-space: normal !important;
+//   display: flex !important;
+//   align-items: center !important;
+// }
+
+
+
+::ng-deep .e-pivotview .e-headercelldiv {
+    overflow: visible !important;
+  white-space: normal !important;
+  text-align: center !important;
+  justify-content: center !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+::ng-deep .e-pivotview .e-headertext {
+  width: 100% !important;
+  text-align: center !important;
+}
+
+
+
+// table css
+::ng-deep .show-borders .e-rowcell,
+::ng-deep .show-borders .e-headercell {
+  border: 1px solid #ebeaea !important;
+}
+
+::ng-deep .no-borders .e-rowcell,
+::ng-deep .no-borders .e-headercell,
+::ng-deep .no-borders .e-rowcell::after,
+::ng-deep .no-borders .e-gridcontent,
+::ng-deep .no-borders .e-row,
+::ng-deep .no-borders .e-grid {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .no-borders .e-rowcell {
+  border-bottom: none !important;
+}
+
+// ::ng-deep .e-grid .e-row:hover,
+// ::ng-deep .e-grid .e-rowcell:hover {
+//   background-color: transparent !important;
+// }
+
+::ng-deep .e-grid .e-selectionbackground {
+  background-color: transparent !important;
+}
+
+::ng-deep .e-grid .e-focused {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+.e-grid.e-gridhover:not(.e-rowdrag)
+
+.e-row:not(.e-disable-gridhover):not(.e-editedrow):not(.e-detailrow):hover
+
+.e-rowcell:not(.e-cellselectionbackground):not(.e-active):not(.e-updatedtd):not(.e-indentcell) {
+
+background-color: transparent !important;
+
+}
+
+// gauge chart css
+.gauge-parent {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  ejs-circulargauge {
+    flex: 1;
+    min-height: 0;
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+

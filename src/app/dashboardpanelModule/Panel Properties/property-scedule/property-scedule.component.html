@@ -1,0 +1,633 @@
+<div class="control-section e-tab-section">
+  <div class="e-sample-resize-container">
+    <!-- Render the Tab Component -->
+    <ejs-tab id="tab_default" #tabComponent heightAdjustMode='Auto'>
+      <e-tabitems>
+        <e-tabitem [header]='headerText[0]' tabIndex='0'  [cssClass]="isTabInvalid('') ? 'tab-error' : ''">
+          <ng-template #content>
+            <form action="" [formGroup]="scedularTemplateForm" (ngSubmit)="onSubmit()">
+              <div class="row" style="padding: 12px 0px;">
+                <div class="col-md-4 form-group">
+                  <label for="" class="input-label">Title</label>
+                  <input type="text" formControlName="title" class="form-control input-control"
+                    placeholder="Enter title" name="title">
+                </div>
+                <div class="col-md-4 form-group">
+                  <label for="" class="input-label">Table Name <span style="color:red">*</span></label>
+                  <ejs-dropdownlist [dataSource]='tableNamesArray' [allowFiltering]="true" formControlName="tableName"
+                    (change)="onTableDropdown(tableDropdown.value)" #tableDropdown
+                    class="tableNameDropdown"></ejs-dropdownlist>
+                </div>
+                <div class="col-md-4 form-group">
+                  <label for="" class="input-label">Selected Start Date</label>
+                  <input type="date" formControlName="selectedDate" class="form-control input-control"
+                    placeholder="Enter title" name="title">
+                </div>
+
+                <div class="col-md-4 form-group">
+                      <label for="" class="input-label" style="display: block;">Show Popup</label>
+                     <ejs-switch id="unchecked"  cssClass="bar-color"
+                                            formControlName="enablePopup"></ejs-switch>
+                  
+                </div>
+  
+
+
+
+
+
+                <!-- <div class="col-md-4">
+                    <label for="" class="input-label">currentView</label>
+                    <select name="" id="">
+                      <option value="">Select</option>
+                      <option value="">Day</option>
+                      <option value="">Week</option>
+                      <option value="">WorkWeek</option>
+                      <option value="">Month</option>
+                    </select>
+
+                    <ejs-dropdownlist [dataSource]='tableNamesArray' [allowFiltering]="true" formControlName="tableName"
+                    (change)="onTableDropdown(tableDropdown.value)" #tableDropdown
+                    class="tableNameDropdown"></ejs-dropdownlist>
+
+                </div> -->
+              </div>
+
+            </form>
+          </ng-template>
+        </e-tabitem>
+        <e-tabitem [header]='headerText[1]' tabIndex='1'  [cssClass]="isTabInvalid('fieldDetails') ? 'tab-error' : ''">
+          <ng-template #content>
+            <form action="" [formGroup]="scedularTemplateForm" (ngSubmit)="onSubmit()">
+              <div formGroupName="fieldDetails" class="row" style="padding: 12px 0px;">
+                <div class="col-md-4">
+                  <label for="" class="input-label">Subject <span style="color:red">*</span></label>
+                  <ejs-dropdownlist [dataSource]='selectedTableFieldName' [allowFiltering]="true" [fields]="{ text: 'text', value: 'value' }"
+                    formControlName="subject" (change)="onSecondDropdownChange(fieldNameDropdown.value)"
+                    #fieldNameDropdown class="tableNameDropdown"></ejs-dropdownlist>
+                </div>
+
+                 <div class="col-md-4">
+                  <label for="" class="input-label">Start Time <span style="color:red">*</span></label>
+                  <ejs-dropdownlist [dataSource]='selectedTableFieldName' [allowFiltering]="true" [fields]="{ text: 'text', value: 'value' }"
+                    formControlName="startTime" (change)="onSecondDropdownChange(fieldNameDropdown.value)"
+                    #fieldNameDropdown class="tableNameDropdown"></ejs-dropdownlist>
+                </div>
+                <div class="col-md-4">
+                  <label for="" class="input-label">End Time <span style="color:red">*</span></label>
+                  <ejs-dropdownlist [dataSource]='selectedTableFieldName' [allowFiltering]="true" [fields]="{ text: 'text', value: 'value' }"
+                    formControlName="endTime" (change)="onSecondDropdownChange(fieldNameDropdown.value)"
+                    #fieldNameDropdown class="tableNameDropdown"></ejs-dropdownlist>
+                </div>
+
+
+              </div>
+              <div formGroupName="fieldDetails" class="row" style="padding: 12px 0px;">
+
+
+                <!-- <div class="col-md-4">
+                  <label for="" class="input-label">Id Field</label>
+                  <ejs-dropdownlist [dataSource]='selectedTableFieldName' [allowFiltering]="true" [fields]="{ text: 'text', value: 'value' }"
+                    formControlName="idField" (change)="onSecondDropdownChange(fieldNameDropdown.value)"
+                    #fieldNameDropdown class="tableNameDropdown"></ejs-dropdownlist>
+                </div> -->
+
+
+                <div class="col-md-4">
+                  <label for="" class="input-label">Location</label>
+                  <ejs-dropdownlist [dataSource]='selectedTableFieldName' [allowFiltering]="true" [fields]="{ text: 'text', value: 'value' }"
+                    formControlName="location" (change)="onSecondDropdownChange(fieldNameDropdown.value)"
+                    #fieldNameDropdown class="tableNameDropdown"></ejs-dropdownlist>
+
+                </div>
+
+                <div class="col-md-4">
+                  <label for="" class="input-label">Description</label>
+                  <ejs-dropdownlist [dataSource]='selectedTableFieldName' [allowFiltering]="true" [fields]="{ text: 'text', value: 'value' }"
+                    formControlName="description" (change)="onSecondDropdownChange(fieldNameDropdown.value)"
+                    #fieldNameDropdown class="tableNameDropdown"></ejs-dropdownlist>
+                </div>
+
+
+              </div>
+
+              <div formGroupName="timeScale" class="row" style="padding: 12px 0px;">
+
+
+
+                <div class="col-md-4">
+                  <label for="" class="input-label">interval(In Min)</label>
+                  <ejs-dropdownlist [dataSource]='intervalData'   class="tableNameDropdown"
+                    formControlName="interval" ></ejs-dropdownlist>
+                </div>
+
+
+                <div class="col-md-4">
+                  <label for="" class="input-label">slot Count</label>
+                  <ejs-dropdownlist [dataSource]='slotCountData' [allowFiltering]="true"
+                    formControlName="slotCount"  class="tableNameDropdown"></ejs-dropdownlist>
+
+                </div>
+
+                <div class="col-md-4">
+                  <label for="" class="input-label" style="display: block;">Show Timeline</label>
+                     <ejs-switch id="unchecked"  cssClass="bar-color"
+                                            formControlName="enable"></ejs-switch>
+                </div>
+
+
+              </div>
+
+
+            </form>
+          </ng-template>
+        </e-tabitem>
+           <e-tabitem [header]='headerText[2]' tabIndex='1'>
+       <ng-template #content>
+        <form [formGroup]="scedularTemplateForm" (ngSubmit)="onSubmit()">
+          <div formGroupName="resources" class="row" style="padding: 12px 0px;">
+            <div class="col-md-4">
+              <label class="input-label">Grouping Field</label>
+              <ejs-dropdownlist
+                [dataSource]="selectedTableFieldName" [fields]="{ text: 'text', value: 'value' }"
+                [allowFiltering]="true" (change)="onGroupingFieldChange($event)"
+                formControlName="field" class="tableNameDropdown"
+                placeholder="Select Field">
+              </ejs-dropdownlist>
+            </div>
+
+            <div class="col-md-4">
+              <label class="input-label">Grouping Label</label>
+
+              <input type="text" formControlName="name" class="form-control input-control"
+                placeholder="Enter Grouping Label" name="name">
+            </div>
+
+            <!-- <div class="col-md-4">
+              <label class="input-label">Parent Groupby Field</label>
+              <ejs-dropdownlist class="tableNameDropdown"
+                [dataSource]="selectedTableFieldName" 
+                [allowFiltering]="true"
+                formControlName="GroupIdField"e
+                placeholder="Select Parent Group">
+              </ejs-dropdownlist>
+            </div> -->
+
+            <!-- <div class="col-md-4">
+              <label class="input-label">Grouping Text</label>
+              <ejs-dropdownlist class="tableNameDropdown"
+                [dataSource]="selectedTableFieldName"  [fields]="{ text: 'text', value: 'value' }"
+                [allowFiltering]="true"
+                formControlName="text"
+                placeholder="Select Parent Group">
+              </ejs-dropdownlist>
+            </div> -->
+
+
+          </div>
+<!-- 
+          <div class="row mt-2">
+            <div class="col-md-12 text-end" style="text-align: right">
+              <button type="button" class="e-btn e-btn-purple" (click)="onAdd()" *ngIf="!isEditMode">Add</button>
+              <button type="button" class="e-btn e-btn-purple" (click)="onUpdate()" *ngIf="isEditMode">Update</button>
+            </div>
+          </div> -->
+        </form>
+
+  <hr />
+
+  <!-- Table -->
+  <!-- <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Sr. No</th>
+        <th>Grouping Field</th>
+        <th>Grouping Label</th>
+        <th>Parent Groupby Field</th>
+        <th>Grouping Text</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of resourceList; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ item.field }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.GroupIdField }}</td>
+        <td>{{ item.text }}</td>
+
+        
+        <td>
+          <button class="e-btn e-btn-purple" style="margin-right:15px" (click)="onEdit(i)">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="e-btn e-btn-purple" (click)="onDelete(i)">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+
+        </td>
+      </tr>
+    </tbody>
+  </table> -->
+</ng-template>
+
+        </e-tabitem>
+
+        <!-- <e-tabitem [header]='headerText[3]' tabIndex='3'>
+          <ng-template #content>
+            <form [formGroup]="scedularTemplateForm" (ngSubmit)="onSubmit()">
+              <div formGroupName="viewConfig" class="row" style="padding: 12px 0px;">
+                
+                <div class="col-md-3">
+                  <label class="input-label">View Type</label>
+                  <ejs-dropdownlist 
+                    [dataSource]="scheduleViewDatas" 
+                    [allowFiltering]="true"
+                    formControlName="view" 
+                    class="tableNameDropdown"
+                    placeholder="Select View">
+                  </ejs-dropdownlist>
+                </div>
+
+                <div class="col-md-3">
+                  <label class="input-label">Start Hour</label>
+                  <ejs-dropdownlist 
+                    [dataSource]="hoursData" 
+                    [allowFiltering]="true"
+                    formControlName="startHour" 
+                    class="tableNameDropdown"
+                    placeholder="Select Start Hour">
+                  </ejs-dropdownlist>
+                </div>
+
+                <div class="col-md-3">
+                  <label class="input-label">End Hour</label>
+                  <ejs-dropdownlist 
+                    [dataSource]="hoursData" 
+                    [allowFiltering]="true"
+                    formControlName="endHour" 
+                    class="tableNameDropdown"
+                    placeholder="Select End Hour">
+                  </ejs-dropdownlist>
+                </div>
+
+                <div class="col-md-3">
+                  <label class="input-label">Interval (Minutes)</label>
+                  <ejs-dropdownlist 
+                    [dataSource]="intervalData" 
+                    [allowFiltering]="true"
+                    formControlName="interval" 
+                    class="tableNameDropdown"
+                    placeholder="Select Interval">
+                  </ejs-dropdownlist>
+                </div>
+
+              </div>
+
+              <div class="row mt-2">
+                <div class="col-md-12 text-end" style="text-align: right">
+                  <button type="button" class="e-btn e-btn-purple" (click)="onAddView()" *ngIf="!isViewEditMode">Add View</button>
+                  <button type="button" class="e-btn e-btn-purple" (click)="onUpdateView()" *ngIf="isViewEditMode">Update View</button>
+                </div>
+              </div>
+            </form>
+
+            <hr />
+
+            Views Table
+            <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+              <table class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>Sr. No</th>
+                    <th>View Type</th>
+                    <th>Start Hour</th>
+                    <th>End Hour</th>
+                    <th>Interval (Min)</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of viewsList; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ item.view }}</td>
+                    <td>{{ item.startHour }}:00</td>
+                    <td>{{ item.endHour }}:00</td>
+                    <td>{{ item.interval }}</td>
+                    <td>
+                      <button class="e-btn e-btn-purple" style="margin-right:15px" (click)="onEditView(i)">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button class="e-btn e-btn-danger" (click)="onDeleteView(i)">
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr *ngIf="viewsList.length === 0">
+                    <td colspan="6" class="text-center">No views configured</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-template>
+        </e-tabitem> -->
+
+        <e-tabitem [header]='headerText[3]' tabIndex='4' [cssClass]="isTabInvalid('Raw Query') ? 'tab-error' : ''">
+          <ng-template #content>
+            <div id="ChartExpression" class="tab-pane active ">
+              <div class="col-md-12 " id="modalBody1" style="margin-right:1px; margin-top: 5px; padding: 0px;">
+                <form action="" [formGroup]="scedularTemplateForm" (ngSubmit)="onSubmit()">
+
+                  <div class="row">
+                    <div class="col-md-9 border">
+                      <fieldset>
+                        <legend>Raw Query: <span style="color:red">*</span>
+
+                        </legend>
+                        <div class="row">
+                          <div class="cleardiv  pull-right">
+
+                                                              <button type="button" (click)="onCopyRawQuery()"
+                                                        class="e-btn e-btn-purple" 
+                                                        id="chartbtnCopyRawQuery">Copy</button>
+                                                    &nbsp;
+                                                    <span *ngIf="copyMessage" style="position:absolute; top:10px; left:50%; transform:translateX(-50%);
+             background:#323232; color:#fff; padding:6px 12px;
+             border-radius:6px; font-size:13px;">
+                                                        {{ copyMessage }}
+                                                    </span>
+
+                                                    
+                            <button type="button" (click)="onClearRawQuery()" class="e-btn e-btn-purple"
+                              id="chartbtnCleardimCondition">Clear</button>
+                          </div>
+                        </div>
+
+                        <div class="">
+                          <textarea name="rawQuery" cols="40" rows="7" class="form-control" id="pop_chart_expression"
+                            formControlName="rawQuery" [(ngModel)]="rawQueryValue"
+                            (click)="updateCursorPosition($event)" (input)="updateCursorPosition($event)">
+                                           </textarea>
+
+                        </div>
+                        <div class="actionbuttons">
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" (click)="addRawQueryText($event)"
+                            value="+">+</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" (click)="addRawQueryText($event)"
+                            value="-">-</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" (click)="addRawQueryText($event)"
+                            value="*">*</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" (click)="addRawQueryText($event)"
+                            value="/">/</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" (click)="addRawQueryText($event)"
+                            value="==">==</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" (click)="addRawQueryText($event)"
+                            value="<">&lt;</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" (click)="addRawQueryText($event)"
+                            value="<=">&lt;=</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" (click)="addRawQueryText($event)"
+                            value="!=">!=</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" (click)="addRawQueryText($event)"
+                            value=">=">&gt;=</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" (click)="addRawQueryText($event)"
+                            value=">">&gt;</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" (click)="addRawQueryText($event)"
+                            value="and">and</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" (click)="addRawQueryText($event)"
+                            value="or">or</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" (click)="addRawQueryText($event)"
+                            value="not">not</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" (click)="addRawQueryText($event)"
+                            value="(">(</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" (click)="addRawQueryText($event)"
+                            value=")">)</button>
+                          <button type="button" class='e-btn e-btn-purple rawQueryBtn' (click)="addRawQueryText($event)"
+                            value="{apply_filters}">Apply_Filters</button>
+                        </div>
+
+
+
+                      </fieldset>
+                    </div>
+                    <div class="col-md-3 border">
+                      <fieldset>
+                        <legend>Select Table:
+
+                        </legend>
+
+
+                        <input type="text" class="form-control tableInputTitle" formControlName="tableName">
+
+
+                        <div class="tabldiv">
+                          <div class="headerstylepopup">
+                            <h5 class="popuph5style" style="margin-bottom:2px">Selected Table Field Names</h5>
+                          </div>
+                          <div class="Tablelist" style="height: 131px;">
+
+                            <ul class="list-group">
+                              <li class="list-group-items" (click)="addToTextarea(name.text)"
+                                *ngFor="let name of selectedTableFieldName">
+                                {{name.text}}
+                              </li>
+                            </ul>
+
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+                  </div>
+
+                </form>
+
+              </div>
+            </div>
+          </ng-template>
+        </e-tabitem>
+        <e-tabitem [header]='headerText[4]' tabIndex='4' [cssClass]="isTabInvalid('viewSettings') ? 'tab-error' : ''">
+          <ng-template #content>
+            <form action="" [formGroup]="scedularTemplateForm">
+              <div formGroupName="viewSettings">
+                <div class="row" style="padding: 12px 0px;">
+
+                  <div class="col-md-3">
+                    <label for="" class="input-label" style="display: block;">Enable Timeline View</label>
+                    <ejs-switch id="timelineToggle" cssClass="bar-color" formControlName="enableTimelineView"
+                      (change)="onTimelineViewToggle($event)">
+                    </ejs-switch>
+                  </div>
+
+                  <div class="col-md-3 form-group">
+                    <label class="input-label">Select Views</label>
+                    <ejs-dropdownlist *ngIf="currentViewOptions" id="scheduleView" class="tableNameDropdown"
+                      [dataSource]="currentViewOptions" [fields]="viewFields" [popupHeight]="'250px'"
+                      [popupWidth]="'280px'" [allowFiltering]="true" formControlName="scheduleView"
+                      placeholder="Select a view...">
+                    </ejs-dropdownlist>
+                  </div>
+
+                  <div class="col-md-3 form-group">
+                    <label for="" class="input-label">Start Hour</label>
+                    <input type="time" formControlName="startHour" class="form-control input-control"
+                      placeholder="HH:MM:SS" step="1">
+                  </div>
+
+                  <div class="col-md-3 form-group">
+                    <label for="" class="input-label">End Hour</label>
+                    <input type="time" formControlName="endHour" class="form-control input-control"
+                      placeholder="HH:MM:SS" step="1">
+                  </div>
+
+                </div>
+                <div style="text-align: right; margin-bottom:10px">
+                  <button ejs-button type="button" *ngIf="showViewAddBtn" (click)="onAddView()"
+                    class="e-btn e-btn-purple">
+                    Add
+                  </button>
+                  <button ejs-button type="button" *ngIf="updateViewBtn" (click)="onUpdateView()"
+                    class="e-btn e-btn-purple">
+                    Update
+                  </button>
+                </div>
+              </div>
+            </form>
+            <div style="max-height: 200px; overflow-y: auto;">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Sr No</th>
+                    <th>Enable Timeline</th>
+                    <th>View Type</th>
+                    <th>Start Hour</th>
+                    <th>End Hour</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let view of viewsList; let i=index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ view.enableTimelineView ? 'Yes' : 'No' }}</td>
+                    <td>{{ view.scheduleView }}</td>
+                    <td>{{ view.startHour }}</td>
+                    <td>{{ view.endHour }}</td>
+                    <td style="cursor:pointer">
+                      <i class="fas fa-trash-alt" (click)="onDeleteView(i)"></i>
+                      <i class="fas fa-edit" style="margin-left:5px" (click)="onEditView(i)"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-template>
+        </e-tabitem>
+        <e-tabitem [header]='headerText[5]' tabIndex='5'
+          [cssClass]="isTabInvalid('Conditional Formatting') ? 'tab-error' : ''" s>
+          <ng-template #content>
+            <form action="" [formGroup]="scedularTemplateForm">
+              <div formGroupName="formattingCondition">
+                <div class="row" style="padding: 12px 0px;">
+
+                  <div class="col-md-3">
+                    <label for="fieldName" class="input-label">Value Field Name</label>
+                    <ejs-dropdownlist [dataSource]='selectedTableFieldName' [allowFiltering]="true"
+                      [fields]="{ text: 'text', value: 'value' }" formControlName="measureField" #fieldNameDropdown
+                      class="tableNameDropdown"></ejs-dropdownlist>
+                  </div>
+
+                  <div class="col-md-3 form-group">
+                    <label for="fieldName" class="input-label">Condition</label>
+                    <select name="" id="" class="form-control selectInputFeild" formControlName="conditionFormat"
+                      (change)="onSelectCondtionFormatValue($event)">
+                      <option value="">Select</option>
+                      <option value="LessThan">Less Than</option>
+                      <option value="Between">Between</option>
+                      <option value="LessThanOrEqualTo">Less Than Or Equal To</option>
+                      <option value="GreaterThan">Greater Than</option>
+                      <option value="GreaterThanOrEqualTo">Greater Than Or Equal To</option>
+                      <option value="Equals">Equals</option>
+                      <option value="NotEquals">Not Equals</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-3 form-group">
+                    <label for="fieldName" class="input-label">Enter Start Value</label>
+                    <input type="number" formControlName="value1" class="form-control inputFeild">
+                  </div>
+
+                  <div class="col-md-3 form-group" *ngIf="selectedConditionType === 'Between'">
+                    <label for="fieldName" class="input-label">Enter End Value</label>
+                    <input type="number" formControlName="value2" class="form-control inputFeild">
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-3">
+                    <label for="fontSize" class="input-label">Font Size</label>
+                    <input type="text" formControlName="fontSize" class="form-control inputFeild">
+                  </div>
+                  <div class="col-md-3">
+                    <label for="fontSize" class="input-label" style="display: block;">Font Color</label>
+                    <input ejs-colorpicker formControlName="Fontcolor" type="color" class="form-control">
+                  </div>
+                  <div class="col-md-3">
+                    <label for="fontSize" class="input-label" style="display: block;">Background Color</label>
+                    <input ejs-colorpicker formControlName="BackgroundColor" type="color" class="form-control">
+                  </div>
+                </div>
+
+                <div style="text-align: right; margin-bottom:10px">
+                  <button ejs-button type="button" *ngIf="showConditionAddBtn" (click)="onAddConditionFormat()"
+                    class="e-btn e-btn-purple ">
+                    Add
+                  </button>
+                  <button ejs-button type="button" *ngIf="updateConditonBtn" (click)="onUpdateConditonObj()"
+                    class="e-btn e-btn-purple ">
+                    Update
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <div style="max-height: 200px; overflow-y: auto;">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Sr No</th>
+                    <th>Field Name</th>
+                    <th>Condition</th>
+                    <th>Start Value</th>
+                    <th *ngIf="hasAnyBetweenCondition()">End Value</th>
+                    <th>Background Color</th>
+                    <th>Font Color</th>
+                    <th>Font Size</th>
+                    <th>Font Family</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of conditionalFormatSettingsArray; let i=index">
+                    <td>{{ i + 1}}</td>
+                    <td>{{item.measure}}</td>
+                    <td>{{item.conditions}}</td>
+                    <td>{{item.value1}}</td>
+                    <td *ngIf="hasAnyBetweenCondition()">
+                      {{item.conditions === 'Between' ? item.value2 : '-'}}
+                    </td>
+                    <td>{{item.style.backgroundColor}}</td>
+                    <td>{{item.style.color}}</td>
+                    <td>{{item.style.fontSize}}</td>
+                    <td>{{item.style.fontFamily}}</td>
+                    <td style="cursor:pointer">
+                      <i class="fas fa-trash-alt" (click)="onDeleteConditionObj(i)"></i>
+                      <i class="fas fa-edit" style="margin-left:5px" (click)="onEditConditionObj(item, i)"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-template>
+        </e-tabitem>
+      </e-tabitems>
+    </ejs-tab>
+  </div>
+</div>

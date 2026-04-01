@@ -1,0 +1,159 @@
+<div class="control-section">
+  <div class="containers">
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class=" popupHeader tableTitle">
+          Dashboard Rearrange    
+              <span class="text-danger" style="font-size: 12px;">
+               ( * Drag & Drop to rearrange )
+            </span>
+        </h3>
+
+
+       
+      </div>
+
+      <div class="col-md-12 " style="min-height: 450px">
+        <div id="drag-drop-wrapper wrapborder">
+          <div class="listbox-control">
+            <div class="submitBtn" style="margin-bottom:10px">
+ 
+
+              <!-- <button class="non-mobile-button e-btn e-btn-purple" *ngIf="isRoleSuperadmin == 'superadmin'"
+                (select)="onDbSelect($event)" style="margin-right:10px; cursor: pointer;" [content]="'Select'"
+                ejs-dropdownbutton [items]='items' iconCss="fas fa-database"></button> -->
+
+                <button class="e-btn e-btn-purple" style="cursor: pointer; margin-right:10px"
+               *ngIf="groupPermissionObj?.can_create || groupPermissionObj?.can_update" (click)="openGroupingModal()"
+               ejs-button>+ Group </button> 
+
+
+              <button class="e-btn e-btn-purple" *ngIf="permissionObj.can_create || permissionObj.can_update"
+                (click)="dialogBtnClick()" style="margin-right:5px; cursor: pointer" ejs-button>+ Setup</button>
+
+              <button class="e-btn e-btn-purple" style="cursor: pointer"
+                *ngIf="permissionObj.can_create || permissionObj.can_update" (click)="onDashboardRearrange()"
+                ejs-button>Save</button>
+
+            </div>
+
+
+            <ejs-listbox #listbox1 [dataSource]='dashboardDataList' [fields]="fields" [allowDragAndDrop]='true'
+              height='540px' itemTemplate='<div class="list-wrapper row" >
+            <div class="col-md-12"> <div class="displyInfo" style="background-image: ${ backgroundColor };padding: 8px; text-align:center; height:89px">  <p class="dashboard_name">${ dashboard_name}</p>
+              <p class="description">${description}</p> </div>
+
+            </div>
+
+          </div>' (dragStart)='onDragStart($event)' (drop)='onDrop($event)' (drag)="onDrag($event)">
+            </ejs-listbox>
+
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <ejs-dialog id="defaultDialog" #defaultDialog [isModal]='isModal' [visible]='visible' [header]='dialogHeader'
+    [allowDragging]='dialogdragging' [animationSettings]='animationSettings' [showCloseIcon]='dialogCloseIcon'
+    [target]='target' [width]='dialogWidth'>
+
+
+    <ng-template #content>
+      <div style="padding:10px 5px">
+        <form action="" [formGroup]="dashboardSetupForm" (submit)="createDashboardSetup()">
+          <div class="form-group">
+            <label for="userName">UserName <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
+            <select name="" class="form-control" id="" formControlName="user_id">
+              <option value="">Select User</option>
+              <option value="" *ngFor="let user of usersArray" [value]="user.user_id">{{user.username}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="display_type">Display Type <span
+                style="color:red; font-size: 14px;font-weight:600">*</span></label>
+            <select name="" id="" class="form-control" formControlName="display_type">
+              <option value="">Select</option>
+              <option value="card">Card</option>
+              <option value="list">List</option>
+              <option value="Grouped">Group</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="show_image" style="display:block"> Show Image <span
+                style="color:red; font-size: 14px;font-weight:600">*</span></label>
+            <ejs-switch formControlName="show_image" cssClass="bar-color" style="margin-left:10px"></ejs-switch>
+
+          </div>
+
+          <div class="form-group" align="right">
+            <button class="e-btn e-btn-purple" style="margin-right:10px" *ngIf="submitFlag" >Create</button>
+            <button class="e-btn e-btn-purple" type="button" *ngIf="updateFlag" (click)="updateDashboardSetup()"
+               >Update</button>
+          </div>
+        </form>
+      </div>
+    </ng-template>
+
+  </ejs-dialog>
+
+  <ejs-dialog id="groupingDialog" #groupingDialog [isModal]='isModal' [visible]='visible' [header]="'Add Grouping'"
+  [allowDragging]='dialogdragging' [animationSettings]='animationSettings' [showCloseIcon]='dialogCloseIcon'
+  [target]='target' [width]='dialogWidth'>
+
+  <ng-template #content>
+    <div style="padding:20px 5px">
+      <form [formGroup]="groupForm">
+        <!-- Group Name Dropdown -->
+        <div class="form-group">
+          <label>Select Group Name <span style="color:red">*</span></label>
+          <ejs-dropdownlist 
+            formControlName="groupName"
+            id="groupName"
+            [dataSource]="groupNames"
+            [placeholder]="'Select Group Name'"
+           
+            (change)="onGroupChange($event)"
+            [fields]="{ text: 'name', value: 'name'}">
+          </ejs-dropdownlist>
+        </div>
+
+        <!-- Create Group Name Input (if custom entry) -->
+        <div class="form-group" *ngIf="isCustomGroup">
+          <label>Enter New Group Name <span style="color:red">*</span></label>
+          <input type="text" class="form-control" formControlName="customGroupName" placeholder="Enter new group name" />
+        </div>
+
+        <div class="form-group">
+          <label>Grouped Dashboard Name<span style="color:red">*</span></label>
+          <ejs-multiselect id='multiselect-checkbox' #checkbox [dataSource]='dashboardDataList'  [enableSelectionOrder]='false' [fields]="{ text: 'dashboard_name', value: 'dashboard_id', groupBy: 'groupName' }"
+          [showDropDownIcon]='true' [mode]="'CheckBox'" showSelectAll='true' [enableGroupCheckBox]= 'true'  ></ejs-multiselect>
+        </div>
+
+
+
+        <!-- Dashboard Multi-Select Dropdown -->
+        <div class="form-group">
+          <label>Dashboard Name <span style="color:red">*</span></label>
+          <ejs-multiselect 
+          [dataSource]="dashboardDataList"  formControlName="dashboardNames" class="multiSelectField"  [fields]="{ text: 'dashboard_name', value: 'dashboard_id' }"  [placeholder]="'Select Dashboard Name'"  [showDropDownIcon]='true'
+          mode="CheckBox"></ejs-multiselect>
+
+        </div>
+
+        <!-- Submit -->
+        <div class="form-group" align="right" style="margin-top:30px">
+          <button class="e-btn e-btn-purple" (click)="onSubmit()">Group</button>
+          <button class="e-btn e-btn-purple" style="margin-left:5px" (click)="onSubmit()">UnGroup</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+</ejs-dialog>
+
+
+</div>

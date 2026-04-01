@@ -1,0 +1,1379 @@
+<div class="control-section">
+
+  <div id="container">
+
+    <div class="layout">
+
+      <div class="filteredListDiv">
+        <div class="dashboard_Title">
+          <div>
+            <p class="popupHeader">
+              {{dashboardName}}
+              <span><i class="fas fa-info-circle" [title]="description"></i></span>
+            </p>
+
+          </div>
+
+          <div class="filterBtn">
+
+
+
+            <!-- <button class="e-btn e-btn-purple" style=" cursor: pointer; margin-right:10px" >
+            <span class="iconColor" (click)="showMarkdwonBox()">
+              <i class="fas fa-bolt" 
+           ></i>
+            </span>
+          </button> -->
+            <span class="manual-popup-inline" *ngIf="showManualPopup">
+              {{ manualPopupMessage }}
+            </span>
+
+
+            <button class="e-btn e-btn-purple" style=" cursor: pointer; margin-right:10px" [title]="'Update'"
+              *ngIf=" getPermissionById(editDashboardId) === undefined || getPermissionById(editDashboardId)?.can_update !== false"
+              (click)="onEditClick()">
+              <span class="iconColor">
+                <i class="fas fa-edit icon"></i>
+              </span>
+            </button>
+
+
+            <button style=" cursor: pointer;  margin-right: 10px" class="e-btn e-btn-purple " [title]="'Apply Filter'"
+              (click)="applyGlobalFilter()">
+
+
+              <i class="fas fa-filter" style="margin-right: 1px;"></i>
+            </button>
+
+
+            <button style=" cursor: pointer; margin-right: 10px;" class="e-btn e-btn-purple " [title]="'Clear Filter'"
+              (click)="onCancel()">
+
+              <i class="fas fa-eraser"></i>
+            </button>
+
+
+            <button class="e-btn e-btn-purple" style="cursor: pointer; margin-right: 10px;"
+              (click)="onFilteredIconClick()" [title]="'Applied filter'">
+
+              <i class="fas fa-bookmark" style="margin-right: 1px;"></i>
+            </button>
+
+            <button class="e-btn e-btn-purple" style="cursor: pointer; margin-right:10px"
+              [title]="'Download All Panels'" (click)="downloadAllPanelsData()">
+              <i class="fas fa-download icon" style="margin-right: 1px;"></i>
+            </button>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+      <div *ngIf="dashboardCreationObj" style="width:100%">
+        <ejs-dashboardlayout #createDashboard id="createDashboard" [cellSpacing]="cellSpacing" [allowResizing]="false"
+          [columns]="'36'" [allowFloating]="dashboardCreationObj.allowFloating" [allowDragging]="false"
+          [cellAspectRatio]="cellAspectRatio">
+          <e-panels>
+            <e-panel *ngFor="let item of panelSeriesArray;  let i = index; trackBy: trackById" [col]="item.col"
+              [row]="item.row" [sizeX]="item.sizeX" [sizeY]="item.sizeY"
+              [cssClass]="item.panelType === 'InputBox' ? 'inputbox-panel' : ''">
+
+              <ng-template #header
+                *ngIf=" item.panelType !== 'Box' && item.panelType !== 'RawDataDump' && item.panelType !== 'Card' ">
+                <ng-container *ngIf="item.panelType == 'DatePicker' || item.panelType == 'DropdownList'">
+                  <div class="copyText">
+                    <div class="panelHeader">
+                      {{ item.header }}
+                    </div>
+                    <i class="fas expand-collapse-icon"
+                      [ngClass]="isPanelExpanded(item.id) ? 'fa-chevron-down' : 'fa-chevron-right collapsed'"
+                      (click)="togglePanelExpansion(item.id)"
+                      title="{{ isPanelExpanded(item.id) ? 'Collapse' : 'Expand' }}">
+                    </i>
+                  </div>
+                </ng-container>
+
+
+                <ng-container *ngIf="item.panelType == 'Pivot'">
+                  <div class="copyText" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="panelHeader">
+                      {{ item.header }}
+                    </div>
+
+
+                    <div style="display: flex; align-items: center; gap: 12px; margin-right: 10px;">
+                      <i class="fas fa-bolt" (click)="onOpenEditerDlg(item)"
+                        style="cursor: pointer; color: black; font-size: 10px; ">
+                      </i>
+
+                      <!-- <div style="display: flex; align-items: center; gap: 8px; width: 100%;">
+                        <label style="font-size: 12px; margin: 0; font-weight: 500;">
+                          Table
+                        </label>
+
+                        <ejs-switch
+                          [id]="'displayOption-' + item.id"
+                          [checked]="(pivotDisplayOptions[item.id] || item.content?.defaultView === 'chart' ? 'Chart' : 'Table') === 'Chart'"
+                          (change)="onPivotDisplayChange($event, item)"
+                          style="margin: 0;">
+                        </ejs-switch>
+
+                        <label style="font-size: 12px; margin: 0; font-weight: 500;">
+                          Chart
+                        </label>
+                      </div> -->
+
+                      <i class="fas expand-collapse-icon"
+                        [ngClass]="isPanelExpanded(item.id) ? 'fa-chevron-down' : 'fa-chevron-right collapsed'"
+                        (click)="togglePanelExpansion(item.id)"
+                        title="{{ isPanelExpanded(item.id) ? 'Collapse' : 'Expand' }}" style="cursor: pointer;">
+                      </i>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <ng-container
+                  *ngIf="item.panelType == 'Chart' || item.panelType == 'Pie' || item.panelType == 'PieChart' || item.panelType == 'Donut' || item.panelType == 'Doughnut'">
+
+                  <div class="copyText" style="display: flex; justify-content: space-between;">
+                    <div class="panelHeader">
+                      {{ item.header }}
+                      <!-- <i class="fas fa-arrow-left"  *ngIf="drilldownFlag && chartLevels[item.id] > 0"  (click)="onReturnBackClick(item)"
+                        style="float: right; cursor: pointer;"></i>  -->
+
+                    </div>
+                    <div>
+                      <i class="fas fa-bolt" *ngIf="chatbotPermissionOBj.can_view || userRole == 'superadmin'"
+                        (click)="onOpenEditerDlg(item)" style=" cursor: pointer; color : black; font-size: 10px;"></i>
+
+                      <i class="fas fa-arrow-left" (click)="onchartDrillUp(item)"
+                        *ngIf="drilldownFlag && chartLevels[item.id] > 0"
+                        style=" cursor: pointer; color : black; font-size: 10px;"></i>
+
+                      <button ejs-dropdownbutton #ChartDropdown id="excelChartDropdown" [items]='exportDropdownItems'
+                        (select)="onChartDropdwonSelect($event, item)" style=" cursor: pointer; font-size: 10px;"
+                        iconCss="fas fa-download"></button>
+                      <i class="fas expand-collapse-icon"
+                        [ngClass]="isPanelExpanded(item.id) ? 'fa-chevron-down' : 'fa-chevron-right collapsed'"
+                        (click)="togglePanelExpansion(item.id,$event)"
+                        title="{{ isPanelExpanded(item.id) ? 'Collapse' : 'Expand' }}"> </i>
+                    </div>
+                  </div>
+
+                </ng-container>
+
+                <ng-container
+                  *ngIf="item.panelType == 'ListBox' || item.panelType == 'MultiSelectDropDown' || item.panelType == 'InputBox'">
+                  <div style="display: flex; flex-direction: row;  justify-content: space-between; gap: 2px; padding:0"
+                    class="copyText">
+                    <div class="panelHeader" style="flex: 1; word-break: break-word; overflow-wrap: break-word;">
+                      {{ item.header }}
+                    </div>
+                    <div
+                      style="cursor: pointer; color: black; padding: 2px 5px;  white-space: nowrap; display: flex; align-items: center; gap: 6px;">
+                      <a (click)="applyFilter(item)" style="color: black; margin-right: 1px;" title="Apply Filter">
+                        <i class="fas fa-filter" style="font-size: 9px"></i>
+                      </a>
+                      <a (click)="onlistboxClearFilters(item)" style="color: black;" title="Clear Filter">
+                        <i class="fas fa-eraser" style="font-size: 10px"></i>
+                      </a>
+                      <i class="fas expand-collapse-icon"
+                        [ngClass]="isPanelExpanded(item.id) ? 'fa-chevron-down' : 'fa-chevron-right collapsed'"
+                        (click)="togglePanelExpansion(item.id)"
+                        title="{{ isPanelExpanded(item.id) ? 'Collapse' : 'Expand' }}"> </i>
+                    </div>
+                  </div>
+                </ng-container>
+
+
+                <ng-container *ngIf="item.panelType == 'DateRangePicker' ">
+                  <div style="display: flex; " class="copyText">
+                    <div class="panelHeader">
+                      {{ item.header }}
+                    </div>
+                    <div *ngIf="item.content.isInitialFilter" style="cursor: pointer; color:black; font-size: 10px;">
+                      <i class="fas fa-info-circle" [title]="'This is Initial filter'"></i>
+                    </div>
+                    <i class="fas expand-collapse-icon" style="color:black"
+                      [ngClass]="isPanelExpanded(item.id) ? 'fa-chevron-down' : 'fa-chevron-right collapsed'"
+                      (click)="togglePanelExpansion(item.id)"
+                      title="{{ isPanelExpanded(item.id) ? 'Collapse' : 'Expand' }}"> </i>
+                  </div>
+
+                </ng-container>
+
+                <ng-container *ngIf="item.panelType == 'Calender' ">
+                  <div style="display: flex; justify-content: space-between;" class="copyText">
+                    <div class="panelHeader">
+                      {{ item.header }}
+                      <i class="fas expand-collapse-icon"
+                        [ngClass]="isPanelExpanded(item.id) ? 'fa-chevron-down' : 'fa-chevron-right collapsed'"
+                        (click)="togglePanelExpansion(item.id)"
+                        title="{{ isPanelExpanded(item.id) ? 'Collapse' : 'Expand' }}"> </i>
+                    </div>
+
+                  </div>
+
+                </ng-container>
+
+
+                <ng-container *ngIf="item.panelType === 'Kanban'">
+                  <div class="copyText panelRow">
+
+                    <div class="panelHeader">
+                      {{ item.header }}
+                    </div>
+
+                    <div style="margin:0px 5px 5px">
+                      <i class="fas fa-bolt" (click)="onOpenEditerDlg(item)"
+                        style="cursor: pointer; color: black; font-size: 10px; ">
+                      </i>
+
+                    </div>
+                    <i class="fas expand-collapse-icon"
+                      [ngClass]="isPanelExpanded(item.id) ? 'fa-chevron-down' : 'fa-chevron-right collapsed'"
+                      (click)="togglePanelExpansion(item.id)"
+                      title="{{ isPanelExpanded(item.id) ? 'Collapse' : 'Expand' }}"> </i>
+
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="item.panelType === 'Gauge'">
+                  <div class="copyText" style="display: flex; justify-content: space-between;">
+                    <div class="panelHeader">
+                      {{ item.header }}
+                    </div>
+                    <div>
+                      <i class="fas fa-bolt" *ngIf="chatbotPermissionOBj.can_view || userRole == 'superadmin'"
+                        (click)="onOpenEditerDlg(item)" style="cursor: pointer; color: black; font-size: 10px;"></i>
+                      <button ejs-dropdownbutton #ChartDropdown [id]="'gaugeDropdown' + item.id"
+                        [items]='gaugeExportDropdownItems' (select)="onGaugeDropdownSelect($event, item)"
+                        style="cursor: pointer; font-size: 10px;" iconCss="fas fa-download"></button>
+                      <i class="fas expand-collapse-icon"
+                        [ngClass]="isPanelExpanded(item.id) ? 'fa-chevron-down' : 'fa-chevron-right collapsed'"
+                        (click)="togglePanelExpansion(item.id, $event)"
+                        title="{{ isPanelExpanded(item.id) ? 'Collapse' : 'Expand' }}">
+                      </i>
+                    </div>
+                  </div>
+                </ng-container>
+
+
+                <ng-container *ngIf="item.panelType == 'Table'">
+                  <div style="display: flex; justify-content: space-between;" class="copyText">
+                    <div class="panelHeader">
+                      {{ item.header }}
+                    </div>
+                    <div style="margin:0px 5px 5px; display: flex; align-items: center;">
+
+                      <!-- <i class="fas fa-comments " *ngIf="item?.content?.comments_dataSource?.length > 0" (click)="onCommentsDownload(item)"  style=" cursor: pointer; color : black; font-size: 10px;margin-right: 10px " title="Download Comments">
+                          </i> -->
+
+                      <!-- <button class="e-btn e-btn-purple"  title="Download Comments">
+                           <i class="fas fa-comments"></i>  <i class="e-icons e-download"></i> 
+                        </button>  -->
+
+                      <i class="fas fa-bolt" *ngIf="chatbotPermissionOBj.can_view || userRole == 'superadmin' "
+                        (click)="onOpenEditerDlg(item)"
+                        style=" cursor: pointer; color : black; font-size: 10px;margin-right: 6px "></i>
+
+
+                      <i class="fas fa-arrow-left" *ngIf="tableDrilldownLevelFlag && tableLevels[item.id] > 0"
+                        (click)="onTableDrillUpClick(item)"
+                        style=" cursor: pointer; font-size: 10px; color : black; margin-right: 5px"></i>
+
+
+                      <!-- <button ejs-dropdownbutton #excelDropdown id="excelDropdown" [items]='items'
+                        (select)="onselect($event, item, grid, item.content.is_pagination_enabled)"
+                        iconCss="fas fa-file-excel"></button> -->
+                      <span *ngIf="isDownloadingMap[item.id]" class="panel-loading-spinner"
+                        style="height: 20px; width: 20px; display: inline-block; margin-right: 5px;"></span>
+                      <button ejs-dropdownbutton #excelDropdown [id]="'excelDropdown' + item.id" [items]='items'
+                        (select)="onselect($event, item, item.content.is_pagination_enabled)"
+                        iconCss="fas fa-file-excel"></button>
+                      <i class="fas expand-collapse-icon"
+                        [ngClass]="isPanelExpanded(item.id) ? 'fa-chevron-down' : 'fa-chevron-right collapsed'"
+                        (click)="togglePanelExpansion(item.id)"
+                        title="{{ isPanelExpanded(item.id) ? 'Collapse' : 'Expand' }}"> </i>
+                    </div>
+                  </div>
+
+                </ng-container>
+              </ng-template>
+
+
+              <ng-template #content>
+
+                <div class="panel-loading-overlay" *ngIf="item.isLoading">
+                  <div class="panel-loading-spinner"></div>
+
+                </div>
+
+
+                <div *ngIf="item.panelType == 'MultiSelectDropDown'"
+                  style="height:100%; width:100%; padding: 5px 10px;overflow: hidden">
+
+                  <!-- code with filtering -->
+                  <ejs-multiselect [popupWidth]="'300px'" popupHeight='200px' [dataSource]='item.content.dataSource'
+                    [fields]='multiselectFields' [placeholder]='"Select"' mode="CheckBox" [showDropDownIcon]='true'
+                    [value]="getMultiselectUiSelection(item.id)" #multiselectDropdown
+                    (change)="onListboxSelectionChange(item, $event)" showSelectAll='true' [allowFiltering]='true'
+                    (filtering)='onFilteringMultiselect($event, item)'>
+
+                  </ejs-multiselect>
+
+                  <!-- 
+                       <ejs-multiselect [popupWidth]="'300px'" popupHeight='200px' [dataSource]="item.content.dataSource" 
+                    [fields]='listBoxfields' [placeholder]='"Select"' mode="CheckBox" [showDropDownIcon]='true'
+                    [(ngModel)]="selectedItemsMap[item.id]" #multiselectDropdown (open)="onMultiDropdownOpen($event, item, multiselectDropdown)"
+                    (change)="onListboxSelectionChange(item, $event)" showSelectAll='true' [allowFiltering]='true'
+                    (filtering)='onMultiselectFiltering($event, item)' [noRecordsTemplate]="'Loading more...'" [closePopupOnSelect]="false">
+
+                  </ejs-multiselect> -->
+
+                  <!-- 
+                          <ejs-multiselect [popupWidth]="'300px'" popupHeight='200px' [dataSource]="item.content.dataSource" 
+                    [fields]='listBoxfields' [placeholder]='"Select"' mode="CheckBox" [showDropDownIcon]='true'
+                    [(ngModel)]="selectedItemsMap[item.id]" #multiselectDropdown (open)="onMultiDropdownOpen($event, item, multiselectDropdown)"
+                    (change)="onListboxSelectionChange(item, $event)" showSelectAll='true' [allowFiltering]='true'
+                    (filtering)='onMultiselectFiltering($event, item)' [noRecordsTemplate]="'Loading more...'" [closePopupOnSelect]="false">
+
+                  </ejs-multiselect> -->
+
+                </div>
+
+                <div *ngIf="item.panelType == 'Calender'" style="height:100%; width:100%; ">
+                  <!-- <ejs-schedule
+  height="100%"
+  width="auto"
+  [selectedDate]="item.content.selectedDate"
+  [group]="item.content.group"
+  [eventSettings]="item.content.eventSettings">
+
+  <e-resources>
+    <e-resource
+      *ngFor="let resource of item.content.resources"
+      [field]="resource.field" [name]="resource.title"
+      [title]="resource.title"
+      [dataSource]="resource.dataSource"
+      [allowMultiple]="true"
+      textField="text"
+      idField="id"
+      colorField="color">
+    </e-resource>
+  </e-resources>
+
+  <e-views>
+    <e-view option='TimelineDay'></e-view>
+    <e-view option='TimelineWeek'></e-view>
+    <e-view option='TimelineWorkWeek'></e-view>
+    <e-view option='TimelineMonth'></e-view>
+    <e-view option='Agenda'></e-view>
+  </e-views>
+[readonly]="true"
+</ejs-schedule>
+ -->
+
+                  <ejs-schedule height="100%" width="auto" [timeScale]="item.content.timeScale"
+                    [group]="item.content.resources ? item.content.group : {}"
+                    [eventSettings]="item.content.eventSettings" [views]="item.content.views ? item.content.views : []"
+                    [rowAutoHeight]="true" [currentView]="'TimelineDay'" (popupOpen)="onPopupOpen($event, item)"
+                    [selectedDate]="item.content.selectedDate" (eventRendered)="onEventRendered($event, item)">
+
+
+
+                    <ng-container *ngIf="item.content.resources">
+                      <e-resources>
+                        <e-resource [field]="item.content.resources.field" [title]="item.content.resources.name"
+                          [dataSource]="item.content.resources.dataSource
+" [allowMultiple]="true" [name]="item.content.resources.name" textField="text" idField="id" colorField="color">
+                        </e-resource>
+                      </e-resources>
+                    </ng-container>
+
+                    <!-- <e-views> 
+                      <e-view option='TimelineDay' [allowVirtualScrolling]="virtualscroll" startHour='09:00' endHour='20:00'></e-view>
+                      <e-view option='TimelineWeek'[allowVirtualScrolling]="virtualscroll" startHour='09:00' endHour='20:00'></e-view>
+                      <e-view option='Week' [allowVirtualScrolling]="virtualscroll" startHour='09:00' endHour='20:00'></e-view>
+                      <e-view option='TimelineMonth' [allowVirtualScrolling]="virtualscroll" startHour='09:00' endHour='20:00'></e-view>
+                      <e-view option='Month'[allowVirtualScrolling]="virtualscroll" startHour='09:00' endHour='20:00'></e-view>
+                    </e-views> -->
+                    <e-views>
+                      <ng-container
+                        *ngIf="item.content.viewsConfiguration && item.content.viewsConfiguration.length > 0">
+                        <e-view *ngFor="let viewConfig of item.content.viewsConfiguration"
+                          [option]="viewConfig.scheduleView" [startHour]="formatHour(viewConfig.startHour)"
+                          [endHour]="formatHour(viewConfig.endHour)" [allowVirtualScrolling]="virtualscroll">
+                        </e-view>
+                      </ng-container>
+
+                      <ng-container
+                        *ngIf="!item.content.viewsConfiguration || item.content.viewsConfiguration?.length === 0">
+                        <e-view option='Today' startHour='09:00' endHour='22:00'></e-view>
+                        <e-view option='TimelineDay' startHour='09:30' endHour='18:00'></e-view>
+                        <e-view option='TimelineWeek'></e-view>
+                        <e-view option='Week'></e-view>
+                        <e-view option='TimelineMonth'></e-view>
+                        <e-view option='Month'></e-view>
+                      </ng-container>
+                    </e-views>
+
+                    <!-- 
+                                        <e-views> 
+                      <e-view option='Today' startHour='09:00' endHour='20:00'></e-view>
+                      <e-view option='TimelineDay' startHour='09:30' endHour='18:00'></e-view>
+                      <e-view option='TimelineWeek'></e-view>
+                       <e-view option='TimelineWorkWeek'></e-view>
+                          <e-view option='TimelineMonth'></e-view>s
+                          <e-view option='Agenda'></e-view>
+                    </e-views> -->
+
+
+
+
+                  </ejs-schedule>
+
+
+
+
+                </div>
+
+
+
+                <div *ngIf="item.panelType == 'InputBox'"
+                  style="height:100%; width:100%; padding: 10px 10px;overflow: hidden">
+
+                  <input type="search" name="" [placeholder]="'Search '" id="" (input)="onInputBoxFilter($event, item)"
+                    [(ngModel)]="selectedItemsMap[item.id]" class="form-control">
+
+
+
+                </div>
+                <!-- <div *ngIf="item.panelType == 'InputBox'"
+  style="height:100%; width:100%; padding: 10px; overflow: visible !important; position: relative;">
+
+  <div style="position: relative; overflow: visible !important;">
+
+
+    <div
+      style="display:flex; flex-wrap:nowrap; align-items:center; gap:4px;
+             height:38px; padding:4px 8px;
+             border:1px solid #ced4da; border-radius:6px;
+             background:#fff; cursor:text;
+             overflow-x:auto; overflow-y:hidden;
+             scrollbar-width:none;"
+      (click)="inputBoxInputRef.focus()">
+
+      <span
+        *ngFor="let tag of getInputBoxTags(item.id); let i = index"
+        style="background:#e8f0fe; color:#1967d2; border-radius:12px;
+               padding:2px 10px; font-size:10px; display:inline-flex;
+               align-items:center; gap:4px; white-space:nowrap;
+               flex-shrink:0;">
+        {{ tag }}
+        <span
+          (mousedown)="removeInputBoxTag(i, item)"
+          style="cursor:pointer; font-size:14px; line-height:1;
+                 color:#1967d2; font-weight:bold;">&times;</span>
+      </span>
+
+      <input
+        #inputBoxInputRef
+        type="text"
+        [placeholder]="getInputBoxTags(item.id).length === 0 ? 'Search...' : ''"
+        style="border:none; outline:none; flex-shrink:0; width:80px;
+               font-size:13px; padding:2px 4px; background:transparent;"
+        [value]="inputBoxText[item.id] || ''"
+        (input)="onInputBoxSearch($event, item)"
+        (paste)="onInputBoxPaste($event, item)"
+        (keydown.enter)="onInputBoxEnter($event, item)"
+        (keydown.backspace)="onInputBoxBackspace($event, item)"
+        (focus)="onInputBoxFocus(item)"
+        (blur)="onInputBoxBlur(item)"
+        autocomplete="off">
+    </div>
+
+    <div
+      *ngIf="(inputBoxSuggestions[item.id] || []).length > 0 && inputBoxDropdownVisible[item.id]"
+      style="position:absolute; top:calc(100% + 2px); left:0; right:0;
+              background:#fff;
+              border:1px solid #dfe1e5; border-top:none;
+              border-radius:0 0 8px 8px;
+             max-height:250px; overflow-y:auto;
+             z-index:99999;
+             box-shadow:0 4px 6px rgba(32,33,36,0.28);">
+      <ul style="margin:0; padding:4px 0; list-style:none;">
+        <li
+          *ngFor="let suggestion of inputBoxSuggestions[item.id]"
+          (mousedown)="selectInputBoxSuggestion(suggestion, item)"
+          style="padding:9px 14px; cursor:pointer; font-size:12px; color:#202124;"
+          onmouseover="this.style.backgroundColor='#f1f3f4'"
+          onmouseout="this.style.backgroundColor='#fff'"
+          [innerHTML]="highlightMatch(suggestion?.item ?? suggestion, inputBoxText[item.id] || '')">
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div> -->
+
+
+
+                <div *ngIf="item.panelType == 'Table'" style="height:100%; width:100%; overflow-y: auto">
+                  <div style="height: 100%; width: 100%;">
+
+                    <ejs-grid [dataSource]='item.content.dataSource' cssClass="custom-font-grid" allowReordering='true'
+                      [enableHover]="false" #grid [autoFit]="item.content.autoFitColumns" [id]="'gridcomp' + item.id"
+                      [allowPaging]="true" [pageSettings]='initialPage' [rowHeight]="30"
+                      (queryCellInfo)="onQueryCellInfo($event,item)" [height]="item.content.height"
+                      (dataBound)="dataBound(item, grid)" [width]="'100%'" [allowGrouping]='item.content.allowGrouping'
+                      [ngClass]="item.content.enableBorders ? 'show-borders' : 'no-borders'"
+                      [allowSorting]='item.content.allowSorting' [showColumnMenu]="'true'"
+                      [groupSettings]='groupOptions' [allowResizing]="true" [filterSettings]='filterSettings'
+                      [allowFiltering]='item.content.allowFiltering' (toolbarClick)='toolbarClick($event, item, grid)'
+                      (rowSelecting)="onGridCellClick($event, item, grid)"
+                      (dataStateChange)="onDataStateChange($event, item, grid)"
+                      (columnMenuOpen)='columnMenuOpen($event, item.content.is_pagination_enabled)'
+                      [allowTextWrap]="item.content.allowWrapping" [textWrapSettings]='wrapSettings'
+                      [class.hide-header]="item.content.hideHeaders">
+                      <ng-template #emptyRecordTemplate>
+                        <div class="empty-record-template" style="text-align: left; padding: 10px;">
+                          <span class="e-grid-empty-record">No records to display</span>
+                        </div>
+                      </ng-template>
+                      <!-- [gridLines]="item?.content?.enableBorders ? 'Both' : 'None'" -->
+                      <e-columns>
+
+                        <e-column *ngFor="let ele of item.content.fieldDetails" [field]='ele.field'
+                          [headerText]="ele.headerText" [textAlign]="ele.textAlign"
+                          [format]="ele.format && (ele.format.toUpperCase().startsWith('P') || ele.format.includes('%')) ? null : ele.format"
+                          [type]="ele.type" [visible]="ele.visible" disableHtmlEncode="true" [isFrozen]="ele.isFrozen"
+                          [width]="ele.width">
+                          <ng-template #template let-data let-column="column"
+                            *ngIf="ele.comment_column || (ele.format && (ele.format.toUpperCase().startsWith('P') || ele.format.includes('%')))">
+                            <div style="display:flex; align-items:center; justify-content:space-between;">
+                              <span
+                                *ngIf="!ele.format || !(ele.format.toUpperCase().startsWith('P') || ele.format.includes('%'))">{{
+                                data[ele.field] }}</span>
+                              <span
+                                *ngIf="ele.format && (ele.format.toUpperCase().startsWith('P') || ele.format.includes('%'))">{{
+                                data[ele.field] }}%</span>
+                              <button *ngIf="ele.comment_column" ejs-button class="e-flat e-small comment-btn"
+                                (click)="openCommentDialog(data, ele.field, $event,item, grid); $event.stopPropagation()">
+                                ðŸ’¬
+                              </button>
+
+                            </div>
+
+                          </ng-template>
+
+                        </e-column>
+
+                      </e-columns>
+
+
+                      <!-- <e-columns>
+                        <e-column *ngFor="let ele of item.content.fieldDetails" [field]='ele.field'
+                            [headerText]='ele.headerText' [textAlign]='ele.textAlign'
+                            [format]="ele.format" [type]="ele.type" [visible]="ele.visible"
+                            disableHtmlEncode="true" [isFrozen]="ele.isFrozen"></e-column>
+                    </e-columns> -->
+                    </ejs-grid>
+
+
+
+                  </div>
+                </div>
+                <div *ngIf="item.panelType == 'Pivot'" class="heightDiv"
+                  [class.chart-view]="item?.content?.defaultView === 'chart' || pivotDisplayOptions[item.id] === 'Chart'">
+
+
+                  <!-- <ejs-pivotview [id]="item.id" #pivotview [toolbar]="PivottoolbarOptions" cssClass="custom-font-pivot"
+                      [height]="item.content.height" allowConditionalFormatting="true" showToolbar="true"
+                      [dataSourceSettings]="item.content.dataSourceSettings" allowExcelExport="true"
+                      allowPdfExport="true" [enableVirtualization]="true" width="100%" [enableValueSorting]='true'
+                    
+                      [gridSettings]="gridSettings" [displayOption]="displayOption"
+                        (enginePopulated)="onEnginePopulated($event, item, pivotview)"
+                      (aggregateCellInfo)="onPivotAggregateCellInfo($event, pivotview, item)"
+                      (toolbarRender)="pivottoolbarClick($event, pivotview, item)"
+                      (beforeExport)="beforeExport($event, item)"
+                      (excelHeaderQueryCellInfo)="excelHeaderQueryCellInfo($event)"
+                      (excelQueryCellInfo)="excelQueryCellInfo($event)">
+                    </ejs-pivotview> -->
+
+                  <ejs-pivotview [id]="item.id" #pivotview [toolbar]="PivottoolbarOptions" cssClass="custom-font-pivot"
+                    [height]="item.content.height" [allowConditionalFormatting]="!item?.content?.pivotLightMode"
+                    showToolbar="true" [dataSourceSettings]="item.content.dataSourceSettings" allowExcelExport="true"
+                    allowPdfExport="true" [enableVirtualization]="item?.content?.enableVirtualization !== false"
+                    width="100%" [enableValueSorting]='true' (excelQueryCellInfo)="excelQueryCellInfo($event)"
+                    (excelHeaderQueryCellInfo)="excelHeaderQueryCellInfo($event)"
+                    (beforeExport)="beforeExport($event, item)"
+                    (toolbarRender)="pivottoolbarClick($event, pivotview, item)"
+                    (enginePopulated)="onEnginePopulated($event, item, pivotview)"
+                    [gridSettings]="item?.content?.gridSettings || gridSettings"
+                    (aggregateCellInfo)="item?.content?.pivotLightMode ? null : onPivotAggregateCellInfo($event, pivotview, item)"
+                    (dataBound)="onPivotRendered(item, pivotview)">
+                  </ejs-pivotview>
+
+
+
+
+                </div>
+                <div *ngIf="item.panelType == 'Chart' && isChartMounted(item.id)"
+                  style="height:100%; width:100%; padding:5px">
+
+                  <div
+                    *ngIf="item.content.chartType == 'Pie' || item.content.chartType == 'Pyramid'  || item.content.chartType == 'Funnel'     "
+                    style="height:100%; width:100%" class="chart-wrapper" [class.collapsed]="!isPanelExpanded(item.id)">
+
+                    <ejs-accumulationchart align="center" #chartRef #pie [id]="item.id"
+                      [legendSettings]="item.content.legends" id="chartRef{{item.id}}" [tooltip]="item.content.tooltip"
+                      (chartMouseClick)="onChartMouseClick($event, item)" [background]="item.content.background"
+                      (tooltipRender)='tooltipRender($event, item.content.tooltipFormat, item )'
+                      (textRender)="onTextRender($event, item.content.datalabelFormat, item)">
+                      <e-accumulation-series-collection>
+
+                        <e-accumulation-series *ngFor="let chart of item.content.series" [name]="chart.name"
+                          [dataSource]="chart.dataSource" [xName]="chart.xName" [yName]="chart.yName"
+                          [palettes]="chart.palettes" [type]="chart.type" [dataLabel]="chart.dataLabel">
+                        </e-accumulation-series>
+                      </e-accumulation-series-collection>
+                    </ejs-accumulationchart>
+                  </div>
+                  <div *ngIf="item.content.chartType == 'Donut'" style="height:100%; width:100%" class="chart-wrapper"
+                    [class.collapsed]="!isPanelExpanded(item.id)">
+                    <ejs-accumulationchart (chartMouseClick)="onChartMouseClick($event, item)" #chartRef [id]="item.id"
+                      #pie align="center" [legendSettings]="item.content.legends" [tooltip]="item.content.tooltip"
+                      (tooltipRender)='tooltipRender($event, item.content.tooltipFormat, item)'
+                      (textRender)="onTextRender($event, item.content.datalabelFormat, item)" selectionMode='Point'
+                      [enableSmartLabels]="true" [background]="item.content.background">
+
+                      <e-accumulation-series-collection>
+                        <e-accumulation-series *ngFor="let chart of item.content.series" [dataSource]='chart.dataSource'
+                          [name]="chart.name" [xName]='chart.xName' [yName]='chart.yName' innerRadius='40%'
+                          [palettes]="chart.palettes" [dataLabel]="chart.dataLabel"></e-accumulation-series>
+                      </e-accumulation-series-collection>
+                    </ejs-accumulationchart>
+
+
+                  </div>
+
+
+                  <div *ngIf="item.content.chartType == 'Column' || item.content.chartType == 'Bar'  || item.content.chartType == 'Line'  || item.content.chartType == 'Spline'  || item.content.chartType == 'Area'  || item.content.chartType == 'SplineArea'
+                              || item.content.chartType == 'StackingBar100'  || item.content.chartType == 'StackingBar' || item.content.chartType == 'StackingColumn'
+                              || item.content.chartType == 'StackingArea100'
+                              || item.content.chartType == 'StackingStepArea'
+                              || item.content.chartType == 'StackingArea'
+                              || item.content.chartType == 'StepArea'
+                              || item.content.chartType == 'StackingLine'  || item.content.chartType == 'StackingLine100'
+                              || item.content.chartType == 'StepLine'
+                              || item.content.chartType == 'CombineChart' 
+                              " style="height:100%; width:100%">
+
+
+                    <ejs-chart [primaryXAxis]="item.content.primaryXAxis" #chartRef #chart
+                      [chartArea]="item.content.chartArea" [id]="item.id" [primaryYAxis]="item.content.primaryYAxis"
+                      [axes]="item.content.axis" [tooltip]="item.content.tooltip" width="100%" height="100%"
+                      [background]="item.content.background" (chartMouseClick)="onChartMouseClick($event, item)"
+                      [legendSettings]='item.content.legends' (load)='load($event)'
+                      (tooltipRender)='tooltipRenderColumnChart($event, item)'
+                      (axisLabelRender)='axisLabelRender($event, item)' [zoomSettings]='item.content.zoomSettings'
+                      (textRender)="onTextRender($event, item.content.datalabelFormat, item)"
+                      (pointRender)="onPointRender($event, item)">
+                      <e-series-collection>
+                        <!-- <e-series *ngFor="let obj of item.content.series" [dataSource]='obj.dataSource'  [tooltipFormat]="'${point.x} : ${point.y}'"
+                          [xName]='obj.xName' [yName]='obj.yName' [fill]="obj.fill" [type]="obj.type" [name]="obj.name"
+                          [yAxisName]="obj.opposedPosition ? obj.yAxisName : null" [marker]="obj.marker"> </e-series>
+                      </e-series-collection> -->
+                        <e-series *ngFor="let obj of item.content.series" [dataSource]='obj.dataSource'
+                          [xName]='obj.xName' [yName]='obj.yName' [fill]="obj.fill" [type]="obj.type" [name]="obj.name"
+                          [yAxisName]="obj.opposedPosition ? obj.yAxisName : null" [marker]="obj.marker"> </e-series>
+                      </e-series-collection>
+                    </ejs-chart>
+                    <!-- 
+
+                    <ejs-chart style='display:block;' [chartArea]='chartArea' [width]='width' align='center' id='chartcontainer' [primaryXAxis]='primaryXAxis'
+                    [primaryYAxis]='primaryYAxis' [title]='title' [subTitle]='subTitle' [tooltip]='tooltip' (load)='load($event)' (axisLabelRender)='axisLabelRender($event)' (tooltipRender)='tooltipRender($event)' [legendSettings]='legend'>
+                    <e-series-collection>
+                        <e-series [dataSource]='columnData' type='Column' xName='country' yName='walnuts' name='Walnuts' [cornerRadius]='cornerRadius' legendShape='Rectangle' columnSpacing='0.4'> </e-series>
+                        <e-series [dataSource]='columnData' type='Column' xName='country' yName='almonds' name='Almonds' [cornerRadius]='cornerRadius' legendShape='Rectangle' columnSpacing='0.4'> </e-series>
+                    </e-series-collection>
+                </ejs-chart> -->
+
+                  </div>
+                </div>
+
+                <!-- <div *ngIf="item.panelType == 'Box'" style="height:100%; width:100%">
+                  <div style="height: 100%; width : 100%">
+                    <div class="cardHeight" (click)="item.content.enableClickFilter && onBoxFilter(item)" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer;"
+                      *ngIf="item.content.fieldDetails && item.content.dataSource"
+                      [ngStyle]="{'background-color': item.content.backgroundColor}">
+                      <div class="details-containers">
+                        <ng-container *ngFor="let detail of item.content.fieldDetails; let i = index">
+                          <div class="e-card-header-title">
+                            <ng-container *ngIf="item.content.fieldDetails.length > 1" class="details-container">
+                              <span class="labels2"
+                                [ngStyle]="{'font-size': detail.labelfontSize, 'color': detail.labelFontColor}">{{detail.labelName}}</span>
+
+
+                              <span class="value"
+                                [ngStyle]="{'font-size': detail.valueFontSize, 'color': detail.ValueFontColor}">
+                                : {{item.content.dataSource[0]?.[detail.fieldName]}}
+                              </span>
+                            </ng-container>
+
+                            <ng-container *ngIf="item.content.fieldDetails.length <= 1" class="details-container">
+                              <span class="labels"
+                                [ngStyle]="{'font-size': detail.labelfontSize, 'color': detail.labelFontColor}">{{detail.labelName}}</span>
+                              <br>
+                              <span class="value"
+                                [ngStyle]="{'font-size': detail.valueFontSize, 'color': detail.ValueFontColor}">
+                                {{item.content.dataSource[0]?.[detail.fieldName]}}
+                              </span>
+                            </ng-container>
+                          </div>
+                        </ng-container>
+                      </div>
+
+                      <span *ngIf="item.content.boxIcon" class="icon-container"
+                        [ngStyle]="{'font-size': item.content.iconFontsize + 'px', 'color' : item.content.iconFontColor}">
+                        <i class="{{ item.content.boxIcon }}"></i>
+                      </span>
+
+                    </div>
+                  </div>
+                </div> -->
+
+
+
+                <div *ngIf="item.panelType == 'Box'" style="height:100%; width:100%; border-radius: 8px;">
+                  <div class="dashboard-box-wrapper" style="border-radius: 8px;">
+                    <div class="dashboard-box" (click)="item.content.enableClickFilter && onBoxFilter(item)"
+                      *ngIf="item.content.fieldDetails && item.content.dataSource"
+                      [ngStyle]="{'background-color': item.content.backgroundColor}">
+
+                      <!-- Single item layout -->
+                      <div *ngIf="item.content.fieldDetails.length <= 1" class="box-content single-item">
+                        <div class="box-main-content">
+                          <ng-container *ngFor="let detail of item.content.fieldDetails">
+                            <div class="label-container">
+                              <span class="box-label"
+                                [ngStyle]="{'font-size': detail.labelfontSize, 'color': detail.labelFontColor}">
+                                {{detail.labelName}}
+                              </span>
+                            </div>
+                            <div class="value-container">
+                              <span class="box-value"
+                                [ngStyle]="{'font-size': detail.valueFontSize, 'color': detail.ValueFontColor}">
+                                {{item.content.dataSource[0]?.[detail.fieldName]}}
+                              </span>
+                            </div>
+                          </ng-container>
+                        </div>
+                        <div *ngIf="item.content.boxIcon" class="box-icon-container">
+                          <i class="{{ item.content.boxIcon }}"
+                            [ngStyle]="{'font-size': item.content.iconFontsize + 'px', 'color' : item.content.iconFontColor}">
+                          </i>
+                        </div>
+                      </div>
+
+                      <!-- Multiple items layout -->
+                      <div *ngIf="item.content.fieldDetails.length > 1" class="box-content multiple-items">
+                        <div class="box-main-content">
+                          <div class="box-items-grid">
+                            <ng-container *ngFor="let detail of item.content.fieldDetails; let i = index">
+                              <div class="box-item-row">
+                                <div class="box-label-col">
+                                  <span class="box-label multiple"
+                                    [ngStyle]="{'font-size': detail.labelfontSize, 'color': detail.labelFontColor}">
+                                    {{detail.labelName}}
+                                  </span>
+                                </div>
+                                <div class="box-separator">:</div>
+                                <div class="box-value-col">
+                                  <span class="box-value multiple"
+                                    [ngStyle]="{'font-size': detail.valueFontSize, 'color': detail.ValueFontColor}">
+                                    {{item.content.dataSource[0]?.[detail.fieldName]}}
+                                  </span>
+                                </div>
+                              </div>
+                            </ng-container>
+                          </div>
+                        </div>
+                        <div *ngIf="item.content.boxIcon" class="box-icon-container">
+                          <i class="{{ item.content.boxIcon }}"
+                            [ngStyle]="{'font-size': item.content.iconFontsize + 'px', 'color' : item.content.iconFontColor}">
+                          </i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+                <div *ngIf="item.panelType == 'DateRangePicker'"
+                  style="height:100%; width:100%; padding: 5px 10px;overflow: hidden">
+                  <ejs-daterangepicker [minDays]="item.content.minDays" [maxDays]="item.content.maxDays"
+                    [(ngModel)]="selectedDateRanges[item.id]"
+                    (change)="onDateRangePickerChange($event, item)"></ejs-daterangepicker>
+
+                </div>
+                <div *ngIf="item.panelType == 'DatePicker'"
+                  style="height:100%; width:100%; padding: 5px 10px;overflow: hidden">
+
+                  <ejs-datepicker [(ngModel)]="selectedDateObject[item.id]"
+                    (change)="ondatePickerFIlterChange($event, item)"></ejs-datepicker>
+                </div>
+                <div *ngIf="item.panelType == 'DropdownList'"
+                  style="height:100%; width:100%; padding: 5px 10px;overflow: hidden">
+                  <div id="wrapper">
+
+
+                    <ejs-dropdownlist #dropdownList [dataSource]="this.totalDataSource[item.id]"
+                      [placeholder]="'Select'" (change)="ondropdownFilter($event, item)"
+                      [(ngModel)]="selectedDropdownValuesObj[item.id]" [allowFiltering]="true" popupHeight='200px'
+                      [fields]="listBoxfields" (open)="onDropdownOpen($event, item, dropdownList)"
+                      (filtering)='onFiltering($event, item)'>
+
+                    </ejs-dropdownlist>
+                  </div>
+
+                </div>
+
+
+                <div *ngIf="item.panelType == 'ListBox'" style="padding: 5px 6px 3px; height: 100%; overflow: hidden;">
+                  <input type="text" class="form-control filterInputControl" placeholder="Search here.."
+                    (input)="filteredDataSourceEvent($event, item.id)">
+                  <div class="e-section-control">
+
+
+                    <ejs-listbox #listboxObj id="listboxObj" [dataSource]="filteredData[item.id]"
+                      [(ngModel)]="selectedItemsMap[item.id]" [allowFiltering]="false" [height]="item.content.height"
+                      (change)="onListboxSelectionChange(item, $event)" [selectionSettings]="selectionSettings"
+                      [fields]="listBoxfields">
+
+
+                    </ejs-listbox>
+                  </div>
+                </div>
+
+
+                <div *ngIf="item.panelType == 'RawDataDump'" style="height:100%; width:100%; ">
+
+                  <div class="cardHeight1" [ngStyle]="{'background-color': item.content.backgroundColor}">
+                    <div class="details-containers1">
+                      <ng-container>
+                        <div class="e-card-header-title" style="margin-bottom: 5px;">
+                          <ng-container class="details-container">
+                            <span class="labels"
+                              [ngStyle]="{'font-size': item.content.
+                                    textSize + 'px', 'color': item.content.textColor}">{{item.content.labelName}}</span>
+
+                          </ng-container>
+                        </div>
+                      </ng-container>
+                    </div>
+
+
+                    <div style="margin-bottom: 14px;">
+                      <!-- <button (click)="downloadDumpReports(item)" class="e-btn downloadBtn" style="cursor: pointer;
+                      font-size: 10px;
+                      padding: 3px 10px;
+                      border-radius: 29px
+                      " [title]="'Download Reports'">
+                        <i class="fas fa-download" [ngStyle]="{'background-color': item.content.backgroundColor}" style="cursor: pointer;
+                        border: 1px solid white;
+                        border-radius: 50%;
+                        padding: 5px;
+                        color : white;;
+                        font-size: 7px" [title]="'Download Reports'"></i>
+                        Download
+
+                      </button> -->
+
+                      <button (click)="downloadDumpReports(item)" class="e-btn downloadBtn"
+                        style="cursor: pointer; font-size: 10px; padding: 3px 10px; border-radius: 29px; background-color: white;"
+                        [title]="'Download Reports'">
+
+                        <!-- <i class="fas fa-download"
+                         [ngClass]="{'spin-icon': isDownloadingMap[item.id]}"
+                         [ngStyle]="{
+                           'background-color': item.content.backgroundColor
+                         }"
+                         style="cursor: pointer; border: 1px solid white; border-radius: 50%; padding: 5px; color: white; font-size: 7px; margin-right: 4px;"
+                         [title]="'Download Reports'">
+                      </i> -->
+
+                        <span class="spinner-wrapper" *ngIf="!isDownloadingMap[item.id]">
+                          <span class="spinner-ring" [ngClass]="{'spin-border': isDownloadingMap[item.id]}"
+                            [ngStyle]="{ 'border-color': item.content.backgroundColor }">
+                          </span>
+                          <i class="fas fa-download icon-static" title="Download Reports">
+                          </i>
+                        </span>
+
+                        <span class="spinner-wrapper" *ngIf="isDownloadingMap[item.id]">
+                          <span class="spinner-ring" [ngClass]="{'spin-border': isDownloadingMap[item.id]}"
+                            [ngStyle]="{ 'border-top-color': item.content.backgroundColor }">
+                          </span>
+                          <i class="fas fa-download icon-static" title="Download Reports">
+                          </i>
+                        </span>
+
+
+                        <span *ngIf="!isDownloadingMap[item.id]" style="font-size:8px">Download</span>
+                        <span *ngIf="isDownloadingMap[item.id]" style="font-size:8px">Downloading</span>
+                      </button>
+
+
+
+                    </div>
+
+
+                    <div style="margin-bottom: 5px;">
+                      <span class="labels1" [ngStyle]="{'font-size':  '11px', 'color': item.content.textColor}">Last
+                        Updated On: {{item.content.lastUpdateDateTime}}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="item.panelType == 'Card'" style="height: 100%; width: 100%; overflow: hidden;">
+                  <div class="card" [ngStyle]="{'background-color': item.content.backgroundColor}">
+                    <div class="content-container" [ngClass]="{
+                        'horizontal-layout': item.content.layout === 'horizontal',
+                        'vertical-layout': item.content.layout === 'vertical',
+                        'reverse-horizontal-layout': item.content.layout === 'reverse-horizontal',
+                        'space-between-layout': item.content.layout === 'space-between'
+                      }">
+
+                      <!-- Icon -->
+                      <i *ngIf="item.content.icon" class="{{item.content.icon}}" [ngStyle]="{
+                          'font-size': item.content.iconFontSize + 'px',
+                          'color': item.content.iconColor
+                        }">
+                      </i>
+
+                      <!-- Label -->
+                      <span class="Cardlabel" [ngStyle]="{
+                          'font-size': item.content.labelFontSize + 'px', 
+                          'color': item.content.labelFontColor
+                        }">
+                        {{ item.content.labelName }}
+                      </span>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="item.panelType == 'Kanban'" style="height:100%; width:100%; overflow: auto;"
+                  class="kanban-wrapper">
+                  <ejs-kanban #kanbanObj cssClass='kanban-overview' [keyField]='item.content.keyField'
+                    [dataSource]='item.content.dataSource' [cardSettings]='item.content.cardSettings'
+                    [enableTooltip]='item.content.enableTooltip' [allowDragAndDrop]="true"
+                    [swimlaneSettings]='item.content.swimlaneSettings' [dialogSettings]='getDialogSettings(item)'
+                    (dialogOpen)='onDialogOpen($event)'>
+                    <e-columns>
+                      <e-column *ngFor="let column of getKanbanColumns(item)" [headerText]="column.headerText"
+                        [keyField]="column.keyField" allowToggle='true'>
+                        <ng-template #headerTemplate let-headerText="headerText" let-keyField="keyField">
+                          <div class="header-template-wrap">
+                            <i class="header-icon">{{keyField}}></i>
+                            <div class="header-text">{{headerText}}</div>
+                          </div>
+                        </ng-template>
+                      </e-column>
+                      <!-- <e-column headerText='To Do' keyField='Open' allowToggle='true'>
+                                            <ng-template #template let-data>
+                                                <div class="header-template-wrap">
+                                                    <div class="header-icon e-icons {{data.keyField}}"></div>
+                                                    <div class="header-text">{{data.headerText}}</div>
+                                                </div>
+                                            </ng-template>
+                                        </e-column>
+                                        <e-column headerText='In Progress' keyField='InProgress' allowToggle='true'>
+                                            <ng-template #template let-data>
+                                                <div class="header-template-wrap">
+                                                    <div class="header-icon e-icons {{data.keyField}}"></div>
+                                                    <div class="header-text">{{data.headerText}}</div>
+                                                </div>
+                                            </ng-template>
+                                        </e-column> -->
+                      <!-- <e-column headerText='Validation' keyField='Validation' allowToggle='true'>
+                                            <ng-template #template let-data>
+                                                <div class="header-template-wrap">
+                                                    <div class="header-icon e-icons {{data.keyField}}"></div>
+                                                    <div class="header-text">{{data.headerText}}</div>
+                                                </div>
+                                            </ng-template>
+                                        </e-column> -->
+                      <!-- <e-column headerText='Done' keyField='Close' allowToggle='true'>
+                                            <ng-template #template let-data>
+                                                <div class="header-template-wrap">
+                                                    <div class="header-icon e-icons {{data.keyField}}"></div>
+                                                    <div class="header-text">{{data.headerText}}</div>
+                                                </div>
+                                            </ng-template>
+                                        </e-column> -->
+                    </e-columns>
+                    <ng-template #cardSettingsTemplate let-data>
+                      <div class='card-template' style="padding: 10px;"
+                        [ngStyle]="getCardBorderStyle(data[getFieldValue(item.content.fieldDetails, 'typeField')])">
+                        <!-- Card Header: ID -->
+                        <div class='e-card-header' style="margin-bottom: 8px;">
+                          <div class='e-card-header-caption'>
+                            <div class='e-card-header-title e-tooltip-text'
+                              style="font-weight: 600; font-size: 13px; color: #333;">
+                              {{ data[item.content.cardSettings?.headerField] || 'No ID' }}
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Card Title -->
+                        <div class='e-card-content' style="margin-bottom: 12px;">
+                          <div class='e-card-header-title e-tooltip-text'
+                            style="font-size: 14px; color: #495057; line-height: 1.4;">
+                            {{ data[item.content.fieldDetails?.[0]?.titleField || item.content.fieldDetails?.titleField]
+                            ||
+                            data[item.content.cardSettings?.contentField] || 'No Title' }}
+                          </div>
+                        </div>
+
+                        <!-- Card Footer: Tags + Avatar -->
+                        <div class='e-card-custom-footer'
+                          style="display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: auto; padding-top: 8px; border-top: 1px solid #e9ecef;">
+
+                          <!-- Left Side: Tags/Type/Priority -->
+                          <!-- Left Side: Tags/Type/Priority -->
+                          <div style="display: flex; flex-wrap: wrap; gap: 5px; align-items: center; flex: 1;">
+                            <!-- Type Field with dynamic colors -->
+                            <span class="e-card-tag-field"
+                              [ngStyle]="getTypeFieldStyle(data[getFieldValue(item.content.fieldDetails, 'typeField')])"
+                              *ngIf="getFieldValue(item.content.fieldDetails, 'typeField') && data[getFieldValue(item.content.fieldDetails, 'typeField')]">
+                              {{ data[getFieldValue(item.content.fieldDetails, 'typeField')] }}
+                            </span>
+
+                            <!-- Priority Field -->
+                            <span class="e-card-tag-field"
+                              style="padding: 3px 8px; background-color: #a5e0b1; color: #050505; border-radius: 10px; font-size: 11px; font-weight: 500;"
+                              *ngIf="getFieldValue(item.content.fieldDetails, 'priorityField') && data[getFieldValue(item.content.fieldDetails, 'priorityField')]">
+                              {{ data[getFieldValue(item.content.fieldDetails, 'priorityField')] }}
+                            </span>
+
+                            <!-- Tags (comma-separated) -->
+                            <ng-container *ngIf="data.Tags && data.Tags.split">
+                              <span class="e-card-tag-field"
+                                style="padding: 3px 8px; background-color: #e2e3e5; color: #383d41; border-radius: 10px; font-size: 11px; font-weight: 500;"
+                                *ngFor="let tag of data.Tags.split(',')">
+                                {{ tag.trim() }}
+                              </span>
+                            </ng-container>
+                          </div>
+
+                          <!-- Right Side: Assignee Avatar -->
+                          <div class='e-card-avatar'
+                            style="display: flex; align-items: center; justify-content: center; min-width: 30px; min-height: 30px; width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-weight: 600; font-size: 11px; flex-shrink: 0; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
+                            *ngIf="item.content.swimlaneSettings?.keyField && data[item.content.swimlaneSettings.keyField]">
+                            {{ getString(data[item.content.swimlaneSettings.keyField]) }}
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </ejs-kanban>
+                </div>
+                <div *ngIf="item.panelType == 'Gauge'" class="gauge-parent">
+                  <!-- value: {{item.content.gauge?.pointer?.value}}
+                                  {{ item.content.gauge?.pointer?.value | json }} -->
+                  <!-- ranges: {{item?.content?.gauge?.ranges | json}} -->
+                  <!-- <strong style="font-size: 20px;margin-top: 10px;"> {{item?.content?.dimension?.levels[0]?.levelTitle}}</strong> -->
+                  <!-- {{item.content | json}} -->
+                  <ejs-circulargauge #circularGauge [id]="item.id" [width]="'100%'" [height]="'100%'"
+                    [background]="item.content.background || '#ffffff'" [legendSettings]="buildLegendSettings(item)"
+                    [enablePointerDrag]="false" [allowImageExport]="true" , [tooltip]="buildGaugeTooltip(item)"
+                    [margin]="{ left: 0, right: 0, top: 0, bottom: 0 }">
+
+
+                    <e-axes>
+                      <e-axis [startAngle]="item.content.gauge?.startAngle" [endAngle]="item.content.gauge?.endAngle"
+                        [minimum]="item.content.gauge?.minValue" [maximum]="item.content.gauge?.maxValue"
+                        [radius]="(item.content.gauge?.radius || 70) + '%'"
+                        [lineStyle]="{ width: item.content.gauge?.axis?.lineWidth, color: item.content.gauge?.axis?.color }"
+                        [labelStyle]="{ format: item.content.gauge?.axis?.labelFormat }"
+                        [majorTicks]="item.content.gauge?.axis?.majorTicks"
+                        [minorTicks]="item.content.gauge?.axis?.minorTicks">
+
+                        <e-pointers>
+
+                          <ng-container *ngIf="item.content.gauge?.pointer?.type === 'Needle'">
+                            <e-pointer [value]="getGaugePointerValue(item)"
+                              [type]="item.content.gauge?.pointer?.type || 'Needle'"
+                              [needleStartWidth]="(item.content.gauge?.pointer?.width !== null && item.content.gauge?.pointer?.width !== undefined && item.content.gauge?.pointer?.width !== '') ? item.content.gauge?.pointer?.width : 4"
+                              [needleEndWidth]="(item.content.gauge?.pointer?.width !== null && item.content.gauge?.pointer?.width !== undefined && item.content.gauge?.pointer?.width !== '') ? item.content.gauge?.pointer?.width : 4"
+                              [color]="item.content.gauge?.pointer?.color"
+                              [cap]="item.content.gauge?.pointer?.cap || item.content.gauge?.pointer?.capStyle"
+                              [needleTail]="item.content.gauge?.pointer?.needleTail"
+                              [animation]="item.content.gauge?.pointer?.animation">
+                            </e-pointer>
+                          </ng-container>
+                          <ng-container *ngIf="item.content.gauge?.pointer?.type === 'Marker'">
+                            <!-- getGaugePointerValue(item) -->
+                            <e-pointer [value]="getGaugePointerValue(item)"
+                              [type]="item.content.gauge?.pointer?.type || 'Needle'"
+                              [needleStartWidth]="(item.content.gauge?.pointer?.width !== null && item.content.gauge?.pointer?.width !== undefined && item.content.gauge?.pointer?.width !== '') ? item.content.gauge?.pointer?.width : 4"
+                              [needleEndWidth]="(item.content.gauge?.pointer?.width !== null && item.content.gauge?.pointer?.width !== undefined && item.content.gauge?.pointer?.width !== '') ? item.content.gauge?.pointer?.width : 4"
+                              [markerWidth]="item.content.gauge?.pointer?.type === 'Marker' ? ((item.content.gauge?.pointer?.width !== null && item.content.gauge?.pointer?.width !== '') ? item.content.gauge?.pointer?.width : 4) : 0"
+                              [markerHeight]="item.content.gauge?.pointer?.type === 'Marker' ? (item.content.gauge?.pointer?.markerHeight || 15) : 0"
+                              [color]="item.content.gauge?.pointer?.color"
+                              [markerShape]="item.content.gauge?.pointer?.markerShape || 'InvertedTriangle'"
+                              [radius]="item.content.gauge?.pointer?.type === 'Marker' ? (item.content.gauge?.pointer?.markerRadius || '100%') : ''"
+                              [cap]="item.content.gauge?.pointer?.cap || item.content.gauge?.pointer?.capStyle"
+                              [needleTail]="item.content.gauge?.pointer?.needleTail"
+                              [animation]="item.content.gauge?.pointer?.animation">
+                            </e-pointer>
+                          </ng-container>
+
+
+                          <ng-container *ngFor="let range of item.content.gauge?.ranges">
+                            <e-pointer [value]="((range.endValue + range.startValue) / 2)" [radius]="range.radius"
+                              [text]='range.legendText' pointerWidth=10 markerShape="Text" type="Marker"
+                              [textStyle]="{ size: '20px', fontFamily: 'inherit', color: range.color }"
+                              [animation]="{ enable: false }" fill="transparent">
+                            </e-pointer>
+                          </ng-container>
+
+                          <!-- <e-pointer [value]="150" [radius]="30" [text]="'teja'"
+                                                    pointerWidth=10 markerShape="Text" type="Marker"
+                                                    [textStyle]="{ size: '20px', fontFamily: 'inherit', color: 'orange' }" 
+                                                    [animation]="{ enable: false }"  fill="transparent">
+                                                </e-pointer> -->
+                        </e-pointers>
+
+
+
+                        <e-ranges>
+                          <e-range *ngFor="let range of item.content.gauge?.ranges" [start]="range.startValue"
+                            [end]="range.endValue" [color]="range.color" [startWidth]="range.width"
+                            [endWidth]="range.width" [radius]="range.radius"
+                            [roundedCornerRadius]="range.roundedCornerRadius"
+                            [legendText]="range.legendText || (range.startValue + ' - ' + range.endValue)">
+                          </e-range>
+                        </e-ranges>
+
+                        <e-annotations>
+                          <!-- [content]="content" -->
+                          <e-annotation description="Marker pointer" angle=180 radius='28%' zIndex='1'>
+                          </e-annotation>
+
+                        </e-annotations>
+
+                      </e-axis>
+
+
+                    </e-axes>
+                  </ejs-circulargauge>
+                  <!-- <div >
+                                               <h2> {{item.content.dimension.levels[0].levelTitle}}</h2>
+                                            </div> -->
+                </div>
+
+              </ng-template>
+
+            </e-panel>
+          </e-panels>
+        </ejs-dashboardlayout>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="control-section1 drag">
+
+    <ejs-dialog id="defaultDialog" #defaultDialog1 [isModal]='true' [allowDragging]='true' [visible]="false"
+      [animationSettings]='animationSettings1' height="350" [showCloseIcon]='true' [target]='target' [width]="'700px'">
+
+      <div *ngIf="this.filterandDrilldownObjArray.filter_obj">
+
+        <ng-template #header>
+
+          <div class="popup-container">
+            <div class="popup-header">
+              <span class="popup-title" style="font-size:22px">Filters</span>
+            </div>
+            <div class="filter-options">
+              <span class="filter-label" title="Bookmark Filters set by you.">
+                <i class="fas fa-user-circle"></i> Yours Bookmark Filters
+              </span>
+              <ejs-switch style="margin:5px 10px 0px" class="bar-color" [(ngModel)]="bookmark_flag"
+                (ngModelChange)="onSwitchChange($event)">
+              </ejs-switch>
+              <span class="filter-label" title=" Bookmark Filters set by admin or superadmin">
+                <i class="fas fa-shield-alt"></i> Default(Superadmin/Admin) Bookmark Filters
+              </span>
+              <!-- <div class="note-container" *ngIf="showNote">
+                <span class="note-text">
+                  <i class="fas fa-info-circle"></i>
+                  {{ bookmark_flag ? 'Filters set by the admin or superadmin.' : 'Filters set by you.' }}
+                </span>
+              </div> -->
+
+              <div class="note-container" *ngIf="initialFilerObj.startDate">
+                <span class="note-text">
+                  <i class="fas fa-info-circle"></i> Initial Filter :-
+                  Start Date: {{ initialFilerObj.startDate | date: 'dd-MMM-yyyy' }} - End Date: {{
+                  initialFilerObj.endDate | date: 'dd-MMM-yyyy' }}
+                  <!-- {{ bookmark_flag ? 'Filters set by the admin or superadmin.' : 'Filters set by you.' }} -->
+                </span>
+              </div>
+
+            </div>
+
+          </div>
+        </ng-template>
+
+
+        <div class="chip-container" style="padding:10px 0px">
+
+          <div style="margin-bottom: 10px;">
+            <!-- <button class="chip">
+              Start Date: {{ initialFilerObj.startDate | date: 'dd-MMM-yyyy' }} - End Date: {{ initialFilerObj.endDate | date: 'dd-MMM-yyyy' }}
+              <span class="cancel-icon" (click)="initialFilerObj.startDate = null">x</span>
+            </button> -->
+
+            <!-- <button class="chip">
+              End Date: {{ initialFilerObj.endDate | date: 'dd-MMM-yyyy' }}
+              <span class="cancel-icon" (click)="initialFilerObj.endDate = null">x</span>
+            </button> -->
+          </div>
+
+          <div>
+            <button *ngFor="let item of this.filterandDrilldownObjArray.filter_obj; let i = index" class="chip">
+              {{ getChipText(item) }}
+              <span class="cancel-icon" (click)="removeItem(item,i)">x</span>
+            </button>
+          </div>
+
+        </div>
+
+
+      </div>
+
+      <ng-template #footerTemplate>
+
+        <div>
+          <button class="e-btn e-btn-purple" type="button" (click)="onBookmarkFilterSave()">
+            Save <i class="fas fa-bookmark" style="padding-left:5px"></i>
+          </button>
+
+          <button style=" cursor: pointer; margin-left:5px" class="e-btn e-btn-purple "
+            [title]="'Clear bookmark filter'" (click)="clearBookmarkFilter(bookmark_flag)">
+
+            <i class="fas fa-trash"></i>
+          </button>
+
+        </div>
+
+      </ng-template>
+    </ejs-dialog>
+  </div>
+
+  <ejs-dialog id="editerViewDlg" #editerViewDlg [isModal]='true' [allowDragging]='true' [visible]="false"
+    [header]="'Dasboard Insights'" [animationSettings]='animationSettings1' height="450" [showCloseIcon]='true'
+    [target]='target' [width]="'1000px'">
+
+    <ng-template #content>
+
+      <!-- Overlay Loader -->
+      <div class="overlay" *ngIf="isMarkdownLoading">
+        <div class="loader"></div>
+      </div>
+
+      <ng-container *ngIf="!isMarkdownLoading">
+        <ejs-richtexteditor [value]="markdownContent">
+        </ejs-richtexteditor>
+      </ng-container>
+
+    </ng-template>
+  </ejs-dialog>
+
+
+  <ejs-dialog id="promptDialog" [header]="'User Prompt'" #promptDialog [isModal]='true' [allowDragging]='true'
+    [visible]="false" [animationSettings]='animationSettings1' height="400px" [showCloseIcon]='true' [width]="'700px'">
+
+    <ng-template #content>
+      <div class="form-group" style="    margin-top: 15px;   padding: 5px 0px;">
+        <label for="userprompt" style="margin-bottom:7px;font-size: 15px;">Enter a prompt</label>
+        <textarea id="promptInput" placeholder="Enter a prompt" class="form-control" rows="4" maxlength="6000"
+          [(ngModel)]="userPrompt"></textarea>
+
+      </div>
+
+      <div class="form-group">
+        <label for="userprompt" style="margin-bottom:7px;font-size: 15px;">Select from Existing Prompt</label>
+        <!-- <select id="existingPrompt" class="form-control" [(ngModel)]="selectedPrompt">
+        <option value="">Select</option>
+        <option value="Give me an overview of the data.">Give me an overview of the data.</option>
+        <option value="Summarize the key insights from this dataset.">Summarize the key insights from this dataset.</option>
+        <option value="What are the top 5 values by revenue?">What are the top 5 values by revenue?</option>
+        <option value="Show trends over time.">Show trends over time.</option>
+        <option value="Highlight any outliers or anomalies.">Highlight any outliers or anomalies.</option>
+        <option value="What is the average and median of each metric?">What is the average and median of each metric?</option>
+        <option value="Compare category-wise performance.">Compare category-wise performance.</option>
+        <option value="Give me a count of records grouped by category.">Give me a count of records grouped by category.</option>
+        <option value="Generate a summary report in markdown format.">Generate a summary report in markdown format.</option>
+        <option value="List all columns with their data types and a sample value.">List all columns with their data types and a sample value.</option>
+      </select> -->
+
+        <ejs-listbox [dataSource]="promptOptions" [(ngModel)]="selectedPrompt" (change)="onPromptSelect($event)"
+          [fields]="{ text: 'text', value: 'value' }">
+        </ejs-listbox>
+
+      </div>
+
+      <!-- <div class="text-right mt-3">
+      <button class="btn btn-primary" (click)="submitPrompt()">Submit</button>
+
+      
+    </div> -->
+
+
+    </ng-template>
+
+    <ng-template #footerTemplate>
+      <div class="text-right mt-3">
+        <button *ngIf="dialogMode === 'markdown'" class="e-btn e-btn-purple" (click)="submitMarkdownPrompt()">Submit
+          Markdown</button>
+        <button *ngIf="dialogMode === 'edit'" class="e-btn e-btn-purple" (click)="submitPrompt()">Analyze</button>
+      </div>
+    </ng-template>
+  </ejs-dialog>
+</div>
+
+
+<ejs-dialog #commentDialog [visible]="false" [isModal]="true" [width]="'500px'" [header]="'Add Comment'"
+  (overlayClick)="closeDialog()">
+  <ng-template #content>
+
+    <!-- <div style="margin-top:10px">
+      <label for="" class="comment_label">Select Unique Column</label>
+      <ejs-dropdownlist [dataSource]='FieldNamesArray' [allowFiltering]="true"  [(ngModel)]="selectedUniqueColumn" 
+       #tableDropdown class=" tableNameDropdown"></ejs-dropdownlist>
+    </div> -->
+
+    <div style="margin-top:25px">
+      <!-- <label for="" class="comment_label">Enter Comment</label> -->
+      <textarea [(ngModel)]="commentText" rows="4" class="form-control" style="width:100%"
+        placeholder="Enter comment"></textarea>
+    </div>
+
+    <div style="text-align:right; margin-top:20px;">
+      <button class="e-btn e-btn-purple" style="margin-right:10px" (click)="saveComment()">
+
+        {{ isEditing ? 'Update' : 'Save' }}
+      </button>
+      <button class="e-btn e-btn-purple" (click)="closeDialog()">Cancel</button>
+    </div>
+  </ng-template>
+</ejs-dialog>

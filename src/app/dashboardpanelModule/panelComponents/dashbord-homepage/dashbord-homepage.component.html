@@ -1,0 +1,388 @@
+<div class="control-section drag">
+
+
+  <div class="filterInput row">
+    <div class="col-md-5" style="padding-left:10px">
+      <input class="form-control filterInputIcon" [(ngModel)]="filterTerm" placeholder="Search...">
+    </div>
+
+    <div class="col-md-7 Menuicons">
+<!-- 
+      <button class="e-btn e-btn-purple" style="margin:0px 5px"  
+    title="Card View" routerLink="/sidebar/panel/groupingViewDashboard"
+       >
+       <i class="fas fa-plus" title="View Grouped Dashboard">
+       </i>
+     </button> -->
+
+      <button class="e-btn e-btn-purple" style="margin:0px 5px" *ngIf="listviewIcon" title="List View"
+        (click)="toggleView('listView')">
+        <i class="fas fa-list " title="List View">
+        </i>
+      </button>
+
+      <button class="e-btn e-btn-purple" style="margin:0px 5px" *ngIf="cardViewIcon" title="Card View"
+        (click)="toggleView('card')">
+        <i class="fas fa-th " title="Card View">
+        </i>
+      </button>
+
+      <ng-container *ngFor="let permission of menuBasedPermissionControlArray">
+        <button class="e-btn e-btn-purple" *ngIf="permission?.form_name == 'dashboardSetup' && permission?.can_view "
+          title="Dashboard Setup" routerLink="/sidebar/panel/dashboardRearrage">
+          <i class="fas fa-cog " title="Dashboard Setup"></i>
+        </button>
+      </ng-container>
+
+
+
+    </div>
+  </div>
+
+
+  <div class="listView" #listView style="display: none;">
+    <div class="" *ngFor="let obj of dashboardDetailArray | filter: filterTerm; let i = index">
+      <div class="dashboardDiv">
+        <div class="e-card dbList" (click)="onViewClick(obj)">
+          <div class="listContainer">
+            <div class="row">
+              <div class="col-md-7">
+                <div class="imageDescription row">
+                  <div class="col-md-3">
+
+                    <ng-container *ngIf="obj.imageFlag; else backgroundDiv">
+
+                      <img [src]="obj.dashboard_image ? obj.dashboard_image : obj.imageUrl">
+                    </ng-container>
+                    <ng-template #backgroundDiv>
+                      <div [ngStyle]="{'background': obj.backgroundColor, 'width': '100%', 'height': '60px'}"></div>
+                    </ng-template>
+
+                  </div>
+
+                  <div class="col-md-9">
+                    <span class="dbTitle" [ngStyle]="{
+                      'color':'rgb(38, 74, 159)'}">
+                      {{obj.dashboard_name }}
+                    </span>
+                    <span class="dbDescription" [ngStyle]="{
+                        'color':'rgb(38, 74, 159)' }">
+                      {{obj.description}}
+                    </span>
+
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <button ejs-button class="e-btn iconBtn card1-content-icon " style=" cursor: pointer;" [title]="'View'"
+                  *ngIf="
+                    getPermissionById(obj.dashboard_id) === undefined || getPermissionById(obj.dashboard_id)?.can_view !== false
+                    " (click)="onViewClick(obj); $event.stopPropagation()">
+                  <span class="iconColor">
+                    <i class="fas fa-eye icon" [ngStyle]="{
+                      'color':'rgb(38, 74, 159)'}"></i>
+                  </span>
+                </button>
+
+                <button ejs-button class="e-btn iconBtn card1-content-icon" style=" cursor: pointer;" [title]="'Update'"
+                  *ngIf="
+                 getPermissionById(obj.dashboard_id) === undefined || getPermissionById(obj.dashboard_id)?.can_update !== false"
+                  (click)="onEditClick(obj); $event.stopPropagation()">
+                  <span class="iconColor">
+                    <i class="fas fa-edit icon" [ngStyle]="{
+                      'color':'rgb(38, 74, 159)'}"></i>
+                  </span>
+                </button>
+
+
+                <button ejs-button class="e-btn iconBtn card1-content-icon" style=" cursor: pointer;"
+                  [title]="'Copy Dashboard'"
+                  *ngIf="
+               getPermissionById(obj.dashboard_id) === undefined  || getPermissionById(obj.dashboard_id)?.can_create !== false"
+                  (click)="copyDashboard(obj); $event.stopPropagation()">
+                  <span class="iconColor">
+                    <i class="fas fa-copy icon" [ngStyle]="{
+                      'color':'rgb(38, 74, 159)'}"></i>
+                  </span>
+                </button>
+
+
+                <button ejs-button class="e-btn iconBtn card1-content-icon" style=" cursor: pointer;" *ngIf=" roleDashboardPermissionObj &&
+                 roleDashboardPermissionObj.can_view !== false" [title]="'Role Dashboard Permission'"
+                  (click)="onRoleBasedAcess(obj); $event.stopPropagation()">
+                  <span class="iconColor">
+                    <i class="fas fa-user-tag icon" [ngStyle]="{
+                      'color':'rgb(38, 74, 159)'}"></i>
+                  </span>
+                </button>
+
+                <button ejs-button class="e-btn iconBtn card1-content-icon" *ngIf="
+                userDashboardPermissionObj && 
+                userDashboardPermissionObj?.can_view !== false
+                    " style=" cursor: pointer;" [title]="'User Dashboard Permission'"
+                  (click)="onUserBasedAccess(obj); $event.stopPropagation()">
+                  <span class="iconColor">
+                    <i class="fas fa-users icon" [ngStyle]="{
+                      'color':'rgb(38, 74, 159)'}"></i>
+                  </span>
+                </button>
+
+                <button ejs-button class="e-btn iconBtn card1-content-icon" style=" cursor: pointer;" *ngIf="
+                   getPermissionById(obj.dashboard_id) === undefined || getPermissionById(obj.dashboard_id)?.can_delete !== false
+                     " [title]="'Delete'" (click)="onDeleteClick(obj); $event.stopPropagation()">
+                  <span class="iconColor">
+                    <i class="fas fa-trash icon" [ngStyle]="{
+                      'color':'rgb(38, 74, 159)'}"></i>
+                  </span>
+                </button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div #cardView class="card cardView">
+    <div class="row">
+
+      <!-- Show group cards if no group is selected -->
+      <!-- <ng-container *ngIf="!selectedGroup">
+      <div class="col-md-3" *ngFor="let group of groupedDashboardArray">
+        <div class="card1" (click)="selectGroup(group)">
+          <div class="card1-content">
+            <h5 class="card1-title" [ngStyle]="{ 'color': 'rgb(38, 74, 159)' }">{{ group.groupname }}</h5>
+            <p class="card1-subtitle" [ngStyle]="{ 'color': 'rgb(38, 74, 159)' }">Click to view dashboards</p>
+          </div>
+        </div>
+      </div>
+    </ng-container> -->
+      <!-- 
+    <div class="col-md-12" *ngIf="!selectedGroup">
+      <div *ngFor="let group of groupedDashboardArray" class="col-md-3">
+        <div class="main-card">
+          <div class="custom-card" (click)="selectGroup(group)">
+            <div class="top-sphere-container">
+              <img class="sphere-img" src="group.imageUrl"  />
+            </div>
+      
+            <div class="custom-card-content" >
+              <h5 class="custom-card-title">{{ group.groupname}}</h5>
+              <button class="custom-card-button">View Dashboards</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div> -->
+
+
+
+
+
+
+      <div class="col-md-12" *ngIf="!selectedGroup">
+        <div *ngFor="let obj of dashboardDetailArray | filter: filterTerm; let i = index" class="col-md-3">
+          <div class="card1" (click)="onViewClick(obj)">
+            <ng-container *ngIf="obj.imageFlag; else backgroundDiv1">
+
+              <div class="card1Img">
+                <img [src]="obj.dashboard_image ? obj.dashboard_image : obj.imageUrl">
+
+              </div>
+            </ng-container>
+            <ng-template #backgroundDiv1>
+              <div [ngStyle]="{'background': obj.backgroundColor, 'width': '100%', 'max-height': '200px',
+              'height': '200px'}"></div>
+            </ng-template>
+            <div class="card1-content">
+              <h5 class="card1-title" [ngStyle]="{
+                'color':'rgb(38, 74, 159)'}">{{ obj.dashboard_name }}</h5>
+              <p class="card1-subtitle" [ngStyle]="{
+                'color':'rgb(38, 74, 159)'}">{{ obj.description || '&nbsp;' }}</p>
+              <div>
+
+
+                <button ejs-button class="e-btn iconBtn card1-content-icon" [title]="'View'"
+                  *ngIf=" getPermissionById(obj.dashboard_id) === undefined || getPermissionById(obj.dashboard_id)?.can_view !== false "
+                  (click)="onViewClick(obj); $event.stopPropagation()">
+                  <span class="iconColor">
+                    <i class="fas fa-eye icon" [ngStyle]="{
+                      'color':'rgb(38, 74, 159)'}"></i>
+                  </span>
+                </button>
+                <button ejs-button class="e-btn iconBtn card1-content-icon" [title]="'Update'"
+                  *ngIf=" getPermissionById(obj.dashboard_id) === undefined || getPermissionById(obj.dashboard_id)?.can_update !== false"
+                  (click)="onEditClick(obj); $event.stopPropagation()">
+                  <span class="iconColor">
+                    <i class="fas fa-edit icon" [ngStyle]="{
+                      'color':'rgb(38, 74, 159)'}"></i>
+                  </span>
+                </button>
+
+
+                <button ejs-button class="e-btn iconBtn card1-content-icon" style=" cursor: pointer;"
+                  [title]="'Copy Dashboard'"
+                  *ngIf="
+               getPermissionById(obj.dashboard_id) === undefined  || getPermissionById(obj.dashboard_id)?.can_create !== false"
+                  (click)="copyDashboard(obj); $event.stopPropagation()">
+                  <span class="iconColor">
+                    <i class="fas fa-copy icon" [ngStyle]="{
+                      'color':'rgb(38, 74, 159)'}"></i>
+                  </span>
+                </button>
+
+
+
+                <button ejs-button class="e-btn iconBtn card1-content-icon"
+                  *ngIf="  roleDashboardPermissionObj &&  roleDashboardPermissionObj?.can_view !== false"
+                  [title]="'Role Dashboard Permission'" (click)="onRoleBasedAcess(obj); $event.stopPropagation()">
+                  <span class="iconColor">
+                    <i class="fas fa-user-tag icon" [ngStyle]="{
+                      'color':'rgb(38, 74, 159)'}"></i>
+                  </span>
+                </button>
+
+                <button ejs-button class="e-btn iconBtn card1-content-icon"
+                  *ngIf="  userDashboardPermissionObj &&   userDashboardPermissionObj?.can_view !== false"
+                  [title]="'User Dashboard Permission'" (click)="onUserBasedAccess(obj); $event.stopPropagation()">
+                  <span class="iconColor">
+                    <i class="fas fa-users icon" [ngStyle]="{
+                      'color':'rgb(38, 74, 159)'}"></i>
+                  </span>
+                </button>
+
+                <button ejs-button class="e-btn iconBtn card1-content-icon"
+                  *ngIf=" getPermissionById(obj.dashboard_id) === undefined || getPermissionById(obj.dashboard_id)?.can_delete !== false "
+                  [title]="'Delete'" (click)="onDeleteClick(obj); $event.stopPropagation()">
+                  <span class="iconColor">
+                    <i class="fas fa-trash icon" [ngStyle]="{
+                      'color':'rgb(38, 74, 159)'}"></i>
+                  </span>
+                </button>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- <app-view-grouped-dashboard></app-view-grouped-dashboard> -->
+
+  <div class="progressBarEle">
+
+  </div>
+
+</div>
+
+
+<ejs-dialog id="roleDialogBox" #roleDialogBox [isModal]='isModal' [visible]='visible'
+  [header]="'Role - Dashboard Permission'" [allowDragging]='dialogdragging' [animationSettings]='animationSettings'
+  [showCloseIcon]='dialogCloseIcon' (open)="dialogOpen()" (close)="dialogClose()" [target]="'.drag'" [width]='800'>
+
+  <ng-template #content>
+    <div class="accessDiv" *ngIf="showChildComponent">
+      <app-role-dashboard-access [dashboardId]="roleDashboardObj" (resFlag)="resFlag($event)"
+        (resMessage)="getResponseMessage($event)" #roleBasedDialog></app-role-dashboard-access>
+    </div>
+  </ng-template>
+
+  <ng-template #footerTemplate>
+
+    <button class="e-btn e-btn-purple" *ngIf="(roleDashboardPermissionObj?.can_create !== false) && submitFlag"
+      (click)="onRoleBasedAccessSubmit()">
+      Submit
+    </button>
+
+    <button class="e-btn e-btn-purple" *ngIf="(roleDashboardPermissionObj?.can_update !== false) && updateFlag"
+      (click)="onUpdateRoleBasedAccess()">
+      Update
+    </button>
+
+    <button (click)="delteRolePermission()" *ngIf="(roleDashboardPermissionObj?.can_delete !== false) && updateFlag"
+      type='button' class="e-btn e-btn-purple">
+      Delete Permission
+    </button>
+
+
+  </ng-template>
+
+</ejs-dialog>
+
+
+<ejs-dialog id="userDialogBox" #userDialogBox [isModal]='isModal' [visible]='visible'
+  [header]="'User - Dashboard Permissions'" [allowDragging]='dialogdragging' [animationSettings]='animationSettings'
+  [showCloseIcon]='dialogCloseIcon' height="300" (open)="dialogOpen()" (close)="dialogClose()" [target]="'.drag'"
+  [width]='800'>
+
+  <ng-template #content>
+    <div class="accessDiv" *ngIf="showUserPopup">
+
+      <app-user-dashboard-access [userBasedDashboardId]="sendDashboardId" (resFlag)="resUserFlag($event)"
+        (resMessage)="getResponseMessage($event)" #userBasedDialog></app-user-dashboard-access>
+
+    </div>
+  </ng-template>
+
+  <ng-template #footerTemplate>
+
+    <button class="e-btn e-btn-purple" [ngStyle]="{
+      'background-image': orgPropertiesData.menu_bar_bg ? orgPropertiesData.menu_bar_bg : '#9977f9'}"
+      *ngIf=" (userDashboardPermissionObj?.can_create !== false) && userSubmitFlag" (click)="onUserBasedAccessSubmit()">
+      Submit
+    </button>
+
+    <button class="e-btn e-btn-purple" type="button"
+      *ngIf=" (userDashboardPermissionObj?.can_update !== false) && userUpdateFlag"
+      (click)="onUserUpdateDashboardAccess()">
+      Update
+    </button>
+
+    <button (click)="deleteUserPermission()"
+      *ngIf="  (userDashboardPermissionObj?.can_delete !== false) &&  userUpdateFlag" type='button'
+      class="e-btn e-btn-purple">
+      Delete Permission
+    </button>
+
+  </ng-template>
+
+</ejs-dialog>
+
+<ejs-dialog id="dashboardPopup" height="300" #dashboardPopup [isModal]='isModal' [visible]='visible'
+  [header]="'Create Dashboard'" [allowDragging]='dialogdragging' [animationSettings]='animationSettings'
+  [showCloseIcon]='dialogCloseIcon' (open)="dialogOpen()" (close)="dialogClose()" [target]="'.drag'" [width]='400'>
+
+  <ng-template #content>
+    <form [formGroup]="dashboardCreationForm">
+      <div class="form-group">
+        <label for="title">Title <span style="color: red">*</span></label>
+        <input type="text" class="form-control" formControlName="dashboard_name">
+        <div *ngIf="dashboardCreationForm.get('title')?.invalid && dashboardCreationForm.get('title')?.touched"
+          style="color: red;">
+          Title is required.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" formControlName="description">
+      </div>
+
+    </form>
+  </ng-template>
+
+  <ng-template #footerTemplate>
+    <button class="e-btn e-btn-purple" type="button" (click)="createDashboard()">
+      Create
+    </button>
+  </ng-template>
+
+</ejs-dialog>

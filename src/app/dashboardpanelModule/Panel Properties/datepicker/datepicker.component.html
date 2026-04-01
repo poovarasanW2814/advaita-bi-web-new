@@ -1,0 +1,99 @@
+<div class="control-section e-tab-section">
+  <div class="e-sample-resize-container" style="padding:20px 10px ">
+    <!-- Render the Tab Component -->
+    <!-- <ejs-tab id="tab_default" #tabComponent heightAdjustMode='Auto'>
+              <e-tabitems>
+                  <e-tabitem [header]='headerText[0]'>
+                    <ng-template #content>
+                      <form action="" [formGroup]="boxTemplateForm" (ngSubmit)="onBoxFormSubmit()">
+                    
+                        <div class="row">
+                          <div class="col-md-3 form-group">
+                            
+                            <label for="tableName">Table Name  <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
+                        
+
+                        <ejs-dropdownlist [dataSource]='tableNamesArray' [allowFiltering]="true" formControlName="tableName"
+                        (change)="onTableDropdown(tableDropdown.value)" #tableDropdown
+                        class="tableNameDropdown"></ejs-dropdownlist>
+
+
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label for="fieldName">Field Name  <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
+                        
+                            <ejs-dropdownlist [dataSource]='selectedTableFieldName' [allowFiltering]="true"
+                            formControlName="fieldName" (change)="onSecondDropdownChange(fieldNameDropdown.value)"
+                            #fieldNameDropdown class="tableNameDropdown"></ejs-dropdownlist>
+
+                            
+
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label for="labelName">Label Name</label>
+                            <input type="text" [formControlName]="'labelName'" class="form-control inputTitle">
+                        </div>
+                            <div class="col-md-3 form-group">                               
+                              <label for="tableName">Date Format  <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
+                              <select name="" id="" class="form-control inputTitle  selectInputFeild" formControlName="dateFormat">
+                                <option value="select">Select Format</option>
+                                <option [value]="name" *ngFor="let name of formatData; let i=index" >{{name}}</option>
+                             </select>
+                          </div>
+                        </div>
+                      </form>
+                    </ng-template>
+                </e-tabitem>
+             
+              </e-tabitems>
+          </ejs-tab> -->
+
+    <form action="" [formGroup]="boxTemplateForm" (ngSubmit)="onBoxFormSubmit()">
+
+      <div class="row">
+        <div class="col-md-3 form-group">
+
+          <label for="tableName" class="labelFeild">Table Name <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
+     
+          <ejs-dropdownlist [dataSource]='tableNamesArray' [allowFiltering]="true" formControlName="tableName"
+            (change)="onTableDropdown(tableDropdown.value)" #tableDropdown class="tableNameDropdown"></ejs-dropdownlist>
+
+
+            <div *ngIf="boxTemplateForm.get('tableName')?.invalid && boxTemplateForm.get('tableName')?.touched"
+            class="error-message">
+            Table Name is required.
+            </div>
+
+        </div>
+        <div class="col-md-3 form-group">
+          <label for="fieldName" class="labelFeild" >Field Name <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
+          <!-- <select name="" id="" class="form-control inputTitle" formControlName="fieldName" (change)="onSecondDropdownChange($event)">
+                    <option value="">--Select--</option>
+                    <option [value]="name" *ngFor="let name of selectedTableFieldName; let i=index" >{{name}}</option>
+                </select> -->
+
+          <ejs-dropdownlist [dataSource]='selectedTableFieldName' [allowFiltering]="true" formControlName="fieldName"
+            (change)="onSecondDropdownChange(fieldNameDropdown.value)" #fieldNameDropdown
+            class="tableNameDropdown"></ejs-dropdownlist>
+
+            <div *ngIf="boxTemplateForm.get('fieldName')?.invalid && boxTemplateForm.get('fieldName')?.touched"
+            class="error-message">
+            Field Name is required.
+          </div>
+
+        </div>
+        <div class="col-md-3 form-group">
+          <label for="labelName" class="labelFeild">Label Name</label>
+          <input type="text" [formControlName]="'labelName'" class="form-control inputTitle">
+        </div>
+        <div class="col-md-3 form-group">
+          <label for="tableName" class="labelFeild" >Date Format <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
+          <select name="" id="" class="form-control inputTitle  selectInputFeild" formControlName="dateFormat">
+            <option value="select">Select Format</option>
+            <option [value]="name" *ngFor="let name of formatData; let i=index">{{name}}</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

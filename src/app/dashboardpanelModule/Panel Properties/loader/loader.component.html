@@ -1,0 +1,77 @@
+<!-- 
+<ejs-progressbar  *ngIf="isVisible"  cornerRadius='Circle' id='indeterminate' trackThickness=20  progressThickness=20  segmentCount=30  type='Circular' height='100' value=40
+[isIndeterminate]='true' [animation]='animation' progressColor="red"
+>
+</ejs-progressbar> -->
+
+<!-- <div *ngIf="isVisible" class="loader-backdrop">
+    <ejs-progressbar class="progressBar" cornerRadius="Circle" id="indeterminate" trackThickness="20" progressThickness="20" segmentCount="30" type="Circular" height="100" value="40"
+      [isIndeterminate]="true" [animation]="animation" progressColor="red">
+    </ejs-progressbar>
+  </div>
+   -->
+  <!-- <div *ngIf="isVisible" class="loader-backdrop">
+    <ejs-progressbar class="progressBar" cornerRadius="Circle" id="indeterminate" trackThickness="15" progressThickness="20" segmentCount="30" type="Circular" height="100" value="85"
+      [isIndeterminate]="true" [animation]="animation" progressColor="red">
+    </ejs-progressbar>
+</div> -->
+
+
+<!-- <div *ngIf="isVisible" class="loader-backdrop">
+  <ejs-progressbar
+    class="progressBar"
+    cornerRadius="Circle"
+    id="indeterminate"
+    trackThickness="20"
+    progressThickness="18"
+    segmentCount="28"
+    type="Circular"
+    height="100"
+    value="80"
+    [isIndeterminate]="true"
+    [animation]="animation" 
+    progressColor="navy"
+    >
+  </ejs-progressbar>
+</div> -->
+
+<!-- Working code -->
+
+
+<!-- loader css -->
+<div *ngIf="isVisible" class="loader-backdrop">
+  <ejs-progressbar
+    class="progressBar"
+    cornerRadius="Circle"
+    id="indeterminate"
+    trackThickness="15"        
+    progressThickness="15"
+    segmentCount="35"            
+    type="Circular"
+    height="100"
+    value="85"
+    [isIndeterminate]="true"
+    [animation]="animation" 
+    progressColor="navy"    
+     
+    >        
+  </ejs-progressbar>
+</div>
+
+
+
+
+
+
+ <!-- code for mov loader -->
+<!-- <div *ngIf="isVisible" class="loader-backdrop">
+  <video class="loader-video" autoplay loop muted playsinline>
+    <source src="../../../../assets/images/Splash_Screen.mov" type="video/mp4" />
+  </video>
+</div> -->
+
+<!-- code for gif loader  -->
+<!-- <div *ngIf="isVisible" class="loader-backdrop">
+  <img class="loader-gif" src="../../../../assets/images/Splashscreen 2.gif" alt="Loading..." />
+</div> -->
+

@@ -1,0 +1,64 @@
+// table {
+//     width: 100%;
+//     border-collapse: collapse;
+//   }
+  
+//   th, td {
+//     padding: 8px;
+//     text-align: center;
+//     border: 1px solid #ccc;
+//   }
+  
+//   th {
+//     background-color: #d3d3d3;
+//   }
+  
+/* Loader Overlay */
+.loader-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    // background: rgba(247, 245, 245, 0.8); /* Semi-transparent white overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's on top */
+  }
+  
+  /* Circular Loader */
+  .loader-circle {
+    border: 5px solid #f3f3f3; /* Light grey */
+    border-top: 5px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Table Container */
+  .table-container {
+    width: 100%;
+    position: relative;
+  }
+  
+  .table {
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+  .table th, .table td {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  input{
+    cursor: pointer;
+
+  }

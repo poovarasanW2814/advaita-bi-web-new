@@ -1,0 +1,417 @@
+<div class="grouping-target">
+
+  <!-- <div class="toaster" [class.show]="showToaster" [class.error]="toasterType === 'error'">
+    {{ toasterMessage }}
+  </div> -->
+
+  <div class="toaster" [class.show]="showToaster" [class.error]="toasterType === 'error'">
+    <span class="icon" *ngIf="toasterType === 'success'"><i class="fas fa-check"></i></span>
+    <span class="icon" *ngIf="toasterType === 'error'"><i class="fas fa-exclamation-triangle"></i></span>
+    <span class="message">{{ toasterMessage }}</span>
+    <button class="close-btn" style="text-align: right;" (click)="showToaster = false">&times;</button>
+  </div>
+
+
+
+  <div class="sticky-header">
+    <div class="search-bar-top">
+      <input type="text" class="search-input" placeholder="Search dashboards..." [(ngModel)]="searchQuery"
+        (input)="onSearch()">
+      <i class="fas fa-search search-icon"></i>
+    </div>
+
+    <div class="text-right rightMenuBtn" >
+
+
+      <!-- List/Card View Toggle Button (only if ungrouped) -->
+      <button class="e-btn e-btn-purple" [title]="isListview ? 'Show Card View' : 'Show List View'"
+        *ngIf="!isGroupedView" (click)="toggleListCardView()">
+        <i class="fas" [ngClass]="isListview ? 'fa-th-large' : 'fa-list'"></i>
+      </button>
+
+      <!-- Grouped/Ungrouped Toggle Button -->
+      <button class="e-btn e-btn-purple" [title]="isGroupedView ? 'Show Ungrouped' : 'Show Grouped'"
+        style="margin-right:10px; margin-left:10px" (click)="toggleView()">
+        <i class="fas" [ngClass]="isGroupedView ? 'fa-object-group' : 'fa-object-ungroup'"></i>
+      </button>
+
+      <button class="e-btn e-btn-purple"
+        *ngIf="(dashboardSetupPermissionObj && dashboardSetupPermissionObj?.can_view !== false) || role == 'superadmin'"
+        title="Dashboard Setup" routerLink="/sidebar/panel/dashboardRearrage">
+        <i class="fas fa-cog " title="Dashboard Setup"></i>
+      </button>
+
+
+    </div>
+  </div>
+
+
+
+
+  <div class="grouping-content" *ngIf="isGroupedView">
+    <div class="dashboard-layout">
+
+      <!-- Right Panel - Groups and Dashboard List -->
+      <div class="right-panel">
+
+        <!-- No Groups Message -->
+        <div *ngIf="dashboardDataList.length === 0" class="text-center mt-5" style="text-align: center;
+      display: flex;
+      justify-content: center; margin-top:30px">
+          <p style="margin-left: 10px;
+        border: 1px solid black;
+        padding: 10px;
+        background: #3862e942;
+        width: 563px;">No grouped dashboards available.</p>
+        </div>
+
+        <!-- Groups Container -->
+        <div class="groups-container" *ngIf="!selectedGroup">
+          <div class="row">
+            <div *ngFor="let group of dashboardDataList" class="col-md-6 mb-4">
+              <div class="group-card" *ngIf="group.group_name !== 'No Grouping'" (click)="viewDashboards(group)">
+                <!-- Card Header with Group Name and Count -->
+                <div class="card-header">
+                  <div class="group-info">
+                    <i class="fas fa-tachometer-alt" style="
+                          color: white;
+                          font-size: 20px;
+                    "></i>
+
+
+                    <div class="group-text">
+                      <h4 class="group-name">{{ group.group_name }}</h4>
+                      <a class="view-dashboards">
+                        View Dashboards <i class="fas fa-arrow-right"></i>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="dashboard-count-badge">
+                    <span>{{ group.dashboards.length }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard List Container (Shown when a group is selected) -->
+        <div class="dashboards-list-container" *ngIf="selectedGroup">
+          <!-- Header with Back Button -->
+          <div class="list-header">
+            <button class="btn-back" (click)="backToGroups()">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+            <h2 class="list-title">
+              {{ selectedGroup.group_name }}
+            </h2>
+            <div class="dashboard-count-info">
+              {{ selectedGroup.dashboards.length }}
+            </div>
+          </div>
+
+          <!-- Dashboard Cards Grid - 2 columns -->
+          <div class="dashboard-cards-wrapper">
+            <div class="row">
+              <div *ngFor="let dashboard of selectedGroup.dashboards" class="col-md-6 dashboard-col">
+                <div class="dashboard-card" [routerLink]="['/sidebar/panel/panelView', dashboard.dashboard_id]">
+
+                  <!-- Left: Dashboard Icon -->
+                  <div class="dashboard-icon-section">
+                    <i class="fas fa-chart-line" style="
+                          color: white;
+                          font-size: 20px;
+                    "></i>
+                  </div>
+
+                  <!-- Right: Dashboard Info and Actions -->
+                  <div class="dashboard-content-section">
+                    <div class="dashboard-text">
+                      <h5 class="dashboard-title-text" [title]="dashboard.dashboard_name">
+                        {{ dashboard.dashboard_name }}
+                      </h5>
+                      <p class="dashboard-subtitle" *ngIf="dashboard.description">
+                        {{ dashboard.description }}
+                      </p>
+                    </div>
+
+                    <!-- Action Buttons (Shown on Hover) -->
+                    <div class="dashboard-actions-hover" (click)="$event.stopPropagation()">
+                      <button *ngIf="dashboard['can_view'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5"
+                        title="View" [routerLink]="['/sidebar/panel/panelView', dashboard.dashboard_id]">
+                        <i class="fas fa-eye"></i>
+                      </button>
+
+                      <button *ngIf="dashboard['can_update'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5"
+                        title="Edit" (click)="$event.stopPropagation()"
+                        [routerLink]="['/sidebar/panel/edit', dashboard.dashboard_id]">
+                        <i class="fas fa-edit"></i>
+                      </button>
+
+                      <button *ngIf="dashboard['can_create'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5"
+                        title="Copy Dashboard" (click)="showDialog(dashboard, 'copy'); $event.stopPropagation()">
+                        <i class="fas fa-copy"></i>
+                      </button>
+
+                      <button *ngIf="role == 'superadmin' || (roleDashboardPermissionObj?.can_view !== false)"
+                        class="e-btn e-btn-purple mr-5" title="Role Dashboard Permission"
+                        (click)="showDialog(dashboard, 'role'); $event.stopPropagation()">
+                        <i class="fas fa-user-tag"></i>
+                      </button>
+
+                      <button *ngIf="role == 'superadmin' || (userDashboardPermissionObj?.can_view !== false)"
+                        class="e-btn e-btn-purple mr-5" title="User Dashboard Permission"
+                        (click)="showDialog(dashboard, 'user'); $event.stopPropagation()">
+                        <i class="fas fa-users"></i>
+                      </button>
+
+                      <button *ngIf="dashboard['can_delete'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5"
+                        title="Delete" (click)="onDeleteClick(dashboard); $event.stopPropagation()">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="ungrouped-dashboard-cards" *ngIf="!isGroupedView && !isListview"
+    >
+    <ng-container *ngFor="let dashboard of unGroupedDashboards; let i = index">
+      <!-- {{dashboard| json}} -->
+      <div *ngIf="dashboard['can_view'] || role === 'superadmin'" class="group-card ungrouped-card-style"
+        [routerLink]="['/sidebar/panel/panelView', dashboard.dashboard_id]">
+        <div>
+          <div style="height: 140px; overflow: hidden; border-radius: 3px 3px 0 0;">
+            <!-- <img [src]="imageUrls[i % imageUrls.length]" alt="Dashboard Image" style="width: 100%; height: 100%; object-fit: cover;"> -->
+
+
+            <ng-container *ngIf="imageFlag; else backgroundDiv">
+              <!-- <img [src]="dashboard['dashboard_image'] || imageUrls[i % imageUrls.length]" alt="Dashboard Image"
+                style="width: 100%; height: 100%; object-fit: cover;"> -->
+
+              <img [src]="dashboard['dashboard_image'] || imageUrls[i % imageUrls.length]" alt="Dashboard Image"
+                style="width: 100%; height: 100%;">
+            </ng-container>
+            <ng-template #backgroundDiv>
+              <div [ngStyle]="{'background': dashboard['backgroundColor'], 'width': '100%', 'height': '100%'}">
+              </div>
+            </ng-template>
+
+          </div>
+
+          <div class="card-body"
+            style="padding: 18px 18px 12px 18px; flex: 1 1 auto; display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+            <div>
+              <h5 class="ungrouped_card_dashboardName" style="  color: rgb(38, 74, 159) !important;
+                font-size: 13px;
+                font-weight: 500; text-align: center;
+                font-family: 'Roboto', 'Segoe UI', 'GeezaPro', 'DejaVu Serif', 'sans-serif';
+                margin-bottom:5px;word-wrap: break-word;word-break: break-word; line-height: 1.4; ">
+                {{dashboard.dashboard_name}}
+              </h5>
+              <p
+                style="font-size: 12px; font-weight: 400; color: rgb(38, 74, 159) ; margin-bottom: 10px; text-align: center;  height: 26px;word-wrap: break-word;word-break: break-word;  ">
+                {{dashboard.description }}</p>
+            </div>
+            <div class="dashboard-actions d-flex gap-2" style="display: flex; margin-bottom: 9px;">
+              <button *ngIf="dashboard['can_view'] || role == 'superadmin' " class="e-btn e-btn-purple mr-5"
+                title="View" [routerLink]="['/sidebar/panel/panelView', dashboard.dashboard_id]">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button *ngIf="dashboard['can_update'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5"
+                title="Edit" (click)="$event.stopPropagation()"
+                [routerLink]="['/sidebar/panel/edit', dashboard.dashboard_id]">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button *ngIf="dashboard['can_create'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5"
+                title="Copy Dashboard" (click)="showDialog(dashboard, 'copy'); $event.stopPropagation()">
+                <i class="fas fa-copy"></i>
+              </button>
+              <button
+                *ngIf="role == 'superadmin' || (roleDashboardPermissionObj &&  roleDashboardPermissionObj?.can_view !== false)"
+                class="e-btn e-btn-purple mr-5" title="Role Dashboard Permission"
+                (click)="showDialog(dashboard, 'role'); $event.stopPropagation()">
+                <i class="fas fa-user-tag"></i>
+              </button>
+              <button
+                *ngIf="role == 'superadmin' || (userDashboardPermissionObj && userDashboardPermissionObj?.can_view !== false)"
+                class="e-btn e-btn-purple mr-5" title="User Dashboard Permission"
+                (click)="showDialog(dashboard, 'user'); $event.stopPropagation()">
+                <i class="fas fa-users"></i>
+              </button>
+              <button *ngIf="dashboard['can_delete'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5"
+                (click)="onDeleteClick(dashboard); $event.stopPropagation()" title="Delete">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+  </div>
+
+  <!-- List View for Ungrouped Dashboards -->
+  <div class="ungrouped-dashboard-listview" *ngIf="!isGroupedView && isListview">
+    <ng-container *ngFor="let dashboard of unGroupedDashboards; let i = index">
+      <div class="listview-row" *ngIf="dashboard['can_view'] || role === 'superadmin'"
+        [routerLink]="['/sidebar/panel/panelView', dashboard.dashboard_id]">
+        <div class="listview-image-col">
+          <!-- <img [src]="imageUrls[i % imageUrls.length]" alt="Dashboard Image"> -->
+
+          <ng-container *ngIf="imageFlag; else backgroundDiv">
+            <!-- <img [src]="dashboard['dashboard_image'] || imageUrls[i % imageUrls.length]" alt="Dashboard Image"
+              style="width: 100%; height: 100%; object-fit: cover;"> -->
+
+            <img [src]="dashboard['dashboard_image'] || imageUrls[i % imageUrls.length]" alt="Dashboard Image"
+              style="width: 100%; height: 100%; ">
+          </ng-container>
+          <ng-template #backgroundDiv>
+            <div [ngStyle]="{'background': dashboard['backgroundColor'], 'width': '100%', 'height': '100%'}">
+            </div>
+          </ng-template>
+
+
+        </div>
+        <div class="dashboardNameDiv">
+         <div class="listview-info-col">
+          <div class="listview-title">{{dashboard.dashboard_name}}</div>
+          <div class="listview-desc">{{dashboard.description }}</div>
+        </div>
+        <div class="listview-actions-col">
+          <button *ngIf="dashboard['can_view'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5" title="View"
+            [routerLink]="['/sidebar/panel/panelView', dashboard.dashboard_id]">
+            <i class="fas fa-eye"></i>
+          </button>
+          <button *ngIf="dashboard['can_update'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5" title="Edit"
+            (click)="$event.stopPropagation()" [routerLink]="['/sidebar/panel/edit', dashboard.dashboard_id]">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button *ngIf="dashboard['can_create'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5"
+            title="Copy Dashboard" (click)="showDialog(dashboard, 'copy'); $event.stopPropagation()">
+            <i class="fas fa-copy"></i>
+          </button>
+          <button
+            *ngIf="role == 'superadmin' || (roleDashboardPermissionObj &&  roleDashboardPermissionObj?.can_view !== false)"
+            class="e-btn-purple e-btn mr-5" title="Role Dashboard Permission"
+            (click)="showDialog(dashboard, 'role'); $event.stopPropagation()">
+            <i class="fas fa-user-tag"></i>
+          </button>
+          <button
+            *ngIf="role == 'superadmin' || (userDashboardPermissionObj && userDashboardPermissionObj?.can_view !== false)"
+            class="e-btn-purple e-btn mr-5" title="User Dashboard Permission"
+            (click)="showDialog(dashboard, 'user'); $event.stopPropagation()">
+            <i class="fas fa-users"></i>
+          </button>
+          <button *ngIf="dashboard['can_delete'] || role == 'superadmin'" class="e-btn-purple e-btn mr-5"
+            (click)="onDeleteClick(dashboard); $event.stopPropagation()" title="Delete">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+        </div> 
+   
+      </div>
+    </ng-container>
+  </div>
+
+</div>
+
+<!-- Reusable Dialog -->
+<ejs-dialog id="actionDialog" #actionDialog [isModal]='isModal' [visible]='dialogVisible' [header]='dialogHeader'
+  [allowDragging]='dialogdragging' [animationSettings]='animationSettings' [showCloseIcon]='dialogCloseIcon'
+  (close)="onDialogClose()" [width]='dialogWidth'>
+
+  <ng-template #content>
+    <!-- Copy Dashboard Form -->
+    <div *ngIf="dialogContent === 'copy'" style="padding: 22px 0px 0px">
+      <form [formGroup]="copyDashboardForm">
+        <div class="form-group">
+          <label for="dashboard_name">Dashboard Name <span style="color: red">*</span></label>
+          <input type="text" class="form-control" formControlName="dashboard_name">
+          <div *ngIf="copyDashboardForm.get('dashboard_name')?.invalid && copyDashboardForm.get('group_name')?.touched"
+            style="color: red;">
+            Dashboard name is required.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input type="text" class="form-control" formControlName="description">
+        </div>
+      </form>
+
+    </div>
+
+    <!-- Role Permission Form -->
+    <div *ngIf="dialogContent === 'role'">
+      <!-- Add role permission form content here -->
+      <div class="role-permission-form">
+        <app-role-dashboard-access [dashboardId]="roleDashboardObj" (resFlag)="resFlag($event)"
+          (resMessage)="getResponseMessage($event)" #roleBasedDialog></app-role-dashboard-access>
+      </div>
+    </div>
+
+    <!-- User Permission Form -->
+    <div *ngIf="dialogContent === 'user'" style="    padding: 16px 0px 0px;">
+      <!-- Add user permission form content here -->
+      <div class="user-permission-form">
+        <app-user-dashboard-access [userBasedDashboardId]="userDashboardObj" (resFlag)="resUserFlag($event)"
+          (resMessage)="getResponseMessage($event)" #userBasedDialog></app-user-dashboard-access>
+
+
+      </div>
+    </div>
+  </ng-template>
+
+
+
+  <ng-template #footerTemplate>
+    <div class="form-actions">
+      <!-- Copy Dashboard -->
+      <button class="e-btn e-btn-purple" *ngIf="dialogType === 'copy'" type="button" [disabled]="copyDashboardForm.invalid" (click)="onCopyDashboardSubmit()">
+        Copy
+      </button>
+
+      <!-- Role Permissions -->
+      <ng-container *ngIf="dialogType === 'role'">
+        <button class="e-btn e-btn-purple" *ngIf="roleSubmitFlag" (click)="onRoleBasedAccessSubmit()">
+          Submit
+        </button>
+
+        <button class="e-btn e-btn-purple" *ngIf="roleUpdateFlag" (click)="onUpdateRoleBasedAccess()">
+          Update
+        </button>
+
+        <button class="e-btn e-btn-purple" type="button" *ngIf="roleUpdateFlag" (click)="delteRolePermission()">
+          Delete Permission
+        </button>
+      </ng-container>
+
+      <!-- User Permissions -->
+      <ng-container *ngIf="dialogType === 'user'">
+        <button class="e-btn e-btn-purple" *ngIf="userSubmitFlag" (click)="onUserBasedAccessSubmit()">
+          Submit
+        </button>
+
+        <button class="e-btn e-btn-purple" *ngIf="userUpdateFlag" (click)="onUserUpdateDashboardAccess()">
+          Update
+        </button>
+
+        <button class="e-btn e-btn-purple" type="button" *ngIf="userUpdateFlag" (click)="deleteUserPermission()">
+          Delete Permission
+        </button>
+      </ng-container>
+
+    </div>
+  </ng-template>
+
+
+</ejs-dialog>

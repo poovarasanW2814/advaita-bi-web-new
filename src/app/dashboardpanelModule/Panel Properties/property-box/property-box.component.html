@@ -1,0 +1,461 @@
+<div class="control-section e-tab-section">
+  <div class="e-sample-resize-container">
+    <!-- Render the Tab Component -->
+    <ejs-tab id="tab_default" #tabComponent heightAdjustMode='Auto'>
+      <e-tabitems>
+        <e-tabitem [header]='headerText[0]' tabIndex='0'>
+          <ng-template #content>
+            <form action="" [formGroup]="boxTemplateForm" (ngSubmit)="onBoxFormSubmit()">
+              <div class="row">
+
+                <div class="col-md-4 form-group">
+                  <label class="input-label" for="Title" >Title</label>
+                  <input class="form-control inputTitle" formControlName="title" type="text" name="" id="">
+                </div>
+
+                <div class="col-md-4 form-group">
+
+                  <label class="input-label" for="tableName">Table Name</label>
+
+
+                  <ejs-dropdownlist [dataSource]='tableNamesArray' [allowFiltering]="true" formControlName="tableName"
+                    (change)="onTableDropdown(tableDropdown.value)" #tableDropdown
+                    class="tableNameDropdown"></ejs-dropdownlist>
+
+                  <div *ngIf="boxTemplateForm.get('tableName')?.invalid && boxTemplateForm.get('tableName')?.touched"
+                    class="error-message">
+                    Table Name is required.
+                  </div>
+
+                </div>
+
+                <div class="col-md-4 form-group">
+                  <label class="input-label" for="labelName" style="display:block"> Background Color</label>
+                  <input ejs-colorpicker class='color-picker' formControlName="backgroundColor" type='color' />
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-md-4 form-group">
+                  <label class="input-label" for="icon">Select Icon</label>
+                  <ejs-dropdownlist #icon id='icons' formControlName="boxIcon" [dataSource]='panelTypeDataArray'
+                    [placeholder]='"Select type"'  class="tableNameDropdown" [fields]='iconFields'></ejs-dropdownlist>
+                </div>
+
+                <div class="col-md-4 form-group">
+                  <label class="input-label" for="iconFontSize">Icon size</label>
+                  <input type="number" class="form-control inputTitle" formControlName="iconFontsize">
+                </div>
+
+                <div class="col-md-4 form-group">
+                  <label class="input-label" for="iconFontColor" style="display:block">Icon Color</label>
+                  <input type="color" ejs-colorpicker class="color-picker" formControlName="iconFontColor">
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4 form-group">
+                <label for="tableTilte" class="input-label">Enable Filters</label>
+                                        <!-- <input type="text" formControlName="autoFitColumns" class="form-control inputFeild"> -->
+
+               <ejs-switch style="display: block;" class="form-control" cssClass="bar-color"
+                                            formControlName="enableClickFilter"></ejs-switch>
+                         </div>
+              </div>
+
+            </form>
+          </ng-template>
+        </e-tabitem>
+        <e-tabitem [header]='headerText[1]' tabIndex='1'>
+          <ng-template #content>
+            <form action="" [formGroup]="boxTemplateForm" (ngSubmit)="onBoxFormSubmit()">
+
+              <div class="row">
+                <div class="col-md-3 form-group">
+
+                  <label class="input-label" for="tableName">Table Name</label>
+
+
+                  <ejs-dropdownlist [dataSource]='tableNamesArray' [allowFiltering]="true" formControlName="tableName"
+                    (change)="onTableDropdown(tableDropdown.value)" #tableDropdown
+                    class="tableNameDropdown"></ejs-dropdownlist>
+
+               
+
+                </div>
+                <div class="col-md-3 form-group">
+                  <label class="input-label" for="fieldName">Field Name</label>
+             
+                  <ejs-dropdownlist [dataSource]='selectedTableFieldName' [allowFiltering]="true"
+                    formControlName="fieldName" (change)="onSecondDropdownChange(fieldNameDropdown.value)"
+                    #fieldNameDropdown class="tableNameDropdown"></ejs-dropdownlist>
+
+
+                </div>
+                <div class="col-md-3 form-group">
+                  <label class="input-label" for="labelName">Label Name</label>
+               
+                  <input type="text" [formControlName]="'labelName'" class="form-control inputTitle">
+
+
+                </div>
+
+                <div class="col-md-3 form-group">
+                  <label class="input-label" for="valueFormat">Value Format</label>
+                  <select name="" id="" class="form-control inputTitle" formControlName="valueFormat">
+                    <option value="">None</option>
+                    <option value="currency-usd">Currency (USD)</option>
+                    <option value="currency-inr">Currency (INR)</option>
+                    <option value="percent">Percent</option>
+                    <option value="decimal">Decimal</option>
+                    <option value="round-2">Round-2</option>
+                    <option value="round-3">Round-3</option>
+
+                  </select>
+                </div>
+
+                <div class="col-md-3 form-group">
+                  <label class="input-label" for="fontSize">Label Size</label>
+
+                  <input type="number" [formControlName]="'labelfontSize'" class="form-control inputTitle">
+                </div>
+                <div class="col-md-3 form-group">
+                  <label class="input-label" for="labelFontColor" style="display:block">Label Color</label>
+
+                  <input type="color" ejs-colorpicker [formControlName]="'labelFontColor'" class=" color-picker">
+                </div>
+                <div class="col-md-3 form-group">
+                  <label class="input-label" for="valueFontSize">Value Size</label>
+
+                  <input type="number" [formControlName]="'valueFontSize'" class="form-control inputTitle">
+                </div>
+                <div class="col-md-3 form-group">
+                  <label class="input-label" for="ValueFontColor" style="display:block">Value Color</label>
+
+                  <input type="color" ejs-colorpicker  [formControlName]="'ValueFontColor'" class=" color-picker">
+                </div>
+
+                <div class="col-md-12 form-group">
+                  <label class="input-label" for="Expression">Expression</label>
+
+                  <textarea class="form-control  selectInputFeild" row="1" formControlName="expression"></textarea>
+                </div>
+
+                <div class="col-md-12 form-group" style="text-align: right;">
+                  <button class="btn e-btn-purple" *ngIf="showAddButton" type="button" (click)="onMesureAdd()">
+                    Add
+                  </button>
+                  <button class="btn e-btn-purple" *ngIf="showUpdateButton" type="button" (click)="onUpdateColumn()">
+                    Update
+                  </button>
+                </div>
+              </div>
+
+              <div class="table-container">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+
+
+                      <th>Sr No</th>
+                      <th>
+                        Table Name
+                      </th>
+                      <th>
+                        Field Name
+                      </th>
+                      <th>
+                        Label Name
+                      </th>
+                      <th>
+                        Expression
+                      </th>
+                      <th>
+                        Label Size
+                      </th>
+                      <th>
+                        Label Color
+                      </th>
+                      <th>
+                        Value Size
+                      </th>
+                      <th>
+                        Value Color
+                      </th>
+                      <th>
+                        Value Format
+                      </th>
+
+
+                      <th>
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of measuresArray; let i = index">
+                      <td>{{i + 1}}</td>
+                      <td>{{item.tableName}}</td>
+                      <td>{{item.fieldName}}</td>
+                      <td>{{item.labelName}}</td>
+                      <td>{{item.expression}}</td>
+                      <td>{{item.labelfontSize}}</td>
+                      <td>{{item.labelFontColor}}</td>
+                      <td>{{item.valueFontSize}}</td>
+                      <td>{{item.ValueFontColor}}</td>
+                      <td>{{item.valueFormat}}</td>
+
+
+                      <td>
+                        <div style="cursor: pointer;">
+                          <i class="fas fa-edit" (click)="onEditColumn(item, i)" style="margin:0px 5px"></i>
+                          <i class="fas fa-trash-alt" (click)="onDeleteColumn(i)"></i>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+
+      
+            </form>
+          </ng-template>
+        </e-tabitem>
+        <e-tabitem [header]='headerText[2]' tabIndex='3'>
+          <ng-template #content>
+            <div id="ChartCondition" class="tab-pane active">
+              <div class="col-md-12" id="modalBody" style="margin-right:1px;margin-top: 5px;">
+                <form action="" [formGroup]="boxTemplateForm" (ngSubmit)="onBoxFormSubmit()">
+
+                  <!-- <input type="hidden" name="" value=""> -->
+                  <div class="row">
+                    <div class="col-md-9 border">
+                      <fieldset>
+                        <legend>Template Condition:
+
+                        </legend>
+                        <div class="row">
+                          <div class="cleardiv  pull-right">
+
+                            <button type="button" (click)=" onClearConditions()" class="e-btn e-btn-purple"
+                              id="chartbtnCleardimCondition">Clear</button>
+                          </div>
+                        </div>
+
+                        <div class="">
+
+                          <!-- <textarea name="conditions" cols="40" rows="6" class="form-control" id="pop_chart_condition"
+                            formControlName="conditions" [(ngModel)]="conditionValue">
+                                              </textarea> -->
+
+                                              <textarea name="conditions" cols="40" rows="7" class="form-control"
+                                              id="pop_chart_condition" formControlName="conditions"
+                                              [(ngModel)]="conditionValue"
+                                              (click)="updateCursorPositionCondition($event)"
+                                              (input)="updateCursorPositionCondition($event)"></textarea>
+
+                        </div>
+                        <div class="actionbuttons">
+
+                          <button type="button" class="e-btn e-btn-purple" style="margin-left:4px;margin-bottom:5px"
+                            (click)="addSqlQueryText($event)" value="+">+</button>
+                          <button type="button" class="e-btn e-btn-purple" style="margin-left:4px;margin-bottom:5px"
+                            (click)="addSqlQueryText($event)" value="-">-</button>
+                          <button type="button" class="e-btn e-btn-purple" style="margin-left:4px;margin-bottom:5px"
+                            (click)="addSqlQueryText($event)" value="*">*</button>
+                          <button type="button" class="e-btn e-btn-purple" style="margin-left:4px;margin-bottom:5px"
+                            (click)="addSqlQueryText($event)" value="/">/</button>
+                          <button type="button" class="e-btn e-btn-purple" style="margin-left:4px;margin-bottom:5px"
+                            (click)="addSqlQueryText($event)" value="==">==</button>
+                          <button type="button" class="e-btn e-btn-purple" style="margin-left:4px;margin-bottom:5px"
+                            (click)="addSqlQueryText($event)" value="<">&lt;</button>
+                          <button type="button" class="e-btn e-btn-purple" style="margin-left:4px;margin-bottom:5px"
+                            (click)="addSqlQueryText($event)" value="<=">&lt;=</button>
+                          <button type="button" class="e-btn e-btn-purple" style="margin-left:4px;margin-bottom:5px"
+                            (click)="addSqlQueryText($event)" value="!=">!=</button>
+                          <button type="button" class="e-btn e-btn-purple" style="margin-left:4px;margin-bottom:5px"
+                            (click)="addSqlQueryText($event)" value=">=">&gt;=</button>
+                          <button type="button" class="e-btn e-btn-purple" style="margin-left:4px;margin-bottom:5px"
+                            (click)="addSqlQueryText($event)" value=">">&gt;</button>
+                          <button type="button" class="e-btn e-btn-purple" style="margin-left:4px;margin-bottom:5px"
+                            (click)="addSqlQueryText($event)" value="and">and</button>
+                          <button type="button" class="e-btn e-btn-purple" style="margin-left:4px;margin-bottom:5px"
+                            (click)="addSqlQueryText($event)" value="or">or</button>
+                          <button type="button" class="e-btn e-btn-purple" style="margin-left:4px;margin-bottom:5px"
+                            (click)="addSqlQueryText($event)" value="not">not</button>
+                          <button type="button" class="e-btn e-btn-purple" style="margin-left:4px;margin-bottom:5px"
+                            (click)="addSqlQueryText($event)" value="(">(</button>
+                          <button type="button" class="e-btn e-btn-purple" style="margin-left:4px;margin-bottom:5px"
+                            (click)="addSqlQueryText($event)" value=")">)</button>
+
+
+                        </div>
+
+
+                      </fieldset>
+                    </div>
+                    <div class="col-md-3 border">
+                      <fieldset>
+                        <legend>Select Table:
+
+                        </legend>
+
+                       
+
+                        <input type="text" 
+                          class="form-control tableInputTitle" formControlName="tableName">
+
+                        <div class="tabldiv">
+                          <div class="headerstylepopup">
+                            <h5 class="popuph5style" style="margin-bottom:2px">Selected Table Field Names</h5>
+                          </div>
+                          <div class="Tablelist" style="height: 131px;">
+                            <ul class="list-group">
+                              <li class="list-group-items" (click)="addToConditionTextarea(name)"
+                                *ngFor="let name of selectedTableFieldName">
+                                {{name}}
+                              </li>
+                            </ul>
+                          
+                          </div>
+                        </div>
+                      </fieldset>
+
+
+                    </div>
+
+                  </div>
+               
+                </form>
+
+              </div>
+            </div>
+          </ng-template>
+        </e-tabitem>
+        <e-tabitem [header]='headerText[3]' tabIndex='4'>
+          <ng-template #content>
+            <div id="ChartExpression" class="tab-pane active ">
+              <div class="col-md-12 " id="modalBody1" style="margin-right:1px;margin-top: 5px;">
+                <form action="" [formGroup]="boxTemplateForm" (ngSubmit)="onBoxFormSubmit()">
+
+                  <!-- <input type="hidden" name="" value=""> -->
+                  <div class="row">
+                    <div class="col-md-9 border">
+                      <fieldset>
+                        <legend>Raw Query:
+
+                        </legend>
+                        <div class="row">
+                          <div class="cleardiv  pull-right">
+
+                                        
+                                  <button type="button" (click)="onCopyRawQuery()"
+                                                        class="e-btn e-btn-purple" 
+                                                        id="chartbtnCopyRawQuery">Copy</button>
+                                                    &nbsp;
+                                                    <span *ngIf="copyMessage" style="position:absolute; top:10px; left:50%; transform:translateX(-50%);
+             background:#323232; color:#fff; padding:6px 12px;
+             border-radius:6px; font-size:13px;">
+                                                        {{ copyMessage }}
+                                                    </span>
+
+                            <button type="button" (click)="onClearRawQuery()" class="e-btn e-btn-purple"
+                              id="chartbtnCleardimCondition">Clear</button>
+                          </div>
+                        </div>
+
+                        <div class="">
+
+                       
+
+                                            <textarea name="rawQuery" cols="40" rows="7" class="form-control"
+                                            id="pop_chart_expression" formControlName="rawQuery"
+                                            [(ngModel)]="rawQueryValue"
+                                            (click)="updateCursorPosition($event)"
+                                            (input)="updateCursorPosition($event)">
+                                                                                                                       
+                                           </textarea>
+
+                        </div>
+                        <div class="actionbuttons">
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" 
+                            (click)="addRawQueryText($event)" value="+">+</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" 
+                            (click)="addRawQueryText($event)" value="-">-</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" 
+                            (click)="addRawQueryText($event)" value="*">*</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" 
+                            (click)="addRawQueryText($event)" value="/">/</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" 
+                            (click)="addRawQueryText($event)" value="==">==</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" 
+                            (click)="addRawQueryText($event)" value="<">&lt;</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" 
+                            (click)="addRawQueryText($event)" value="<=">&lt;=</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" 
+                            (click)="addRawQueryText($event)" value="!=">!=</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" 
+                            (click)="addRawQueryText($event)" value=">=">&gt;=</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" 
+                            (click)="addRawQueryText($event)" value=">">&gt;</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" 
+                            (click)="addRawQueryText($event)" value="and">and</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" 
+                            (click)="addRawQueryText($event)" value="or">or</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" 
+                            (click)="addRawQueryText($event)" value="not">not</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" 
+                            (click)="addRawQueryText($event)" value="(">(</button>
+                          <button type="button" class="e-btn e-btn-purple rawQueryBtn" 
+                            (click)="addRawQueryText($event)" value=")">)</button>
+                            <button type="button"
+                            class='e-btn e-btn-purple rawQueryBtn' (click)="addRawQueryText($event)"
+                            value="{apply_filters}">Apply_Filters</button>
+                         </div>
+                         
+                       
+
+                      </fieldset>
+                    </div>
+                    <div class="col-md-3 border">
+                      <fieldset>
+                        <legend>Select Table:
+
+                        </legend>
+
+
+                        <input type="text" 
+                          class="form-control tableInputTitle" formControlName="tableName">
+
+
+                        <div class="tabldiv">
+                          <div class="headerstylepopup">
+                            <h5 class="popuph5style" style="margin-bottom:2px">Selected Table Field Names</h5>
+                          </div>
+                          <div class="Tablelist" style="height: 131px;">
+
+                            <ul class="list-group">
+                              <li class="list-group-items" (click)="addToTextarea(name)"
+                                *ngFor="let name of selectedTableFieldName">
+                                {{name}}
+                              </li>
+                            </ul>
+                      
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+                  </div>
+
+                </form>
+
+              </div>
+            </div>
+          </ng-template>
+        </e-tabitem>
+      </e-tabitems>
+    </ejs-tab>
+  </div>
+</div>
