@@ -35,6 +35,7 @@ import { DashboardCardsComponent } from './panelComponents/dashboard-cards/dashb
 import { PopupComponent } from './Panel Properties/popup/popup.component';
 import { InitialFiltersComponent } from './Panel Properties/initial-filters/initial-filters.component';
 import { ResponsiveSidebarComponent } from './panelComponents/responsive-sidebar/responsive-sidebar.component';
+
 import { LoaderComponent } from './Panel Properties/loader/loader.component';
 import { RawdatadumpComponent } from './Panel Properties/rawdatadump/rawdatadump.component';
 import { InputBoxPropertiesComponent } from './Panel Properties/input-box-properties/input-box-properties.component';
@@ -118,42 +119,11 @@ import { guageChartPropertiesComponent } from './Panel Properties/guage-chart-pr
     ReactiveFormsModule,
     AutoCompleteModule,
     KanbanModule,
-    // UserSettingsModule
     CircularGaugeModule,
   ],
   exports: [
-    DashbordPageViewwComponent,
-    PivotPropertiesComponent,
-    DropdownPropertiesComponent,
-    ListboxPropertiesComponent,
-    DatepickerComponent,
-    DaterangepickerComponent,
-    CreateDashboardComponent,
-    EditDashboardComponent,
-    RoleMappingComponent,
-    AddRolesComponent,
-    AddUsersComponent,
-    ConnectionDatabaseComponent,
-    UserBasedPermissionComponent,
-    RoleBasedPermissionComponent,
-    UserDashboardAccessComponent,
-    RoleDashboardAccessComponent,
-    FileUploadPageComponent,
-    PagingTableComponent,
-    DashboardRearrangeComponent,
-    PropertyMultiselectdropdownComponent,
-    PopupComponent,
-    InitialFiltersComponent,
     LoaderComponent,
-    RawdatadumpComponent,
-    InputBoxPropertiesComponent,
-    CardTemplateComponent,
-    UnauthorizedComponent,
-    MultipleDashboardRolePermissionComponent,
-    MultipleDashboardUserPermissionComponent,
-    ViewGroupedDashboardComponent,
-    KanbanComponent,
-    guageChartPropertiesComponent
+    PopupComponent
   ],
 })
 export class DashboardPanelModule { }

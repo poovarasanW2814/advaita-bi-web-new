@@ -7,7 +7,8 @@ import { ChartService } from 'src/app/core/services/chart.service';
 @Component({
   selector: 'app-dropdown-properties',
   templateUrl: './dropdown-properties.component.html',
-  styleUrls: ['./dropdown-properties.component.scss']
+  styleUrls: ['./dropdown-properties.component.scss'],
+  standalone: false
 })
 
 

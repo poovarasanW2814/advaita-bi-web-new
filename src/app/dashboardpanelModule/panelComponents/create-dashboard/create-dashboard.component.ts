@@ -46,7 +46,8 @@ import { LegendService, GaugeTooltipService } from '@syncfusion/ej2-angular-circ
   selector: 'app-create-dashboard',
   templateUrl: './create-dashboard.component.html',
   providers: [LegendService, GaugeTooltipService],
-  styleUrls: ['./create-dashboard.component.scss']
+  styleUrls: ['./create-dashboard.component.scss'],
+  standalone: false
 })
 
 export class CreateDashboardComponent implements OnInit {
@@ -601,15 +602,12 @@ export class CreateDashboardComponent implements OnInit {
       }
     })
     this.chartService.getAllDbConncetionDetails().subscribe((res: any) => {
-      let resData = res['data'];
-      // console.log('resData', resData)
-
-      this.connectionDetailsArray = resData;
-      this.connectionDetailsArray.unshift({
-        connection_id: 0,
-        connection_name: 'Internal'
-      });
-
+      const resData = res['data'];
+      if (!resData) return;
+      this.connectionDetailsArray = [
+        { connection_id: 0, connection_name: 'Internal' },
+        ...resData
+      ];
     })
 
 
@@ -5718,3 +5716,4 @@ export class CreateDashboardComponent implements OnInit {
     };
   }
 }
+

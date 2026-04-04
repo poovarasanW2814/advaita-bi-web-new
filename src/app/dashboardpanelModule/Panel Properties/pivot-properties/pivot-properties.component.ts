@@ -8,7 +8,8 @@ import { ChartService } from 'src/app/core/services/chart.service';
 @Component({
   selector: 'app-pivot-properties',
   templateUrl: './pivot-properties.component.html',
-  styleUrls: ['./pivot-properties.component.scss']
+  styleUrls: ['./pivot-properties.component.scss'],
+  standalone: false
 })
 
 
@@ -2076,4 +2077,5 @@ onEditHeaderFormat(index: number, item : any) {
     this.headerFeildDetailsArray.splice(index, 1);
   }
 }
+
 

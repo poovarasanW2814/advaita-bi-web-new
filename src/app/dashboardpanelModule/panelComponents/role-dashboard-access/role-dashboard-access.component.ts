@@ -8,7 +8,8 @@ import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.
 @Component({
   selector: 'app-role-dashboard-access',
   templateUrl: './role-dashboard-access.component.html',
-  styleUrls: ['./role-dashboard-access.component.scss']
+  styleUrls: ['./role-dashboard-access.component.scss'],
+  standalone: false
 })
 
 

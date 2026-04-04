@@ -52,6 +52,7 @@ MultiSelectComponent.Inject(CheckBoxSelection);
   styleUrls: ['./edit-dashboard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [LegendService, GaugeTooltipService],
+  standalone: false
 
 })
 
@@ -6549,6 +6550,7 @@ export class EditDashboardComponent implements OnInit {
     };
   }
 }
+
 
 
 

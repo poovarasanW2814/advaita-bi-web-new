@@ -6,7 +6,8 @@ import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.
 @Component({
   selector: 'app-multiple-dashboard-role-permission',
   templateUrl: './multiple-dashboard-role-permission.component.html',
-  styleUrls: ['./multiple-dashboard-role-permission.component.scss']
+  styleUrls: ['./multiple-dashboard-role-permission.component.scss'],
+  standalone: false
 })
 export class MultipleDashboardRolePermissionComponent implements OnInit, OnChanges {
 
@@ -370,4 +371,5 @@ export class MultipleDashboardRolePermissionComponent implements OnInit, OnChang
   }
   
 }
+
 

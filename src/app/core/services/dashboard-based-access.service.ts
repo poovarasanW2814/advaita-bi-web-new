@@ -11,6 +11,10 @@ export class DashboardBasedAccessService {
   private dashboardAccessSubject = new BehaviorSubject<any>(this.getdashboardAccessFromLocalStorage());
   dashboardAccess$ = this.dashboardAccessSubject.asObservable();
 
+  getDashboardAccessSnapshot(): any {
+    return this.dashboardAccessSubject.getValue();
+  }
+
   constructor() { }
 
   setdashboardAccess(dashboardAccess: any) {

@@ -13,7 +13,8 @@ import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-file-upload-page',
   templateUrl: './file-upload-page.component.html',
-  styleUrls: ['./file-upload-page.component.scss']
+  styleUrls: ['./file-upload-page.component.scss'],
+  standalone: false
 })
 
 export class FileUploadPageComponent implements OnInit {

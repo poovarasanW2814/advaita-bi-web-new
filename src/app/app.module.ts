@@ -92,41 +92,15 @@ import {CircularGaugeModule} from '@syncfusion/ej2-angular-circulargauge';
   declarations: [
     AppComponent,
     SidebarComponent,
-    // FooterComponent,
-    // Dashboard1Component,
     LoginComponent,
-
-    // LoginPageComponent,
-    // RegistrationPageComponent,
-    // DashboardCreateFormComponent,
-    // TablePropertiesComponent,
-    // CreatePivotTableComponent,
-    // DashboardEditComponent,
-    // ListBoxFilterPropertiesComponent,
-    // DropdownListFilterProperitesComponent,
-    // DatePickerPropertiesComponent,
-    // DateRangePickerPropertiesComponent,
-   // RoleFormPageComponent,
-    // DatabaseConnectionComponent,
-    // TableJointsComponent,
-    // UserBasedAccessComponent,
-    //RoleBasedAccessComponent,
-    // UploadFileToDBComponent,
-    // UserBaseAccessComponent,
-
     FilterPipe,
-     SidebarNavbarComponent,
-    //  ProfilePageComponent,
-    //  SecurityPageComponent,
-     UserSettingsSidebarComponent,
-  
+    SidebarNavbarComponent,
+    UserSettingsSidebarComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    // UploaderModule,
     DashboardPanelModule,
-    // DashboardPagesModule,
     FormsModule,
     ReactiveFormsModule,
     SharedComponentModule,
@@ -174,9 +148,6 @@ import {CircularGaugeModule} from '@syncfusion/ej2-angular-circulargauge';
 
   
   providers: [
-    ChartService,
-    LogaccessService,
- 
     LineSeriesService,VirtualScrollService,DrillThroughService,ConditionalFormattingService,
     LegendService, TooltipService, DataLabelService, CategoryService, DateTimeCategoryService, DateTimeService, 
     LogarithmicService, MultiLevelLabelService, MultiColoredLineSeriesService,LineSeriesService, SplineSeriesService,StepLineSeriesService, StackingLineSeriesService,AreaSeriesService , SplineAreaSeriesService,

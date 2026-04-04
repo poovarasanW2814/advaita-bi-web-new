@@ -8,7 +8,8 @@ import { CustomPasswordValidator } from 'src/app/core/services/password_validato
 @Component({
   selector: 'app-update-user',
   templateUrl: './update-user.component.html',
-  styleUrls: ['./update-user.component.scss']
+  styleUrls: ['./update-user.component.scss'],
+  standalone: false
 })
 export class UpdateUserComponent implements OnInit {
 
@@ -109,3 +110,4 @@ export class UpdateUserComponent implements OnInit {
 
   }
 }
+

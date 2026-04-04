@@ -10,7 +10,8 @@ import { PopupService } from 'src/app/core/services/popup.service';
 @Component({
   selector: 'app-user-security',
   templateUrl: './user-security.component.html',
-  styleUrls: ['./user-security.component.scss']
+  styleUrls: ['./user-security.component.scss'],
+  standalone: false
 })
 export class UserSecurityComponent implements OnInit {
 

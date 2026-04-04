@@ -25,7 +25,8 @@ import { PopupService } from 'src/app/core/services/popup.service';
       transition('focused => initial', animate('200ms ease-out'))
     ])
   ],
-  styleUrls: ['./connection-database.component.scss']
+  styleUrls: ['./connection-database.component.scss'],
+  standalone: false
 })
 
 export class ConnectionDatabaseComponent implements OnInit {

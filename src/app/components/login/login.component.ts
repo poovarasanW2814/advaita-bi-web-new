@@ -17,7 +17,8 @@ import { v4 as uuidv4 } from 'uuid';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  standalone: false
 })
 export class LoginComponent implements OnInit {
   form!: FormGroup;

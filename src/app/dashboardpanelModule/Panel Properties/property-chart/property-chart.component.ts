@@ -10,7 +10,8 @@ import { ChartService } from 'src/app/core/services/chart.service';
 @Component({
   selector: 'app-property-chart',
   templateUrl: './property-chart.component.html',
-  styleUrls: ['./property-chart.component.scss']
+  styleUrls: ['./property-chart.component.scss'],
+  standalone: false
 })
 
 export class PropertyChartComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {

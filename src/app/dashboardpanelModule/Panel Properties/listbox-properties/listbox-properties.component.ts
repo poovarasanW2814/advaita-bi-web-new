@@ -7,7 +7,8 @@ import { ChartService } from 'src/app/core/services/chart.service';
 @Component({
   selector: 'app-listbox-properties',
   templateUrl: './listbox-properties.component.html',
-  styleUrls: ['./listbox-properties.component.scss']
+  styleUrls: ['./listbox-properties.component.scss'],
+  standalone: false
 })
 
 export class ListboxPropertiesComponent implements OnInit, OnChanges {

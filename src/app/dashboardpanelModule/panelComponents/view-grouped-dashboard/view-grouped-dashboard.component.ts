@@ -1,8 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/core/AuthServices/user.service';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { DashboardBasedAccessService } from 'src/app/core/services/dashboard-based-access.service';
@@ -36,11 +37,12 @@ interface Group {
   selector: 'app-view-grouped-dashboard',
   templateUrl: './view-grouped-dashboard.component.html',
   styleUrls: ['./view-grouped-dashboard.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 
 
-export class ViewGroupedDashboardComponent implements OnInit {
+export class ViewGroupedDashboardComponent implements OnInit, OnDestroy {
   sidebarDashboards: Dashboard[] = [];
 
   constructor(private route: ActivatedRoute, private router: Router, private chartService: ChartService, private cdr: ChangeDetectorRef, private menuBasedAccessService: MenuBasedAccessService, private dashboardBasedAccessService: DashboardBasedAccessService, private popupService: PopupService, private loaderService: LoaderService, private formBuilder: FormBuilder, private userService: UserService) { }
@@ -151,6 +153,8 @@ export class ViewGroupedDashboardComponent implements OnInit {
     }
   }
 
+  private menuAccessSub!: Subscription;
+
   menuBasedPermissionControlArray : any;
   ngOnInit(): void {
 
@@ -163,7 +167,7 @@ export class ViewGroupedDashboardComponent implements OnInit {
     this.loaderService.show()
 
     
-    this.menuBasedAccessService.menuAccess$.subscribe((menuAccess) => {
+    this.menuAccessSub = this.menuBasedAccessService.menuAccess$.subscribe((menuAccess) => {
       let menuBasedAccess = menuAccess;
       let menuBasedPermissionControlArray = menuBasedAccess?.permission_details;
 
@@ -334,6 +338,9 @@ export class ViewGroupedDashboardComponent implements OnInit {
 
   }
 
+  ngOnDestroy(): void {
+    this.menuAccessSub?.unsubscribe();
+  }
 
   dashboardSetupPermissionObj : any;
   
@@ -388,26 +395,24 @@ export class ViewGroupedDashboardComponent implements OnInit {
     this.chartService.getAllDashboardDetailsWithEmptyData().subscribe(
       (res: any) => {
       console.log('res in grouping page', res);
-      // console.log('res dashboardBasedPermssionArray loadDashboardData', this.dashboardBasedPermssionArray);
-      this.loaderService.hide()
-      this.cdr.detectChanges();
       const dashboardData = res['data'];
       this.unGroupedDashboards = res['data'];
       this.availableDashboards = [...this.unGroupedDashboards]; // Store all dashboards
 
       if (this.role === 'superadmin') {
-        // console.log("Role is superadmin, fetching all dashboard details directly...", role);
         this.processDashboardData(dashboardData);
-        this.cdr.detectChanges(); 
+        this.loaderService.hide();
+        this.cdr.detectChanges();
         return;
       }
 
       // For others, ensure permission array is available
       if (!this.dashboardBasedPermssionArray || this.dashboardBasedPermssionArray.length === 0) {
         console.warn('dashboardBasedPermssionArray not available yet.');
+        this.loaderService.hide();
+        this.cdr.detectChanges();
         return;
       }
-
 
         const matchedDashboards = dashboardData
         .map((dashboard: any) => {
@@ -417,21 +422,18 @@ export class ViewGroupedDashboardComponent implements OnInit {
           
           if (!permission) return null;
 
-          // Create merged object with dashboard data taking precedence
           return {
-            ...permission, // Permission properties come first
-            ...dashboard,  // Dashboard properties override any permission properties
-    
+            ...permission,
+            ...dashboard,
           };
         })
         .filter(Boolean);
 
         console.log('res in matchedDashboards', matchedDashboards);
-        this.cdr.detectChanges(); 
-      // this.processDashboardData(dashboardData);
-      this.processDashboardData(matchedDashboards);
-        this.cdr.markForCheck(); // Mark the component for check
-        setTimeout(() => this.cdr.detectChanges(), 0); // Force change detection in the next tick
+        this.processDashboardData(matchedDashboards);
+        this.loaderService.hide();
+        this.cdr.markForCheck();
+        this.cdr.detectChanges();
     
     },
     (err:any) => {
@@ -445,10 +447,7 @@ export class ViewGroupedDashboardComponent implements OnInit {
         status: false
       });
     }
-
-  
   );
-  
   }
 
 // old code
@@ -1553,5 +1552,6 @@ onCopyDashboardSubmit() {
 
 
 }
+
 
 

@@ -28,7 +28,8 @@ import { MultipleDashboardRolePermissionComponent } from '../multiple-dashboard-
       transition('focused => initial', animate('200ms ease-out'))
     ])
   ],
-  styleUrls: ['./add-roles.component.scss']
+  styleUrls: ['./add-roles.component.scss'],
+  standalone: false
 })
 
 export class AddRolesComponent implements OnInit {
@@ -850,4 +851,5 @@ onDashboardRoleUpdate(){
 
 
 }
+
 

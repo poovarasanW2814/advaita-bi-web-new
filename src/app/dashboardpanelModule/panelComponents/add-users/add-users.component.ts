@@ -22,7 +22,8 @@ import { CustomPasswordValidator } from 'src/app/core/services/password_validato
 @Component({
   selector: 'app-add-users',
   templateUrl: './add-users.component.html',
-  styleUrls: ['./add-users.component.scss']
+  styleUrls: ['./add-users.component.scss'],
+  standalone: false
 })
 
 export class AddUsersComponent implements OnInit {

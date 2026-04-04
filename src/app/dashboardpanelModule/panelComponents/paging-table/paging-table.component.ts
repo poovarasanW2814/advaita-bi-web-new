@@ -15,7 +15,8 @@ import { roomData } from '../dashbord-page-vieww/data';
 @Component({
   selector: 'app-paging-table',
   templateUrl: './paging-table.component.html',
-  styleUrls: ['./paging-table.component.scss']
+  styleUrls: ['./paging-table.component.scss'],
+  standalone: false
 })
 export class PagingTableComponent implements OnInit {
   
@@ -124,4 +125,5 @@ export class PagingTableComponent implements OnInit {
 
 
 }
+
 

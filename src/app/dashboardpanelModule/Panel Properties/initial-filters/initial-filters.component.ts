@@ -6,7 +6,8 @@ import { ChartService } from 'src/app/core/services/chart.service';
 @Component({
   selector: 'app-initial-filters',
   templateUrl: './initial-filters.component.html',
-  styleUrls: ['./initial-filters.component.scss']
+  styleUrls: ['./initial-filters.component.scss'],
+  standalone: false
 })
 export class InitialFiltersComponent implements OnInit {
 
@@ -201,3 +202,4 @@ export class InitialFiltersComponent implements OnInit {
 
 
 }
+

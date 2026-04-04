@@ -7,7 +7,8 @@ import { ChartService } from 'src/app/core/services/chart.service';
 @Component({
   selector: 'app-daterangepicker',
   templateUrl: './daterangepicker.component.html',
-  styleUrls: ['./daterangepicker.component.scss']
+  styleUrls: ['./daterangepicker.component.scss'],
+  standalone: false
 })
 
 export class DaterangepickerComponent implements OnInit, OnChanges {

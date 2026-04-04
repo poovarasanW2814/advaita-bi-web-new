@@ -10,6 +10,10 @@ export class MenuBasedAccessService {
   private menuAccessSubject = new BehaviorSubject<any>(this.getMenuAccessFromLocalStorage());
   menuAccess$ = this.menuAccessSubject.asObservable();
 
+  getMenuAccessSnapshot(): any {
+    return this.menuAccessSubject.getValue();
+  }
+
   constructor() { }
 
   setMenuAccess(menuAccess: any) {

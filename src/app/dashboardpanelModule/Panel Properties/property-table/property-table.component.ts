@@ -13,7 +13,8 @@ Grid.Inject(RowDD, Freeze);
 @Component({
   selector: 'app-property-table',
   templateUrl: './property-table.component.html',
-  styleUrls: ['./property-table.component.scss']
+  styleUrls: ['./property-table.component.scss'],
+  standalone: false
 })
 
 export class PropertyTableComponent implements OnInit, OnChanges {

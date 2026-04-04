@@ -8,7 +8,8 @@ import { ChartService } from 'src/app/core/services/chart.service';
 @Component({
   selector: 'app-user-dashboard-access',
   templateUrl: './user-dashboard-access.component.html',
-  styleUrls: ['./user-dashboard-access.component.scss']
+  styleUrls: ['./user-dashboard-access.component.scss'],
+  standalone: false
 })
 
 

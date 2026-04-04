@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { ChartTheme, IAxisLabelRenderEventArgs, ILoadedEventArgs } from '@syncfusion/ej2-angular-charts';
@@ -20,9 +20,10 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
+  standalone: false
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
   [x: string]: any;
 
   sidebarIsOpen: boolean = false;
@@ -139,7 +140,8 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  private dashboardAccessSub!: Subscription;  // Add this line
+  private dashboardAccessSub!: Subscription;
+  private menuAccessSub!: Subscription;
 
   constructor(private chartService: ChartService, private fb: FormBuilder, private router: Router, private menuBasedAccessService: MenuBasedAccessService, private dashboardBasedAccessService: DashboardBasedAccessService, private userService: UserService, private route: ActivatedRoute, private loaderService: LoaderService) {
 
@@ -344,7 +346,7 @@ export class SidebarComponent implements OnInit {
 
     });
 
-    this.menuBasedAccessService.menuAccess$.subscribe((menuAccess) => {
+    this.menuAccessSub = this.menuBasedAccessService.menuAccess$.subscribe((menuAccess) => {
       console.log('menuAccess', menuAccess)
       this.menuBasedAccess = menuAccess;
 
@@ -503,10 +505,9 @@ export class SidebarComponent implements OnInit {
   dashboardBasedPermssionArray: any = [];
 
   ngOnDestroy() {
-    this.titleSub.unsubscribe();
-    if (this.dashboardAccessSub) {
-      this.dashboardAccessSub.unsubscribe();
-    }
+    this.titleSub?.unsubscribe();
+    this.dashboardAccessSub?.unsubscribe();
+    this.menuAccessSub?.unsubscribe();
   }
 
   get viewableDashboards(): any[] {

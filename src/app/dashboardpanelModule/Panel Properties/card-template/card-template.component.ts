@@ -5,7 +5,8 @@ import { ChartService } from 'src/app/core/services/chart.service';
 @Component({
   selector: 'app-card-template',
   templateUrl: './card-template.component.html',
-  styleUrls: ['./card-template.component.scss']
+  styleUrls: ['./card-template.component.scss'],
+  standalone: false
 })
 export class CardTemplateComponent implements OnInit , OnChanges{
 
@@ -252,3 +253,4 @@ export class CardTemplateComponent implements OnInit , OnChanges{
 }
 
 }
+

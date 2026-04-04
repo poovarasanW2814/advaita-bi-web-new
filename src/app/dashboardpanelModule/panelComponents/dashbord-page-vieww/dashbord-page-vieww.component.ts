@@ -48,7 +48,8 @@ MultiSelectComponent.Inject(CheckBoxSelection);
   templateUrl: './dashbord-page-vieww.component.html',
   styleUrls: ['./dashbord-page-vieww.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [LegendService, GaugeTooltipService, ImageExportService]
+  providers: [LegendService, GaugeTooltipService, ImageExportService],
+  standalone: false
 })
 
 export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -11175,3 +11176,4 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   //  this.scedularTemplateForm.get('rawQuery')!.setValue("") add this instead of this while doing clear this.scedularTemplateForm.get('rawQuery')!.reset();
 
 }
+

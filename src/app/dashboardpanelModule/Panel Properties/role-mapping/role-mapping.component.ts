@@ -7,7 +7,8 @@ import { ChartService } from 'src/app/core/services/chart.service';
 @Component({
   selector: 'app-role-mapping',
   templateUrl: './role-mapping.component.html',
-  styleUrls: ['./role-mapping.component.scss']
+  styleUrls: ['./role-mapping.component.scss'],
+  standalone: false
 })
 
 

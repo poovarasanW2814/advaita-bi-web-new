@@ -8,7 +8,8 @@ import { ChartService } from 'src/app/core/services/chart.service';
 @Component({
   selector: 'app-property-multiselectdropdown',
   templateUrl: './property-multiselectdropdown.component.html',
-  styleUrls: ['./property-multiselectdropdown.component.scss']
+  styleUrls: ['./property-multiselectdropdown.component.scss'],
+  standalone: false
 })
 
 export class PropertyMultiselectdropdownComponent implements OnInit, OnChanges {

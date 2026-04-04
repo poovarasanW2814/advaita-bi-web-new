@@ -13,7 +13,8 @@ import { ChartService } from 'src/app/core/services/chart.service';
 @Component({
   selector: 'app-guage-chart-properties',
   templateUrl: './guage-chart-properties.component.html',
-  styleUrls: ['./guage-chart-properties.component.scss']
+  styleUrls: ['./guage-chart-properties.component.scss'],
+  standalone: false
 })
 export class guageChartPropertiesComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   @Input() getPanelObj: any;

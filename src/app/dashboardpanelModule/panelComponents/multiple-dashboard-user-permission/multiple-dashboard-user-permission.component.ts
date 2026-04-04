@@ -6,7 +6,8 @@ import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.
 @Component({
   selector: 'app-multiple-dashboard-user-permission',
   templateUrl: './multiple-dashboard-user-permission.component.html',
-  styleUrls: ['./multiple-dashboard-user-permission.component.scss']
+  styleUrls: ['./multiple-dashboard-user-permission.component.scss'],
+  standalone: false
 })
 export class MultipleDashboardUserPermissionComponent implements OnInit, OnChanges {
 

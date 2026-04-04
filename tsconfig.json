@@ -4,6 +4,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "ignoreDeprecations": "5.0",
     
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -18,10 +19,10 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "skipLibCheck": true,
-    "target": "es2020",
-    "module": "es2020",
+    "target": "es2022",
+    "module": "es2022",
     "lib": [
-      "es2020",
+      "es2022",
       "dom"
     ]
   },

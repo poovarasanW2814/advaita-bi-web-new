@@ -12,7 +12,8 @@ import { PopupService } from 'src/app/core/services/popup.service';
 @Component({
   selector: 'app-join-table',
   templateUrl: './join-table.component.html',
-  styleUrls: ['./join-table.component.scss']
+  styleUrls: ['./join-table.component.scss'],
+  standalone: false
 })
 
 export class JoinTableComponent implements OnInit {

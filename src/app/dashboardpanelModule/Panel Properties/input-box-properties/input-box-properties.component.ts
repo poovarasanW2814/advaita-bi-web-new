@@ -7,7 +7,8 @@ import { ChartService } from 'src/app/core/services/chart.service';
 @Component({
   selector: 'app-input-box-properties',
   templateUrl: './input-box-properties.component.html',
-  styleUrls: ['./input-box-properties.component.scss']
+  styleUrls: ['./input-box-properties.component.scss'],
+  standalone: false
 })
 
 export class InputBoxPropertiesComponent implements OnInit, OnChanges {

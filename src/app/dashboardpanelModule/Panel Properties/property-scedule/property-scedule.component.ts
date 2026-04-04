@@ -13,7 +13,8 @@ interface ViewConfig {
 @Component({
   selector: 'app-property-scedule',
   templateUrl: './property-scedule.component.html',
-  styleUrls: ['./property-scedule.component.scss']
+  styleUrls: ['./property-scedule.component.scss'],
+  standalone: false
 })
 export class PropertySceduleComponent implements OnInit, OnChanges {
 
@@ -1057,3 +1058,4 @@ onDeleteView(index: number) {
   }
 
 }
+

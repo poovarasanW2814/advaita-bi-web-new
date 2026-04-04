@@ -6,7 +6,8 @@ import { PopupService } from 'src/app/core/services/popup.service';
 @Component({
   selector: 'app-popup',
   templateUrl: './popup.component.html',
-  styleUrls: ['./popup.component.scss']
+  styleUrls: ['./popup.component.scss'],
+  standalone: false
 })
 export class PopupComponent implements OnInit, OnDestroy {
 
@@ -178,3 +179,4 @@ export class PopupComponent implements OnInit, OnDestroy {
   }
 
 }
+

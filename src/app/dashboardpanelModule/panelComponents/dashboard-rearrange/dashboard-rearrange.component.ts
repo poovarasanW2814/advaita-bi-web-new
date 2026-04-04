@@ -16,7 +16,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-dashboard-rearrange',
   templateUrl: './dashboard-rearrange.component.html',
-  styleUrls: ['./dashboard-rearrange.component.scss']
+  styleUrls: ['./dashboard-rearrange.component.scss'],
+  standalone: false
 })
 export class DashboardRearrangeComponent implements OnInit {
 
@@ -658,4 +659,5 @@ export interface FieldSettingsModel {
   url?: string;
   isDisabled?: boolean;
 }
+
 

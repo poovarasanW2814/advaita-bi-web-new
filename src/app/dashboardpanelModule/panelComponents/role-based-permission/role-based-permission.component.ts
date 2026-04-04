@@ -7,7 +7,8 @@ import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.
 @Component({
   selector: 'app-role-based-permission',
   templateUrl: './role-based-permission.component.html',
-  styleUrls: ['./role-based-permission.component.scss']
+  styleUrls: ['./role-based-permission.component.scss'],
+  standalone: false
 })
 
 export class RoleBasedPermissionComponent implements OnInit, OnChanges {

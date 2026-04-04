@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-unauthorized',
   templateUrl: './unauthorized.component.html',
-  styleUrls: ['./unauthorized.component.scss']
+  styleUrls: ['./unauthorized.component.scss'],
+  standalone: false
 })
 export class UnauthorizedComponent implements OnInit {
   constructor(private router: Router) {}
@@ -17,3 +18,4 @@ export class UnauthorizedComponent implements OnInit {
   }
 
 }
+

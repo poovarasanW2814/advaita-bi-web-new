@@ -8,7 +8,8 @@ import { ChartService } from 'src/app/core/services/chart.service';
 @Component({
   selector: 'app-property-box',
   templateUrl: './property-box.component.html',
-  styleUrls: ['./property-box.component.scss']
+  styleUrls: ['./property-box.component.scss'],
+  standalone: false
 })
 
 export class PropertyBoxComponent implements OnInit, OnChanges {

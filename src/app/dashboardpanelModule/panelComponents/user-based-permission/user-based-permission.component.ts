@@ -6,7 +6,8 @@ import { ChartService } from 'src/app/core/services/chart.service';
 @Component({
   selector: 'app-user-based-permission',
   templateUrl: './user-based-permission.component.html',
-  styleUrls: ['./user-based-permission.component.scss']
+  styleUrls: ['./user-based-permission.component.scss'],
+  standalone: false
 })
 
 export class UserBasedPermissionComponent implements OnInit, OnChanges {

@@ -6,7 +6,8 @@ import { ChartService } from 'src/app/core/services/chart.service';
 @Component({
   selector: 'app-expandable-filters',
   templateUrl: './expandable-filters.component.html',
-  styleUrls: ['./expandable-filters.component.scss']
+  styleUrls: ['./expandable-filters.component.scss'],
+  standalone: false
 })
 export class ExpandableFiltersComponent implements OnInit, OnChanges {
 

@@ -1,8 +1,8 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router, NavigationEnd } from '@angular/router';
 import { SidebarComponent } from '@syncfusion/ej2-angular-navigations';
-import { filter } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { DashboardBasedAccessService } from 'src/app/core/services/dashboard-based-access.service';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';
@@ -11,7 +11,8 @@ import { ItemModel } from '@syncfusion/ej2-angular-splitbuttons';
 @Component({
   selector: 'app-sidebar-navbar',
   templateUrl: './sidebar-navbar.component.html',
-  styleUrls: ['./sidebar-navbar.component.scss']
+  styleUrls: ['./sidebar-navbar.component.scss'],
+  standalone: false
 })
 // export class SidebarNavbarComponent implements OnInit {
 
@@ -23,7 +24,7 @@ import { ItemModel } from '@syncfusion/ej2-angular-splitbuttons';
   
   
 // }
-export class SidebarNavbarComponent implements OnInit {
+export class SidebarNavbarComponent implements OnInit, OnDestroy {
     [x: string]: any;
   
     sidebarIsOpen: boolean = false;
@@ -32,6 +33,10 @@ export class SidebarNavbarComponent implements OnInit {
     sidebarInstance!: SidebarComponent;
     enableDock: boolean = true;
     type: string = 'Auto';
+
+    private menuAccessSub!: Subscription;
+    private titleSub!: Subscription;
+    private routerSub!: Subscription;
     smlDoclSize: string = '60px';
     target: string = '#target';
     enablesmartlabel: boolean = true;
@@ -119,10 +124,9 @@ export class SidebarNavbarComponent implements OnInit {
         sideDiv?.classList.add('width2');
       }
   
-      this.router.events.pipe(
-        filter(_ => _ instanceof NavigationEnd) // Use _ to indicate that the variable is not used
-      ).subscribe(() => { // Remove event parameter as it's not used
-        // Reset sidebar height whenever navigation changes
+      this.routerSub = this.router.events.pipe(
+        filter(_ => _ instanceof NavigationEnd)
+      ).subscribe(() => {
         this.resetSidebarHeight();
       });
   
@@ -134,11 +138,11 @@ export class SidebarNavbarComponent implements OnInit {
         this.username = userData.username;
       }
   
-      this.chartService.title$.subscribe(title => {
+      this.titleSub = this.chartService.title$.subscribe(title => {
         this.dashboard_Name = title
       });
   
-      this.menuBasedAccessService.menuAccess$.subscribe((menuAccess) => {
+      this.menuAccessSub = this.menuBasedAccessService.menuAccess$.subscribe((menuAccess) => {
         this.menuBasedAccess = menuAccess;
         this.menuBasedPermissionArray = this.menuBasedAccess?.permission_details;
   
@@ -199,7 +203,12 @@ export class SidebarNavbarComponent implements OnInit {
       sessionStorage.clear()
       this.router.navigate(['login']);
   
-  
+    }
+
+    ngOnDestroy(): void {
+      this.menuAccessSub?.unsubscribe();
+      this.titleSub?.unsubscribe();
+      this.routerSub?.unsubscribe();
     }
   
   }

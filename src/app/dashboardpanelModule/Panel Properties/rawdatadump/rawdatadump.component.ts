@@ -6,7 +6,8 @@ import { ChartService } from 'src/app/core/services/chart.service';
 @Component({
   selector: 'app-rawdatadump',
   templateUrl: './rawdatadump.component.html',
-  styleUrls: ['./rawdatadump.component.scss']
+  styleUrls: ['./rawdatadump.component.scss'],
+  standalone: false
 })
 export class RawdatadumpComponent implements OnInit, OnChanges {
   @Input() getPanelObj: any;
@@ -591,3 +592,4 @@ updateCursorPosition(event: Event) {
 
 
 }
+

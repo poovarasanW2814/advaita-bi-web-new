@@ -31,7 +31,8 @@ interface Group {
 @Component({
   selector: 'app-grouping-dashboard',
   templateUrl: './grouping-dashboard.component.html',
-  styleUrls: ['./grouping-dashboard.component.scss']
+  styleUrls: ['./grouping-dashboard.component.scss'],
+  standalone: false
 })
 export class GroupingDashboardComponent implements OnInit , AfterViewInit {
 
@@ -929,3 +930,4 @@ ngAfterViewInit(): void {
     }, 5000);
   }
 }
+

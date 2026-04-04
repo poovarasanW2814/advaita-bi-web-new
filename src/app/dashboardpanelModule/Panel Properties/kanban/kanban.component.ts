@@ -9,7 +9,8 @@ import { Freeze, Grid, GridComponent, RowDD } from '@syncfusion/ej2-angular-grid
 @Component({
   selector: 'app-kanban',
   templateUrl: './kanban.component.html',
-  styleUrls: ['./kanban.component.scss']
+  styleUrls: ['./kanban.component.scss'],
+  standalone: false
 })
 export class KanbanComponent implements OnInit, OnChanges {
   @ViewChild('tabComponent') tab!: TabComponent;

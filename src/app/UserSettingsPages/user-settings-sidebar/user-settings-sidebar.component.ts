@@ -5,7 +5,8 @@ import { ClickEventArgs, SidebarComponent } from '@syncfusion/ej2-angular-naviga
 @Component({
   selector: 'app-user-settings-sidebar',
   templateUrl: './user-settings-sidebar.component.html',
-  styleUrls: ['./user-settings-sidebar.component.scss']
+  styleUrls: ['./user-settings-sidebar.component.scss'],
+  standalone: false
 })
 export class UserSettingsSidebarComponent implements OnInit {
 
@@ -56,3 +57,4 @@ export class UserSettingsSidebarComponent implements OnInit {
 
   }
 }
+

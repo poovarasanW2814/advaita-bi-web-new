@@ -33,7 +33,12 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "file-saver",
+              "moment",
+              "xlsx"
+            ]
           },
           "configurations": {
             "production": {
@@ -75,12 +80,15 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "buildTarget": "syntheta:build"
+          },
           "configurations": {
             "production": {
-              "browserTarget": "syntheta:build:production"
+              "buildTarget": "syntheta:build:production"
             },
             "development": {
-              "browserTarget": "syntheta:build:development"
+              "buildTarget": "syntheta:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -88,7 +96,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "syntheta:build"
+            "buildTarget": "syntheta:build"
           }
         },
         "test": {

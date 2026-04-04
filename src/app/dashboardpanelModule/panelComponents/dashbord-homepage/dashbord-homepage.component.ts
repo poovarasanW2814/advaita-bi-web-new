@@ -22,7 +22,8 @@ import { UserService } from 'src/app/core/AuthServices/user.service';
 @Component({
   selector: 'app-dashbord-homepage',
   templateUrl: './dashbord-homepage.component.html',
-  styleUrls: ['./dashbord-homepage.component.scss']
+  styleUrls: ['./dashbord-homepage.component.scss'],
+  standalone: false
 })
 
 

@@ -2,7 +2,6 @@ import { Injectable, ViewChild } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Route, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, catchError, first, forkJoin, map, of, switchMap } from 'rxjs';
 import { LogaccessService } from './logaccess.service';
-import { PopupComponent } from 'src/app/dashboardpanelModule/Panel Properties/popup/popup.component';
 import { MenuBasedAccessService } from '../services/menu-based-access.service';
 import { DashboardBasedAccessService } from '../services/dashboard-based-access.service';
 import { ChartService } from '../services/chart.service';
@@ -15,9 +14,6 @@ export class AuthGuard implements CanActivate {
   authToken!: string | null;
   roleName! : string;
   userRolename !: string;
-  @ViewChild(PopupComponent) PopupComponent!: PopupComponent;
-
-
 
   menuBasedPermissionArray: any = [];
   dashboardPermissionArray : any =  []
@@ -41,13 +37,11 @@ export class AuthGuard implements CanActivate {
 
     }
 
-    this.menuBasedAccessService.menuAccess$.subscribe((menuAccess) => {
-      this.menuBasedPermissionArray = menuAccess?.permission_details ? menuAccess?.permission_details : [];
-    });
+    const menuAccess = this.menuBasedAccessService.getMenuAccessSnapshot();
+    this.menuBasedPermissionArray = menuAccess?.permission_details ?? [];
 
-    this.dashboardBasedAccessService.dashboardAccess$.subscribe((menuAccess) => {
-      this.dashboardPermissionArray = menuAccess?.permission_details ? menuAccess?.permission_details : [];
-    });
+    const dashboardAccess = this.dashboardBasedAccessService.getDashboardAccessSnapshot();
+    this.dashboardPermissionArray = dashboardAccess?.permission_details ?? [];
 
     // console.log('state.url in authgurad', state.url)
 
