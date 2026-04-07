@@ -1,14 +1,16 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TabComponent } from '@syncfusion/ej2-angular-navigations';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TabComponent, TabModule } from '@syncfusion/ej2-angular-navigations';
 import { Draggable } from '@syncfusion/ej2/base';
 import { ChartService } from 'src/app/core/services/chart.service';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-input-box-properties',
-  templateUrl: './input-box-properties.component.html',
-  styleUrls: ['./input-box-properties.component.scss'],
-  standalone: false
+    selector: 'app-input-box-properties',
+    templateUrl: './input-box-properties.component.html',
+    styleUrls: ['./input-box-properties.component.scss'],
+    imports: [TabModule, FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, NgFor]
 })
 
 export class InputBoxPropertiesComponent implements OnInit, OnChanges {
@@ -38,17 +40,19 @@ export class InputBoxPropertiesComponent implements OnInit, OnChanges {
   fieldDetailsForm! : FormGroup;
   panelSeriesArray: any;
 
-  constructor(private fb : FormBuilder, private chartService : ChartService) { 
+  private readonly fb = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  constructor() {
     this.boxTemplateForm = this.fb.group({
-      tableName :  ['', [Validators.required]],
-      fieldName : ['', [Validators.required]],
-      labelName : [''],
-      title : [''],
-      conditions : [''],
-      orderByType : [''],
-      rawQuery : ['']
-      // groupBy : ['']
-    })
+          tableName :  ['', [Validators.required]],
+          fieldName : ['', [Validators.required]],
+          labelName : [''],
+          title : [''],
+          conditions : [''],
+          orderByType : [''],
+          rawQuery : ['']
+          // groupBy : ['']
+  })
    
   }
 

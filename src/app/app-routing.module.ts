@@ -13,7 +13,7 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 // import { UserBaseAccessComponent } from './Auth Pages/user-base-access/user-base-access.component';
 
 // import { RoleBasedDashboardAcessComponent } from './Auth Pages/role-based-dashboard-acess/role-based-dashboard-acess.component';
-import { AuthGuard } from './core/AuthServices/auth.guard';
+import { authGuard } from './core/AuthServices/auth.guard';
 import { SidebarNavbarComponent } from './shared/sidebar-navbar/sidebar-navbar.component';
 // import { ProfilePageComponent } from './UserSettingsPages/user-settings/profile-page/profile-page.component';
 // import { SecurityPageComponent } from './UserSettingsPages/user-settings/security-page/security-page.component';

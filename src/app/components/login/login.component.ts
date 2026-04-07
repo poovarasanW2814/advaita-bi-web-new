@@ -1,7 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild, inject} from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AnimationModel } from '@syncfusion/ej2-angular-progressbar';
+import { AnimationModel, ProgressBarModule } from '@syncfusion/ej2-angular-progressbar';
 import { finalize, tap } from 'rxjs';
 import { AuthService } from 'src/app/core/AuthServices/auth.service';
 import { LogaccessService } from 'src/app/core/AuthServices/logaccess.service';
@@ -13,12 +13,13 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';
 import { PopupService } from 'src/app/core/services/popup.service';
 import { v4 as uuidv4 } from 'uuid';
+import { NgStyle, NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  standalone: false
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    imports: [NgStyle, FormsModule, ReactiveFormsModule, NgClass, ProgressBarModule]
 })
 export class LoginComponent implements OnInit {
   form!: FormGroup;
@@ -42,7 +43,17 @@ export class LoginComponent implements OnInit {
   logoImgPath: string = 'assets/images/SynthetaLogoDarkfont4.png';
 
   @ViewChild('passwordInput') passwordInput!: ElementRef<HTMLInputElement>;
-  constructor(private formBuilder: FormBuilder, private router: Router, private chartService: ChartService, private authService: AuthService, private LogaccesService: LogaccessService, private menuBasedAccessService: MenuBasedAccessService, private dashboardBasedAccessService: DashboardBasedAccessService, private loaderService: LoaderService, private popupService: PopupService, private userService: UserService, private loaderservice: LoaderService) { }
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly chartService = inject(ChartService);
+  private readonly authService = inject(AuthService);
+  private readonly LogaccesService = inject(LogaccessService);
+  private readonly menuBasedAccessService = inject(MenuBasedAccessService);
+  private readonly dashboardBasedAccessService = inject(DashboardBasedAccessService);
+  private readonly loaderService = inject(LoaderService);
+  private readonly popupService = inject(PopupService);
+  private readonly userService = inject(UserService);
+  private readonly loaderservice = inject(LoaderService);
 
    loginBgStyle: any = {};
    contentBgColor: any = { 'background': 'white' };

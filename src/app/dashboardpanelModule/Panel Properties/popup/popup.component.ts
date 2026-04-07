@@ -1,13 +1,12 @@
-import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild, inject} from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { PopupService } from 'src/app/core/services/popup.service';
 
 @Component({
-  selector: 'app-popup',
-  templateUrl: './popup.component.html',
-  styleUrls: ['./popup.component.scss'],
-  standalone: false
+    selector: 'app-popup',
+    templateUrl: './popup.component.html',
+    styleUrls: ['./popup.component.scss']
 })
 export class PopupComponent implements OnInit, OnDestroy {
 
@@ -20,7 +19,9 @@ export class PopupComponent implements OnInit, OnDestroy {
   @ViewChild(PopupComponent) PopupComponent!: PopupComponent;
 
 
-  constructor(private popupService: PopupService, private route: ActivatedRoute, private router: Router) { }
+  private readonly popupService = inject(PopupService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
   ngOnInit(): void {
     this.popupService.popupData$.subscribe((data) => {

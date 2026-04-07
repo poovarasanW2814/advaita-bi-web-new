@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren, inject} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
 import { ChartComponent, AccumulationChartComponent, AnimationModel, IMouseEventArgs, indexFinder, ILoadedEventArgs, IAccTextRenderEventArgs, IAccTooltipRenderEventArgs, ExportType, IAxisLabelRenderEventArgs, ITooltipRenderEventArgs, ChartTheme } from '@syncfusion/ej2-angular-charts';
@@ -229,16 +229,31 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
 
 
-  constructor(private panelService: PanelServiceService, private changeDetectorRef: ChangeDetectorRef, private formBuilder: FormBuilder, private chartService: ChartService, private router: Router, private route: ActivatedRoute, private fb: FormBuilder, private datePipe: DatePipe, private excelService: ExcelExportService, private loaderService: LoaderService, private popupService: PopupService, private dashboardBasedAccessService: DashboardBasedAccessService, private cdr: ChangeDetectorRef, private menuBasedAccessService: MenuBasedAccessService, private userService: UserService) {
+  private readonly panelService = inject(PanelServiceService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly fb = inject(FormBuilder);
+  private readonly datePipe = inject(DatePipe);
+  private readonly excelService = inject(ExcelExportService);
+  private readonly loaderService = inject(LoaderService);
+  private readonly popupService = inject(PopupService);
+  private readonly dashboardBasedAccessService = inject(DashboardBasedAccessService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly menuBasedAccessService = inject(MenuBasedAccessService);
+  private readonly userService = inject(UserService);
+  constructor() {
     this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-
-
-        sessionStorage.removeItem('panelSeriesArray')
-        sessionStorage.removeItem('selectedDashboardObj')
-        sessionStorage.removeItem('storedDrilldownAndFilterArray')
-        sessionStorage.removeItem('dataSourceStorageObj')
-      }
+          if (event instanceof NavigationEnd) {
+    
+    
+            sessionStorage.removeItem('panelSeriesArray')
+            sessionStorage.removeItem('selectedDashboardObj')
+            sessionStorage.removeItem('storedDrilldownAndFilterArray')
+            sessionStorage.removeItem('dataSourceStorageObj')
+  }
     });
   }
   ngAfterViewInit(): void {
@@ -427,7 +442,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
 
 
-          // 🔥 SKIP non-value cells (THE REAL FIX)
+          // ðŸ”¥ SKIP non-value cells (THE REAL FIX)
           if (!cell || !cell.axis || cell.axis !== 'value') {
             return;  // safe inside forEach
           }
@@ -452,7 +467,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
           const valuesArray = item.content.fieldDetails;
 
           valuesArray.forEach((ele: any) => {
-            // Skip grand total row (rowIndex == 1) — show raw value without %
+            // Skip grand total row (rowIndex == 1) â€” show raw value without %
             // // const isGrandTotalRow = (rowIndex == 1);
 
 
@@ -1567,7 +1582,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     // console.log('onPopupOpen args', args, item.content.enablePopup);
 
 
-    // 👉 Option: disable popup for event clicks
+    // ðŸ‘‰ Option: disable popup for event clicks
 
     if (item.content.enablePopup) {
       if (args.type === 'QuickInfo') {
@@ -1815,14 +1830,14 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
               }
 
-              // 🔹 Determine zoom mode based on seriesType
+              // ðŸ”¹ Determine zoom mode based on seriesType
               const hasBarSeries = seriesArr.some(
                 (s: any) =>
                   s.type?.toLowerCase() === 'bar' ||
                   s.type?.toLowerCase() === 'stackingbar'
               );
 
-              // 🔹 Only update the mode, keep other settings as they are
+              // ðŸ”¹ Only update the mode, keep other settings as they are
               // const zoomSettings = {
               //   ...ele.content.zoomSettings,
               //   mode: hasBarSeries ? 'Y' : 'X'
@@ -1915,7 +1930,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
                       // return ele;
                       return {
                         ...ele,
-                        // ✅ Added labelStyle
+                        // âœ… Added labelStyle
                         labelStyle: {
                           fontFamily: 'Roboto, Segoe UI, GeezaPro, DejaVu Serif, "Times New Roman", sans-serif',
 
@@ -2355,7 +2370,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
               //  ele.content.dataSourceSettings.dataSource = ele.content.dataSourceSettings.dataSource.map((row: any, index: number) => {
               //   const cleanedRow: any = {};
 
-              //   // ✅ Add a hidden unique identifier to prevent merging
+              //   // âœ… Add a hidden unique identifier to prevent merging
               //   cleanedRow['_rowIndex'] = index;
 
               //   Object.keys(row).forEach(key => {
@@ -2624,7 +2639,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   // Track page size & offset
   pageSize = 1000;
   pageIndex: { [key: string]: number } = {}; // per-panel tracking
-  // 👇 add this line
+  // ðŸ‘‡ add this line
   private scrollHandler: ((e: Event) => void) | null = null;
   private isLoadingMore: { [key: string]: boolean } = {}; // prevent multiple rapid loads
 
@@ -2677,7 +2692,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       // console.log(`Loading chunk for ${id} from ${start} to ${end} - chunk size:`, nextChunk.length);
       // console.log('nextChunk', nextChunk, this.totalDataSource[id].length - nextChunk.length)
 
-      // ✅ Append new items to popup without closing
+      // âœ… Append new items to popup without closing
       dropdownList.addItem(nextChunk, this.totalDataSource[id].length - nextChunk.length);
     }
   }
@@ -2690,7 +2705,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     // console.log('totalDataSource for', item.id, ':', this.totalDataSource[item.id]?.length);
     // console.log('originalData for', item.id, ':', this.originalData[item.id]?.length);
 
-    // ✅ Initialize pageIndex if not already set - start from 0, will increment to 1 when first additional page loads
+    // âœ… Initialize pageIndex if not already set - start from 0, will increment to 1 when first additional page loads
     if (!this.pageIndex[item.id]) {
       this.pageIndex[item.id] = 0; // First page (0-999) already loaded, next will be page 1 (1000-1999)
     }
@@ -2723,7 +2738,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
         });
 
         if (popupElement.scrollTop + popupElement.clientHeight >= popupElement.scrollHeight - threshold) {
-          // console.log('✅ MultiSelect scroll reached bottom - loading more data');
+          // console.log('âœ… MultiSelect scroll reached bottom - loading more data');
           e.preventDefault(); // Prevent any default scroll behavior
           this.loadMoreMultiselectData(item, multiselect);
         }
@@ -2734,7 +2749,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
         // console.log('Scroll handler attached to multiselect popup');
       }
 
-      // ✅ always bind already loaded data when opening
+      // âœ… always bind already loaded data when opening
       multiselect.dataSource = this.totalDataSource[item.id] || [];
       multiselect.dataBind();
     }, 100); // Increased timeout to ensure popup is fully rendered
@@ -2744,16 +2759,16 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   loadMoreMultiselectData(item: any, multiselect: any) {
     const id = item.id;
 
-    // ✅ Prevent multiple concurrent loads
+    // âœ… Prevent multiple concurrent loads
     if (this.isLoadingMore[id]) {
       // console.log('Already loading more data for', id);
       return;
     }
 
     this.isLoadingMore[id] = true;
-    // console.log('🔄 Loading more multiselect data for:', id);
+    // console.log('ðŸ”„ Loading more multiselect data for:', id);
 
-    // ✅ Use original full data instead of potentially filtered data
+    // âœ… Use original full data instead of potentially filtered data
     const fullData = this.originalData[id] || item.content.dataSource || [];
 
     // console.log('Full data length:', fullData.length);
@@ -2773,33 +2788,33 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     // console.log('Loading chunk from', start, 'to', end, '- chunk size:', nextChunk.length);
 
     if (nextChunk.length > 0) {
-      // ✅ Completely replace the dataSource with new extended data
+      // âœ… Completely replace the dataSource with new extended data
       const currentData = this.totalDataSource[id] || [];
       this.totalDataSource[id] = [...currentData, ...nextChunk];
 
       // console.log('Extended totalDataSource to', this.totalDataSource[id].length, 'records');
 
-      // ✅ Store current selected values to preserve them
+      // âœ… Store current selected values to preserve them
       const currentValue = multiselect.value;
 
-      // ✅ Completely refresh the multiselect with new data
+      // âœ… Completely refresh the multiselect with new data
       multiselect.dataSource = [...this.totalDataSource[id]]; // Create new array reference
       multiselect.dataBind();
 
-      // ✅ Restore selected values
+      // âœ… Restore selected values
       if (currentValue && currentValue.length > 0) {
         multiselect.value = currentValue;
       }
 
-      // console.log('🔄 MultiSelect refreshed with', this.totalDataSource[id].length, 'total records');
+      // console.log('ðŸ”„ MultiSelect refreshed with', this.totalDataSource[id].length, 'total records');
 
-      // ✅ Force change detection
+      // âœ… Force change detection
       this.cdr.detectChanges();
     } else {
       // console.log('No more data to load');
     }
 
-    // ✅ Reset loading flag
+    // âœ… Reset loading flag
     this.isLoadingMore[id] = false;
   }
 
@@ -2830,7 +2845,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       // Set the reference start time for timer calculations
       this.viewStartTime = new Date(viewTracking.view_timing);
       // console.log('First Tracking Call:', viewTracking);
-      // console.log('🕒 View Timing in Local Time:', new Date(viewTracking.view_timing).toLocaleString());
+      // console.log('ðŸ•’ View Timing in Local Time:', new Date(viewTracking.view_timing).toLocaleString());
 
 
       // Start the timer every 1 minute
@@ -2846,10 +2861,10 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
         sessionStorage.setItem('viewTracking', JSON.stringify(updatedObj));
 
         // console.log('Updated viewTracking:', updatedObj);
-        // console.log('🕒 View Timing in Local Time:', new Date(viewTracking.view_timing).toLocaleString());
+        // console.log('ðŸ•’ View Timing in Local Time:', new Date(viewTracking.view_timing).toLocaleString());
 
 
-        // 🔽 Call the API here
+        // ðŸ”½ Call the API here
         this.chartService.DashboardTrackSubmit(updatedObj).subscribe({
           next: (res) => console.log('Tracked Dashboard response:', res),
           error: (err) => console.error('Tracking failed:', err),
@@ -2884,15 +2899,15 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       // Set the reference start time for timer calculations
       this.viewStartTime = new Date(viewTracking.view_timing);
       // console.log('First Tracking Call:', viewTracking);
-      // console.log('🕒 View Timing in Local Time:', new Date(viewTracking.view_timing).toLocaleString());
+      // console.log('ðŸ•’ View Timing in Local Time:', new Date(viewTracking.view_timing).toLocaleString());
 
-      // 🔹 Immediate API call on load with duration 0
+      // ðŸ”¹ Immediate API call on load with duration 0
       this.chartService.DashboardTrackSubmit(viewTracking).subscribe({
         next: (res) => console.log('Initial tracked dashboard response:', res),
         error: (err) => console.error('Initial tracking failed:', err),
       });
 
-      // 🔁 Start the timer every 3 minutes (180000 ms)
+      // ðŸ” Start the timer every 3 minutes (180000 ms)
       this.timerSubscription = interval(180000).subscribe(() => {
         const now = new Date();
         const diffMs = now.getTime() - this.viewStartTime.getTime();
@@ -2905,9 +2920,9 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
         sessionStorage.setItem('viewTracking', JSON.stringify(updatedObj));
 
         // console.log('Updated viewTracking:', updatedObj);
-        // console.log('🕒 View Timing in Local Time:', new Date(viewTracking.view_timing).toLocaleString());
+        // console.log('ðŸ•’ View Timing in Local Time:', new Date(viewTracking.view_timing).toLocaleString());
 
-        // 🔽 API call after every 3 minutes
+        // ðŸ”½ API call after every 3 minutes
         this.chartService.DashboardTrackSubmit(updatedObj).subscribe({
           next: (res) => console.log('Tracked Dashboard response:', res),
           error: (err) => console.error('Tracking failed:', err),
@@ -3460,7 +3475,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
 
 
-              //console.log('✔ Total Valid Seconds:', total);
+              //console.log('âœ” Total Valid Seconds:', total);
 
 
               //console.log('data', data)
@@ -3749,7 +3764,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       // console.log('commentButton', commentButton);
 
       if (commentButton) {
-        // console.log("Comment button clicked → open dialog");
+        // console.log("Comment button clicked â†’ open dialog");
         return; // stop drilldown
       }
       const anchorTag = clickedCell.closest('a');
@@ -3910,7 +3925,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       // console.log('commentButton', commentButton);
 
       if (commentButton) {
-        // console.log("Comment button clicked → open dialog");
+        // console.log("Comment button clicked â†’ open dialog");
         return; // stop drilldown
       }
       const anchorTag = clickedCell.closest('a');
@@ -3947,7 +3962,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       let rawText = clickedCell.innerText.trim();
 
       // Remove the comment icon if present
-      rawText = rawText.replace('💬', '').trim();
+      rawText = rawText.replace('ðŸ’¬', '').trim();
 
       const cellValue1 = this.parseValue(rawText);
 
@@ -3993,7 +4008,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
         if (fieldName !== selectedLevel.fieldName) {
           console.warn(
-            `⛔ Ignored click on ${fieldName}, expected ${selectedLevel.fieldName} for level ${currentLevel}`
+            `â›” Ignored click on ${fieldName}, expected ${selectedLevel.fieldName} for level ${currentLevel}`
           );
           return; // stop here
         }
@@ -4083,8 +4098,8 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   openCommentDialog(rowData: any, field: string, event: MouseEvent, item: any, grid: GridComponent) {
     // event.stopPropagation();
 
-    const rowIndex = rowData.index; // ✅ 0-based, straight from Syncfusion
-    const colIndex = grid.getColumnIndexByField(field); // ✅ 0-based column index
+    const rowIndex = rowData.index; // âœ… 0-based, straight from Syncfusion
+    const colIndex = grid.getColumnIndexByField(field); // âœ… 0-based column index
 
     // console.log('Row Index:', rowIndex);
     // console.log('Column Index:', colIndex);
@@ -4148,7 +4163,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       const rowIndex = this.selectedCell.rowIndex;
       const colIndex = this.selectedCell.colIndex;
 
-      // ✅ Use Syncfusion API to get the exact cell element
+      // âœ… Use Syncfusion API to get the exact cell element
       const cell = this.selectedCell.grid.getCellFromIndex(rowIndex, colIndex) as HTMLElement;
 
       // console.log('grid cells', this.selectedCell.grid)
@@ -4239,7 +4254,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
       // console.log('this.selectedCell.row', this.selectedCell.row[matchedFeildDetails.unique_column_field])
 
-      // ✅ Use Syncfusion API to get the exact cell element
+      // âœ… Use Syncfusion API to get the exact cell element
       const cell = this.selectedCell.grid.getCellFromIndex(rowIndex, colIndex) as HTMLElement;
 
       // console.log('grid cells', this.selectedCell.grid)
@@ -4286,7 +4301,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
         this.chartService.createComments(obj).subscribe((res: any) => {
           // console.log('res', res)
 
-          // ✅ Always read fresh from sessionStorage
+          // âœ… Always read fresh from sessionStorage
           // let storedPanels = sessionStorage.getItem('panelSeriesArray');
           // let panelSeriesArray = storedPanels ? JSON.parse(storedPanels) : [];
 
@@ -4539,7 +4554,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
           console.log(`Normal chart - key: ${key}, value: ${element[key]}, format: ${format}, symbol: ${symbol}, isPercentage: ${isPercentageFormat}`);
 
           if (selectedValue === 'XLSX' && isPercentageFormat) {
-            // ✅ Excel export → numeric percentage
+            // âœ… Excel export â†’ numeric percentage
             // If format is 'p' or 'p2', value is already in decimal (0.01854 = 1.854%)
             // If format is '{value}%', value needs to be divided by 100
             const excelValue = symbol === '%' ? element[key] / 100 : element[key];
@@ -4548,11 +4563,11 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
             newItem.__percentCols.push(seriesItem.name);
             console.log(`Exporting as percentage: ${newItem[seriesItem.name]}`);
           } else if (selectedValue === 'XLSX') {
-            // ✅ Excel export → plain number
+            // âœ… Excel export â†’ plain number
             newItem[seriesItem.name] = element[key];
             console.log(`Exporting as plain number: ${newItem[seriesItem.name]}`);
           } else {
-            // ✅ Chart/PDF/PNG → string with symbol
+            // âœ… Chart/PDF/PNG â†’ string with symbol
             newItem[seriesItem.name] = `${element[key]}${symbol}`;
           }
         } else {
@@ -4570,12 +4585,12 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
             }
 
             if (selectedValue === 'XLSX') {
-              // Excel export → numeric percentage (0.0 to 1.0 format)
+              // Excel export â†’ numeric percentage (0.0 to 1.0 format)
               newItem[key] = percentageValue / 100;
               if (!newItem.__percentCols) newItem.__percentCols = [];
               newItem.__percentCols.push(key);
             } else {
-              // Other exports → formatted percentage string
+              // Other exports â†’ formatted percentage string
               newItem[key] = `${percentageValue}%`;
             }
           } else {
@@ -5332,7 +5347,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
     // panel.content.resources.dataSource = this.getResourceData(panel.content.resources, updatedDataSource, panel.content.fieldDetails);    
 
-    // ✅ Only update resources if dataSource has events
+    // âœ… Only update resources if dataSource has events
     // if (updatedDataSource.length > 0) {
     //   panel.content.resources.dataSource = this.getResourceData(
     //     panel.content.resources,
@@ -5602,7 +5617,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
         s.type?.toLowerCase() === 'stackingbar'
     );
 
-    // 🔹 Only update the mode, keep other settings as they are
+    // ðŸ”¹ Only update the mode, keep other settings as they are
     // const zoomSettings = {
     //   ...panel.content.zoomSettings,
     //   mode: hasBarSeries ? 'Y' : 'X'
@@ -5621,7 +5636,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     };
 
 
-    // 🔹 Reusable font styles
+    // ðŸ”¹ Reusable font styles
     const labelStyle = {
       fontFamily: 'Roboto, Segoe UI, GeezaPro, DejaVu Serif, "Times New Roman", sans-serif',
       // fontWeight: 'bold',
@@ -6029,7 +6044,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     if (this.filterandDrilldownObjArray.filter_obj.length > 0) {
       if (lastFilterObj?.id !== panelId || !isStored) {
         // existingStorageObj[panelId] = selectedFilters;
-        // 🚀 Limit to 1000 records before saving
+        // ðŸš€ Limit to 1000 records before saving
         existingStorageObj[panelId] = selectedFilters.slice(0, 1000);
         sessionStorage.setItem('dataSourceStorageObj', JSON.stringify(existingStorageObj));
       } else {
@@ -6233,10 +6248,10 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
         let data = res['data'];
         console.log('item per page data in sorting ', res);
         if (!res.success) {
-          console.error('❌ Error in sorting API response:', res.message);
-          console.log('🔁 Returning item as it is:', item.content.dataSource);
+          console.error('âŒ Error in sorting API response:', res.message);
+          console.log('ðŸ” Returning item as it is:', item.content.dataSource);
           let dataSource = item.content.dataSource.result ? item.content.dataSource.result : item.content.dataSource;
-          console.log('🔁 Returning item content dataSource:', gridInstance.dataSource, dataSource);
+          console.log('ðŸ” Returning item content dataSource:', gridInstance.dataSource, dataSource);
           // gridInstance.dataSource = dataSource;
           item.content.dataSource.result = dataSource; // Ensure the dataSource is updated
           gridInstance.hideSpinner()
@@ -6564,7 +6579,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       const matched = item.content.comments_dataSource?.find((ele: any) =>
         ele.panel_id == item.id &&
         rowData[ele.unique_column_field]?.toString() == ele.unique_column_id?.toString() &&
-        ele.field_name == args.column?.field   // 👈 extra check for column
+        ele.field_name == args.column?.field   // ðŸ‘ˆ extra check for column
       );
 
       if (matched) {
@@ -6576,7 +6591,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
           args.cell as HTMLElement
         );
 
-      }   // 🔹 New logic: show raw cell value if enableTooltip is true
+      }   // ðŸ”¹ New logic: show raw cell value if enableTooltip is true
       else if (item.content.enableTooltip === true) {
         const cellValue = rowData[args.column.field];
         if (cellValue !== null && cellValue !== undefined && cellValue !== "") {
@@ -6647,10 +6662,10 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
               // console.log(`Calculated values for ${condition.measure} - Sum: ${sum}, Average: ${avg}`);
 
-              // ✅ Assign the computed value back to condition.value1 dynamically
+              // âœ… Assign the computed value back to condition.value1 dynamically
               // condition.value1 = calculatedValue.toLowerCase() === 'sum' ? sum : avg;
 
-              // ✅ Only override if Sum or Average; else keep user's entered value
+              // âœ… Only override if Sum or Average; else keep user's entered value
               if (calculatedValue.toLowerCase() === 'sum') {
                 condition.value1 = sum;
               } else if (calculatedValue.toLowerCase() === 'average') {
@@ -6786,7 +6801,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       return !(value === null || value === undefined);
     }
 
-    // At this point, if value is null but condition is not about null → false
+    // At this point, if value is null but condition is not about null â†’ false
     if (value === null || value === undefined) {
       return false;
     }
@@ -6995,7 +7010,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   // Declare this at the top of your component class
 
   // downloadDumpReportsOldCurrent(item: any) {
-  //   this.isDownloadingMap[item.id] = true; // 🔁 Start the loading spinner
+  //   this.isDownloadingMap[item.id] = true; // ðŸ” Start the loading spinner
 
   //   const panelData: any = sessionStorage.getItem('storedDrilldownAndFilterArray');
   //   let filterObj = panelData ? JSON.parse(panelData).filter_obj || [] : [];
@@ -7009,18 +7024,18 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   //           const json = JSON.parse(reader.result as string);
   //           //console.log('json', json)
 
-  //           // ❌ If response contains error
+  //           // âŒ If response contains error
   //           if (json && json.success === false) {
   //             this.popupService.showPopup({
   //               message: json.message || 'Unknown error occurred',
   //               statusCode: json.status_code || 400,
   //               status: false
   //             });
-  //             this.isDownloadingMap[item.id] = false; // ⛔ Stop loading
+  //             this.isDownloadingMap[item.id] = false; // â›” Stop loading
   //             return;
   //           }
   //         } catch (e) {
-  //           // ✅ Not JSON - treat as valid file
+  //           // âœ… Not JSON - treat as valid file
   //           const blob = new Blob([res], {
   //             type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
   //           });
@@ -7035,7 +7050,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   //           window.URL.revokeObjectURL(url);
   //         }
 
-  //         this.isDownloadingMap[item.id] = false; // ✅ Done
+  //         this.isDownloadingMap[item.id] = false; // âœ… Done
   //       };
 
   //       reader.readAsText(res);
@@ -7047,7 +7062,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   //         statusCode: err.status || 500,
   //         status: false
   //       });
-  //       this.isDownloadingMap[item.id] = false; // ❌ Stop on error
+  //       this.isDownloadingMap[item.id] = false; // âŒ Stop on error
   //     }
   //   );
   // }
@@ -8716,13 +8731,13 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     const matchedItemObj = this.panelSeriesArray.find((ele: any) => ele.id === item.id);
     if (!matchedItemObj) return;
 
-    // ✅ Format date - handles Date objects, strings, and invalid dates
+    // âœ… Format date - handles Date objects, strings, and invalid dates
     const formattedDate = this.datePipe.transform(
       selectValue || new Date(),
       'yyyy-MM-dd'
     );
 
-    // ✅ Safety check: if formatting fails, skip API call
+    // âœ… Safety check: if formatting fails, skip API call
     if (!formattedDate) {
       console.error('Invalid date selected');
       return;
@@ -9993,7 +10008,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       panelData = panelData ? JSON.parse(panelData) : null;
       const filterObj = panelData?.filter_obj || [];
 
-      // 🔹 Track duplicate headers
+      // ðŸ”¹ Track duplicate headers
       const sheetNameCount: Record<string, number> = {};
 
       const promises = dataPanels.map(async (panel) => {
@@ -10053,13 +10068,13 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
         const ws = XLSX.utils.json_to_sheet(result.data);
 
-        // 🔹 Count occurrences
+        // ðŸ”¹ Count occurrences
         sheetNameCount[result.baseSheetName] =
           (sheetNameCount[result.baseSheetName] || 0) + 1;
 
         let finalSheetName = result.baseSheetName;
 
-        // 🔹 Add suffix ONLY if duplicate exists
+        // ðŸ”¹ Add suffix ONLY if duplicate exists
         if (sheetNameCount[result.baseSheetName] > 1) {
           const suffix = `_${sheetNameCount[result.baseSheetName] - 1}`;
           finalSheetName =
@@ -10107,7 +10122,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   //   console.log('Applying header formatting:', headerFormatting);
   //   console.log('Configured field names:', headerFormatting.map((f: any) => f.fieldName).flat());
 
-  //   // ✅ Get field configurations from dataSourceSettings
+  //   // âœ… Get field configurations from dataSourceSettings
   //   const dataSourceSettings = item.content.dataSourceSettings;
   //   const rowFields = dataSourceSettings?.rows?.map((r: any) => r.name) || [];
   //   const columnFields = dataSourceSettings?.columns?.map((c: any) => c.name) || [];
@@ -10118,7 +10133,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   //   console.log('Column fields:', columnFields);
   //   console.log('Value fields:', valueFields);
 
-  //   // ✅ Build a map of actual values to their fields from the data source
+  //   // âœ… Build a map of actual values to their fields from the data source
   //   const fieldValueMap: { [fieldName: string]: Set<string> } = {};
 
   //   rowFields.forEach((fieldName: string | number) => {
@@ -10132,7 +10147,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
   //   console.log('Field value map:', fieldValueMap);
 
-  //   // ✅ Get ALL header cells
+  //   // âœ… Get ALL header cells
   //   const allHeaders = pivotContainer.querySelectorAll(
   //     '.e-rowsheader, .e-columnsheader, .e-columnheader, .e-stackedheadercelldiv, .e-stot, .e-gtot'
   //   );
@@ -10158,7 +10173,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   //       return;
   //     }
 
-  //     // ✅ Determine which field this header belongs to
+  //     // âœ… Determine which field this header belongs to
   //     let belongsToField: string | null = null;
 
   //     // Check if it's a row header
@@ -10166,7 +10181,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   //         headerElement.classList.contains('e-stot') ||
   //         headerElement.classList.contains('e-gtot')) {
 
-  //       // ✅ NEW APPROACH: Match header text against actual data values
+  //       // âœ… NEW APPROACH: Match header text against actual data values
   //       for (const fieldName of rowFields) {
   //         if (fieldValueMap[fieldName] && fieldValueMap[fieldName].has(headerText)) {
   //           belongsToField = fieldName;
@@ -10202,7 +10217,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
   //     console.log(`Header [${index}]: "${headerText}" -> Belongs to field: "${belongsToField}"`);
 
-  //     // ✅ Apply formatting based on the field it belongs to
+  //     // âœ… Apply formatting based on the field it belongs to
   //     let formattingApplied = false;
 
   //     headerFormatting.forEach((format: any) => {
@@ -10216,7 +10231,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
   //       fieldNames.forEach((fieldName: string) => {
   //         if (belongsToField && belongsToField.toLowerCase() === fieldName.toLowerCase()) {
-  //           console.log(`✅ Matched header "${headerText}" to field "${fieldName}" via field mapping`);
+  //           console.log(`âœ… Matched header "${headerText}" to field "${fieldName}" via field mapping`);
   //           formattingApplied = true;
 
   //           // Apply styles to the main header element
@@ -10242,7 +10257,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   //             headerElement.style.fontStyle = format.fontStyle;
   //           }
 
-  //           // ✅ Also apply to nested cell value element
+  //           // âœ… Also apply to nested cell value element
   //           if (cellValue) {
   //             const cellValueElement = cellValue as HTMLElement;
 
@@ -10268,7 +10283,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   //     });
 
   //     if (!formattingApplied && belongsToField) {
-  //       console.log(`⚠️ No formatting configured for field: "${belongsToField}" (header text: "${headerText}")`);
+  //       console.log(`âš ï¸ No formatting configured for field: "${belongsToField}" (header text: "${headerText}")`);
   //     }
   //   });
   // }
@@ -10360,7 +10375,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
           fieldNames.forEach((fieldName: string) => {
             if (belongsToField?.toLowerCase() === fieldName.toLowerCase()) {
 
-              // ✅ Apply styles with !important to prevent overriding
+              // âœ… Apply styles with !important to prevent overriding
               if (format.backgroundColor) {
                 headerElement.style.setProperty('background-color', format.backgroundColor, 'important');
               }
@@ -10385,7 +10400,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
                 headerElement.style.setProperty('font-style', format.fontStyle, 'important');
               }
 
-              // ✅ Also apply to nested .e-cellvalue
+              // âœ… Also apply to nested .e-cellvalue
               if (cellValue) {
                 const cellValueEl = cellValue as HTMLElement;
 

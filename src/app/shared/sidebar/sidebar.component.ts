@@ -1,27 +1,30 @@
-import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, inject} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute, NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationStart, Router, RouterOutlet, RouterLinkActive, RouterLink } from '@angular/router';
 import { ChartTheme, IAxisLabelRenderEventArgs, ILoadedEventArgs } from '@syncfusion/ej2-angular-charts';
 import { PanelModel } from '@syncfusion/ej2-angular-layouts';
-import { ClickEventArgs, SelectEventArgs, TreeViewComponent } from '@syncfusion/ej2-angular-navigations';
+import { ClickEventArgs, SelectEventArgs, TreeViewComponent, SidebarModule } from '@syncfusion/ej2-angular-navigations';
 import { AnimationSettingsModel, ButtonPropsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { ItemModel } from '@syncfusion/ej2-angular-splitbuttons';
+import { ItemModel, DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
 import { Browser } from '@syncfusion/ej2/base';
 import { filter, first, Subscription } from 'rxjs';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { DashboardBasedAccessService } from 'src/app/core/services/dashboard-based-access.service';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';
-import { AIAssistViewComponent, PromptModel, PromptRequestEventArgs, ResponseToolbarSettingsModel, User } from '@syncfusion/ej2-angular-interactive-chat';
+import { AIAssistViewComponent, PromptModel, PromptRequestEventArgs, ResponseToolbarSettingsModel, User, AIAssistViewModule } from '@syncfusion/ej2-angular-interactive-chat';
 import { UserService } from 'src/app/core/AuthServices/user.service';
 import { v4 as uuidv4 } from 'uuid';
 import { marked } from 'marked';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { NgClass, NgStyle } from '@angular/common';
+import { LoaderComponent } from '../../dashboardpanelModule/Panel Properties/loader/loader.component';
+import { PopupComponent } from '../../dashboardpanelModule/Panel Properties/popup/popup.component';
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
-  standalone: false
+    selector: 'app-sidebar',
+    templateUrl: './sidebar.component.html',
+    styleUrls: ['./sidebar.component.scss'],
+    imports: [NgClass, NgStyle, DropDownButtonModule, LoaderComponent, PopupComponent, RouterOutlet, SidebarModule, RouterLinkActive, RouterLink, AIAssistViewModule]
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   [x: string]: any;
@@ -143,10 +146,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
   private dashboardAccessSub!: Subscription;
   private menuAccessSub!: Subscription;
 
-  constructor(private chartService: ChartService, private fb: FormBuilder, private router: Router, private menuBasedAccessService: MenuBasedAccessService, private dashboardBasedAccessService: DashboardBasedAccessService, private userService: UserService, private route: ActivatedRoute, private loaderService: LoaderService) {
-
-
-  }
+  private readonly chartService = inject(ChartService);
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly menuBasedAccessService = inject(MenuBasedAccessService);
+  private readonly dashboardBasedAccessService = inject(DashboardBasedAccessService);
+  private readonly userService = inject(UserService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly loaderService = inject(LoaderService);
 
   createDashboardObj: any = {};
   createRoleObj: any = {};
@@ -1110,10 +1117,10 @@ promptRequest = (args: PromptRequestEventArgs) => {
           console.log('headerNames', headerNames)
 
           const matchedObjects = this.panelSeriesArray.filter((item: any) => {
-            console.log('ðŸ” Checking item:', item);
+            console.log('Ã°Å¸â€Â Checking item:', item);
 
             const isMatched = parsedPromptTags.some(tag => {
-              console.log('   â†ªï¸ Comparing with tag:', tag);
+              console.log('   Ã¢â€ ÂªÃ¯Â¸Â Comparing with tag:', tag);
               const itemHeader = item.header || '';
               const tagHeader = tag.header || '';
               const itemPanelType = item.panelType?.toLowerCase();
@@ -1129,7 +1136,7 @@ promptRequest = (args: PromptRequestEventArgs) => {
               // console.log(`     - itemPanelType: '${itemPanelType}', tagPanelType: '${tagPanelType}'`);
 
               const match = normalizedItemHeader === normalizedTagHeader && itemPanelType === tagPanelType;
-              // console.log(`     âœ… Match result: ${match}`);
+              // console.log(`     Ã¢Å“â€¦ Match result: ${match}`);
 
               return match;
             });

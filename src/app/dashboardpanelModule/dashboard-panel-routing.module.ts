@@ -12,14 +12,14 @@ import { ConnectionDatabaseComponent } from './panelComponents/connection-databa
 import { AddUsersComponent } from './panelComponents/add-users/add-users.component';
 import { AddRolesComponent } from './panelComponents/add-roles/add-roles.component';
 import { DashbordHomepageComponent } from './panelComponents/dashbord-homepage/dashbord-homepage.component';
-import { CanDeactivateGuard } from './services/can-deactivate.guard';
+import { canDeactivateGuard } from './services/can-deactivate.guard';
 import { JoinTableComponent } from './Panel Properties/join-table/join-table.component';
 import { UpdateUserComponent } from './Panel Properties/update-user/update-user.component';
 import { PagingTableComponent } from './panelComponents/paging-table/paging-table.component';
 import { DashboardRearrangeComponent } from './panelComponents/dashboard-rearrange/dashboard-rearrange.component';
-import { AuthGuard } from '../core/AuthServices/auth.guard';
+import { authGuard } from '../core/AuthServices/auth.guard';
 import { UnauthorizedComponent } from './panelComponents/unauthorized/unauthorized.component';
-import { PermissionResolver } from '../core/Resolver/permission.resolver';
+import { permissionResolver } from '../core/Resolver/permission.resolver';
 import { GroupingDashboardComponent } from './panelComponents/grouping-dashboard/grouping-dashboard.component';
 import { ViewGroupedDashboardComponent } from './panelComponents/view-grouped-dashboard/view-grouped-dashboard.component';
 
@@ -45,30 +45,30 @@ export const routes: Routes = [
     path: 'edit/:id', 
     component: EditDashboardComponent,  
     data: { formName: 'editDashboard' }, 
-    canActivate: [AuthGuard], 
-    resolve: { permissions: PermissionResolver } 
+    canActivate: [authGuard], 
+    resolve: { permissions: permissionResolver } 
   },
   { 
     path: 'panelView/:name', 
     component: DashbordPageViewwComponent,  
     data: { formName: 'viewDashboard' }, 
-    canActivate: [AuthGuard], 
-    resolve: { permissions: PermissionResolver }
+    canActivate: [authGuard], 
+    resolve: { permissions: permissionResolver }
   },
   //old one
-  // { path: 'dashboardHome', component: DashbordHomepageComponent, data: { formName: 'home' }, canActivate: [AuthGuard] },
+  // { path: 'dashboardHome', component: DashbordHomepageComponent, data: { formName: 'home' }, canActivate: [authGuard] },
 
   // new one
-  { path: 'dashboardHome', component: ViewGroupedDashboardComponent, data: { formName: 'home' }, canActivate: [AuthGuard] },
-  { path: 'create', component: CreateDashboardComponent, canDeactivate: [CanDeactivateGuard], data: { formName: 'createDashboard' }, canActivate: [AuthGuard] },
-  { path: 'role', component: AddRolesComponent, data: { formName: 'addRole' }, canActivate: [AuthGuard] },
-  { path: 'user', component: AddUsersComponent, data: { formName: 'addUser' }, canActivate: [AuthGuard] },
-  { path: 'fileupload', component: FileUploadPageComponent, data: { formName: 'fileUploadToDb' }, canActivate: [AuthGuard] },
-  { path: 'databaseConnection', component: ConnectionDatabaseComponent, data: { formName: 'dbConnection' }, canActivate: [AuthGuard] },
-  { path: 'jointable', component: JoinTableComponent, data: { formName: 'tableJoin' }, canActivate: [AuthGuard] },
-  { path: 'groupingDashboard', component: GroupingDashboardComponent, data: { formName: 'home' }, canActivate: [AuthGuard] },
-  // { path: 'groupingViewDashboard', component: ViewGroupedDashboardComponent, data: { formName: 'home' }, canActivate: [AuthGuard] },
-  { path: 'dashboardRearrage', component: DashboardRearrangeComponent, data: { formName: 'dashboardSetup' }, canActivate: [AuthGuard] },
+  { path: 'dashboardHome', component: ViewGroupedDashboardComponent, data: { formName: 'home' }, canActivate: [authGuard] },
+  { path: 'create', component: CreateDashboardComponent, canDeactivate: [canDeactivateGuard], data: { formName: 'createDashboard' }, canActivate: [authGuard] },
+  { path: 'role', component: AddRolesComponent, data: { formName: 'addRole' }, canActivate: [authGuard] },
+  { path: 'user', component: AddUsersComponent, data: { formName: 'addUser' }, canActivate: [authGuard] },
+  { path: 'fileupload', component: FileUploadPageComponent, data: { formName: 'fileUploadToDb' }, canActivate: [authGuard] },
+  { path: 'databaseConnection', component: ConnectionDatabaseComponent, data: { formName: 'dbConnection' }, canActivate: [authGuard] },
+  { path: 'jointable', component: JoinTableComponent, data: { formName: 'tableJoin' }, canActivate: [authGuard] },
+  { path: 'groupingDashboard', component: GroupingDashboardComponent, data: { formName: 'home' }, canActivate: [authGuard] },
+  // { path: 'groupingViewDashboard', component: ViewGroupedDashboardComponent, data: { formName: 'home' }, canActivate: [authGuard] },
+  { path: 'dashboardRearrage', component: DashboardRearrangeComponent, data: { formName: 'dashboardSetup' }, canActivate: [authGuard] },
    { path: 'unauthorized', component: UnauthorizedComponent },
    {path: 'updateUser/:username', component  : UpdateUserComponent, data: { formName: 'updateUser' } },
   //  { path: '**', redirectTo: '/login' }

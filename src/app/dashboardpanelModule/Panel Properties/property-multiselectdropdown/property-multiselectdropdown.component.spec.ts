@@ -8,8 +8,8 @@ describe('PropertyMultiselectdropdownComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PropertyMultiselectdropdownComponent ]
-    })
+    imports: [PropertyMultiselectdropdownComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(PropertyMultiselectdropdownComponent);

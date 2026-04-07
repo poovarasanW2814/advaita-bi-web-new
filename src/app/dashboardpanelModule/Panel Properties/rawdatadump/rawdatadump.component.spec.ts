@@ -8,8 +8,8 @@ describe('RawdatadumpComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RawdatadumpComponent ]
-    })
+    imports: [RawdatadumpComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(RawdatadumpComponent);

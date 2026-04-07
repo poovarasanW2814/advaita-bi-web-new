@@ -1,51 +1,21 @@
-// html, body {
-//   margin: 0;
-//   padding: 0;
-//   height: 100%;
-// }
+/* ═══════════════════════════════════════════════════
+   ADVAITA LUMINA BI — Global Styles v2.1
+   Color System: Steel Indigo-Teal (#0D5C7A)
+═══════════════════════════════════════════════════ */
 
+@use 'app/core/sass/design-system.scss';
+@use 'app/core/sass/panel-properties.scss';
+@use 'app/core/sass/syncfusion-overrides.scss';
 
+/* ──────────────────────────────
+   Switch Wrapper (Syncfusion)
+────────────────────────────── */
 
 .e-switch-wrapper.bar-color .e-switch-inner,
 .e-switch-wrapper.bar-color .e-switch-on {
-  // background-color: #9977f9;
-  // border-color: #9977f9;
-
-  // background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, .898) 109.98%);
-  // border-color: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, .898) 109.98%);
-
-
-  background: rgba(5, 78, 247, 0.898);
-  border-color : rgba(5, 78, 247, 0.898);
-
-
-
+  background: var(--bi-primary);
+  border-color: var(--bi-primary);
 }
-
-// .e-dialog.e-draggable>.e-dlg-header-content {
-//   background: #CDC1FF
-// }
-.e-dialog {
-  border-radius: 10px;
-}
-//  .e-dialog .e-dlg-header-content{
-//   border-radius: 10px 10px 0 0;
-// }
-// #defaultDialog_dialog-content,
-// #roleDialogBox_dialog-content {
-//   padding-top: 15px;
-//   background: #F5EFFF;
-// }
-
-// .e-footer-content {
-//   background: #F5EFFF;
-
-// }
-
-
-// old code 
-
-
 
 .e-switch-wrapper.bar-color .e-switch-inner,
 .e-switch-wrapper.bar-color .e-switch-off {
@@ -57,181 +27,188 @@
   background-color: #fff !important;
 }
 
-.e-btn-purple {
-  font-size: 11px;
-  border-radius: 4px;
-  padding: 5px 6px;
-  cursor: pointer;
-  color: rgba(13, 53, 148, .898);
-  border: 1px solid rgba(81, 96, 129, .2);
-  background: #eff0f3;
-  box-shadow: -3px -3px 6px 0 #fff, 3px 3px 6px 0 #bfc3cf
-  // color: white;
-  // background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, .898) 109.98%);
-}
-
-
-.e-btn-purple-sm {
-  // background-color: #9977f9;
-  font-size: 9px;
-  // padding: 5px 6px;
-  box-shadow: -3px -3px 6px 0 #fff, 3px 3px 6px 0 #bfc3cf;
-  border: 1px solid rgba(81, 96, 129, .2);
-
-  cursor: pointer;
-  color: rgba(13, 53, 148, .898);
-  background: white;
-  
-  // color: white;
-  // background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, .898) 109.98%);
-
-}
-
- .e-btn-purple-sm:hover,  .e-btn-purple-sm:active {
-  // background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, 0.898) 109.98%);
-  // -webkit-background-clip: text;
-  // background-clip: text;
-  // -webkit-text-fill-color: transparent;
-  // color: transparent; /* Fallback for non-WebKit browsers */
-  // transition: all 0.3s;
-  // cursor: pointer;
-  // border: none;
-  color: white;
-  // box-shadow: -3px -3px 6px 0 #fff, 3px 3px 6px 0 #bfc3cf;
-  // font-size: 11px;
-
-  // width: 35px;
-  // height: 30px;
-  background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, .898) 109.98%);
-}
-textarea.form-control{
-  border-radius: 0px;
-  color:black;
-  font-size: 11px;
-}
-
-.e-btn-purple:hover,  .e-btn-purple:active {
-  // background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, 0.898) 109.98%);
-  // -webkit-background-clip: text;
-  // background-clip: text;
-  // -webkit-text-fill-color: transparent;
-  // color: transparent; /* Fallback for non-WebKit browsers */
-  // transition: all 0.3s;
-  // cursor: pointer;
-  // border: none;
-  color: white;
-  // box-shadow: -3px -3px 6px 0 #fff, 3px 3px 6px 0 #bfc3cf;
-  // font-size: 11px;
-  // padding: 5px 6px;
-  background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, .898) 109.98%);
-}
-
-
-
-
-.popupHeader{
-  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
-  font-weight: 500 !important;
-
-}
-#defaultDialog_title, #userUploadPopup_title, #roleDialogBox_title, #roleDbPermissionDlgBox_title, #roleDialogBox_title, #roleDbPermissionDlgBox_title, #dashboardPopup_title, #roleDialogBox_title, #userDialogBox_title, #connectionFormPopup_title, #initalFilterPopup_title, #userMappingModel_title, #dashboardTitlePopup_title, #formPopup_title, #dialog_292622527_1_title, #tabelNameDlg_title{
-  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
-  font-weight: 400 !important;
-}
-.e-dlg-header-content{
-  // background-color: #CDC1FF !important;
-  // background-color: #95e0f5;
-  background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, 0.898) 109.98%);
-  // border-radius: 10px 10px 0 0;
-
-}
-
-
- .e-dialog .e-dlg-header-content{
-  border-radius: 10px 10px 0 0;
-}
+/* ──────────────────────────────
+   Dialog Styling (Syncfusion)
+────────────────────────────── */
 
 .e-dialog {
-  border-radius: 10px;
+  border-radius: var(--r-lg);
 }
 
-.e-dialog .e-dlg-header-content+.e-dlg-content {
-  // padding-top: 0;
-  background: #f7fbfd;
+.e-dialog .e-dlg-header-content {
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  background: var(--bi-gradient);
+  color: white;
 }
+
+.e-dialog .e-dlg-header-content + .e-dlg-content {
+  background: var(--bi-pale);
+}
+
 .e-footer-content {
-  background: #f7fbfd;
+  background: var(--bi-pale);
 }
 
+/* ──────────────────────────────
+   Dialog Title Headers
+────────────────────────────── */
 
+.popupHeader {
+  font-family: 'Roboto', 'Segoe UI', 'GeezaPro', 'DejaVu Serif', sans-serif !important;
+  font-weight: 500 !important;
+}
 
-.btn-color{
-  box-shadow: -3px -3px 6px 0 #fff, 3px 3px 6px 0 #bfc3cf;
-  border-radius: 4px;
-  background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, .898) 109.98%);
+#defaultDialog_title,
+#userUploadPopup_title,
+#roleDialogBox_title,
+#roleDbPermissionDlgBox_title,
+#dashboardPopup_title,
+#userDialogBox_title,
+#connectionFormPopup_title,
+#initalFilterPopup_title,
+#userMappingModel_title,
+#dashboardTitlePopup_title,
+#formPopup_title,
+#dialog_292622527_1_title,
+#tabelNameDlg_title {
+  font-family: 'Roboto', 'Segoe UI', 'GeezaPro', 'DejaVu Serif', sans-serif !important;
+  font-weight: 400 !important;
+}
+
+/* ──────────────────────────────
+   Button Styling
+────────────────────────────── */
+
+.e-btn-purple {
+  font-size: 11px;
+  border-radius: var(--r-sm);
+  padding: 5px 6px;
+  cursor: pointer;
+  color: var(--bi-primary);
+  border: 1px solid var(--bi-border);
+  background: var(--bi-pale);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.e-btn-purple:hover,
+.e-btn-purple:active {
+  background: var(--bi-gradient);
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+
+.e-btn-purple-sm {
+  font-size: 9px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--bi-border);
+  cursor: pointer;
+  color: var(--bi-primary);
+  background: white;
+  transition: all var(--transition-fast);
+}
+
+.e-btn-purple-sm:hover,
+.e-btn-purple-sm:active {
+  background: var(--bi-gradient);
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+
+.btn-color {
+  box-shadow: var(--shadow-md);
+  border-radius: var(--r-sm);
+  background: var(--bi-gradient);
   border: none;
   padding: 8px 11px;
   font-size: 12px;
+  color: white;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+
+  &:hover {
+    box-shadow: var(--shadow-lg);
+    opacity: 0.95;
+  }
 }
 
-// .textCOlorHeaders{
-//   color: #264a9f;
-// }
+/* ──────────────────────────────
+   Form Styling
+────────────────────────────── */
 
+textarea.form-control {
+  border-radius: 0px;
+  color: var(--text-primary);
+  font-size: 11px;
+  border: 1px solid var(--border-color);
+  background: var(--surface-primary);
 
-// * page title css  * //
+  &:focus {
+    border-color: var(--bi-accent);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--shadow-bi-glow);
+  }
+}
+
+/* ──────────────────────────────
+   Page Title Styling
+────────────────────────────── */
 
 .tableTitle {
   margin-bottom: 10px;
   text-align: left;
   font-size: 22px;
-  // font-family: 'Helvetica', sans-serif;
-   font-weight: 600;
-   color: #264a9f;
+  font-weight: 600;
+  color: var(--bi-primary);
 }
 
-
-
-
-
-//////// new code for panelComp ///////////
+/* ──────────────────────────────
+   Panel Component Styling
+────────────────────────────── */
 
 .headerstylepopup {
   text-align: center;
   padding: 6px;
   margin-left: 0px;
   margin-right: 0px;
-  // background-color: #9977f9;
-  background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, .898) 109.98%);
-
-  color: #fff;
-  border-bottom: 1px solid #bdbcbc;
-  /* border-top: 1px solid #bdbcbc; */
+  background: var(--bi-gradient);
+  color: white;
+  border-bottom: 1px solid var(--border-color);
 }
+
 .popuph5style {
   margin-top: 1px;
-  // padding: 2px;
   margin-bottom: 0px;
-  color: #fff;
-  
+  color: white;
 }
+
 .Tablelist {
   height: 115px;
-  background-color: #FFF;
+  background-color: var(--surface-primary);
   overflow-y: auto;
   overflow-x: auto;
   width: 100%;
   max-height: 100%;
 }
-.tableInputTitle{
+
+.tableInputTitle {
   border-radius: 1.35rem !important;
   margin-bottom: 5px;
   height: 26px;
   font-size: 11px;
 }
-.tabldiv, .catdiv, .fundiv, .helpdiv {
-  border: 1px solid #bdbcbc;
+
+.tabldiv,
+.catdiv,
+.fundiv,
+.helpdiv {
+  border: 1px solid var(--border-color);
 }
+
+/* ──────────────────────────────
+   Fieldset and Legend
+────────────────────────────── */
+
 fieldset {
   display: block;
   margin-inline-start: 2px;
@@ -241,8 +218,9 @@ fieldset {
   padding-inline-end: 0.75em;
   padding-block-end: 0.625em;
   min-inline-size: min-content;
-  border: 1px solid #bdbcbc;
+  border: 1px solid var(--border-color);
 }
+
 legend {
   font-size: 13px;
   font-weight: bold;
@@ -255,16 +233,27 @@ legend {
   border-style: none;
   border-color: initial;
   border-image: initial;
+  color: var(--text-primary);
 }
+
+/* ──────────────────────────────
+   Action Buttons and Operations
+────────────────────────────── */
+
 .actionbuttons {
   padding-top: 12px;
-  // padding-bottom: 10px;
 }
-.oper{
+
+.oper {
   margin-right: 4px;
   font-size: 13px;
   padding: 3px 8px;
 }
+
+/* ──────────────────────────────
+   List Items
+────────────────────────────── */
+
 .Tablelist li.list-group-items {
   list-style: none;
   cursor: pointer;
@@ -273,9 +262,51 @@ legend {
   word-break: break-word;
   white-space: normal;
   font-size: 11px;
+  transition: all var(--transition-fast);
 }
-li.list-group-items:hover{
-  background-color: #9977f9;
-  background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, .898) 109.98%);
-  color : #fff
+
+li.list-group-items:hover {
+  background: var(--bi-gradient);
+  color: white;
+}
+
+/* ──────────────────────────────
+   Accessibility & Focus States
+────────────────────────────── */
+
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--bi-accent);
+  outline-offset: 2px;
+}
+
+/* ──────────────────────────────
+   scrollbar Styling
+────────────────────────────── */
+
+/* For Chrome, Edge, and Safari */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bi-mid);
+  border-radius: var(--r-full);
+
+  &:hover {
+    background: var(--bi-primary);
+  }
+}
+
+/* For Firefox */
+* {
+  scrollbar-color: var(--bi-mid) var(--bg-primary);
+  scrollbar-width: thin;
 }

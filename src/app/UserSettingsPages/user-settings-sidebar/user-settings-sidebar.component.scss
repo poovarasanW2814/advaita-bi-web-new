@@ -350,9 +350,9 @@
 // }
 
 .e-listview .e-list-item.e-active  {
-    background: #1052c90f;
-
-    color: rgba(0, 0, 0, .87);
+    background: rgba(13, 92, 122, 0.06);
+    color: var(--bi-primary);
+    font-weight: var(--fw-medium);
 }
 
 .e-toolbar .e-toolbar-items {

@@ -1,14 +1,18 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { ButtonComponent } from '@syncfusion/ej2-angular-buttons';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
+import { FormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ButtonComponent, ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { DialogComponent, AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
 import { ChartService } from 'src/app/core/services/chart.service';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { GridModule } from '@syncfusion/ej2-angular-grids';
+import { ChartModule } from '@syncfusion/ej2-angular-charts';
+import { KanbanModule } from '@syncfusion/ej2-angular-kanban';
 
 @Component({
-  selector: 'app-role-mapping',
-  templateUrl: './role-mapping.component.html',
-  styleUrls: ['./role-mapping.component.scss'],
-  standalone: false
+    selector: 'app-role-mapping',
+    templateUrl: './role-mapping.component.html',
+    styleUrls: ['./role-mapping.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule, DropDownListModule, ButtonModule, GridModule, ChartModule, KanbanModule]
 })
 
 
@@ -26,7 +30,8 @@ export class RoleMappingComponent implements OnInit ,OnChanges{
   updateFlag : boolean = false;
   connection_id : any;
 
-  constructor(private fb : FormBuilder, private chartService : ChartService) { }
+  private readonly fb = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
 
   ngOnChanges(changes: SimpleChanges): void {
 

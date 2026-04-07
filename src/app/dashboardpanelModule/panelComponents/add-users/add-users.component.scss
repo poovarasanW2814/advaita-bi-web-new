@@ -1,60 +1,10 @@
 
-@import "./../../../core/sass/popup.scss";
+@use "./../../../core/sass/popup.scss";
 
-.validation-error {
-  color: red;
-  font-size: 11px;
-  // height: 15px; 
-}
-.inputValue{
-  height: 57px;
-  margin-bottom: 10px;
-}
 .focused {
   animation: placeholderAnimation 200ms ease-in;
 }
-.registrationform{
-  width: 100%;
-  padding: 10px;
 
-}
-.form-control {
-  height: 28px !important;
-  font-size: 11px;
-  // display: flex;
-  // flex-direction: column;
-}
-label.labelName {
-  // width: 50%;
-  font-weight: 300;
-  font-size: 12px;
-}
-// div#defaultDialog_dialog-header {
-//   background: #e5e9e994;
-// }
-.e-dialog {
-  border-radius: 10px;
-}
- .e-dialog .e-dlg-header-content{
-  border-radius: 10px 10px 0 0;
-}
-
-// .tableTitle {
-//   margin-bottom: 10px;
-//   text-align: left;
-//   font-size: 22px;
-// // background-color: white;
-// // font-weight: 600;
-// }
-.accessDiv{
-height: 100%;
-width: 100%;
-}
-
-
-.formInfo{
-padding:15px 10px;
-}
 
 // #defaultDialog{
 // // max-height: 300px;
@@ -82,9 +32,7 @@ padding:15px 10px;
   
   }
 
-  .pointer{
-    cursor: pointer;
-  }
+  // .pointer { cursor: pointer; } — defined globally in design-system.scss
   // .e-btn-purple {
   //   background-color: #9977f9;
   //   color: white;

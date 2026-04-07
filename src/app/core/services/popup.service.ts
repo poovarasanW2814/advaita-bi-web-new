@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject} from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 
 export class PopupService {
 
-  constructor(private router: Router) { }
+  private readonly router = inject(Router);
   private skipGuard = false;
 
   // This getter allows the guard to access the flag

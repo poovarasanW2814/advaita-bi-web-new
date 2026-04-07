@@ -1,16 +1,16 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject} from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from 'src/app/core/AuthServices/user.service';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { PopupService } from 'src/app/core/services/popup.service';
 
 @Component({
-  selector: 'app-user-profile',
-  templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.scss'],
-  standalone: false
+    selector: 'app-user-profile',
+    templateUrl: './user-profile.component.html',
+    styleUrls: ['./user-profile.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule]
 })
 export class UserProfileComponent implements OnInit {
   profileForm!: FormGroup;
@@ -31,7 +31,13 @@ export class UserProfileComponent implements OnInit {
     email: ''
   };
 
-  constructor(private http: HttpClient, private fb: FormBuilder, private userService: UserService, private chartService: ChartService, private loaderService: LoaderService, private popupService : PopupService) {
+  private readonly http = inject(HttpClient);
+  private readonly fb = inject(FormBuilder);
+  private readonly userService = inject(UserService);
+  private readonly chartService = inject(ChartService);
+  private readonly loaderService = inject(LoaderService);
+  private readonly popupService = inject(PopupService);
+  constructor() {
     this.initializeForm();
   }
 

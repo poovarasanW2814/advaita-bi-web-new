@@ -1,14 +1,14 @@
-import { DatePipe } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { DatePipe, NgIf, NgFor, NgClass, NgStyle } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren, inject} from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
-import { ChartComponent, AccumulationChartComponent, AnimationModel, IMouseEventArgs, indexFinder, ILoadedEventArgs, IAccTextRenderEventArgs, IAccTooltipRenderEventArgs, ExportType, IAxisLabelRenderEventArgs, ITooltipRenderEventArgs, ChartTheme } from '@syncfusion/ej2-angular-charts';
-import { CheckBoxSelection, DropDownList, DropDownListComponent, FilteringEventArgs, ListBoxComponent, MultiSelectComponent, VirtualScroll, visualMode } from '@syncfusion/ej2-angular-dropdowns';
-import { GridComponent, GroupSettingsModel, FilterSettingsModel, SelectionSettingsModel, QueryCellInfoEventArgs, DataStateChangeEventArgs, ExcelExportProperties, ColumnMenuOpenEventArgs, ColumnMenuItemModel, Grid, VirtualScroll as GridVirtualScroll } from '@syncfusion/ej2-angular-grids';
-import { DashboardLayoutComponent, PanelModel } from '@syncfusion/ej2-angular-layouts';
+import { ChartComponent, AccumulationChartComponent, AnimationModel, IMouseEventArgs, indexFinder, ILoadedEventArgs, IAccTextRenderEventArgs, IAccTooltipRenderEventArgs, ExportType, IAxisLabelRenderEventArgs, ITooltipRenderEventArgs, ChartTheme, ChartModule, AccumulationChartModule } from '@syncfusion/ej2-angular-charts';
+import { CheckBoxSelection, DropDownList, DropDownListComponent, FilteringEventArgs, ListBoxComponent, MultiSelectComponent, VirtualScroll, visualMode, MultiSelectModule, DropDownListModule, ListBoxModule } from '@syncfusion/ej2-angular-dropdowns';
+import { GridComponent, GroupSettingsModel, FilterSettingsModel, SelectionSettingsModel, QueryCellInfoEventArgs, DataStateChangeEventArgs, ExcelExportProperties, ColumnMenuOpenEventArgs, ColumnMenuItemModel, Grid, VirtualScroll as GridVirtualScroll, GridModule } from '@syncfusion/ej2-angular-grids';
+import { DashboardLayoutComponent, PanelModel, DashboardLayoutModule } from '@syncfusion/ej2-angular-layouts';
 import { ClickEventArgs, FieldSettingsModel, TabComponent } from '@syncfusion/ej2-angular-navigations';
-import { CellTemplateArgs, DisplayOption, EnginePopulatedEventArgs, PivotView, PivotViewComponent, ToolbarItems, VirtualScroll as PivotVirtualScroll, PageSettings, PagerSettings, BeforeExportEventArgs } from '@syncfusion/ej2-angular-pivotview';
-import { DialogComponent, AnimationSettingsModel, setSpinner, hideSpinner, Tooltip } from '@syncfusion/ej2-angular-popups';
+import { CellTemplateArgs, DisplayOption, EnginePopulatedEventArgs, PivotView, PivotViewComponent, ToolbarItems, VirtualScroll as PivotVirtualScroll, PageSettings, PagerSettings, BeforeExportEventArgs, PivotViewModule } from '@syncfusion/ej2-angular-pivotview';
+import { DialogComponent, AnimationSettingsModel, setSpinner, hideSpinner, Tooltip, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { ProgressBar } from '@syncfusion/ej2-angular-progressbar';
 import { interval, Observable, Subscription } from 'rxjs';
 import { ExportService } from '@syncfusion/ej2-angular-charts'
@@ -23,18 +23,23 @@ import { ExcelExportService } from 'src/app/core/services/excel-export.service';
 import { Browser, EmitType, Internationalization } from '@syncfusion/ej2-base';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import * as moment from 'moment';
-import { ItemModel } from '@syncfusion/ej2-angular-splitbuttons';
+import { ItemModel, DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
 import { PopupService } from 'src/app/core/services/popup.service';
 import { DashboardBasedAccessService } from 'src/app/core/services/dashboard-based-access.service';
 import { marked } from 'marked';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';
 import { UserService } from 'src/app/core/AuthServices/user.service';
-import { TimeScaleModel } from '@syncfusion/ej2-angular-schedule';
+import { TimeScaleModel, ScheduleModule } from '@syncfusion/ej2-angular-schedule';
 import { ChartSettings } from '@syncfusion/ej2-pivotview/src/pivotview/model/chartsettings';
 import { DropDownButton } from '@syncfusion/ej2-splitbuttons';
 import * as XLSX from 'xlsx';
-import { CircularGaugeComponent } from '@syncfusion/ej2-angular-circulargauge';
+import { CircularGaugeComponent, CircularGaugeModule } from '@syncfusion/ej2-angular-circulargauge';
 import { LegendService, GaugeTooltipService, ImageExportService } from '@syncfusion/ej2-angular-circulargauge';
+import { AIAssistViewModule } from '@syncfusion/ej2-angular-interactive-chat';
+import { KanbanModule } from '@syncfusion/ej2-angular-kanban';
+import { ButtonModule, SwitchModule } from '@syncfusion/ej2-angular-buttons';
+import { DateRangePickerModule, DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
 
 
 DropDownListComponent.Inject(VirtualScroll);
@@ -44,12 +49,12 @@ MultiSelectComponent.Inject(CheckBoxSelection);
 //  PivotView.Inject(PivotVirtualScroll);
 
 @Component({
-  selector: 'app-dashbord-page-vieww',
-  templateUrl: './dashbord-page-vieww.component.html',
-  styleUrls: ['./dashbord-page-vieww.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [LegendService, GaugeTooltipService, ImageExportService],
-  standalone: false
+    selector: 'app-dashbord-page-vieww',
+    templateUrl: './dashbord-page-vieww.component.html',
+    styleUrls: ['./dashbord-page-vieww.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [LegendService, GaugeTooltipService, ImageExportService],
+    imports: [NgIf, DashboardLayoutModule, NgFor, NgClass, DropDownButtonModule, MultiSelectModule, ScheduleModule, AIAssistViewModule, FormsModule, GridModule, ChartModule, KanbanModule, ButtonModule, PivotViewModule, AccumulationChartModule, NgStyle, DateRangePickerModule, DatePickerModule, DropDownListModule, ListBoxModule, CircularGaugeModule, DialogModule, SwitchModule, RichTextEditorModule, DatePipe]
 })
 
 export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -243,16 +248,31 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
 
 
-  constructor(private panelService: PanelServiceService, private changeDetectorRef: ChangeDetectorRef, private formBuilder: FormBuilder, private chartService: ChartService, private router: Router, private route: ActivatedRoute, private fb: FormBuilder, private datePipe: DatePipe, private excelService: ExcelExportService, private loaderService: LoaderService, private popupService: PopupService, private dashboardBasedAccessService: DashboardBasedAccessService, private cdr: ChangeDetectorRef, private menuBasedAccessService: MenuBasedAccessService, private userService: UserService) {
+  private readonly panelService = inject(PanelServiceService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly fb = inject(FormBuilder);
+  private readonly datePipe = inject(DatePipe);
+  private readonly excelService = inject(ExcelExportService);
+  private readonly loaderService = inject(LoaderService);
+  private readonly popupService = inject(PopupService);
+  private readonly dashboardBasedAccessService = inject(DashboardBasedAccessService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly menuBasedAccessService = inject(MenuBasedAccessService);
+  private readonly userService = inject(UserService);
+  constructor() {
     this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-
-
-        sessionStorage.removeItem('panelSeriesArray')
-        sessionStorage.removeItem('selectedDashboardObj')
-        sessionStorage.removeItem('storedDrilldownAndFilterArray')
-        sessionStorage.removeItem('dataSourceStorageObj')
-      }
+          if (event instanceof NavigationEnd) {
+    
+    
+            sessionStorage.removeItem('panelSeriesArray')
+            sessionStorage.removeItem('selectedDashboardObj')
+            sessionStorage.removeItem('storedDrilldownAndFilterArray')
+            sessionStorage.removeItem('dataSourceStorageObj')
+  }
     });
   }
   ngAfterViewInit(): void {
@@ -362,17 +382,6 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     try {
       instance.dataBind?.();
       instance.refresh();
-
-      // If SVG shapes are not painted yet, force hard redraw.
-      const svgElement = instance.element?.querySelector?.('svg');
-      const hasRenderedShapes = !!(
-        svgElement?.querySelector?.('.e-series') ||
-        svgElement?.querySelector?.('.e-acc-series')
-      );
-      if (!hasRenderedShapes) {
-        instance.removeSvg?.();
-        instance.refresh();
-      }
     } catch {
       // Ignore per-chart refresh errors.
     }
@@ -579,7 +588,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       if (panelData.filter_obj && Array.isArray(panelData.filter_obj)) {
         panelData.filter_obj.forEach((ele: any) => {
           if (ele.object_type === "ListBox" || ele.object_type === 'MultiSelectDropDown' || ele.panelType === 'InputBox') {
-            // ✅ FIX: Only filter null and undefined, keep empty strings as they may be valid values
+            // âœ… FIX: Only filter null and undefined, keep empty strings as they may be valid values
             if (Array.isArray(ele.values)) {
               ele.values = ele.values.filter((val: any) => val !== null && val !== undefined);
             }
@@ -663,7 +672,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   onEnginePopulated(args: EnginePopulatedEventArgs, item: any, pivotviewObj: PivotViewComponent) {
-    // ✅ FIX: Update panel immutably for OnPush detection
+    // âœ… FIX: Update panel immutably for OnPush detection
     const panelIndex = this.panelSeriesArray.findIndex(p => p.id === item.id);
 
     if (panelIndex !== -1 && this.panelSeriesArray[panelIndex].isLoading) {
@@ -750,7 +759,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       return;
     }
 
-    // ── STRING VALUE FIELD OVERRIDE ──────────────────────────────────────────
+    // â”€â”€ STRING VALUE FIELD OVERRIDE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const fieldDetails = item?.content?.fieldDetails || [];
 
     // DEBUG: log once per unique fieldName to understand structure
@@ -796,7 +805,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       args.skipFormatting = true;
       return;
     }
-    // ── END STRING VALUE FIELD OVERRIDE ──────────────────────────────────────
+    // â”€â”€ END STRING VALUE FIELD OVERRIDE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     // Handle empty cells but don't skip formatting
     if (!args.value && args.value !== 0) {
@@ -1158,10 +1167,10 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   onMultiselectFiltering: EmitType<FilteringEventArgs> = (e: FilteringEventArgs, item: any) => {
     e.preventDefaultAction = true;
 
-    // âœ… Use original data if available, fallback to content.dataSource
+    // Ã¢Å“â€¦ Use original data if available, fallback to content.dataSource
     const fullData = this.originalData[item.id] || item.content.dataSource || [];
 
-    // âœ… Only perform filtering, avoid expensive getSortedData processing during typing
+    // Ã¢Å“â€¦ Only perform filtering, avoid expensive getSortedData processing during typing
     const filteredData = fullData.filter((dataItem: any) => {
       if (dataItem && dataItem.item) {
         return dataItem.item.toString().toLowerCase().includes(e.text.trim().toLowerCase());
@@ -1169,10 +1178,10 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       return dataItem?.toString().toLowerCase().includes(e.text.trim().toLowerCase());
     });
 
-    // âœ… Directly slice first page instead of processing all data
+    // Ã¢Å“â€¦ Directly slice first page instead of processing all data
     const limitedData = filteredData.slice(0, this.pageSize);
 
-    // âœ… Update datasource and reset paging
+    // Ã¢Å“â€¦ Update datasource and reset paging
     this.totalDataSource[item.id] = limitedData;
     this.pageIndex[item.id] = 1;
 
@@ -1740,7 +1749,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     // console.log('onPopupOpen args', args, item.content.enablePopup);
 
 
-    // ðŸ‘‰ Option: disable popup for event clicks
+    // Ã°Å¸â€˜â€° Option: disable popup for event clicks
 
     if (item.content.enablePopup) {
       if (args.type === 'QuickInfo') {
@@ -1833,7 +1842,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     const adjustedDelay = totalPanels > 10 ? delay * 0.8 : totalPanels > 5 ? delay * 0.9 : delay;
 
     setTimeout(() => {
-      // ✅ FIX: Create new array with updated panel object for OnPush detection
+      // âœ… FIX: Create new array with updated panel object for OnPush detection
       const panelIndex = this.panelSeriesArray.findIndex(p => p.id === panelId);
       if (panelIndex !== -1 && this.panelSeriesArray[panelIndex].isLoading) {
         this.panelSeriesArray = [
@@ -1988,7 +1997,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
                   ...primaryyAxis,
                   minimum: 0,
                   // maximum: maxDataValue * 1.3,
-                  // âœ… Add font to Y Axis labels
+                  // Ã¢Å“â€¦ Add font to Y Axis labels
                   labelStyle: {
                     fontFamily: 'Roboto, Segoe UI, GeezaPro, DejaVu Serif, "Times New Roman", sans-serif',
                     color: 'black'
@@ -2010,7 +2019,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
               }
 
-              // ðŸ”¹ Determine zoom mode based on seriesType
+              // Ã°Å¸â€Â¹ Determine zoom mode based on seriesType
               const hasBarSeries = seriesArr.some(
                 (s: any) =>
                   s.type?.toLowerCase() === 'bar' ||
@@ -2094,7 +2103,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
                       // return ele;
                       return {
                         ...ele,
-                        // âœ… Added labelStyle
+                        // Ã¢Å“â€¦ Added labelStyle
                         labelStyle: {
                           fontFamily: 'Roboto, Segoe UI, GeezaPro, DejaVu Serif, "Times New Roman", sans-serif',
 
@@ -2502,7 +2511,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
               //  ele.content.dataSourceSettings.dataSource = ele.content.dataSourceSettings.dataSource.map((row: any, index: number) => {
               //   const cleanedRow: any = {};
 
-              //   // âœ… Add a hidden unique identifier to prevent merging
+              //   // Ã¢Å“â€¦ Add a hidden unique identifier to prevent merging
               //   cleanedRow['_rowIndex'] = index;
 
               //   Object.keys(row).forEach(key => {
@@ -2757,7 +2766,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     const isFiltering = this.panelSeriesArray && this.panelSeriesArray.length > 0;
 
     if (isFiltering) {
-      // ✅ FIX: Create new array with new panel objects for OnPush detection
+      // âœ… FIX: Create new array with new panel objects for OnPush detection
       this.panelSeriesArray = this.panelSeriesArray.map(p => ({ ...p, isLoading: true }));
       this.cdr.detectChanges();
     } else {
@@ -2923,14 +2932,14 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
               }
 
-              // ðŸ”¹ Determine zoom mode based on seriesType
+              // Ã°Å¸â€Â¹ Determine zoom mode based on seriesType
               const hasBarSeries = seriesArr.some(
                 (s: any) =>
                   s.type?.toLowerCase() === 'bar' ||
                   s.type?.toLowerCase() === 'stackingbar'
               );
 
-              // ðŸ”¹ Only update the mode, keep other settings as they are
+              // Ã°Å¸â€Â¹ Only update the mode, keep other settings as they are
               // const zoomSettings = {
               //   ...ele.content.zoomSettings,
               //   mode: hasBarSeries ? 'Y' : 'X'
@@ -3023,7 +3032,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
                       // return ele;
                       return {
                         ...ele,
-                        // âœ… Added labelStyle
+                        // Ã¢Å“â€¦ Added labelStyle
                         labelStyle: {
                           fontFamily: 'Roboto, Segoe UI, GeezaPro, DejaVu Serif, "Times New Roman", sans-serif',
 
@@ -3283,7 +3292,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
             }
 
             else if (ele.panelType == 'InputBox') {
-              // ✅ CRITICAL: InputBox - Skip processing entirely, just limit data
+              // âœ… CRITICAL: InputBox - Skip processing entirely, just limit data
               const inputBoxDataSize = ele.content.dataSource?.length || 0;
               if (inputBoxDataSize > 100) {
                 return {
@@ -3523,7 +3532,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
               //  ele.content.dataSourceSettings.dataSource = ele.content.dataSourceSettings.dataSource.map((row: any, index: number) => {
               //   const cleanedRow: any = {};
 
-              //   // âœ… Add a hidden unique identifier to prevent merging
+              //   // Ã¢Å“â€¦ Add a hidden unique identifier to prevent merging
               //   cleanedRow['_rowIndex'] = index;
 
               //   Object.keys(row).forEach(key => {
@@ -3846,7 +3855,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   // Track page size & offset
   pageSize = 1000;
   pageIndex: { [key: string]: number } = {}; // per-panel tracking
-  // ðŸ‘‡ add this line
+  // Ã°Å¸â€˜â€¡ add this line
   private scrollHandler: ((e: Event) => void) | null = null;
   private isLoadingMore: { [key: string]: boolean } = {}; // prevent multiple rapid loads
   // 
@@ -3902,7 +3911,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       // console.log(`Loading chunk for ${id} from ${start} to ${end} - chunk size:`, nextChunk.length);
       // console.log('nextChunk', nextChunk, this.totalDataSource[id].length - nextChunk.length)
 
-      // âœ… Append new items to popup without closing
+      // Ã¢Å“â€¦ Append new items to popup without closing
       dropdownList.addItem(nextChunk, this.totalDataSource[id].length - nextChunk.length);
     }
   }
@@ -3915,7 +3924,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     // console.log('totalDataSource for', item.id, ':', this.totalDataSource[item.id]?.length);
     // console.log('originalData for', item.id, ':', this.originalData[item.id]?.length);
 
-    // âœ… Initialize pageIndex if not already set - start from 0, will increment to 1 when first additional page loads
+    // Ã¢Å“â€¦ Initialize pageIndex if not already set - start from 0, will increment to 1 when first additional page loads
     if (!this.pageIndex[item.id]) {
       this.pageIndex[item.id] = 0; // First page (0-999) already loaded, next will be page 1 (1000-1999)
     }
@@ -3948,7 +3957,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
         });
 
         if (popupElement.scrollTop + popupElement.clientHeight >= popupElement.scrollHeight - threshold) {
-          // console.log('âœ… MultiSelect scroll reached bottom - loading more data');
+          // console.log('Ã¢Å“â€¦ MultiSelect scroll reached bottom - loading more data');
           e.preventDefault(); // Prevent any default scroll behavior
           this.loadMoreMultiselectData(item, multiselect);
         }
@@ -3959,7 +3968,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
         // console.log('Scroll handler attached to multiselect popup');
       }
 
-      // âœ… always bind already loaded data when opening
+      // Ã¢Å“â€¦ always bind already loaded data when opening
       multiselect.dataSource = this.totalDataSource[item.id] || [];
       multiselect.value = this.getMultiselectUiSelection(item.id);
       multiselect.dataBind();
@@ -3970,16 +3979,16 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   loadMoreMultiselectData(item: any, multiselect: any) {
     const id = item.id;
 
-    // âœ… Prevent multiple concurrent loads
+    // Ã¢Å“â€¦ Prevent multiple concurrent loads
     if (this.isLoadingMore[id]) {
       // console.log('Already loading more data for', id);
       return;
     }
 
     this.isLoadingMore[id] = true;
-    // console.log('ðŸ”„ Loading more multiselect data for:', id);
+    // console.log('Ã°Å¸â€â€ž Loading more multiselect data for:', id);
 
-    // âœ… Use original full data instead of potentially filtered data
+    // Ã¢Å“â€¦ Use original full data instead of potentially filtered data
     const fullData = this.originalData[id] || item.content.dataSource || [];
 
     // console.log('Full data length:', fullData.length);
@@ -3999,35 +4008,35 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     // console.log('Loading chunk from', start, 'to', end, '- chunk size:', nextChunk.length);
 
     if (nextChunk.length > 0) {
-      // âœ… Completely replace the dataSource with new extended data
+      // Ã¢Å“â€¦ Completely replace the dataSource with new extended data
       const currentData = this.totalDataSource[id] || [];
       this.totalDataSource[id] = [...currentData, ...nextChunk];
 
       // console.log('Extended totalDataSource to', this.totalDataSource[id].length, 'records');
 
-      // âœ… Store current selected values to preserve them
+      // Ã¢Å“â€¦ Store current selected values to preserve them
       const currentValue = multiselect.value;
 
-      // âœ… Completely refresh the multiselect with new data
+      // Ã¢Å“â€¦ Completely refresh the multiselect with new data
       multiselect.dataSource = [...this.totalDataSource[id]]; // Create new array reference
       multiselect.dataBind();
 
-      // âœ… Restore selected values
+      // Ã¢Å“â€¦ Restore selected values
       if (currentValue && currentValue.length > 0) {
         multiselect.value = currentValue;
       } else {
         multiselect.value = this.getMultiselectUiSelection(id);
       }
 
-      // console.log('ðŸ”„ MultiSelect refreshed with', this.totalDataSource[id].length, 'total records');
+      // console.log('Ã°Å¸â€â€ž MultiSelect refreshed with', this.totalDataSource[id].length, 'total records');
 
-      // âœ… Force change detection
+      // Ã¢Å“â€¦ Force change detection
       this.cdr.detectChanges();
     } else {
       // console.log('No more data to load');
     }
 
-    // âœ… Reset loading flag
+    // Ã¢Å“â€¦ Reset loading flag
     this.isLoadingMore[id] = false;
   }
 
@@ -4060,15 +4069,15 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       // Set the reference start time for timer calculations
       this.viewStartTime = new Date(viewTracking.view_timing);
       // console.log('First Tracking Call:', viewTracking);
-      // console.log('ðŸ•’ View Timing in Local Time:', new Date(viewTracking.view_timing).toLocaleString());
+      // console.log('Ã°Å¸â€¢â€™ View Timing in Local Time:', new Date(viewTracking.view_timing).toLocaleString());
 
-      // ðŸ”¹ Immediate API call on load with duration 0
+      // Ã°Å¸â€Â¹ Immediate API call on load with duration 0
       this.chartService.DashboardTrackSubmit(viewTracking).subscribe({
         next: (res) => console.log('Initial tracked dashboard response:', res),
         error: (err) => console.error('Initial tracking failed:', err),
       });
 
-      // ðŸ” Start the timer every 3 minutes (180000 ms)
+      // Ã°Å¸â€Â Start the timer every 3 minutes (180000 ms)
       this.timerSubscription = interval(180000).subscribe(() => {
         const now = new Date();
         const diffMs = now.getTime() - this.viewStartTime.getTime();
@@ -4081,9 +4090,9 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
         sessionStorage.setItem('viewTracking', JSON.stringify(updatedObj));
 
         // console.log('Updated viewTracking:', updatedObj);
-        // console.log('ðŸ•’ View Timing in Local Time:', new Date(viewTracking.view_timing).toLocaleString());
+        // console.log('Ã°Å¸â€¢â€™ View Timing in Local Time:', new Date(viewTracking.view_timing).toLocaleString());
 
-        // ðŸ”½ API call after every 3 minutes
+        // Ã°Å¸â€Â½ API call after every 3 minutes
         this.chartService.DashboardTrackSubmit(updatedObj).subscribe({
           next: (res) => console.log('Tracked Dashboard response:', res),
           error: (err) => console.error('Tracking failed:', err),
@@ -4247,7 +4256,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       // console.log('commentButton', commentButton);
 
       if (commentButton) {
-        // console.log("Comment button clicked â†’ open dialog");
+        // console.log("Comment button clicked Ã¢â€ â€™ open dialog");
         return; // stop drilldown
       }
       const anchorTag = clickedCell.closest('a');
@@ -4295,7 +4304,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       let rawText = clickedCell.innerText.trim();
 
       // Remove the comment icon if present
-      rawText = rawText.replace('ðŸ’¬', '').trim();
+      rawText = rawText.replace('Ã°Å¸â€™Â¬', '').trim();
 
       const cellValue1 = this.parseValue(rawText);
 
@@ -4341,7 +4350,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
         if (fieldName !== selectedLevel.fieldName) {
           console.warn(
-            `â›” Ignored click on ${fieldName}, expected ${selectedLevel.fieldName} for level ${currentLevel}`
+            `Ã¢â€ºâ€ Ignored click on ${fieldName}, expected ${selectedLevel.fieldName} for level ${currentLevel}`
           );
           return; // stop here
         }
@@ -4431,8 +4440,8 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   openCommentDialog(rowData: any, field: string, event: MouseEvent, item: any, grid: GridComponent) {
     // event.stopPropagation();
 
-    const rowIndex = rowData.index; // âœ… 0-based, straight from Syncfusion
-    const colIndex = grid.getColumnIndexByField(field); // âœ… 0-based column index
+    const rowIndex = rowData.index; // Ã¢Å“â€¦ 0-based, straight from Syncfusion
+    const colIndex = grid.getColumnIndexByField(field); // Ã¢Å“â€¦ 0-based column index
 
     // console.log('Row Index:', rowIndex);
     // console.log('Column Index:', colIndex);
@@ -4528,7 +4537,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
       // console.log('this.selectedCell.row', this.selectedCell.row[matchedFeildDetails.unique_column_field])
 
-      // âœ… Use Syncfusion API to get the exact cell element
+      // Ã¢Å“â€¦ Use Syncfusion API to get the exact cell element
       const cell = this.selectedCell.grid.getCellFromIndex(rowIndex, colIndex) as HTMLElement;
 
       // console.log('grid cells', this.selectedCell.grid)
@@ -4575,7 +4584,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
         this.chartService.createComments(obj).subscribe((res: any) => {
           // console.log('res', res)
 
-          // âœ… Always read fresh from sessionStorage
+          // Ã¢Å“â€¦ Always read fresh from sessionStorage
           // let storedPanels = sessionStorage.getItem('panelSeriesArray');
           // let panelSeriesArray = storedPanels ? JSON.parse(storedPanels) : [];
 
@@ -4828,7 +4837,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
           console.log(`Normal chart - key: ${key}, value: ${element[key]}, format: ${format}, symbol: ${symbol}, isPercentage: ${isPercentageFormat}`);
 
           if (selectedValue === 'XLSX' && isPercentageFormat) {
-            // âœ… Excel export â†’ numeric percentage
+            // Ã¢Å“â€¦ Excel export Ã¢â€ â€™ numeric percentage
             // If format is 'p' or 'p2', value is already in decimal (0.01854 = 1.854%)
             // If format is '{value}%', value needs to be divided by 100
             const excelValue = symbol === '%' ? element[key] / 100 : element[key];
@@ -4837,11 +4846,11 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
             newItem.__percentCols.push(seriesItem.name);
             console.log(`Exporting as percentage: ${newItem[seriesItem.name]}`);
           } else if (selectedValue === 'XLSX') {
-            // âœ… Excel export â†’ plain number
+            // Ã¢Å“â€¦ Excel export Ã¢â€ â€™ plain number
             newItem[seriesItem.name] = element[key];
             console.log(`Exporting as plain number: ${newItem[seriesItem.name]}`);
           } else {
-            // âœ… Chart/PDF/PNG â†’ string with symbol
+            // Ã¢Å“â€¦ Chart/PDF/PNG Ã¢â€ â€™ string with symbol
             newItem[seriesItem.name] = `${element[key]}${symbol}`;
           }
         } else {
@@ -4859,12 +4868,12 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
             }
 
             if (selectedValue === 'XLSX') {
-              // Excel export â†’ numeric percentage (0.0 to 1.0 format)
+              // Excel export Ã¢â€ â€™ numeric percentage (0.0 to 1.0 format)
               newItem[key] = percentageValue / 100;
               if (!newItem.__percentCols) newItem.__percentCols = [];
               newItem.__percentCols.push(key);
             } else {
-              // Other exports â†’ formatted percentage string
+              // Other exports Ã¢â€ â€™ formatted percentage string
               newItem[key] = `${percentageValue}%`;
             }
           } else {
@@ -5105,7 +5114,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
         if (value === null || value === undefined) return NaN;
         if (typeof value === 'number') return value;
         if (typeof value === 'string') {
-          const cleaned = value.replace(/[%,\s$€£¥]/g, '').trim();
+          const cleaned = value.replace(/[%,\s$â‚¬Â£Â¥]/g, '').trim();
           return parseFloat(cleaned);
         }
         return NaN;
@@ -5395,7 +5404,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
           // this.showPopup(false, '35px', res.message);
           this.loaderService.hide();
 
-          // ✅ FIX: Create new array with new panel objects for OnPush detection
+          // âœ… FIX: Create new array with new panel objects for OnPush detection
           if (this.panelSeriesArray) {
             this.panelSeriesArray = this.panelSeriesArray.map((p: any) => ({
               ...p,
@@ -5415,7 +5424,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       error: (err: any) => {
         this.loaderService.hide();
 
-        // ✅ FIX: Create new array with new panel objects for OnPush detection
+        // âœ… FIX: Create new array with new panel objects for OnPush detection
         if (this.panelSeriesArray) {
           this.panelSeriesArray = this.panelSeriesArray.map((p: any) => ({
             ...p,
@@ -5446,7 +5455,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     const dashboardObj = data.dashboard_setup.dashboardObj;
     const panelsData = this.processPanels(dashboardObj.panels, ele);
 
-    // ✅ FIX: Set loading state immutably - panelsData is already a new array from processPanels().map()
+    // âœ… FIX: Set loading state immutably - panelsData is already a new array from processPanels().map()
     // Each panel in panelsData is already a new object (from processXxxPanel methods)
     // Just update isLoading property immutably
     const updatedPanelsData = panelsData.map((p: any) => {
@@ -5474,7 +5483,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     // Direct assignment like in fetchBookmarkFilterData (old process)
     this.panelSeriesArray = updatedPanelsData;
 
-    // ðŸ"§ Force change detection and refresh grids for table drilldowns
+    // Ã°Å¸"Â§ Force change detection and refresh grids for table drilldowns
     this.cdr.detectChanges();
 
     setTimeout(() => {
@@ -5485,17 +5494,17 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
           const matchingPanel = this.panelSeriesArray?.find((p: any) => p.id === panelId);
 
           if (matchingPanel && matchingPanel.panelType === 'Table') {
-            console.log(`🔄 [Grid Refresh] Refreshing columns for grid: ${panelId}`);
+            console.log(`ðŸ”„ [Grid Refresh] Refreshing columns for grid: ${panelId}`);
 
-            // ✅ Check if dataSource is empty
+            // âœ… Check if dataSource is empty
             const isEmpty = this.isGridDataSourceEmpty(matchingPanel.content.dataSource);
 
             if (isEmpty) {
-              console.log(`⚠️ [Grid Refresh] Empty dataSource detected for grid: ${panelId}`);
+              console.log(`âš ï¸ [Grid Refresh] Empty dataSource detected for grid: ${panelId}`);
               // Force clear and refresh for empty datasource
               if (typeof gridInstance.refresh === 'function') {
                 gridInstance.dataSource = matchingPanel.content.dataSource;
-                this.cdr.detectChanges(); // ✅ Trigger OnPush detection after dataSource assignment
+                this.cdr.detectChanges(); // âœ… Trigger OnPush detection after dataSource assignment
                 gridInstance.refresh();
               }
             }
@@ -5514,15 +5523,15 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
               gridInstance.refresh();
             }
 
-            // 🎯 Hide the grid spinner/loader explicitly after refresh
+            // ðŸŽ¯ Hide the grid spinner/loader explicitly after refresh
             setTimeout(() => {
               if (typeof gridInstance.hideSpinner === 'function') {
                 gridInstance.hideSpinner();
-                console.log(`✅ [Grid Refresh] Hidden spinner for grid: ${panelId}`);
+                console.log(`âœ… [Grid Refresh] Hidden spinner for grid: ${panelId}`);
               }
             }, 50);
 
-            // 🛡️ Safety: Hide spinner again after longer delay in case of slow operations
+            // ðŸ›¡ï¸ Safety: Hide spinner again after longer delay in case of slow operations
             setTimeout(() => {
               if (typeof gridInstance.hideSpinner === 'function') {
                 gridInstance.hideSpinner();
@@ -5544,7 +5553,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     // Safety timeout: Force-hide pivot loaders if enginePopulated doesn't fire within 15 seconds
     setTimeout(() => {
       if (this.panelSeriesArray) {
-        // ✅ FIX: Create new array with updated panels for OnPush detection
+        // âœ… FIX: Create new array with updated panels for OnPush detection
         const hasLoadingPivot = this.panelSeriesArray.some((p: any) => p.panelType === 'Pivot' && p.isLoading);
         if (hasLoadingPivot) {
           this.panelSeriesArray = this.panelSeriesArray.map((p: any) => {
@@ -5577,7 +5586,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     this.dashboardCreationObj.allowFloating = dashboardObj.allowFloating;
 
     let existingStorageObj = JSON.parse(sessionStorage.getItem('dataSourceStorageObj') || '{}');
-    // ✅ FIX: Create new array with new panel objects for OnPush detection
+    // âœ… FIX: Create new array with new panel objects for OnPush detection
     this.panelSeriesArray = this.panelSeriesArray.map((panel: any) => {
       if (existingStorageObj[panel.id]) {
         return {
@@ -5841,7 +5850,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
     // panel.content.resources.dataSource = this.getResourceData(panel.content.resources, updatedDataSource, panel.content.fieldDetails);    
 
-    // âœ… Only update resources if dataSource has events
+    // Ã¢Å“â€¦ Only update resources if dataSource has events
     // if (updatedDataSource.length > 0) {
     //   panel.content.resources.dataSource = this.getResourceData(
     //     panel.content.resources,
@@ -6153,7 +6162,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
           .includes(String(s.type || '').trim().toLowerCase())
     );
 
-    // ðŸ”¹ Only update the mode, keep other settings as they are
+    // Ã°Å¸â€Â¹ Only update the mode, keep other settings as they are
     // const zoomSettings = {
     //   ...panel.content.zoomSettings,
     //   mode: hasBarSeries ? 'Y' : 'X'
@@ -6172,7 +6181,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     };
 
 
-    // ðŸ”¹ Reusable font styles
+    // Ã°Å¸â€Â¹ Reusable font styles
     const labelStyle = {
       fontFamily: 'Roboto, Segoe UI, GeezaPro, DejaVu Serif, "Times New Roman", sans-serif',
       // fontWeight: 'bold',
@@ -6419,13 +6428,13 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       };
 
       const currentResult: any = new DataManager(panel.content.dataSource).executeLocal(new Query());
-      // ✅ FIX: Always create proper pagination object structure, even for empty data
+      // âœ… FIX: Always create proper pagination object structure, even for empty data
       updatedDataSource = {
         result: currentResult.length ? currentResult : [],
         count: this.initialPage.totalRecordCount
       };
     } else {
-      // ✅ FIX: Ensure non-paginated dataSource is cleared if empty
+      // âœ… FIX: Ensure non-paginated dataSource is cleared if empty
       updatedDataSource = tableRows.length ? tableRows : [];
     }
 
@@ -6529,7 +6538,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       content: {
         ...panel.content,
         fieldDetails: matchedFields,
-        // ✅ Always preserve matchedFieldDetails for future empty data scenarios
+        // âœ… Always preserve matchedFieldDetails for future empty data scenarios
         matchedFieldDetails: matchedFields,
         dataSource: updatedDataSource,
         hideHeaders: hideHeaders
@@ -6547,7 +6556,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     return [];
   }
 
-  // ✅ Helper to check if grid dataSource is empty
+  // âœ… Helper to check if grid dataSource is empty
   private isGridDataSourceEmpty(dataSource: any): boolean {
     if (!dataSource) return true;
     if (Array.isArray(dataSource)) {
@@ -6764,7 +6773,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     if (this.filterandDrilldownObjArray.filter_obj.length > 0) {
       if (lastFilterObj?.id !== panelId || !isStored) {
         // existingStorageObj[panelId] = selectedFilters;
-        // ðŸš€ Limit to 1000 records before saving
+        // Ã°Å¸Å¡â‚¬ Limit to 1000 records before saving
         existingStorageObj[panelId] = selectedFilters.slice(0, 1000);
         sessionStorage.setItem('dataSourceStorageObj', JSON.stringify(existingStorageObj));
       } else {
@@ -6970,10 +6979,10 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
         let data = res['data'];
         console.log('item per page data in sorting ', res);
         if (!res.success) {
-          console.error('âŒ Error in sorting API response:', res.message);
-          console.log('ðŸ” Returning item as it is:', item.content.dataSource);
+          console.error('Ã¢ÂÅ’ Error in sorting API response:', res.message);
+          console.log('Ã°Å¸â€Â Returning item as it is:', item.content.dataSource);
           let dataSource = item.content.dataSource.result ? item.content.dataSource.result : item.content.dataSource;
-          console.log('ðŸ” Returning item content dataSource:', gridInstance.dataSource, dataSource);
+          console.log('Ã°Å¸â€Â Returning item content dataSource:', gridInstance.dataSource, dataSource);
           // gridInstance.dataSource = dataSource;
           item.content.dataSource.result = dataSource; // Ensure the dataSource is updated
           gridInstance.hideSpinner()
@@ -7156,7 +7165,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   dataBound(item: any, grid: any) {
     const columns = grid.getColumns();
 
-    // 🎯 Hide grid spinner/loader when data is bound
+    // ðŸŽ¯ Hide grid spinner/loader when data is bound
     if (typeof grid.hideSpinner === 'function') {
       grid.hideSpinner();
     }
@@ -7317,7 +7326,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       const matched = item.content.comments_dataSource?.find((ele: any) =>
         ele.panel_id == item.id &&
         rowData[ele.unique_column_field]?.toString() == ele.unique_column_id?.toString() &&
-        ele.field_name == args.column?.field   // ðŸ‘ˆ extra check for column
+        ele.field_name == args.column?.field   // Ã°Å¸â€˜Ë† extra check for column
       );
 
       if (matched) {
@@ -7329,7 +7338,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
           args.cell as HTMLElement
         );
 
-      }   // ðŸ”¹ New logic: show raw cell value if enableTooltip is true
+      }   // Ã°Å¸â€Â¹ New logic: show raw cell value if enableTooltip is true
       else if (item.content.enableTooltip === true) {
         const cellValue = rowData[args.column.field];
         if (cellValue !== null && cellValue !== undefined && cellValue !== "") {
@@ -7400,10 +7409,10 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
               // console.log(`Calculated values for ${condition.measure} - Sum: ${sum}, Average: ${avg}`);
 
-              // âœ… Assign the computed value back to condition.value1 dynamically
+              // Ã¢Å“â€¦ Assign the computed value back to condition.value1 dynamically
               // condition.value1 = calculatedValue.toLowerCase() === 'sum' ? sum : avg;
 
-              // âœ… Only override if Sum or Average; else keep user's entered value
+              // Ã¢Å“â€¦ Only override if Sum or Average; else keep user's entered value
               if (calculatedValue.toLowerCase() === 'sum') {
                 condition.value1 = sum;
               } else if (calculatedValue.toLowerCase() === 'average') {
@@ -7481,7 +7490,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       return !(value === null || value === undefined);
     }
 
-    // At this point, if value is null but condition is not about null â†’ false
+    // At this point, if value is null but condition is not about null Ã¢â€ â€™ false
     if (value === null || value === undefined) {
       return false;
     }
@@ -9212,13 +9221,13 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     const matchedItemObj = this.panelSeriesArray.find((ele: any) => ele.id === item.id);
     if (!matchedItemObj) return;
 
-    // âœ… Format date - handles Date objects, strings, and invalid dates
+    // Ã¢Å“â€¦ Format date - handles Date objects, strings, and invalid dates
     const formattedDate = this.datePipe.transform(
       selectValue || new Date(),
       'yyyy-MM-dd'
     );
 
-    // âœ… Safety check: if formatting fails, skip API call
+    // Ã¢Å“â€¦ Safety check: if formatting fails, skip API call
     if (!formattedDate) {
       console.error('Invalid date selected');
       return;
@@ -10516,7 +10525,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       panelData = panelData ? JSON.parse(panelData) : null;
       const filterObj = panelData?.filter_obj || [];
 
-      // ðŸ”¹ Track duplicate headers
+      // Ã°Å¸â€Â¹ Track duplicate headers
       const sheetNameCount: Record<string, number> = {};
 
       const promises = dataPanels.map(async (panel) => {
@@ -10578,13 +10587,13 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
         const ws = XLSX.utils.json_to_sheet(result.data);
 
-        // ðŸ”¹ Count occurrences
+        // Ã°Å¸â€Â¹ Count occurrences
         sheetNameCount[result.baseSheetName] =
           (sheetNameCount[result.baseSheetName] || 0) + 1;
 
         let finalSheetName = result.baseSheetName;
 
-        // ðŸ”¹ Add suffix ONLY if duplicate exists
+        // Ã°Å¸â€Â¹ Add suffix ONLY if duplicate exists
         if (sheetNameCount[result.baseSheetName] > 1) {
           const suffix = `_${sheetNameCount[result.baseSheetName] - 1}`;
           finalSheetName =
@@ -10706,7 +10715,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
           fieldNames.forEach((fieldName: string) => {
             if (belongsToField?.toLowerCase() === fieldName.toLowerCase()) {
 
-              // âœ… Apply styles with !important to prevent overriding
+              // Ã¢Å“â€¦ Apply styles with !important to prevent overriding
               if (format.backgroundColor) {
                 headerElement.style.setProperty('background-color', format.backgroundColor, 'important');
               }
@@ -10731,7 +10740,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
                 headerElement.style.setProperty('font-style', format.fontStyle, 'important');
               }
 
-              // âœ… Also apply to nested .e-cellvalue
+              // Ã¢Å“â€¦ Also apply to nested .e-cellvalue
               if (cellValue) {
                 const cellValueEl = cellValue as HTMLElement;
 
@@ -11107,7 +11116,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       this.excelService.exportAsExcelFileForChart(exportData, item.header);
     }
     else if (selectedValue === 'SVG') {
-      // Custom SVG export — centered
+      // Custom SVG export â€” centered
       const gaugeEl = document.querySelector(`#${item.id}`) as HTMLElement;
       if (gaugeEl) {
         const svgEl = gaugeEl.querySelector('svg');
@@ -11134,7 +11143,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
         }
       }
     } else {
-      // PNG, PDF etc — use Syncfusion export as before
+      // PNG, PDF etc â€” use Syncfusion export as before
       let gaugeFound = false;
       this.gaugeRefSData.forEach((gaugeInstance: any) => {
         if (gaugeInstance.element.id === item.id) {

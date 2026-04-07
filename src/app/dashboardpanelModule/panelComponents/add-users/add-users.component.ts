@@ -1,14 +1,14 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, HostListener, OnInit, ViewChild, inject} from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DialogComponent, AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
+import { DialogComponent, AnimationSettingsModel, DialogModule } from '@syncfusion/ej2-angular-popups';
 
 import { ChartService } from 'src/app/core/services/chart.service';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';
 import { UserBasedPermissionComponent } from '../user-based-permission/user-based-permission.component';
 import { passwordValidator } from 'src/app/core/services/custom-validators';
-import { GridComponent } from '@syncfusion/ej2-angular-grids';
-import { AnimationModel } from '@syncfusion/ej2-angular-charts';
+import { GridComponent, GridModule } from '@syncfusion/ej2-angular-grids';
+import { AnimationModel, ChartModule } from '@syncfusion/ej2-angular-charts';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { passwordMatchValidator } from 'src/app/core/services/passwordMatch-validator';
 import * as XLSX from 'xlsx';
@@ -17,13 +17,17 @@ import { PopupService } from 'src/app/core/services/popup.service';
 import { MultipleDashboardUserPermissionComponent } from '../multiple-dashboard-user-permission/multiple-dashboard-user-permission.component';
 import { UserService } from 'src/app/core/AuthServices/user.service';
 import { CustomPasswordValidator } from 'src/app/core/services/password_validator';
+import { NgIf, NgStyle, NgClass, NgFor } from '@angular/common';
+import { ButtonModule, SwitchModule } from '@syncfusion/ej2-angular-buttons';
+import { KanbanModule } from '@syncfusion/ej2-angular-kanban';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 
 
 @Component({
-  selector: 'app-add-users',
-  templateUrl: './add-users.component.html',
-  styleUrls: ['./add-users.component.scss'],
-  standalone: false
+    selector: 'app-add-users',
+    templateUrl: './add-users.component.html',
+    styleUrls: ['./add-users.component.scss'],
+    imports: [FormsModule, NgIf, ButtonModule, GridModule, ChartModule, KanbanModule, NgStyle, DialogModule, ReactiveFormsModule, DropDownListModule, NgClass, NgFor, SwitchModule, UserBasedPermissionComponent, MultipleDashboardUserPermissionComponent]
 })
 
 export class AddUsersComponent implements OnInit {
@@ -139,7 +143,14 @@ export class AddUsersComponent implements OnInit {
   role_id: any;
   userInfoData : any ;
 
-  constructor(private formBuilder: FormBuilder, private chartService: ChartService, private route: ActivatedRoute, private router: Router, private menuBasedAccessService: MenuBasedAccessService, private loaderService: LoaderService, private popupService: PopupService, private userService: UserService) { }
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly menuBasedAccessService = inject(MenuBasedAccessService);
+  private readonly loaderService = inject(LoaderService);
+  private readonly popupService = inject(PopupService);
+  private readonly userService = inject(UserService);
 
   userBasedAcessObj: any;
   userDashboardPermissionObj: any
@@ -1022,12 +1033,12 @@ export class AddUsersComponent implements OnInit {
     const value = event.target.value?.trim();
 
     if (document.activeElement !== event.target) {
-      console.log("Input not focused — skipping validation");
+      console.log("Input not focused â€” skipping validation");
       return;
     }
 
     if (this.updateFlag && value === this.originalUserName) {
-      console.log("Username not changed — skipping validation");
+      console.log("Username not changed â€” skipping validation");
       return;
     }
 

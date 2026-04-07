@@ -8,8 +8,8 @@ describe('InputBoxPropertiesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ InputBoxPropertiesComponent ]
-    })
+    imports: [InputBoxPropertiesComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(InputBoxPropertiesComponent);

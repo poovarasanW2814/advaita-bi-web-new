@@ -1,10 +1,5 @@
-@import "../../../core/sass/popup.scss";
+@use "../../../core/sass/popup.scss";
 // @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@700&display=swap');
-
-.validation-error {
-  color: red;
-  font-size: 11px;
-}
 
 .container {
   margin: 20px auto;
@@ -25,11 +20,6 @@
   font-weight: 400 !important;
 }
 
-.inputValue {
-  height: 57px;
-  margin-bottom: 10px;
-}
-
 .centered-message {
   position: fixed;
   top: 50%;
@@ -41,22 +31,6 @@
   animation: placeholderAnimation 200ms ease-in;
 }
 
-.registrationform {
-  width: 100%;
-  // padding: 10px;
-
-}
-
-.form-control {
-  height: 28px !important;
-  font-size: 11px;
-
-}
-
-label.labelName {
-  font-weight: 300;
-  font-size: 12px;
-}
 
 .accessDiv {
   height: 100%;
@@ -73,11 +47,7 @@ label.labelName {
 //    color: #264a9f;
 // }
 
-.formInfo {
-  padding: 15px;
-}
 
-// #defaultDialog {
 //   height: 400px;
 // }
 // #roleDialogBox{

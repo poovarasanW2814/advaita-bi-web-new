@@ -8,8 +8,8 @@ describe('ListboxPropertiesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ListboxPropertiesComponent ]
-    })
+    imports: [ListboxPropertiesComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(ListboxPropertiesComponent);

@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, inject} from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { passwordValidator } from 'src/app/core/services/custom-validators';
 import { CustomPasswordValidator } from 'src/app/core/services/password_validator';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-update-user',
-  templateUrl: './update-user.component.html',
-  styleUrls: ['./update-user.component.scss'],
-  standalone: false
+    selector: 'app-update-user',
+    templateUrl: './update-user.component.html',
+    styleUrls: ['./update-user.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule, TitleCasePipe]
 })
 export class UpdateUserComponent implements OnInit {
 
@@ -17,7 +18,10 @@ export class UpdateUserComponent implements OnInit {
   registrationForm!: FormGroup;
   rolesObjArr :any = []
   editColumnObjIndex: any;
-  constructor(private route : ActivatedRoute, private router : Router, private chartService : ChartService, private formBuilder: FormBuilder, ) { }
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly chartService = inject(ChartService);
+  private readonly formBuilder = inject(FormBuilder);
 
   ngOnInit(): void {
     

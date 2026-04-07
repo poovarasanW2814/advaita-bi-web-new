@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DashbordPageViewwComponent } from './panelComponents/dashbord-page-vieww/dashbord-page-vieww.component';
 import { DashboardPanelRoutingModule } from './dashboard-panel-routing.module';
 
-import { SharedComponentModule } from '../shared-component/shared-component.module';
+
 import { PivotPropertiesComponent } from './Panel Properties/pivot-properties/pivot-properties.component';
 import { DropdownPropertiesComponent } from './Panel Properties/dropdown-properties/dropdown-properties.component';
 import { ListboxPropertiesComponent } from './Panel Properties/listbox-properties/listbox-properties.component';
@@ -46,7 +46,7 @@ import { DashboardPageComponent } from './panelComponents/dashboard-page/dashboa
 import { RoleBasedMultiselectDashboardPermissionComponent } from './role-based-multiselect-dashboard-permission/role-based-multiselect-dashboard-permission.component';
 import { MultipleDashboardRolePermissionComponent } from './panelComponents/multiple-dashboard-role-permission/multiple-dashboard-role-permission.component';
 import { MultipleDashboardUserPermissionComponent } from './panelComponents/multiple-dashboard-user-permission/multiple-dashboard-user-permission.component';
-import { UserSettingsModule } from '../UserSettingsPages/user-settings/user-settings.module';
+
 import { GroupingDashboardComponent } from './panelComponents/grouping-dashboard/grouping-dashboard.component';
 import { ViewGroupedDashboardComponent } from './panelComponents/view-grouped-dashboard/view-grouped-dashboard.component';
 import { PropertySceduleComponent } from './Panel Properties/property-scedule/property-scedule.component';
@@ -61,7 +61,14 @@ import { guageChartPropertiesComponent } from './Panel Properties/guage-chart-pr
 
 
 @NgModule({
-  declarations: [
+    imports: [
+    CommonModule,
+    DashboardPanelRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AutoCompleteModule,
+    KanbanModule,
+    CircularGaugeModule,
     DashbordPageViewwComponent,
     PivotPropertiesComponent,
     DropdownPropertiesComponent,
@@ -108,22 +115,11 @@ import { guageChartPropertiesComponent } from './Panel Properties/guage-chart-pr
     ExpandableFiltersComponent,
     ExpandableFiltersDisplayComponent,
     KanbanComponent,
-    guageChartPropertiesComponent
-
-  ],
-  imports: [
-    CommonModule,
-    SharedComponentModule,
-    DashboardPanelRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AutoCompleteModule,
-    KanbanModule,
-    CircularGaugeModule,
-  ],
-  exports: [
-    LoaderComponent,
-    PopupComponent
-  ],
+    guageChartPropertiesComponent,
+],
+    exports: [
+        LoaderComponent,
+        PopupComponent
+    ],
 })
 export class DashboardPanelModule { }

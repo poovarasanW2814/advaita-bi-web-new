@@ -1,13 +1,13 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject} from '@angular/core';
+import { FormBuilder, FormsModule } from '@angular/forms';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';
 
 @Component({
-  selector: 'app-multiple-dashboard-user-permission',
-  templateUrl: './multiple-dashboard-user-permission.component.html',
-  styleUrls: ['./multiple-dashboard-user-permission.component.scss'],
-  standalone: false
+    selector: 'app-multiple-dashboard-user-permission',
+    templateUrl: './multiple-dashboard-user-permission.component.html',
+    styleUrls: ['./multiple-dashboard-user-permission.component.scss'],
+    imports: [FormsModule]
 })
 export class MultipleDashboardUserPermissionComponent implements OnInit, OnChanges {
 
@@ -20,7 +20,9 @@ export class MultipleDashboardUserPermissionComponent implements OnInit, OnChang
     updateRoleId : any;
     role_id : any;
     user_id : any;
-  constructor(private fb: FormBuilder, private chartService : ChartService, private menuBasedAccessService: MenuBasedAccessService) { }
+  private readonly fb = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  private readonly menuBasedAccessService = inject(MenuBasedAccessService);
   ngOnChanges(changes: SimpleChanges): void {
     // throw new Error('Method not implemented.');
     let currentValue = changes['getUserObj'].currentValue;

@@ -1,5 +1,5 @@
-import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, HostListener, ElementRef, inject} from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/core/AuthServices/user.service';
 import { ChartService } from 'src/app/core/services/chart.service';
@@ -8,10 +8,10 @@ import { CustomPasswordValidator } from 'src/app/core/services/password_validato
 import { PopupService } from 'src/app/core/services/popup.service';
 
 @Component({
-  selector: 'app-user-security',
-  templateUrl: './user-security.component.html',
-  styleUrls: ['./user-security.component.scss'],
-  standalone: false
+    selector: 'app-user-security',
+    templateUrl: './user-security.component.html',
+    styleUrls: ['./user-security.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule]
 })
 export class UserSecurityComponent implements OnInit {
 
@@ -27,14 +27,13 @@ export class UserSecurityComponent implements OnInit {
     special: 'At least one special character required'
   };
 
-  constructor(
-    private fb: FormBuilder,  
-    private userService: UserService, 
-    private chartService: ChartService,
-    private elementRef: ElementRef,
-    private router : Router,
-     private loaderService: LoaderService, private popupService : PopupService
-  ) {}
+  private readonly fb = inject(FormBuilder);
+  private readonly userService = inject(UserService);
+  private readonly chartService = inject(ChartService);
+  private readonly elementRef = inject(ElementRef);
+  private readonly router = inject(Router);
+  private readonly loaderService = inject(LoaderService);
+  private readonly popupService = inject(PopupService);
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {

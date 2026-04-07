@@ -1,16 +1,18 @@
-import { TabComponent } from '@syncfusion/ej2-angular-navigations';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { TabComponent, TabModule } from '@syncfusion/ej2-angular-navigations';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AnimationSettingsModel, Dialog, DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
 import { Freeze, Grid, GridComponent, RowDD } from '@syncfusion/ej2-angular-grids';
+import { DropDownListModule, MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-kanban',
-  templateUrl: './kanban.component.html',
-  styleUrls: ['./kanban.component.scss'],
-  standalone: false
+    selector: 'app-kanban',
+    templateUrl: './kanban.component.html',
+    styleUrls: ['./kanban.component.scss'],
+    imports: [TabModule, FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, MultiSelectModule, NgFor]
 })
 export class KanbanComponent implements OnInit, OnChanges {
   @ViewChild('tabComponent') tab!: TabComponent;
@@ -105,28 +107,30 @@ export class KanbanComponent implements OnInit, OnChanges {
   // ];
 
   fieldDetailsObject: any;
-  constructor(private fb: FormBuilder, private chartService: ChartService,) {
+  private readonly fb = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  constructor() {
     this.columnTemplateForm = this.fb.group({
-      header: [''],
-      tableName: ['', [Validators.required]],
-      conditions: [""],
-      rawQuery: [""],
-      orderBy: [""],
-      orderByType: [""],
-      groupBy: [""],
-      enableTooltip: [true],
-      fieldDetails: this.fb.group({
-        tableName: [""],
-        titleField: [''],
-        headerField: [''],
-        contentField: [''],
-        typeField: [''],
-        keyField: [''],
-        priorityField: [''],
-        assigneeField: [''],
-        startDateField: [''],
-        endDateField: [''],
-      }),
+          header: [''],
+          tableName: ['', [Validators.required]],
+          conditions: [""],
+          rawQuery: [""],
+          orderBy: [""],
+          orderByType: [""],
+          groupBy: [""],
+          enableTooltip: [true],
+          fieldDetails: this.fb.group({
+            tableName: [""],
+            titleField: [''],
+            headerField: [''],
+            contentField: [''],
+            typeField: [''],
+            keyField: [''],
+            priorityField: [''],
+            assigneeField: [''],
+            startDateField: [''],
+            endDateField: [''],
+  }),
 
       dataSource: [],
 

@@ -8,8 +8,8 @@ describe('PropertySceduleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PropertySceduleComponent ]
-    })
+    imports: [PropertySceduleComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(PropertySceduleComponent);

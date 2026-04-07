@@ -1,20 +1,21 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild, inject} from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ButtonComponent } from '@syncfusion/ej2-angular-buttons';
+import { ButtonComponent, SwitchModule } from '@syncfusion/ej2-angular-buttons';
 import { AnimationModel } from '@syncfusion/ej2-angular-charts';
-import { GridComponent } from '@syncfusion/ej2-angular-grids';
-import { DialogComponent, AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
+import { GridComponent, GridModule } from '@syncfusion/ej2-angular-grids';
+import { DialogComponent, AnimationSettingsModel, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';
 import { PopupService } from 'src/app/core/services/popup.service';
-import * as XLSX from 'xlsx'; 
+import * as XLSX from 'xlsx';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns'; 
 @Component({
-  selector: 'app-file-upload-page',
-  templateUrl: './file-upload-page.component.html',
-  styleUrls: ['./file-upload-page.component.scss'],
-  standalone: false
+    selector: 'app-file-upload-page',
+    templateUrl: './file-upload-page.component.html',
+    styleUrls: ['./file-upload-page.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule, DropDownListModule, SwitchModule, DialogModule, GridModule]
 })
 
 export class FileUploadPageComponent implements OnInit {
@@ -29,7 +30,13 @@ export class FileUploadPageComponent implements OnInit {
   internalTableNameArray : any = []
   resMessage : string = '';
   popupType: 'success' | 'error' = 'success';
-  constructor(private formBuilder: FormBuilder, private chartService : ChartService, private route: ActivatedRoute, private router: Router, private menuBasedAccessService: MenuBasedAccessService, private loaderService : LoaderService, private popupService : PopupService) {}
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly menuBasedAccessService = inject(MenuBasedAccessService);
+  private readonly loaderService = inject(LoaderService);
+  private readonly popupService = inject(PopupService);
 
 
 

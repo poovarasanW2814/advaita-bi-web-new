@@ -8,8 +8,8 @@ describe('DropdownPropertiesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DropdownPropertiesComponent ]
-    })
+    imports: [DropdownPropertiesComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(DropdownPropertiesComponent);

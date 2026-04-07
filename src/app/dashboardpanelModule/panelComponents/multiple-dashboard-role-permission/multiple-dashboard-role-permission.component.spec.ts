@@ -8,8 +8,8 @@ describe('MultipleDashboardRolePermissionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MultipleDashboardRolePermissionComponent ]
-    })
+    imports: [MultipleDashboardRolePermissionComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(MultipleDashboardRolePermissionComponent);

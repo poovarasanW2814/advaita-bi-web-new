@@ -1,9 +1,6 @@
 // // .row.tableFeildNames {
 // //     margin-top: 25px;
 // // }
-.border{
-    padding-left: 0;
-}
 .e-tab .e-content {
     background: inherit;
     padding: 15px 5px;
@@ -30,14 +27,6 @@ input.form-control.inputFeild {
     font-size: 11px;
     padding: 3px 5px;
 }
-.tablesArrayDiv{
-    max-height: 100%;
-    height: 150px;
-    padding: 15px 5px; 
-    border: 1px solid #ccc;
-    margin: 10px 5px;
-    overflow: auto;
-}
 input.form-control.colorInputField {
     height: 27px;
 }
@@ -49,34 +38,6 @@ select.form-control.selectFeild {
 .btnRight{
     text-align: right;
 }
-.e-multiselect.e-input-group.e-control-wrapper.e-checkbox {
-    height: 25px !important;
-    border: 1px solid #ccc !important;
-    border-radius: 4px; 
-    font-size: 11px;
-}
-
-.e-multi-select-wrapper .e-chips-close.e-close-hooker {
-    cursor: default;
-    font-size: 8px;
-    height: 2px;
-    margin-top: -3.5em;
-    position: absolute;
-    right: 5px;
-    width: 24px;
-    top: 100%;
-}
-.e-multi-select-wrapper .e-delim-values {
-    font-family: inherit;
-    font-size: 11px;
-    line-height: 28px;
-    max-width: 100%;
-    padding-left: 6px;
-    padding-right: 6px;
-    vertical-align: middle;
-}
-
-
 #rawQueryDimension_dialog-header{
     background-color: #9977f9
 }
@@ -97,18 +58,6 @@ select.form-control.selectFeild {
     }
 }
 
-.tableNameDropdown input.e-input, .e-input-group input.e-input, .e-input-group.e-control-wrapper input.e-input, textarea.e-input, .e-input-group textarea.e-input, .e-input-group.e-control-wrapper textarea.e-input {
-    border: 0 solid;
-    // border-width: 0 0 1px 0;
-    height: auto;
-    line-height: inherit;
-    margin: 0;
-    margin-bottom: 4px;
-    outline: none;
-    padding: 1px 0 4px;
-    text-indent: 0;
-    width: 100%;
-}
 .guage-table{
     border: 1px solid lightgray;
     border-radius: 5px;
@@ -127,34 +76,6 @@ select.form-control.selectFeild {
     padding: 0px 0px 6px 9px;
     line-height: 4.3;
     font-size: 9px;
-}
-
-.tableNameDropdown .e-input-group-icon.e-ddl-icon.e-search-icon{
-    font-size: 10px;
-}
-// li.list-group-items:hover{
-//     background-color: blue;
-//     color : #fff
-// }
-
-.error-message {
-    color: red;
-    font-size: 0.875em;
-    margin-top: 0.25em;
-}
-.rawQueryBtn{
-    margin-bottom:5px; font-size:11px ; margin-left:3px
-}
-
-.table-wrapper {
-    max-height: 400px; /* Adjust the height as needed */
-    overflow-y: auto;
-}
-
-.table-container {
-    overflow-x: auto; /* Horizontal scrollbar */
-    overflow-y: auto; /* Vertical scrollbar */
-    max-width: 100%; 
 }
 
 .table-container {

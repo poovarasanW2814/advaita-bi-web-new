@@ -9,67 +9,79 @@
             <label>New Password</label>
             <div class="info-icon" (click)="togglePasswordRequirements($event)">
               <i class="fas fa-question-circle"></i>
-              <div class="requirements-popup" *ngIf="showPasswordRequirements">
-                <h4>Password Requirements:</h4>
-                <ul>
-                  <li>{{passwordRequirements.minLength}}</li>
-                  <li>{{passwordRequirements.uppercase}}</li>
-                  <li>{{passwordRequirements.lowercase}}</li>
-                  <li>{{passwordRequirements.number}}</li>
-                  <li>{{passwordRequirements.special}}</li>
-                </ul>
-              </div>
+              @if (showPasswordRequirements) {
+                <div class="requirements-popup">
+                  <h4>Password Requirements:</h4>
+                  <ul>
+                    <li>{{passwordRequirements.minLength}}</li>
+                    <li>{{passwordRequirements.uppercase}}</li>
+                    <li>{{passwordRequirements.lowercase}}</li>
+                    <li>{{passwordRequirements.number}}</li>
+                    <li>{{passwordRequirements.special}}</li>
+                  </ul>
+                </div>
+              }
             </div>
           </div>
           <div class="input-container">
-            <input 
-              type="password" 
+            <input
+              type="password"
               formControlName="new_password"
               placeholder="Enter new password"
-              (focus)="onInputFocus($event)" 
+              (focus)="onInputFocus($event)"
               (blur)="onInputBlur($event)"
-            >
-          </div>
-          <div class="error-message" *ngIf="getPasswordErrors('new_password').length > 0">
-            <div *ngFor="let error of getPasswordErrors('new_password')">
-              {{ error }}
+              >
             </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="label-container">
-            <label>Confirm Password</label>
-            <div class="info-icon" (click)="togglePasswordRequirements($event)">
-              <i class="fas fa-question-circle"></i>
-            </div>
-          </div>
-          <div class="input-container">
-            <input 
-              type="password" 
-              formControlName="confirm_Password"
-              placeholder="Confirm your password"
-              (focus)="onInputFocus($event)" 
-              (blur)="onInputBlur($event)"
-            >
-          </div>
-          <div class="error-message" *ngIf="getPasswordErrors('confirm_Password').length > 0">
-            <div *ngFor="let error of getPasswordErrors('confirm_Password')">
-              {{ error }}
-            </div>
+            @if (getPasswordErrors('new_password').length > 0) {
+              <div class="error-message">
+                @for (error of getPasswordErrors('new_password'); track error) {
+                  <div>
+                    {{ error }}
+                  </div>
+                }
+              </div>
+            }
           </div>
 
-          <div class="error-message" *ngIf="shouldShowPasswordMismatch()">
-            Passwords do not match.
-          </div>
-        </div>
+          <div class="form-group">
+            <div class="label-container">
+              <label>Confirm Password</label>
+              <div class="info-icon" (click)="togglePasswordRequirements($event)">
+                <i class="fas fa-question-circle"></i>
+              </div>
+            </div>
+            <div class="input-container">
+              <input
+                type="password"
+                formControlName="confirm_Password"
+                placeholder="Confirm your password"
+                (focus)="onInputFocus($event)"
+                (blur)="onInputBlur($event)"
+                >
+              </div>
+              @if (getPasswordErrors('confirm_Password').length > 0) {
+                <div class="error-message">
+                  @for (error of getPasswordErrors('confirm_Password'); track error) {
+                    <div>
+                      {{ error }}
+                    </div>
+                  }
+                </div>
+              }
 
-        <div class="form-actions">
-          <button type="submit" class="e-btn e-btn-purple" >
-            Save Password
-          </button>
+              @if (shouldShowPasswordMismatch()) {
+                <div class="error-message">
+                  Passwords do not match.
+                </div>
+              }
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="e-btn e-btn-purple" >
+                Save Password
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
-  </div>
-</div>

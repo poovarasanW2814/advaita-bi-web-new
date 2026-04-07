@@ -1,16 +1,8 @@
 import { TestBed } from '@angular/core/testing';
+import { permissionResolver } from './permission.resolver';
 
-import { PermissionResolver } from './permission.resolver';
-
-describe('PermissionResolver', () => {
-  let resolver: PermissionResolver;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    resolver = TestBed.inject(PermissionResolver);
-  });
-
+describe('permissionResolver', () => {
   it('should be created', () => {
-    expect(resolver).toBeTruthy();
+    expect(permissionResolver).toBeTruthy();
   });
 });

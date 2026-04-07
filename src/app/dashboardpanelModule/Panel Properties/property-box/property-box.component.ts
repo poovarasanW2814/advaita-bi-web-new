@@ -1,15 +1,19 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
-import { TabComponent } from '@syncfusion/ej2-angular-navigations';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
+import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TabComponent, TabModule } from '@syncfusion/ej2-angular-navigations';
 import { DataManager } from '@syncfusion/ej2-data';
 import { Draggable } from '@syncfusion/ej2/base';
 import { ChartService } from 'src/app/core/services/chart.service';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { NgIf, NgFor } from '@angular/common';
+import { ColorPickerModule } from '@syncfusion/ej2-angular-inputs';
+import { SwitchModule } from '@syncfusion/ej2-angular-buttons';
 
 @Component({
-  selector: 'app-property-box',
-  templateUrl: './property-box.component.html',
-  styleUrls: ['./property-box.component.scss'],
-  standalone: false
+    selector: 'app-property-box',
+    templateUrl: './property-box.component.html',
+    styleUrls: ['./property-box.component.scss'],
+    imports: [TabModule, FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, ColorPickerModule, SwitchModule, NgFor]
 })
 
 export class PropertyBoxComponent implements OnInit, OnChanges {
@@ -36,8 +40,9 @@ export class PropertyBoxComponent implements OnInit, OnChanges {
   isUpdateOperation : boolean = false;
   fieldDetailsForm! : FormGroup;
 
-  constructor(private fb : FormBuilder, private chartService : ChartService) { 
-
+  private readonly fb = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  constructor() {
     this.onFormInit()
   }
 

@@ -1,16 +1,8 @@
 import { TestBed } from '@angular/core/testing';
+import { sessionExpirationInterceptor } from './session-expiration.interceptor';
 
-import { SessionExpirationInterceptor } from './session-expiration.interceptor';
-
-describe('SessionExpirationInterceptor', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    providers: [
-      SessionExpirationInterceptor
-      ]
-  }));
-
+describe('sessionExpirationInterceptor', () => {
   it('should be created', () => {
-    const interceptor: SessionExpirationInterceptor = TestBed.inject(SessionExpirationInterceptor);
-    expect(interceptor).toBeTruthy();
+    expect(sessionExpirationInterceptor).toBeTruthy();
   });
 });

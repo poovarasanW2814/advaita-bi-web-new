@@ -1,12 +1,12 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { AnimationModel } from '@syncfusion/ej2-angular-progressbar';
+import { Component, HostListener, OnInit, inject} from '@angular/core';
+import { AnimationModel, ProgressBarModule } from '@syncfusion/ej2-angular-progressbar';
 import { LoaderService } from 'src/app/core/services/loader.service';
 
 @Component({
-  selector: 'app-loader',
-  templateUrl: './loader.component.html',
-  styleUrls: ['./loader.component.scss'],
-  standalone: false
+    selector: 'app-loader',
+    templateUrl: './loader.component.html',
+    styleUrls: ['./loader.component.scss'],
+    imports: [ProgressBarModule]
 })
 export class LoaderComponent implements OnInit {
 
@@ -19,7 +19,7 @@ export class LoaderComponent implements OnInit {
     '#00CED1', '#9370DB'
   ];
 
-  constructor(private loaderService: LoaderService) {}
+  private readonly loaderService = inject(LoaderService);
 
 
   ngOnInit(): void {

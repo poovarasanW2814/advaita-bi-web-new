@@ -1,15 +1,16 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject} from '@angular/core';
+import { FormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/core/AuthServices/user.service';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 
 @Component({
-  selector: 'app-role-dashboard-access',
-  templateUrl: './role-dashboard-access.component.html',
-  styleUrls: ['./role-dashboard-access.component.scss'],
-  standalone: false
+    selector: 'app-role-dashboard-access',
+    templateUrl: './role-dashboard-access.component.html',
+    styleUrls: ['./role-dashboard-access.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule, DropDownListModule]
 })
 
 
@@ -34,7 +35,11 @@ export class RoleDashboardAccessComponent implements OnInit, OnChanges {
   dashboardObj : any;
   editRolePermissionIndex : any;
 
-  constructor(private fb: FormBuilder, private chartService : ChartService,  private route : ActivatedRoute, private menuBasedAccessService : MenuBasedAccessService,  private userService: UserService) {};
+  private readonly fb = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly menuBasedAccessService = inject(MenuBasedAccessService);
+  private readonly userService = inject(UserService);;
 
 
   ngOnChanges(changes: SimpleChanges): void {

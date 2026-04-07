@@ -8,8 +8,8 @@ describe('DashbordPageViewwComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DashbordPageViewwComponent ]
-    })
+    imports: [DashbordPageViewwComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(DashbordPageViewwComponent);

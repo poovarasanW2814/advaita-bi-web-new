@@ -1,13 +1,13 @@
-import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, Query, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, Query, QueryList, ViewChild, ViewChildren, inject} from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
-import { ChartComponent, AccumulationChartComponent, ToolbarItems, AnimationModel, ILoadedEventArgs, IAccTextRenderEventArgs, IAccTooltipRenderEventArgs, ExportType } from '@syncfusion/ej2-angular-charts';
-import { DropDownListComponent, SelectionSettingsModel, ToolbarSettingsModel } from '@syncfusion/ej2-angular-dropdowns';
-import { GridComponent, GroupSettingsModel, FilterSettingsModel, DataStateChangeEventArgs, PageEventArgs, QueryCellInfoEventArgs } from '@syncfusion/ej2-angular-grids';
-import { DashboardLayoutComponent, PanelModel } from '@syncfusion/ej2-angular-layouts';
+import { ChartComponent, AccumulationChartComponent, ToolbarItems, AnimationModel, ILoadedEventArgs, IAccTextRenderEventArgs, IAccTooltipRenderEventArgs, ExportType, ChartModule, AccumulationChartModule } from '@syncfusion/ej2-angular-charts';
+import { DropDownListComponent, SelectionSettingsModel, ToolbarSettingsModel, DropDownListModule, ListBoxModule, MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns';
+import { GridComponent, GroupSettingsModel, FilterSettingsModel, DataStateChangeEventArgs, PageEventArgs, QueryCellInfoEventArgs, GridModule } from '@syncfusion/ej2-angular-grids';
+import { DashboardLayoutComponent, PanelModel, DashboardLayoutModule } from '@syncfusion/ej2-angular-layouts';
 import { ClickEventArgs } from '@syncfusion/ej2-angular-navigations';
-import { DisplayOption, EnginePopulatedEventArgs, PivotViewComponent } from '@syncfusion/ej2-angular-pivotview';
-import { DialogComponent, AnimationSettingsModel, ButtonPropsModel, Tooltip } from '@syncfusion/ej2-angular-popups';
+import { DisplayOption, EnginePopulatedEventArgs, PivotViewComponent, PivotViewModule } from '@syncfusion/ej2-angular-pivotview';
+import { DialogComponent, AnimationSettingsModel, ButtonPropsModel, Tooltip, DialogModule } from '@syncfusion/ej2-angular-popups';
 
 
 import { ChartService } from 'src/app/core/services/chart.service';
@@ -33,21 +33,27 @@ import { RawdatadumpComponent } from '../../Panel Properties/rawdatadump/rawdata
 import { PopupService } from 'src/app/core/services/popup.service';
 import { InputBoxPropertiesComponent } from '../../Panel Properties/input-box-properties/input-box-properties.component';
 import { CardTemplateComponent } from '../../Panel Properties/card-template/card-template.component';
-import { AIAssistViewComponent, PromptModel, PromptRequestEventArgs, ResponseToolbarSettingsModel } from '@syncfusion/ej2-angular-interactive-chat';
+import { AIAssistViewComponent, PromptModel, PromptRequestEventArgs, ResponseToolbarSettingsModel, AIAssistViewModule } from '@syncfusion/ej2-angular-interactive-chat';
 import { PropertySceduleComponent } from '../../Panel Properties/property-scedule/property-scedule.component';
 import { ExpandableFiltersComponent } from '../../Panel Properties/expandable-filters/expandable-filters.component';
 import { KanbanComponent } from '../../Panel Properties/kanban/kanban.component';
 import { guageChartPropertiesComponent } from '../../Panel Properties/guage-chart-properties/guage-chart-properties.component';
-import { CircularGaugeComponent, GaugeTheme } from '@syncfusion/ej2-angular-circulargauge';
+import { CircularGaugeComponent, GaugeTheme, CircularGaugeModule } from '@syncfusion/ej2-angular-circulargauge';
 import { LegendService, GaugeTooltipService } from '@syncfusion/ej2-angular-circulargauge';
+import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { NgFor, NgIf, NgClass, NgStyle } from '@angular/common';
+import { KanbanModule } from '@syncfusion/ej2-angular-kanban';
+import { ScheduleModule } from '@syncfusion/ej2-angular-schedule';
+import { DateRangePickerModule, DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { RoleMappingComponent } from '../../Panel Properties/role-mapping/role-mapping.component';
 
 
 @Component({
-  selector: 'app-create-dashboard',
-  templateUrl: './create-dashboard.component.html',
-  providers: [LegendService, GaugeTooltipService],
-  styleUrls: ['./create-dashboard.component.scss'],
-  standalone: false
+    selector: 'app-create-dashboard',
+    templateUrl: './create-dashboard.component.html',
+    providers: [LegendService, GaugeTooltipService],
+    styleUrls: ['./create-dashboard.component.scss'],
+    imports: [ButtonModule, DashboardLayoutModule, NgFor, NgIf, GridModule, NgClass, ChartModule, KanbanModule, PivotViewModule, AccumulationChartModule, NgStyle, ScheduleModule, AIAssistViewModule, DateRangePickerModule, DatePickerModule, DropDownListModule, ListBoxModule, MultiSelectModule, CircularGaugeModule, DialogModule, FormsModule, ReactiveFormsModule, RoleMappingComponent, InitialFiltersComponent, PropertyChartComponent, PropertyTableComponent, PivotPropertiesComponent, PropertyBoxComponent, ListboxPropertiesComponent, DropdownPropertiesComponent, DatepickerComponent, DaterangepickerComponent, PropertySceduleComponent, PropertyMultiselectdropdownComponent, RawdatadumpComponent, InputBoxPropertiesComponent, CardTemplateComponent, ExpandableFiltersComponent, KanbanComponent, guageChartPropertiesComponent]
 })
 
 export class CreateDashboardComponent implements OnInit {
@@ -242,9 +248,16 @@ export class CreateDashboardComponent implements OnInit {
   public observable = new Observable();
 
 
-  constructor(private panelService: PanelServiceService, private changeDetectorRef: ChangeDetectorRef, private formBuilder: FormBuilder, private chartService: ChartService, private router: Router, private menuBasedAccessService: MenuBasedAccessService, private dashboardBasedAccessService: DashboardBasedAccessService, private loaderService: LoaderService, private popupService: PopupService) {
-
-
+  private readonly panelService = inject(PanelServiceService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  private readonly router = inject(Router);
+  private readonly menuBasedAccessService = inject(MenuBasedAccessService);
+  private readonly dashboardBasedAccessService = inject(DashboardBasedAccessService);
+  private readonly loaderService = inject(LoaderService);
+  private readonly popupService = inject(PopupService);
+  constructor() {
     // this.router.events.subscribe(event => {
     //   if (event instanceof NavigationEnd) {
     //     // localStorage.removeItem('panelSeriesArray');
@@ -253,7 +266,6 @@ export class CreateDashboardComponent implements OnInit {
     //     // localStorage.removeItem('connectionIdObj');
     //   }
     // });
-
   }
 
   public connectionFields: Object = { text: 'connection_name', value: 'connection_id' };
@@ -1790,7 +1802,7 @@ export class CreateDashboardComponent implements OnInit {
     }
     matchTable.grid.headerCellInfo = this.queryCellHeaderINfo.bind(this);
 
-    // ── STRING VALUE FIELD OVERRIDE ──────────────────────────────────────────
+    // â”€â”€ STRING VALUE FIELD OVERRIDE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const fieldDetails = item?.content?.fieldDetails || [];
 
     const stringValueFields: string[] = fieldDetails
@@ -1825,7 +1837,7 @@ export class CreateDashboardComponent implements OnInit {
       args.skipFormatting = true;
       return;
     }
-    // ── END STRING VALUE FIELD OVERRIDE ──────────────────────────────────────
+    // â”€â”€ END STRING VALUE FIELD OVERRIDE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     const timeFields = item.content.fieldDetails.filter(
       (f: any) => f.formatType === 'string' && f.name
@@ -2480,10 +2492,10 @@ export class CreateDashboardComponent implements OnInit {
 
               console.log(`Calculated values for ${condition.measure} - Sum: ${sum}, Average: ${avg}`);
 
-              // ✅ Assign the computed value back to condition.value1 dynamically
+              // âœ… Assign the computed value back to condition.value1 dynamically
               // condition.value1 = calculatedValue.toLowerCase() === 'sum' ? sum : avg;
 
-              // ✅ Only override if Sum or Average; else keep user's entered value
+              // âœ… Only override if Sum or Average; else keep user's entered value
               if (calculatedValue.toLowerCase() === 'sum') {
                 condition.value1 = sum;
               } else if (calculatedValue.toLowerCase() === 'average') {
@@ -2563,7 +2575,7 @@ export class CreateDashboardComponent implements OnInit {
       return !(value === null || value === undefined);
     }
 
-    // At this point, if value is null but condition is not about null → false
+    // At this point, if value is null but condition is not about null â†’ false
     if (value === null || value === undefined) {
       return false;
     }
@@ -3806,7 +3818,7 @@ export class CreateDashboardComponent implements OnInit {
           return updatedRow;
         });
 
-        console.log('✔ Total Valid Seconds:', total);
+        console.log('âœ” Total Valid Seconds:', total);
         console.log('data', data);
 
         // Update the dataSource with transformed data
@@ -4402,7 +4414,7 @@ export class CreateDashboardComponent implements OnInit {
 
   onPopupOpen(args: any, item: any) {
     console.log('onPopupOpen args', args, item.content.enablePopup);
-    // 👉 Option: disable popup for event clicks
+    // ðŸ‘‰ Option: disable popup for event clicks
 
     if (item.content.enablePopup) {
       if (args.type === 'QuickInfo') {
@@ -4857,7 +4869,7 @@ export class CreateDashboardComponent implements OnInit {
         if (value === null || value === undefined) return NaN;
         if (typeof value === 'number') return value;
         if (typeof value === 'string') {
-          const cleaned = value.replace(/[%,\s$€£¥]/g, '').trim();
+          const cleaned = value.replace(/[%,\s$â‚¬Â£Â¥]/g, '').trim();
           return parseFloat(cleaned);
         }
         return NaN;
@@ -5347,7 +5359,7 @@ export class CreateDashboardComponent implements OnInit {
         '.e-rowsheader, .e-columnsheader, .e-columnheader, .e-stackedheadercelldiv'
       );
 
-      console.log('📌 Total header cells found:', allHeaders.length);
+      console.log('ðŸ“Œ Total header cells found:', allHeaders.length);
 
       allHeaders.forEach((headerCell: Element) => {
         const headerElement = headerCell as HTMLElement;
@@ -5372,7 +5384,7 @@ export class CreateDashboardComponent implements OnInit {
 
         if (!headerText) return;
 
-        console.log('📌 Processing header:', headerText, 'Classes:', headerElement.className);
+        console.log('ðŸ“Œ Processing header:', headerText, 'Classes:', headerElement.className);
 
         // Determine field ownership
         let belongsToField: string | null = null;
@@ -5436,7 +5448,7 @@ export class CreateDashboardComponent implements OnInit {
           }
 
           if (matched) {
-            // ✅ Apply styles with !important to prevent overriding
+            // âœ… Apply styles with !important to prevent overriding
             if (format.backgroundColor) {
               headerElement.style.setProperty('background-color', format.backgroundColor, 'important');
             }
@@ -5462,7 +5474,7 @@ export class CreateDashboardComponent implements OnInit {
               headerElement.style.setProperty('font-style', format.fontStyle, 'important');
             }
 
-            // ✅ Also apply to nested .e-cellvalue
+            // âœ… Also apply to nested .e-cellvalue
             if (cellValue) {
               const cellValueEl = cellValue as HTMLElement;
 
@@ -5484,10 +5496,10 @@ export class CreateDashboardComponent implements OnInit {
       });
     };
 
-    // ✅ Apply immediately
+    // âœ… Apply immediately
     applyFormatting();
 
-    // ✅ Re-apply after a delay to catch any re-renders
+    // âœ… Re-apply after a delay to catch any re-renders
     setTimeout(() => applyFormatting(), 100);
     setTimeout(() => applyFormatting(), 300);
     setTimeout(() => applyFormatting(), 500);

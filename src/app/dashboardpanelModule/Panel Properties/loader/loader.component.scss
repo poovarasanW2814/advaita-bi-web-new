@@ -1,14 +1,5 @@
-   // ======================== progess bar code 
-.loader-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  min-height: 100vh;
-  height: 100%;
-  background: rgba(211, 195, 195, 0.5);
-  z-index: 1400;
-}
+   // ======================== progess bar code
+// .loader-backdrop is defined globally in design-system.scss
 
 .progressBar {
   position: fixed;

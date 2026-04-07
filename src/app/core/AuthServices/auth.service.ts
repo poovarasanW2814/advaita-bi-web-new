@@ -1,5 +1,5 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject} from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { MenuBasedAccessService } from '../services/menu-based-access.service';
 
@@ -8,7 +8,7 @@ import { MenuBasedAccessService } from '../services/menu-based-access.service';
 })
 export class AuthService {
 
-  constructor(private menuBasedAccessService: MenuBasedAccessService) { }
+  private readonly menuBasedAccessService = inject(MenuBasedAccessService);
 
   private accessTokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
   accessToken$: Observable<string | null> = this.accessTokenSubject.asObservable();

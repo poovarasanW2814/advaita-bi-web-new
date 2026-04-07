@@ -2,56 +2,61 @@
 
   <div class="col-md-12" style="padding:25px 15px 0px">
 
-  <div *ngIf="isLoading" class="loader-overlay">
-    <div class="loader-circle"></div>
-  </div>
+    @if (isLoading) {
+      <div class="loader-overlay">
+        <div class="loader-circle"></div>
+      </div>
+    }
     <div class="table-container" style="height: 300px; overflow-y: auto;">
 
-      
-      <table *ngIf="!isLoading" class="table table-bordered">
-        <thead>
-          <tr>
-            <th style="width: 40%;">Dashboard Name</th>
-        <th style="width: 15%;">View</th>
-        <th style="width: 15%;">Create</th>
-        <th style="width: 15%;">Update</th>
-        <th style="width: 15%;">Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Select All</strong></td>
-            <td>
-              <input type="checkbox" [(ngModel)]="selectAllPermissions.can_view" (change)="toggleGlobalSelect('can_view')">
-            </td>
-            <td>
-              <input type="checkbox" [(ngModel)]="selectAllPermissions.can_create" (change)="toggleGlobalSelect('can_create')">
-            </td>
-            <td>
-              <input type="checkbox" [(ngModel)]="selectAllPermissions.can_update" (change)="toggleGlobalSelect('can_update')">
-            </td>
-            <td>
-              <input type="checkbox" [(ngModel)]="selectAllPermissions.can_delete" (change)="toggleGlobalSelect('can_delete')">
-            </td>
-          </tr>
-    
-          <tr *ngFor="let dashboard of dashboards">
-            <td>{{ dashboard.dashboard_name }}</td>
-            <td>
-              <input type="checkbox" [(ngModel)]="dashboard.can_view" >
-            </td>
-            <td>
-              <input type="checkbox" [(ngModel)]="dashboard.can_create">
-            </td>
-            <td>
-              <input type="checkbox" [(ngModel)]="dashboard.can_update">
-            </td>
-            <td>
-              <input type="checkbox" [(ngModel)]="dashboard.can_delete">
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+      @if (!isLoading) {
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th style="width: 40%;">Dashboard Name</th>
+              <th style="width: 15%;">View</th>
+              <th style="width: 15%;">Create</th>
+              <th style="width: 15%;">Update</th>
+              <th style="width: 15%;">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Select All</strong></td>
+              <td>
+                <input type="checkbox" [(ngModel)]="selectAllPermissions.can_view" (change)="toggleGlobalSelect('can_view')">
+              </td>
+              <td>
+                <input type="checkbox" [(ngModel)]="selectAllPermissions.can_create" (change)="toggleGlobalSelect('can_create')">
+              </td>
+              <td>
+                <input type="checkbox" [(ngModel)]="selectAllPermissions.can_update" (change)="toggleGlobalSelect('can_update')">
+              </td>
+              <td>
+                <input type="checkbox" [(ngModel)]="selectAllPermissions.can_delete" (change)="toggleGlobalSelect('can_delete')">
+              </td>
+            </tr>
+            @for (dashboard of dashboards; track dashboard) {
+              <tr>
+                <td>{{ dashboard.dashboard_name }}</td>
+                <td>
+                  <input type="checkbox" [(ngModel)]="dashboard.can_view" >
+                </td>
+                <td>
+                  <input type="checkbox" [(ngModel)]="dashboard.can_create">
+                </td>
+                <td>
+                  <input type="checkbox" [(ngModel)]="dashboard.can_update">
+                </td>
+                <td>
+                  <input type="checkbox" [(ngModel)]="dashboard.can_delete">
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
     </div>
   </div>
 </div>

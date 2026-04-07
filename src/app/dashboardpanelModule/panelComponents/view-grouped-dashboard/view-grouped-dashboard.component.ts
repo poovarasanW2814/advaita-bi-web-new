@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit, ViewChild, inject} from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { AnimationSettingsModel, DialogComponent, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/core/AuthServices/user.service';
 import { ChartService } from 'src/app/core/services/chart.service';
@@ -12,6 +12,7 @@ import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.
 import { PopupService } from 'src/app/core/services/popup.service';
 import { RoleDashboardAccessComponent } from '../role-dashboard-access/role-dashboard-access.component';
 import { UserDashboardAccessComponent } from '../user-dashboard-access/user-dashboard-access.component';
+import { NgIf, NgClass, NgFor, NgStyle } from '@angular/common';
 
 interface Dashboard {
   dashboard_id: string;
@@ -34,18 +35,27 @@ interface Group {
 
 
 @Component({
-  selector: 'app-view-grouped-dashboard',
-  templateUrl: './view-grouped-dashboard.component.html',
-  styleUrls: ['./view-grouped-dashboard.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false
+    selector: 'app-view-grouped-dashboard',
+    templateUrl: './view-grouped-dashboard.component.html',
+    styleUrls: ['./view-grouped-dashboard.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgIf, FormsModule, NgClass, RouterLink, NgFor, NgStyle, DialogModule, ReactiveFormsModule, RoleDashboardAccessComponent, UserDashboardAccessComponent]
 })
 
 
 export class ViewGroupedDashboardComponent implements OnInit, OnDestroy {
   sidebarDashboards: Dashboard[] = [];
 
-  constructor(private route: ActivatedRoute, private router: Router, private chartService: ChartService, private cdr: ChangeDetectorRef, private menuBasedAccessService: MenuBasedAccessService, private dashboardBasedAccessService: DashboardBasedAccessService, private popupService: PopupService, private loaderService: LoaderService, private formBuilder: FormBuilder, private userService: UserService) { }
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly chartService = inject(ChartService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly menuBasedAccessService = inject(MenuBasedAccessService);
+  private readonly dashboardBasedAccessService = inject(DashboardBasedAccessService);
+  private readonly popupService = inject(PopupService);
+  private readonly loaderService = inject(LoaderService);
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly userService = inject(UserService);
 
   dialogHeader: string = '';
   dialogCloseIcon: Boolean = true;
@@ -268,7 +278,7 @@ export class ViewGroupedDashboardComponent implements OnInit, OnDestroy {
 
         error: (err:any) => {
 
-          console.log('User permission not found → loading role permission');
+          console.log('User permission not found â†’ loading role permission');
 
           // MAIN FIX
           this.getAllRoledashboardPermissionDetailsArray(role_id);
@@ -1184,7 +1194,7 @@ onSearch(): void {
   //     (res: any) => {
   //       this.loaderService.hide();
 
-  //       // ✅ Show success/error toaster based on response
+  //       // âœ… Show success/error toaster based on response
   //       // this.showToasterMessage(res.message, res.success ? 'success' : 'error');
   //       this.popupService.showPopup({
   //         message: res.message,
@@ -1193,13 +1203,13 @@ onSearch(): void {
   //       });
 
   //       if (res.success) {
-  //         // ✅ Remove from unGroupedDashboards
+  //         // âœ… Remove from unGroupedDashboards
   //         this.unGroupedDashboards = this.unGroupedDashboards.filter(d => d.dashboard_id !== id);
 
-  //         // ✅ Remove from availableDashboards
+  //         // âœ… Remove from availableDashboards
   //         this.availableDashboards = this.availableDashboards.filter(d => d.dashboard_id !== id);
 
-  //         // ✅ Remove from grouped dashboards
+  //         // âœ… Remove from grouped dashboards
   //         if (obj.group_name && obj.group_name.length > 0) {
   //           obj.group_name.forEach((groupName: string) => {
   //             const group = this.dashboardDataList.find(g => g.group_name === groupName);
@@ -1209,7 +1219,7 @@ onSearch(): void {
   //           });
   //         }
 
-  //         // ✅ Update sessionStorage
+  //         // âœ… Update sessionStorage
   //         // sessionStorage.setItem('dashboardList', JSON.stringify(this.unGroupedDashboards));
   //       }
   //     },
@@ -1245,15 +1255,15 @@ onDeleteClick(obj: any) {
 
       if (res.success === true || res.success === 'true') {
 
-        // ✅ Ungrouped dashboards
+        // âœ… Ungrouped dashboards
         this.unGroupedDashboards = this.unGroupedDashboards
           .filter(d => d.dashboard_id !== id);
 
-        // ✅ Available dashboards
+        // âœ… Available dashboards
         this.availableDashboards = this.availableDashboards
           .filter(d => d.dashboard_id !== id);
 
-        // ✅ Grouped dashboards (IMPORTANT)
+        // âœ… Grouped dashboards (IMPORTANT)
         this.dashboardDataList = this.dashboardDataList.map(group => {
           return {
             ...group,
@@ -1263,7 +1273,7 @@ onDeleteClick(obj: any) {
           };
         });
 
-        // 🔥 Force UI refresh if OnPush
+        // ðŸ”¥ Force UI refresh if OnPush
         this.cdr.detectChanges();
       }
     },
@@ -1349,15 +1359,15 @@ onDeleteClick(obj: any) {
   //         });
   //       }
 
-  //       this.cdr.detectChanges(); // 🔥 force UI update if needed
+  //       this.cdr.detectChanges(); // ðŸ”¥ force UI update if needed
       
-  //        // // ✅ Save to sessionStorage
+  //        // // âœ… Save to sessionStorage
   //       // sessionStorage.setItem('dashboardList', JSON.stringify(this.unGroupedDashboards));
 
   //       }
 
 
-  //       // // ✅ Close dialog
+  //       // // âœ… Close dialog
   //       this.dialogVisible = false;
   //     },
   //     (err: HttpErrorResponse) => {

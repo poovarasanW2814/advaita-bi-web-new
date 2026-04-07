@@ -1,31 +1,32 @@
 <div class="control-section" style="padding:15px" >
-    <div class="row">
-      <div class="col-md-8" style="padding-left:0">
-        <div class="tableTitle popupHeader"  >
-          <span>
-            Database Connection Settings
-          </span>
-        </div>
-        <div class="row">
-          <div class="col-md-6" >
-            <input class="form-control filterInputIcon" (input)="onSearch($event)" [(ngModel)]="filterTerm" placeholder="Search...">
-          </div>
-       
-        </div>
+  <div class="row">
+    <div class="col-md-8" style="padding-left:0">
+      <div class="tableTitle popupHeader"  >
+        <span>
+          Database Connection Settings
+        </span>
       </div>
-        <div style="text-align: right; padding-top:10px" class="col-md-4">
-          <button ejs-button class="e-flat-icon e-btn-purple-sm"  title="Create"
-           *ngIf="(!permissionObj || permissionObj?.can_create) !== false"
-           
-           (click)="dialogBtnClick()">
-           <i class="fas fa-plus" title="Create"></i>
-          </button>
+      <div class="row">
+        <div class="col-md-6" >
+          <input class="form-control filterInputIcon" (input)="onSearch($event)" [(ngModel)]="filterTerm" placeholder="Search...">
         </div>
+
+      </div>
     </div>
+    <div style="text-align: right; padding-top:10px" class="col-md-4">
+      @if ((!permissionObj || permissionObj?.can_create) !== false) {
+        <button ejs-button class="e-flat-icon e-btn-purple-sm"  title="Create"
+          (click)="dialogBtnClick()">
+          <i class="fas fa-plus" title="Create"></i>
+        </button>
+      }
+    </div>
+  </div>
 
-    <div class="row" style="margin-top: 10px;" >
+  <div class="row" style="margin-top: 10px;" >
 
-      <div class="table-container" *ngIf="dbConnectionArr.length > 0">
+    @if (dbConnectionArr.length > 0) {
+      <div class="table-container">
         <table class="table table-bordered table-hover " style="background-color: white;">
           <thead>
             <tr>
@@ -41,187 +42,216 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of dbConnectionArr; let i = index">
-              <td>{{ i + 1}}</td>
-              <td>{{item.connection_name}}</td>
-              <td>{{item.host_ip_or_name}}</td>
-             
-              <td>{{item.default_database_name}}</td>
-              <td>{{item.database_type}}</td>
-              <td>{{item.port}}</td>
-              <td>{{item.user_name}}</td>
-              <td>{{item.schema_name}}</td>
-              <td class="action-column" >
-                <button ejs-button cssClass="e-flat-icon e-btn-purple-sm "
-                *ngIf="(!permissionObj || permissionObj?.can_update) !== false"
-                 (click)="editDbObj(item, i)" title="Edit">
-                  <!-- <span class="e-btn-icon e-icons"></span> -->
-                  <i class="fas fa-edit" title="Edit"></i>
-                </button>
-                <button ejs-button cssClass="e-flat-icon e-btn-purple-sm  deleteBtn"
-                *ngIf="(!permissionObj || permissionObj?.can_delete) !== false"
-               
-                 (click)="deleteDbObj(item, i)" title="Delete">
-                  <!-- <span class="e-btn-icon e-icons"></span> -->
-                  <i class="fas fa-trash"  title="Delete"></i>
-                </button>
-              </td>
-  
-            </tr>
+            @for (item of dbConnectionArr; track item; let i = $index) {
+              <tr>
+                <td>{{ i + 1}}</td>
+                <td>{{item.connection_name}}</td>
+                <td>{{item.host_ip_or_name}}</td>
+                <td>{{item.default_database_name}}</td>
+                <td>{{item.database_type}}</td>
+                <td>{{item.port}}</td>
+                <td>{{item.user_name}}</td>
+                <td>{{item.schema_name}}</td>
+                <td class="action-column" >
+                  @if ((!permissionObj || permissionObj?.can_update) !== false) {
+                    <button ejs-button cssClass="e-flat-icon e-btn-purple-sm "
+                      (click)="editDbObj(item, i)" title="Edit">
+                      <!-- <span class="e-btn-icon e-icons"></span> -->
+                      <i class="fas fa-edit" title="Edit"></i>
+                    </button>
+                  }
+                  @if ((!permissionObj || permissionObj?.can_delete) !== false) {
+                    <button ejs-button cssClass="e-flat-icon e-btn-purple-sm  deleteBtn"
+                      (click)="deleteDbObj(item, i)" title="Delete">
+                      <!-- <span class="e-btn-icon e-icons"></span> -->
+                      <i class="fas fa-trash"  title="Delete"></i>
+                    </button>
+                  }
+                </td>
+              </tr>
+            }
           </tbody>
         </table>
-  
       </div>
+    }
 
-    </div>
+  </div>
 
-    <ejs-dialog id="defaultDialog" #defaultDialog [isModal]='isModal'  [visible]='visible' 
+  <ejs-dialog id="defaultDialog" #defaultDialog [isModal]='isModal'  [visible]='visible'
     [header]="formTitle" [allowDragging]='dialogdragging' [animationSettings]='animationSettings'
     [showCloseIcon]='dialogCloseIcon' (open)="dialogOpen()" (close)="dialogClose()" [target]='target'
     [width]='dialogWidth'>
     <div class=" connectionForm" >
-      
-      <div >
-      
-        <form [formGroup]="connectionForm" (ngSubmit)="onSubmit()">
-            <!-- <div class="title">
-              <span>
-                Add Users
-              </span>
-            </div> -->
-            <div class="formInfo">
-              <div class="row">
-                <!-- MySql , PostgreSql, MSSql, MariaDB, SQLite -->
-                <div class="col-md-4 form-group">
-                  <div class="inputValue">
-                    <label for="" class="labelName">Database Type
-                       <span style="color:red; font-size: 14px;font-weight:600">*</span>
-                    </label>
-                    <select name="" formControlName="database_type" id="" class="form-control">
-                      <option value="">Select</option>
-                      <option value="mysql">MySql</option>
-                      <option value="postgres">PostgreSQL</option>
-                      <option value="tsql">MsSql</option>
-                      <option value="mysql">MariaDB</option>
-                      <option value="sqlite">SQLite</option>
-                      <option value="clickhouse">Clickhouse</option>
 
-                    </select>
-                    <div class="validation-error" *ngIf="connectionForm.get('database_type')!.invalid && (connectionForm.get('database_type')!.touched || connectionForm.get('database_type')!.dirty)">
-                      Database Type is required
-                    </div>
+      <div >
+
+        <form [formGroup]="connectionForm" (ngSubmit)="onSubmit()">
+          <!-- <div class="title">
+          <span>
+            Add Users
+          </span>
+        </div> -->
+        <div class="formInfo">
+          <div class="row">
+            <!-- MySql , PostgreSql, MSSql, MariaDB, SQLite -->
+            <div class="col-md-4 form-group">
+              <div class="inputValue">
+                <label for="" class="labelName">Database Type
+                  <span style="color:red; font-size: 14px;font-weight:600">*</span>
+                </label>
+                <select name="" formControlName="database_type" id="" class="form-control">
+                  <option value="">Select</option>
+                  <option value="mysql">MySql</option>
+                  <option value="postgres">PostgreSQL</option>
+                  <option value="tsql">MsSql</option>
+                  <option value="mysql">MariaDB</option>
+                  <option value="sqlite">SQLite</option>
+                  <option value="clickhouse">Clickhouse</option>
+
+                </select>
+                @if (connectionForm.get('database_type')!.invalid && (connectionForm.get('database_type')!.touched || connectionForm.get('database_type')!.dirty)) {
+                  <div class="validation-error">
+                    Database Type is required
                   </div>
-                </div>
-                <div class="col-md-4 form-group">
-                  <div class="inputValue">
-                    <label class="labelName">Connection Name <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
-                    <input  type="text" formControlName="connection_name" class="form-control"  (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" (input)="onConnectionNameSerach($event)" />
-                    <div class="validation-error" *ngIf="connectionForm.get('connection_name')!.invalid && (connectionForm.get('connection_name')!.touched || connectionForm.get('connection_name')!.dirty)">
-                        Connection Name is required
-                    </div>
+                }
+              </div>
+            </div>
+            <div class="col-md-4 form-group">
+              <div class="inputValue">
+                <label class="labelName">Connection Name <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
+                <input  type="text" formControlName="connection_name" class="form-control"  (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" (input)="onConnectionNameSerach($event)" />
+                @if (connectionForm.get('connection_name')!.invalid && (connectionForm.get('connection_name')!.touched || connectionForm.get('connection_name')!.dirty)) {
+                  <div class="validation-error">
+                    Connection Name is required
                   </div>
-                </div>
-                <div class="col-md-4 form-group">
-                  <div class="inputValue">
-                      <label class="labelName">UserName <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
-                      <input  type="text" formControlName="user_name" class="form-control"  (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" />
-                      <div class="validation-error" *ngIf="connectionForm.get('user_name')!.invalid && (connectionForm.get('user_name')!.touched || connectionForm.get('user_name')!.dirty)">
-                        Username is required
-                      </div>
-                    </div>
-              </div>          
-              <div class="col-md-4 form-group">
-                <div class="inputValue">
-                  <label class="labelName">Password <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
-                  <input  type="password" class="form-control" formControlName="password"  (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" />
-                  <!-- <div class="validation-error" *ngIf="connectionForm.get('password')!.invalid && (connectionForm.get('password')!.touched || connectionForm.get('password')!.dirty)">
-                    Password is required and must be at least 6 characters long
-                  </div> -->
-                  <div class="validation-error"  *ngIf="connectionForm.get('password')?.hasError('required') && connectionForm.get('password')?.touched">
-                    Password is required.
+                }
+              </div>
+            </div>
+            <div class="col-md-4 form-group">
+              <div class="inputValue">
+                <label class="labelName">UserName <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
+                <input  type="text" formControlName="user_name" class="form-control"  (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" />
+                @if (connectionForm.get('user_name')!.invalid && (connectionForm.get('user_name')!.touched || connectionForm.get('user_name')!.dirty)) {
+                  <div class="validation-error">
+                    Username is required
                   </div>
-                  <div class="validation-error" *ngIf="connectionForm.get('password')?.hasError('minlength') && connectionForm.get('password')?.touched">
-                    Password must be at least 8 characters.
-                  </div>
-                  <div class="validation-error" *ngIf="connectionForm.get('password')?.hasError('invalidPassword') && connectionForm.get('password')?.touched">
-                    Password must contain at least one special character, one digit, and one uppercase letter.
-                  </div>
+                }
+              </div>
+            </div>
+            <div class="col-md-4 form-group">
+              <div class="inputValue">
+                <label class="labelName">Password <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
+                <input  type="password" class="form-control" formControlName="password"  (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" />
+                <!-- <div class="validation-error" *ngIf="connectionForm.get('password')!.invalid && (connectionForm.get('password')!.touched || connectionForm.get('password')!.dirty)">
+                Password is required and must be at least 6 characters long
+              </div> -->
+              @if (connectionForm.get('password')?.hasError('required') && connectionForm.get('password')?.touched) {
+                <div class="validation-error" >
+                  Password is required.
                 </div>
-              </div>  
-                <div class="col-md-4 form-group">
-                  <div class="inputValue">
-                    <label class="labelName"> IP Address <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
-                    <input  type="text" formControlName="host_ip_or_name" class="form-control"  (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" />
-                    <div class="validation-error" *ngIf="connectionForm.get('host_ip_or_name')!.invalid && (connectionForm.get('host_ip_or_name')!.touched || connectionForm.get('host_ip_or_name')!.dirty)">
-                      IP Address is required
-                    </div>
-                  </div>
+              }
+              @if (connectionForm.get('password')?.hasError('minlength') && connectionForm.get('password')?.touched) {
+                <div class="validation-error">
+                  Password must be at least 8 characters.
                 </div>
-                <div class="col-md-4 form-group">
-                  <div class="inputValue">
-                      <label class="labelName">Port <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
-                      <input  type="text" formControlName="port" class="form-control"  (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" />
-                      <div class="validation-error" *ngIf="connectionForm.get('port')!.invalid && (connectionForm.get('port')!.touched || connectionForm.get('port')!.dirty)">
-                        Port is required
-                      </div>
-                    </div>
+              }
+              @if (connectionForm.get('password')?.hasError('invalidPassword') && connectionForm.get('password')?.touched) {
+                <div class="validation-error">
+                  Password must contain at least one special character, one digit, and one uppercase letter.
                 </div>
-             
-                <div class="col-md-4 form-group">
-                  <div class="inputValue">
-                      <label class="labelName">Schema Name <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
-                      <input  type="text" formControlName="schema_name" class="form-control"  (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" />
-                      <div class="validation-error" *ngIf="connectionForm.get('schema_name')!.invalid && (connectionForm.get('schema_name')!.touched || connectionForm.get('schema_name')!.dirty)">
-                        Schema Name is required
-                      </div>
-                    </div>
-              </div>          
-                <div class="col-md-4 form-group">
-                    <div class="inputValue">
-                        <label class="labelName">Database Name <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
-                        <input  type="text" formControlName="default_database_name" class="form-control"  (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" />
-                        <div class="validation-error" *ngIf="connectionForm.get('default_database_name')!.invalid && (connectionForm.get('default_database_name')!.touched || connectionForm.get('default_database_name')!.dirty)">
-                          Database name is required
-                        </div>
-                      </div>
-                </div>
-             
-                <div class="col-md-12">
-                  <div [align]="'right'">
-                    <button type="button" ejs-button style="margin :0px 5px"  class="e-btn e-btn-purple " (click)="onTestDbConnection()">Test Connection</button>
-                    <button type="submit" ejs-button *ngIf="submitFlag"  class="e-btn e-btn-purple ">Submit</button>
-                  
-                    <button type="button" ejs-button *ngIf="updateFlag" (click)="onUpdate()"  class="e-btn e-btn-purple ">Update</button>
-                </div>
-                </div>
-              </div>        
+              }
+            </div>
           </div>
-          </form>
-    </div>
-    <div *ngIf="isLoading" class="loader-container">
+          <div class="col-md-4 form-group">
+            <div class="inputValue">
+              <label class="labelName"> IP Address <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
+              <input  type="text" formControlName="host_ip_or_name" class="form-control"  (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" />
+              @if (connectionForm.get('host_ip_or_name')!.invalid && (connectionForm.get('host_ip_or_name')!.touched || connectionForm.get('host_ip_or_name')!.dirty)) {
+                <div class="validation-error">
+                  IP Address is required
+                </div>
+              }
+            </div>
+          </div>
+          <div class="col-md-4 form-group">
+            <div class="inputValue">
+              <label class="labelName">Port <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
+              <input  type="text" formControlName="port" class="form-control"  (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" />
+              @if (connectionForm.get('port')!.invalid && (connectionForm.get('port')!.touched || connectionForm.get('port')!.dirty)) {
+                <div class="validation-error">
+                  Port is required
+                </div>
+              }
+            </div>
+          </div>
+
+          <div class="col-md-4 form-group">
+            <div class="inputValue">
+              <label class="labelName">Schema Name <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
+              <input  type="text" formControlName="schema_name" class="form-control"  (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" />
+              @if (connectionForm.get('schema_name')!.invalid && (connectionForm.get('schema_name')!.touched || connectionForm.get('schema_name')!.dirty)) {
+                <div class="validation-error">
+                  Schema Name is required
+                </div>
+              }
+            </div>
+          </div>
+          <div class="col-md-4 form-group">
+            <div class="inputValue">
+              <label class="labelName">Database Name <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
+              <input  type="text" formControlName="default_database_name" class="form-control"  (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" />
+              @if (connectionForm.get('default_database_name')!.invalid && (connectionForm.get('default_database_name')!.touched || connectionForm.get('default_database_name')!.dirty)) {
+                <div class="validation-error">
+                  Database name is required
+                </div>
+              }
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div [align]="'right'">
+              <button type="button" ejs-button style="margin :0px 5px"  class="e-btn e-btn-purple " (click)="onTestDbConnection()">Test Connection</button>
+              @if (submitFlag) {
+                <button type="submit" ejs-button  class="e-btn e-btn-purple ">Submit</button>
+              }
+
+              @if (updateFlag) {
+                <button type="button" ejs-button (click)="onUpdate()"  class="e-btn e-btn-purple ">Update</button>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  @if (isLoading) {
+    <div class="loader-container">
       <div class="loader"></div>
     </div>
+  }
 
-    
 
-    <div *ngIf="isMessageVisible" class="message-popup" [ngStyle]="{'background-color': messageBackgroundColor === 'success' ? '#ccefb5' : messageBackgroundColor === 'error' ? '#ff00001a' : '','color': messageBackgroundColor === 'success' ? '#059223' : messageBackgroundColor === 'error' ? 'red' : '' }">
+
+  @if (isMessageVisible) {
+    <div class="message-popup" [ngStyle]="{'background-color': messageBackgroundColor === 'success' ? '#ccefb5' : messageBackgroundColor === 'error' ? '#ff00001a' : '','color': messageBackgroundColor === 'success' ? '#059223' : messageBackgroundColor === 'error' ? 'red' : '' }">
       <span class="msgSpan">{{ message }}</span>
       <i class="fas fa-times-circle" style="cursor:pointer"  (click)="closeMessage()"></i>
     </div>
-    
+  }
 
-    
-  </div>
-  </ejs-dialog>
 
-  <!-- <div class="popup" id="popup">
-    <div class="popup-content">
-      <span class="close" (click)="closePopup()">&times;</span>
-      <div id="popup-message" class="popup-message"></div>
-      <button (click)="closePopup()" class="e-btn e-btn-purple ">Ok</button>
-    </div>
-  </div>
-  <div class="backdrop" id="backdrop"></div>
-   -->
+
 </div>
-  
+</ejs-dialog>
+
+<!-- <div class="popup" id="popup">
+<div class="popup-content">
+  <span class="close" (click)="closePopup()">&times;</span>
+  <div id="popup-message" class="popup-message"></div>
+  <button (click)="closePopup()" class="e-btn e-btn-purple ">Ok</button>
+</div>
+</div>
+<div class="backdrop" id="backdrop"></div>
+-->
+</div>
+

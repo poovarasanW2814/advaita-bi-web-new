@@ -8,8 +8,8 @@ describe('PropertyBoxComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PropertyBoxComponent ]
-    })
+    imports: [PropertyBoxComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(PropertyBoxComponent);

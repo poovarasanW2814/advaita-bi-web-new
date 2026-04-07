@@ -1,25 +1,7 @@
-.e-tab .e-content {
-    background: inherit;
-    padding: 15px;
-}
-.border {
-    // padding-right: 0px;
-    padding-left: 0px;
-}
-.inputTitle {
-    font-size: 11px;
-    height: 26px;
-}
 .input-label{
     font-weight: 500;
     font-size: 12px;
     color : rgb(39, 36, 36);
-}
-.e-multiselect.e-input-group.e-control-wrapper.e-checkbox {
-    height: 25px !important;
-    border: 1px solid #ccc !important;
-    border-radius: 4px; 
-    font-size: 11px;
 }
 // .tablesArrayDiv{
 //     max-height: 100%;
@@ -53,9 +35,6 @@
 //     border-color: initial;
 //     border-image: initial;
 // }
-.cleardiv {
-    padding: 1px 16px 5px;
-}
 // .Expression {
 //     //min-height: 124px;
 //     //max-height: 124px;
@@ -79,9 +58,6 @@
 //     border-radius: 3px;
 //     margin-left: 5px;
 // }
-.select{
-    font-size: 11px;
-}
 // .tabldiv, .catdiv, .fundiv, .helpdiv {
 //     border: 1px solid #bdbcbc;
 // }
@@ -139,25 +115,6 @@
 //     background-color: cadetblue;
 //     color : #fff
 // }
-.e-multi-select-wrapper .e-chips-close.e-close-hooker {
-    cursor: default;
-    font-size: 8px;
-    height: 2px;
-    margin-top: -3.5em;
-    position: absolute;
-    right: 5px;
-    width: 24px;
-    top: 100%;
-}
-.e-multi-select-wrapper .e-delim-values {
-    font-family: inherit;
-    font-size: 11px;
-    line-height: 28px;
-    max-width: 100%;
-    padding-left: 6px;
-    padding-right: 6px;
-    vertical-align: middle;
-}
 .loading-alert{
     color: rgb(4, 124, 24);
     font-size: 12px;
@@ -168,10 +125,6 @@
 }
 .form-group {
     margin-bottom: 20px !important;
-}
-.table-container {
-    overflow-x: auto;
-    width: 100%;
 }
 .ml-2{
     margin-left: 2px;

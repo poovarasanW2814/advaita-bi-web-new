@@ -1,0 +1,199 @@
+// ═══════════════════════════════════════════════════
+// PANEL PROPERTIES — Shared Styles
+// Used by: datepicker, daterangepicker, dropdown-properties,
+//   guage-chart-properties, input-box-properties, kanban,
+//   listbox-properties, pivot-properties, property-box,
+//   property-chart, property-multiselectdropdown, property-table,
+//   property-scedule, rawdatadump, update-user, initial-filters
+// ═══════════════════════════════════════════════════
+
+// ─────────────────────────────────────────────────
+// GENERIC FIELD LABELS & INPUTS
+// ─────────────────────────────────────────────────
+
+label {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.inputTitle {
+  font-size: 11px;
+  height: 26px;
+}
+
+.labelFeild {
+  font-size: 11px;
+  font-weight: 500;
+  display: block;
+}
+
+.select {
+  font-size: 11px;
+}
+
+select.form-control.selectFeild {
+  height: 27px;
+  font-size: 11px;
+}
+
+.cleardiv {
+  padding: 1px 16px 5px;
+}
+
+.border {
+  padding-left: 0;
+}
+
+// ─────────────────────────────────────────────────
+// TABLE / DATA CONTAINERS
+// ─────────────────────────────────────────────────
+
+.tablesArrayDiv {
+  max-height: 100%;
+  height: 150px;
+  padding: 15px 5px;
+  border: 1px solid #ccc;
+  margin: 10px 5px;
+  overflow: auto;
+}
+
+.table-wrapper {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.table-container {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-width: 100%;
+}
+
+// ─────────────────────────────────────────────────
+// SHARED INTERACTIVE TABLE
+// ─────────────────────────────────────────────────
+
+.interactive-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+
+  th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap;
+  }
+
+  thead th {
+    background-color: #f7f7f7;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  tbody tr:hover {
+    background-color: #eef6ff;
+    transition: background-color 0.2s;
+  }
+}
+
+// ─────────────────────────────────────────────────
+// VALIDATION / ERROR MESSAGES
+// ─────────────────────────────────────────────────
+
+.error-message {
+  color: red;
+  font-size: 0.875em;
+  margin-top: 0.25em;
+}
+
+// ─────────────────────────────────────────────────
+// BUTTONS
+// ─────────────────────────────────────────────────
+
+.rawQueryBtn {
+  margin-bottom: 5px;
+  font-size: 11px;
+  margin-left: 3px;
+}
+
+// ─────────────────────────────────────────────────
+// SYNCFUSION TAB OVERRIDE
+// ─────────────────────────────────────────────────
+
+.e-tab .e-content {
+  background: inherit;
+  padding: 15px;
+}
+
+// ─────────────────────────────────────────────────
+// SYNCFUSION MULTISELECT OVERRIDES
+// ─────────────────────────────────────────────────
+
+.e-multiselect.e-input-group.e-control-wrapper.e-checkbox {
+  height: 25px !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.e-multi-select-wrapper .e-chips-close.e-close-hooker {
+  cursor: default;
+  font-size: 8px;
+  height: 2px;
+  margin-top: -3.5em;
+  position: absolute;
+  right: 5px;
+  width: 24px;
+  top: 100%;
+}
+
+.e-multi-select-wrapper .e-delim-values {
+  font-family: inherit;
+  font-size: 11px;
+  line-height: 28px;
+  max-width: 100%;
+  padding-left: 6px;
+  padding-right: 6px;
+  vertical-align: middle;
+}
+
+// ─────────────────────────────────────────────────
+// SYNCFUSION DROPDOWN INPUT OVERRIDES (tableNameDropdown)
+// ─────────────────────────────────────────────────
+
+.tableNameDropdown input.e-input,
+.e-input-group input.e-input,
+.e-input-group.e-control-wrapper input.e-input,
+textarea.e-input,
+.e-input-group textarea.e-input,
+.e-input-group.e-control-wrapper textarea.e-input {
+  border: 0 solid;
+  height: auto;
+  line-height: inherit;
+  margin: 0;
+  margin-bottom: 4px;
+  outline: none;
+  padding: 1px 0 4px;
+  text-indent: 0;
+  width: 100%;
+}
+
+.tableNameDropdown .e-input-group.e-control-wrapper.e-ddl.e-lib.e-keyboard {
+  width: 100%;
+  height: 26px !important;
+  margin-bottom: 0px;
+  border: 1px solid rgba(213, 205, 205, 0.49);
+  background: white;
+  padding: 0px 0px 6px 9px;
+  line-height: 4.3;
+  font-size: 11px;
+}
+
+.tableNameDropdown .e-input-group-icon.e-ddl-icon.e-search-icon {
+  font-size: 10px;
+}

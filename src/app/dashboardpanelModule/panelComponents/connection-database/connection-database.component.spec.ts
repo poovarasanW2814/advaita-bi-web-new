@@ -8,8 +8,8 @@ describe('ConnectionDatabaseComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ConnectionDatabaseComponent ]
-    })
+    imports: [ConnectionDatabaseComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(ConnectionDatabaseComponent);

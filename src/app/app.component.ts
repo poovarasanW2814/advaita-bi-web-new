@@ -1,5 +1,5 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { Component, HostListener, OnInit, ViewChild, inject} from '@angular/core';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, Observable } from 'rxjs';
 import { LogaccessService } from './core/AuthServices/logaccess.service';
 import { TextWrapSettingsModel, GridComponent } from '@syncfusion/ej2-angular-grids';
@@ -12,14 +12,15 @@ import { DataSourceSettingsModel } from '@syncfusion/ej2-pivotview/src/model/dat
 import { Pivot_Data, roomDataSource } from './dashboardpanelModule/panelComponents/dashbord-page-vieww/data';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  standalone: false
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    imports: [RouterOutlet]
 })
 export class AppComponent implements OnInit {
 
-  constructor(private router: Router, private logaccessService: LogaccessService) { }
+  private readonly router = inject(Router);
+  private readonly logaccessService = inject(LogaccessService);
 
     public dataSourceSettings?: DataSourceSettingsModel;
     public actualdataSourceSettings?: DataSourceSettingsModel;

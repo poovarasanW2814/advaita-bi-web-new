@@ -1,4 +1,4 @@
-<!-- 
+<!--
 
 <div class="login-container">
   <div class="content">
@@ -6,15 +6,15 @@
       <img loading="lazy" [src]="this.logoImgPath" alt="">
     </div>
     <form action="#">
-       <div class="field">
-          <input type="text" placeholder="Username" required>
-          <span class="fas fa-user"></span>
-       </div>
-       <div class="field">
-          <input type="password" placeholder="Password" required>
-          <span class="fas fa-lock"></span>
-       </div>
-       <button>Login</button>
+      <div class="field">
+        <input type="text" placeholder="Username" required>
+        <span class="fas fa-user"></span>
+      </div>
+      <div class="field">
+        <input type="password" placeholder="Password" required>
+        <span class="fas fa-lock"></span>
+      </div>
+      <button>Login</button>
     </form>
   </div>
 </div> -->
@@ -34,39 +34,45 @@
           <input type="text" placeholder="Username *" formControlName="username" required>
           <span class="fas fa-user"></span>
         </div>
-        <div *ngIf="(form.controls['username'].touched || form.controls['username'].dirty) && form.controls['username'].errors?.['required']" class="error">
-          Username is required.
-        </div>
+        @if ((form.controls['username'].touched || form.controls['username'].dirty) && form.controls['username'].errors?.['required']) {
+          <div class="error">
+            Username is required.
+          </div>
+        }
       </div>
-      
+
       <div class="field-container">
         <div class="field position-relative">
-          <input #passwordInput 
-                 [type]="isPasswordVisible ? 'text' : 'password'" 
-                 placeholder="Password *" 
-                 formControlName="password" 
-                 required>
-          <span class="fas fa-lock"></span>
-          <i class="eye-icon" (click)="togglePasswordVisibility(passwordInput)">
-            <i [ngClass]="isPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
-          </i>
+          <input #passwordInput
+            [type]="isPasswordVisible ? 'text' : 'password'"
+            placeholder="Password *"
+            formControlName="password"
+            required>
+            <span class="fas fa-lock"></span>
+            <i class="eye-icon" (click)="togglePasswordVisibility(passwordInput)">
+              <i [ngClass]="isPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+            </i>
+          </div>
+          @if ((form.controls['password'].touched || form.controls['password'].dirty) && form.controls['password'].errors?.['required']) {
+            <div class="error">
+              Password is required.
+            </div>
+          }
         </div>
-        <div *ngIf="(form.controls['password'].touched || form.controls['password'].dirty) && form.controls['password'].errors?.['required']" class="error">
-          Password is required.
-        </div>
-      </div>
-      
-       <button type="submit">Login</button>
-    </form>
-  </div>
-  <div class="progressBarEle">
-    <ejs-progressbar *ngIf="loaderFlag" cornerRadius='Circle' id='indeterminate' trackThickness=10 progressThickness=10
-      segmentCount=20 type='Circular' height='80' value=85 [isIndeterminate]='true' [animation]='animation'
-      progressColor="blue">
-    </ejs-progressbar>
-  </div>
 
-  <!-- <div *ngIf="loaderFlag" class="loader-backdrop">
+        <button type="submit">Login</button>
+      </form>
+    </div>
+    <div class="progressBarEle">
+      @if (loaderFlag) {
+        <ejs-progressbar cornerRadius='Circle' id='indeterminate' trackThickness=10 progressThickness=10
+          segmentCount=20 type='Circular' height='80' value=85 [isIndeterminate]='true' [animation]='animation'
+          progressColor="blue">
+        </ejs-progressbar>
+      }
+    </div>
+
+    <!-- <div *ngIf="loaderFlag" class="loader-backdrop">
     <img class="loader-gif" src="../../../../assets/images/Splashscreen 2.gif" alt="Loading..." />
   </div> -->
 

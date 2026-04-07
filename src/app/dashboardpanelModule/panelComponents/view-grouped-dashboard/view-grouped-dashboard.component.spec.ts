@@ -8,8 +8,8 @@ describe('ViewGroupedDashboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ViewGroupedDashboardComponent ]
-    })
+    imports: [ViewGroupedDashboardComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(ViewGroupedDashboardComponent);

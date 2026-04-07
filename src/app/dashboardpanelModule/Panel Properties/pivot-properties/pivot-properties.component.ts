@@ -1,15 +1,19 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { TabComponent } from '@syncfusion/ej2-angular-navigations';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
+import { FormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TabComponent, TabModule } from '@syncfusion/ej2-angular-navigations';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { hide } from '@syncfusion/ej2/treemap';
 import { ChartService } from 'src/app/core/services/chart.service';
+import { DropDownListModule, MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns';
+import { SwitchModule, ButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { NgIf, NgFor } from '@angular/common';
+import { ColorPickerModule } from '@syncfusion/ej2-angular-inputs';
 
 @Component({
-  selector: 'app-pivot-properties',
-  templateUrl: './pivot-properties.component.html',
-  styleUrls: ['./pivot-properties.component.scss'],
-  standalone: false
+    selector: 'app-pivot-properties',
+    templateUrl: './pivot-properties.component.html',
+    styleUrls: ['./pivot-properties.component.scss'],
+    imports: [TabModule, FormsModule, ReactiveFormsModule, DropDownListModule, SwitchModule, NgIf, NgFor, MultiSelectModule, ColorPickerModule, ButtonModule]
 })
 
 
@@ -83,55 +87,57 @@ export class PivotPropertiesComponent implements OnInit, OnChanges {
   }
   panelSeriesArray: any = [];
 
-  constructor(private fb: FormBuilder, private chartService: ChartService) {
+  private readonly fb = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  constructor() {
     this.generalForm = this.fb.group({
-      tableName: [''],
-      header: [''],
-      orderBy: [''],
-      orderByType: [''],
-      groupBy: [""],
-      condition: [""],
-      rawQuery: [""],
-      showGrandTotals: [false],
-      showGrandAvg: [false],
-      rowWiseAvg :[false],
-      expandAll: [false],
-      enableClassicLayout : [false],
-      showRowGrandTotals: [false],
-      showColumnGrandTotals: [false],
-      grandTotalAverageType: [''],
-      colorFormatSettingsArray: [''],
-      fieldHeaders : [''],
-      enableHeaderAlignment : [false],
-      enableSorting : [false],
-      // sortSettings
-      defaultView: [''],
-      chartType : [''],
-      enableZoom : true,
-      scrollbarPercentage: 1,
-      enableScrollbar: true,
-      hideXAxisTitle: [false],
-      hideYAxisTitle: [false],
-      xAxisTitleFontSize: [14],
-      yAxisTitleFontSize: [14], 
-      dataSourceSettings: this.fb.group({
-        dataSource: [],
-        tableName: [''],
-        feildType: [''],
-        name: [''],
-        caption: [''],
-        format: [''],
-        expression: [''],
-        formatType: [''],
-        valueFormat: [''],
-        order : ['string'],
-        dataType : ['']
-        // formattingconditon: [''],
-        // value: [''],
-        // backgroundColor  : [''],
-        // color  : [''],
-        // fontSize  : [''],
-      }),
+          tableName: [''],
+          header: [''],
+          orderBy: [''],
+          orderByType: [''],
+          groupBy: [""],
+          condition: [""],
+          rawQuery: [""],
+          showGrandTotals: [false],
+          showGrandAvg: [false],
+          rowWiseAvg :[false],
+          expandAll: [false],
+          enableClassicLayout : [false],
+          showRowGrandTotals: [false],
+          showColumnGrandTotals: [false],
+          grandTotalAverageType: [''],
+          colorFormatSettingsArray: [''],
+          fieldHeaders : [''],
+          enableHeaderAlignment : [false],
+          enableSorting : [false],
+          // sortSettings
+          defaultView: [''],
+          chartType : [''],
+          enableZoom : true,
+          scrollbarPercentage: 1,
+          enableScrollbar: true,
+          hideXAxisTitle: [false],
+          hideYAxisTitle: [false],
+          xAxisTitleFontSize: [14],
+          yAxisTitleFontSize: [14], 
+          dataSourceSettings: this.fb.group({
+            dataSource: [],
+            tableName: [''],
+            feildType: [''],
+            name: [''],
+            caption: [''],
+            format: [''],
+            expression: [''],
+            formatType: [''],
+            valueFormat: [''],
+            order : ['string'],
+            dataType : ['']
+            // formattingconditon: [''],
+            // value: [''],
+            // backgroundColor  : [''],
+            // color  : [''],
+            // fontSize  : [''],
+  }),
       formattingCondition: this.fb.group({
         measureField: [''],
         value1: [],
@@ -691,7 +697,7 @@ console.log('array', arr)
     this.showAddButton = false;
     // this.selectedFieldType = obj.feildType
       this.selectedFieldType = obj.feildType;
-  this.selectedFormatType = obj.formatType; // 🔥 This is what was missing
+  this.selectedFormatType = obj.formatType; // ðŸ”¥ This is what was missing
 
     // this.onTableDropdown(obj.tableName)
     formObj.patchValue({
@@ -1034,7 +1040,7 @@ valueFieldFormatOptions: string[] = [
         values: this.valuesArray,
         rows: this.rowsArray,
         formatSettings: this.formatSettingsArray,
-        sortSettings: sortSettings, // ✅ Added this line
+        sortSettings: sortSettings, // âœ… Added this line
         expression: formValue.dataSourceSettings.expression || '',
         conditionalFormatSettings: this.conditionalFormatSettingsArray,
         showGrandTotals: formValue.showGrandTotals != null ? formValue.showGrandTotals : false,

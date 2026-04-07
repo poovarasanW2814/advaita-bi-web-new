@@ -1,14 +1,16 @@
 import { ThisReceiver } from '@angular/compiler';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AfterViewInit, Component, OnInit, ViewChild, inject} from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { AnimationSettingsModel, DialogComponent, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { UserService } from 'src/app/core/AuthServices/user.service';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { DashboardBasedAccessService } from 'src/app/core/services/dashboard-based-access.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';
 import { PopupService } from 'src/app/core/services/popup.service';
+import { NgFor, NgIf, NgStyle } from '@angular/common';
+import { MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns';
 
 // Add interface for Group and Dashboard at the top of the file
 interface Dashboard {
@@ -29,14 +31,21 @@ interface Group {
 }
 
 @Component({
-  selector: 'app-grouping-dashboard',
-  templateUrl: './grouping-dashboard.component.html',
-  styleUrls: ['./grouping-dashboard.component.scss'],
-  standalone: false
+    selector: 'app-grouping-dashboard',
+    templateUrl: './grouping-dashboard.component.html',
+    styleUrls: ['./grouping-dashboard.component.scss'],
+    imports: [NgFor, NgIf, NgStyle, DialogModule, FormsModule, ReactiveFormsModule, MultiSelectModule]
 })
 export class GroupingDashboardComponent implements OnInit , AfterViewInit {
 
-  constructor(private chartService: ChartService, private fb: FormBuilder, private loaderService: LoaderService, private popupService: PopupService, private router: Router, private menuBasedAccessService: MenuBasedAccessService, private dashboardBasedAccessService: DashboardBasedAccessService, private userService: UserService) { }
+  private readonly chartService = inject(ChartService);
+  private readonly fb = inject(FormBuilder);
+  private readonly loaderService = inject(LoaderService);
+  private readonly popupService = inject(PopupService);
+  private readonly router = inject(Router);
+  private readonly menuBasedAccessService = inject(MenuBasedAccessService);
+  private readonly dashboardBasedAccessService = inject(DashboardBasedAccessService);
+  private readonly userService = inject(UserService);
 
   dialogHeader: string = 'Dashboard Setup';
   dialogCloseIcon: Boolean = true;
@@ -165,7 +174,7 @@ ngAfterViewInit(): void {
       console.log('res in grouping this.dashboardBasedPermssionArray', this.dashboardBasedPermssionArray);
       const dashboardData = res['data'];
       let filteredDashboards: any[]
-      // ✅ Check for superadmin
+      // âœ… Check for superadmin
       console.log('this.role', this.role)
       if (this.role === 'superadmin') {
         // Superadmin gets full access to all dashboards
@@ -252,7 +261,7 @@ ngAfterViewInit(): void {
     const uniqueGroupNames: Set<string> = new Set();
 
     dashboardData.forEach((dashboard: any) => {
-      // ✅ Only process if valid group_name exists
+      // âœ… Only process if valid group_name exists
       if (!dashboard.group_name || !dashboard.group_name.length || !dashboard.group_name[0]) {
         return; // Skip dashboards without a valid group name
       }
@@ -480,7 +489,7 @@ ngAfterViewInit(): void {
   removeGrouping(item: any) {
     if (confirm(`Are you sure you want to remove the group "${item.group_name}"?`)) {
 
-      // ✅ Only process dashboards that belong to this group
+      // âœ… Only process dashboards that belong to this group
       const modifiedDashboards = this.availableDashboards
         .filter(dashboard => {
           // Ensure currentGroups is always an array
@@ -510,7 +519,7 @@ ngAfterViewInit(): void {
 
       console.log('Modified dashboards (only those affected):', modifiedDashboards);
 
-      // ✅ Only send dashboards that were actually modified
+      // âœ… Only send dashboards that were actually modified
       this.loaderService.show();
       this.chartService.updateDashboardDetails(modifiedDashboards).subscribe(
         (res: any) => {
@@ -913,7 +922,7 @@ ngAfterViewInit(): void {
             status: false
           });
 
-          // ✅ Rollback local changes if API fails
+          // âœ… Rollback local changes if API fails
           this.loadDashboardData();
         }
       );

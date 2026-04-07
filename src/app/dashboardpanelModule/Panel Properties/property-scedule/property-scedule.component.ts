@@ -1,7 +1,11 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild ,ChangeDetectorRef} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TabComponent } from '@syncfusion/ej2-angular-navigations';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild ,ChangeDetectorRef, inject} from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TabComponent, TabModule } from '@syncfusion/ej2-angular-navigations';
 import { ChartService } from 'src/app/core/services/chart.service';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { SwitchModule, ButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { NgIf, NgFor } from '@angular/common';
+import { ColorPickerModule } from '@syncfusion/ej2-angular-inputs';
 
 interface ViewConfig {
   scheduleView: string;
@@ -11,14 +15,17 @@ interface ViewConfig {
 }
 
 @Component({
-  selector: 'app-property-scedule',
-  templateUrl: './property-scedule.component.html',
-  styleUrls: ['./property-scedule.component.scss'],
-  standalone: false
+    selector: 'app-property-scedule',
+    templateUrl: './property-scedule.component.html',
+    styleUrls: ['./property-scedule.component.scss'],
+    imports: [TabModule, FormsModule, ReactiveFormsModule, DropDownListModule, SwitchModule, NgIf, NgFor, ButtonModule, ColorPickerModule]
 })
 export class PropertySceduleComponent implements OnInit, OnChanges {
 
-  constructor(private fb: FormBuilder, private chartService: ChartService,private cdr: ChangeDetectorRef) {
+  private readonly fb = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  constructor() {
     this.onFormInit();
   }
 
@@ -190,7 +197,7 @@ ngOnChanges(changes: SimpleChanges): void {
   if (this.tab) this.tab.selectedItem = 0;
   this.connection_id = currentValue.connection_id;
 
-  // ✅ Load views - only set ONCE, no overwrite below
+  // âœ… Load views - only set ONCE, no overwrite below
   if (this.getPanelObj.content.viewsConfiguration?.length > 0) {
     this.viewsList = [...this.getPanelObj.content.viewsConfiguration];
   } else if (this.getPanelObj.content.viewsList?.length > 0) {
@@ -203,13 +210,13 @@ ngOnChanges(changes: SimpleChanges): void {
   this.resourceList = this.getPanelObj.content.resources ?? [];
   this.rawQueryValue = this.getPanelObj.content.rawQuery ?? '';
 
-  // ✅ Step 1: Load table names
+  // âœ… Step 1: Load table names
   this.chartService.getTableNamesArrary(this.connection_id).subscribe((res: any) => {
     this.tableNamesArray = res['data'];
 
     if (this.getPanelObj.content.tableName) {
 
-      // ✅ Step 2: Load column names THEN patch form
+      // âœ… Step 2: Load column names THEN patch form
       this.chartService.getColumnNameBYTableName(
         this.getPanelObj.content.tableName,
         this.connection_id
@@ -222,7 +229,7 @@ ngOnChanges(changes: SimpleChanges): void {
 
           console.log('selectedTableFieldName loaded:', this.selectedTableFieldName);
 
-          // ✅ Step 3: Patch form AFTER columns are available
+          // âœ… Step 3: Patch form AFTER columns are available
           this.scedularTemplateForm.patchValue({
             title: this.getPanelObj.header || this.getPanelObj.content.title || '',
             tableName: this.getPanelObj.content.tableName || '',
@@ -356,7 +363,7 @@ onGroupingFieldChange(e: any) {
   const resourcesGroup = this.scedularTemplateForm.get('resources') as FormGroup;
 
   resourcesGroup.patchValue({
-    name: e.itemData.text   // ✅ auto-patch inside "resources" group
+    name: e.itemData.text   // âœ… auto-patch inside "resources" group
   });
 }
 
@@ -842,13 +849,13 @@ onAddView() {
 
   this.viewsList.push(newView);
 
-  // ✅ Only reset viewSettings group, not the entire form
+  // âœ… Only reset viewSettings group, not the entire form
   this.scedularTemplateForm.get('viewSettings')?.reset({
     scheduleView: '',
     startHour: '09:00:00',
     endHour: '20:00:00',
     enableTimelineView: false
-  }, { emitEvent: false }); // ✅ emitEvent: false prevents triggering valueChanges
+  }, { emitEvent: false }); // âœ… emitEvent: false prevents triggering valueChanges
 
   this.currentViewOptions = this.normalViews;
   this.cdr.detectChanges();
@@ -866,7 +873,7 @@ onEditView(index: number) {
     ? this.timelineViews
     : this.normalViews;
 
-  // ✅ emitEvent: false prevents side effects on other form controls
+  // âœ… emitEvent: false prevents side effects on other form controls
   this.scedularTemplateForm.get('viewSettings')?.patchValue({
     scheduleView: viewConfig.scheduleView,
     enableTimelineView: viewConfig.enableTimelineView,
@@ -891,7 +898,7 @@ onUpdateView() {
     this.showViewAddBtn = true;
     this.updateViewBtn = false;
 
-    // ✅ Only reset viewSettings, emitEvent: false to avoid side effects
+    // âœ… Only reset viewSettings, emitEvent: false to avoid side effects
     this.scedularTemplateForm.get('viewSettings')?.reset({
       scheduleView: '',
       startHour: '09:00:00',
@@ -906,7 +913,7 @@ onUpdateView() {
 
 onDeleteView(index: number) {
   this.viewsList.splice(index, 1);
-  this.cdr.detectChanges(); // ✅ Ensure table updates after delete
+  this.cdr.detectChanges(); // âœ… Ensure table updates after delete
 }
 
   onResetView() {

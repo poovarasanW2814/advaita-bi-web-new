@@ -1,17 +1,21 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn, ValidationErrors, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
-import { TabComponent } from '@syncfusion/ej2-angular-navigations';
-import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { TabComponent, TabModule } from '@syncfusion/ej2-angular-navigations';
+import { AnimationSettingsModel, DialogComponent, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { Browser } from '@syncfusion/ej2/base';
 import { Subject } from 'rxjs';
 import { ChartService } from 'src/app/core/services/chart.service';
+import { DropDownListModule, MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns';
+import { NgIf, NgFor } from '@angular/common';
+import { ColorPickerModule } from '@syncfusion/ej2-angular-inputs';
+import { SwitchModule, ButtonModule } from '@syncfusion/ej2-angular-buttons';
 
 @Component({
-  selector: 'app-property-chart',
-  templateUrl: './property-chart.component.html',
-  styleUrls: ['./property-chart.component.scss'],
-  standalone: false
+    selector: 'app-property-chart',
+    templateUrl: './property-chart.component.html',
+    styleUrls: ['./property-chart.component.scss'],
+    imports: [TabModule, FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, ColorPickerModule, SwitchModule, NgFor, MultiSelectModule, ButtonModule, DialogModule]
 })
 
 export class PropertyChartComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
@@ -49,7 +53,10 @@ export class PropertyChartComponent implements OnInit, OnChanges, OnDestroy, Aft
   fontWeights: number[] = [100, 200, 300, 400, 500, 600, 700, 800, 900];
   generalChartType: any = ["Column", "Line", "Area", "Pie"]
 
-  constructor(private fb: FormBuilder, private chartService: ChartService, private changeDetectorRef: ChangeDetectorRef) {
+  private readonly fb = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  constructor() {
     this.createDashboardObj();
   }
   panelSeriesArray: any = []

@@ -7,7 +7,7 @@
 .dashboardParent {
   width: 100%;
   padding: 65px 10px;
-  background: #f5f5f5;
+  background: var(--bg-secondary);
   z-index: 999;
 } 
 
@@ -46,26 +46,22 @@
    // min-height: 600px;
   }
   #sidebar-section #target {
-    // background: linear-gradient(-141deg, #eef5f7 14%, #eef2fb 100%);
-    // background-color:#e2e7eb5c;
-    //  min-height: 640px;
-    // position: relative;
-     background-color: rgba(226, 231, 235, 0.3607843137);
-     min-height: 1000px;
-     height: 100%;
-     overflow: hidden;
-  }
+   background-color: var(--bg-primary);
+   min-height: 1000px;
+   height: 100%;
+   overflow: hidden;
+}
 
   ejs-sidebar#dockSidebar {
     background: white;
-    border-right: 1px solid lightgrey;
+    border-right: 1px solid var(--border-color);
     position: fixed;
-    // top: 54 !important;
     left: 0;
-    height: 100%; /* Adjust height according to your design */
+    height: 100%;
     margin-top: 54px;
     text-align: center;
-}
+    box-shadow: var(--shadow-sm);
+  }
 
   .bootstrap5 #dockSidebar {
     background: #FFFFFF;
@@ -84,20 +80,15 @@
     padding: 5px;
     height: 40px;
     font-size: 13px;
-    color: rgba(13, 53, 148, 0.898);
+    color: var(--bi-primary);
     background-color: white;
-    
+    transition: all var(--transition-base);
   }
 
-
   #dockSidebar .e-list-parent > .e-list-item:hover {
-    // background: #F5EFFF;
-    // border-left: 4px solid #057ece;
-    // background: #9977f9;
     color: white;
-    transition: 0.6s ease;
     font-weight: 600;
-    background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, 0.898) 109.98%);
+    background: var(--bi-gradient);
   }
   
   #dockSidebar .e-list-item.bg-purple:hover {

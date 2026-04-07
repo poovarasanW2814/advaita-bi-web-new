@@ -1,14 +1,16 @@
 import { formatDate } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TabComponent } from '@syncfusion/ej2-angular-navigations';
 import { ChartService } from 'src/app/core/services/chart.service';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { SwitchModule } from '@syncfusion/ej2-angular-buttons';
 
 @Component({
-  selector: 'app-daterangepicker',
-  templateUrl: './daterangepicker.component.html',
-  styleUrls: ['./daterangepicker.component.scss'],
-  standalone: false
+    selector: 'app-daterangepicker',
+    templateUrl: './daterangepicker.component.html',
+    styleUrls: ['./daterangepicker.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule, DropDownListModule, SwitchModule]
 })
 
 export class DaterangepickerComponent implements OnInit, OnChanges {
@@ -49,19 +51,21 @@ export class DaterangepickerComponent implements OnInit, OnChanges {
   public maxDate: Object =  new Date(this.currentYear, this.currentMonth+1, 15);
 
 
-  constructor(private fb: FormBuilder, private chartService: ChartService) {
+  private readonly fb = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  constructor() {
     this.boxTemplateForm = this.fb.group({
-      tableName: ['', [Validators.required]],
-      fieldName: ['', [Validators.required]],
-      labelName: [''],
-      // dateFormat: ['dd-MMM-yy', [Validators.required]],
-      dateFormat: ['yyyy-MM-dd'],
-      isInitialFilter : false,
-      // minDate : [''],
-      // maxDate : [''],
-      minDays : [0],
-      maxDays : [''],
-    })
+          tableName: ['', [Validators.required]],
+          fieldName: ['', [Validators.required]],
+          labelName: [''],
+          // dateFormat: ['dd-MMM-yy', [Validators.required]],
+          dateFormat: ['yyyy-MM-dd'],
+          isInitialFilter : false,
+          // minDate : [''],
+          // maxDate : [''],
+          minDays : [0],
+          maxDays : [''],
+  })
 
 
   }

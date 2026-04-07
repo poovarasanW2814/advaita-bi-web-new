@@ -1,4 +1,4 @@
-// import { Component, OnInit } from '@angular/core';
+﻿// import { Component, OnInit } from '@angular/core';
 // import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // import { Router } from '@angular/router';
 // import { AnimationModel } from '@syncfusion/ej2-angular-progressbar';
@@ -36,7 +36,17 @@
 
 //   logoImgPath! : string;
 
-//   constructor(private formBuilder: FormBuilder, private router : Router, private chartService : ChartService, private authService: AuthService, private LogaccesService: LogaccessService, private menuBasedAccessService: MenuBasedAccessService, private dashboardBasedAccessService : DashboardBasedAccessService, private loaderService : LoaderService, private popupService : PopupService, private userService : UserService, private loaderservice : LoaderService) { }
+//   private readonly formBuilder = inject(FormBuilder);
+//   private readonly router = inject(Router);
+//   private readonly chartService = inject(ChartService);
+//   private readonly authService = inject(AuthService);
+//   private readonly LogaccesService = inject(LogaccessService);
+//   private readonly menuBasedAccessService = inject(MenuBasedAccessService);
+//   private readonly dashboardBasedAccessService = inject(DashboardBasedAccessService);
+//   private readonly loaderService = inject(LoaderService);
+//   private readonly popupService = inject(PopupService);
+//   private readonly userService = inject(UserService);
+//   private readonly loaderservice = inject(LoaderService);
 
 //   ngOnInit(): void {
 

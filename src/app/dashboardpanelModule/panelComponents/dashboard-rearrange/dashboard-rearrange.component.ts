@@ -1,9 +1,9 @@
 
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ButtonComponent } from '@syncfusion/ej2-angular-buttons';
-import { DragEventArgs,  ListBoxComponent } from '@syncfusion/ej2-angular-dropdowns';
-import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { Component, OnInit, ViewChild, inject} from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ButtonComponent, ButtonModule, SwitchModule } from '@syncfusion/ej2-angular-buttons';
+import { DragEventArgs, ListBoxComponent, ListBoxModule, DropDownListModule, MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns';
+import { AnimationSettingsModel, DialogComponent, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { Draggable } from '@syncfusion/ej2/base';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';
@@ -11,13 +11,14 @@ import { ItemModel } from '@syncfusion/ej2-angular-splitbuttons';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { PopupService } from 'src/app/core/services/popup.service';
 import { Router } from '@angular/router';
+import { NgIf, NgFor } from '@angular/common';
 
 
 @Component({
-  selector: 'app-dashboard-rearrange',
-  templateUrl: './dashboard-rearrange.component.html',
-  styleUrls: ['./dashboard-rearrange.component.scss'],
-  standalone: false
+    selector: 'app-dashboard-rearrange',
+    templateUrl: './dashboard-rearrange.component.html',
+    styleUrls: ['./dashboard-rearrange.component.scss'],
+    imports: [NgIf, ButtonModule, ListBoxModule, DialogModule, FormsModule, ReactiveFormsModule, NgFor, SwitchModule, DropDownListModule, MultiSelectModule]
 })
 export class DashboardRearrangeComponent implements OnInit {
 
@@ -51,8 +52,12 @@ export class DashboardRearrangeComponent implements OnInit {
       // iconCss: 'fas fa-power-off'
     }];
 
-  constructor(private chartService : ChartService, private menuBasedAccessService: MenuBasedAccessService,  private fb : FormBuilder, private loaderService : LoaderService, private popupService : PopupService, private router: Router) {
-   }
+  private readonly chartService = inject(ChartService);
+  private readonly menuBasedAccessService = inject(MenuBasedAccessService);
+  private readonly fb = inject(FormBuilder);
+  private readonly loaderService = inject(LoaderService);
+  private readonly popupService = inject(PopupService);
+  private readonly router = inject(Router);
 
 
    colors: string[] = [

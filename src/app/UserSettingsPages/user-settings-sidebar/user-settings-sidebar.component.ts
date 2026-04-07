@@ -1,16 +1,18 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { ClickEventArgs, SidebarComponent } from '@syncfusion/ej2-angular-navigations';
+import { Component, OnInit, ViewChild, inject} from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
+import { ClickEventArgs, SidebarComponent, ToolbarModule, SidebarModule } from '@syncfusion/ej2-angular-navigations';
+import { PopupComponent } from '../../dashboardpanelModule/Panel Properties/popup/popup.component';
+import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 
 @Component({
-  selector: 'app-user-settings-sidebar',
-  templateUrl: './user-settings-sidebar.component.html',
-  styleUrls: ['./user-settings-sidebar.component.scss'],
-  standalone: false
+    selector: 'app-user-settings-sidebar',
+    templateUrl: './user-settings-sidebar.component.html',
+    styleUrls: ['./user-settings-sidebar.component.scss'],
+    imports: [ToolbarModule, RouterOutlet, PopupComponent, SidebarModule, ListViewModule]
 })
 export class UserSettingsSidebarComponent implements OnInit {
 
-  constructor(private router : Router) { }
+  private readonly router = inject(Router);
 
   ngOnInit(): void {
   }

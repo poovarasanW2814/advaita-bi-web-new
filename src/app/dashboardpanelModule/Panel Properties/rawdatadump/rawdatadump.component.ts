@@ -1,13 +1,16 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TabComponent } from '@syncfusion/ej2-angular-navigations';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TabComponent, TabModule } from '@syncfusion/ej2-angular-navigations';
 import { ChartService } from 'src/app/core/services/chart.service';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { NgIf, NgFor } from '@angular/common';
+import { ColorPickerModule } from '@syncfusion/ej2-angular-inputs';
 
 @Component({
-  selector: 'app-rawdatadump',
-  templateUrl: './rawdatadump.component.html',
-  styleUrls: ['./rawdatadump.component.scss'],
-  standalone: false
+    selector: 'app-rawdatadump',
+    templateUrl: './rawdatadump.component.html',
+    styleUrls: ['./rawdatadump.component.scss'],
+    imports: [TabModule, FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, ColorPickerModule, NgFor]
 })
 export class RawdatadumpComponent implements OnInit, OnChanges {
   @Input() getPanelObj: any;
@@ -41,7 +44,10 @@ export class RawdatadumpComponent implements OnInit, OnChanges {
 
 
 
-  constructor(private fb: FormBuilder, private chartService: ChartService, private cdr: ChangeDetectorRef) { 
+  private readonly fb = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  constructor() {
     this.createForm()
   }
 

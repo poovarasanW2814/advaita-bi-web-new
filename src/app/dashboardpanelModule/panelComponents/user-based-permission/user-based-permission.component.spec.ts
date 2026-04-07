@@ -8,8 +8,8 @@ describe('UserBasedPermissionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UserBasedPermissionComponent ]
-    })
+    imports: [UserBasedPermissionComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(UserBasedPermissionComponent);

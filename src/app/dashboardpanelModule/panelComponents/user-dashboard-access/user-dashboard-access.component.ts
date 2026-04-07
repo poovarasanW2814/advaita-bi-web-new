@@ -1,15 +1,16 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject} from '@angular/core';
+import { FormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { fileItems } from '@syncfusion/ej2/filemanager';
 import { UserService } from 'src/app/core/AuthServices/user.service';
 import { ChartService } from 'src/app/core/services/chart.service';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 
 @Component({
-  selector: 'app-user-dashboard-access',
-  templateUrl: './user-dashboard-access.component.html',
-  styleUrls: ['./user-dashboard-access.component.scss'],
-  standalone: false
+    selector: 'app-user-dashboard-access',
+    templateUrl: './user-dashboard-access.component.html',
+    styleUrls: ['./user-dashboard-access.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule, DropDownListModule]
 })
 
 
@@ -31,7 +32,10 @@ export class UserDashboardAccessComponent implements OnInit, OnChanges {
   success: boolean = false;
   displayPopup: boolean = false;
   roleId !: number;
-  constructor(private fb: FormBuilder, private chartService: ChartService, private route: ActivatedRoute,  private userService: UserService) { }
+  private readonly fb = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly userService = inject(UserService);
 
   dashboard_Name: string = '';
   dashboard_id: any;

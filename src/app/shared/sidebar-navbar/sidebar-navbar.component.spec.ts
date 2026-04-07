@@ -8,8 +8,8 @@ describe('SidebarNavbarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SidebarNavbarComponent ]
-    })
+    imports: [SidebarNavbarComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(SidebarNavbarComponent);

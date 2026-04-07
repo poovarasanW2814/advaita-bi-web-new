@@ -6,17 +6,18 @@ import { HttpClient } from '@angular/common/http';
 import { ChartSeries } from '@syncfusion/ej2/documenteditor';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { IDataOptions, PivotView, ToolbarItems, View } from '@syncfusion/ej2-angular-pivotview';
-import { EventRenderedArgs, EventSettingsModel, GroupModel, PopupOpenEventArgs, RenderCellEventArgs, ScheduleComponent, TimeScaleModel, WorkHoursModel } from '@syncfusion/ej2-angular-schedule';
+import { EventRenderedArgs, EventSettingsModel, GroupModel, PopupOpenEventArgs, RenderCellEventArgs, ScheduleComponent, TimeScaleModel, WorkHoursModel, ScheduleModule } from '@syncfusion/ej2-angular-schedule';
 // import { roomData } from '../dashbord-page-vieww/data';
 import { extend, isNullOrUndefined } from '@syncfusion/ej2/base';
 import { roomData } from '../dashbord-page-vieww/data';
+import { AIAssistViewModule } from '@syncfusion/ej2-angular-interactive-chat';
 // import { roomData } from '../dashbord-page-vieww/data';
 
 @Component({
-  selector: 'app-paging-table',
-  templateUrl: './paging-table.component.html',
-  styleUrls: ['./paging-table.component.scss'],
-  standalone: false
+    selector: 'app-paging-table',
+    templateUrl: './paging-table.component.html',
+    styleUrls: ['./paging-table.component.scss'],
+    imports: [ScheduleModule, AIAssistViewModule]
 })
 export class PagingTableComponent implements OnInit {
   

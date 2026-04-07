@@ -1,14 +1,14 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject} from '@angular/core';
+import { FormGroup, FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from 'src/app/core/AuthServices/user.service';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';
 
 @Component({
-  selector: 'app-role-based-permission',
-  templateUrl: './role-based-permission.component.html',
-  styleUrls: ['./role-based-permission.component.scss'],
-  standalone: false
+    selector: 'app-role-based-permission',
+    templateUrl: './role-based-permission.component.html',
+    styleUrls: ['./role-based-permission.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule]
 })
 
 export class RoleBasedPermissionComponent implements OnInit, OnChanges {
@@ -56,7 +56,10 @@ export class RoleBasedPermissionComponent implements OnInit, OnChanges {
 
   selectAllCheckboxChecked = false;
 
-  constructor(private fb: FormBuilder, private chartService : ChartService, private menuBasedAccessService: MenuBasedAccessService, private userService : UserService) {}
+  private readonly fb = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  private readonly menuBasedAccessService = inject(MenuBasedAccessService);
+  private readonly userService = inject(UserService);
   ngOnChanges(changes: SimpleChanges): void {
    let currentValue = changes['getRoleObj'].currentValue;
 

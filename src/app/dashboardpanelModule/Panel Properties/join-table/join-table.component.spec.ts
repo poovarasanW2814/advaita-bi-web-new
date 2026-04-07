@@ -8,8 +8,8 @@ describe('JoinTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ JoinTableComponent ]
-    })
+    imports: [JoinTableComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(JoinTableComponent);

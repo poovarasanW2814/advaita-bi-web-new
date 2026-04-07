@@ -6,15 +6,7 @@
   height: 100vh;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(90deg,
-      rgb(118, 116, 230) 0%,
-      rgb(64, 64, 206) 35%,
-      rgb(17, 60, 153) 100%);
-
-  // background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, .898) 109.98%);
-
-
-
+  background: var(--bi-gradient);
 }
 
 /* The card itself */
@@ -78,7 +70,7 @@
 /* Interactive "Login" header */
 .card-left h2 {
   margin-bottom: 20px;
-  color: #333;
+  color: var(--bi-primary);
   text-align: center;
   font-size: 28px;
   font-weight: 700;
@@ -86,8 +78,8 @@
 }
 
 .card-left h2:hover {
-  color: #007bff;
-  text-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+  color: var(--bi-bright);
+  text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
 }
 
 .form-group {
@@ -97,40 +89,42 @@
 .form-group label {
   display: block;
   margin-bottom: 5px;
-  color: #555;
+  color: var(--text-secondary);
+  font-weight: var(--fw-medium);
 }
 
 .form-group input {
   width: 100%;
   padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-base);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--bi-primary);
+  box-shadow: 0 0 0 3px rgba(13, 92, 122, 0.1);
 }
 
 button {
   padding: 10px;
   width: 100%;
-  // background-color: rgb(69 113 153);
-  background-color:  rgba(13, 53, 148, .898);
-  
+  background: var(--bi-gradient);
   color: white;
   border: none;
-  border-radius: 25px;
+  border-radius: var(--r-full);
   cursor: pointer;
   margin-top: 10px;
   margin-bottom: 10px;
+  font-weight: var(--fw-medium);
+  transition: all var(--transition-base);
 }
 
 button:hover {
-  //background-color: white;
-  //color: #2a82e0;
-  background: white;
-  border-color: rgba(13, 53, 148, .898);
-  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
-  // color: #2a82e0;
-  color: rgba(13, 53, 148, .898);
-  
-  transition: 1s all;
+  background: var(--bi-gradient-hover);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
 }
 
 /* Right side image styling */
@@ -175,13 +169,12 @@ button:hover {
 }
 
 span.login {
-  // background: rgb(69 113 153);
-  background: rgba(13, 53, 148, .898);
-  
+  background: var(--bi-primary);
   padding: 10px 50px;
-  border-radius: 1px;
+  border-radius: var(--r-md);
   font-size: 13px;
   color: white;
+  font-weight: var(--fw-medium);
 }
 .error{
  font-size: 12px;
@@ -287,25 +280,5 @@ span.login {
 }
 
 
-.loader-gif {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1500;
-  width: 150px; /* Adjust size as needed */
-  height: auto;
-  border-radius: 10px; /* Optional for rounded corners */
-}
-
-.loader-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  min-height: 100vh;
-  height: 100%;
-  background: rgba(211, 195, 195, 0.5);
-  z-index: 1400;
-}
+// .loader-gif and .loader-backdrop are defined globally in design-system.scss
  

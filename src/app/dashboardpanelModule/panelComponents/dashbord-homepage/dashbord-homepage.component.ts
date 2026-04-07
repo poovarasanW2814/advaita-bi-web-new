@@ -1,9 +1,9 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { ButtonComponent } from '@syncfusion/ej2-angular-buttons';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, inject} from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
+import { ButtonComponent, ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { AnimationModel } from '@syncfusion/ej2-angular-charts';
 import { MenuItemModel } from '@syncfusion/ej2-angular-navigations';
-import { DialogComponent, AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
+import { DialogComponent, AnimationSettingsModel, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { DashboardBasedAccessService } from 'src/app/core/services/dashboard-based-access.service';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';
@@ -11,19 +11,21 @@ import { RoleDashboardAccessComponent } from '../role-dashboard-access/role-dash
 import { UserDashboardAccessComponent } from '../user-dashboard-access/user-dashboard-access.component';
 import { PopupService } from 'src/app/core/services/popup.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PopupComponent } from '../../Panel Properties/popup/popup.component';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/core/AuthServices/user.service';
+import { NgIf, NgFor, NgStyle } from '@angular/common';
+import { FilterPipe } from '../../services/filter.pipe';
 
 
 @Component({
-  selector: 'app-dashbord-homepage',
-  templateUrl: './dashbord-homepage.component.html',
-  styleUrls: ['./dashbord-homepage.component.scss'],
-  standalone: false
+    selector: 'app-dashbord-homepage',
+    templateUrl: './dashbord-homepage.component.html',
+    styleUrls: ['./dashbord-homepage.component.scss'],
+    imports: [FormsModule, NgIf, NgFor, RouterLink, NgStyle, ButtonModule, DialogModule, RoleDashboardAccessComponent, UserDashboardAccessComponent, ReactiveFormsModule, FilterPipe]
 })
 
 
@@ -152,7 +154,16 @@ export class DashbordHomepageComponent implements OnInit, AfterViewInit, OnDestr
 
   private routerSubscription!: Subscription;
 
-  constructor(private route: ActivatedRoute, private router: Router, private chartService: ChartService, private cdr: ChangeDetectorRef, private menuBasedAccessService: MenuBasedAccessService, private dashboardBasedAccessService: DashboardBasedAccessService, private popupService: PopupService, private loaderService: LoaderService, private formBuilder: FormBuilder, private userService: UserService) { }
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly chartService = inject(ChartService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly menuBasedAccessService = inject(MenuBasedAccessService);
+  private readonly dashboardBasedAccessService = inject(DashboardBasedAccessService);
+  private readonly popupService = inject(PopupService);
+  private readonly loaderService = inject(LoaderService);
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly userService = inject(UserService);
   ngOnDestroy(): void {
 
 

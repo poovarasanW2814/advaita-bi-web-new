@@ -8,8 +8,8 @@ describe('RoleMappingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RoleMappingComponent ]
-    })
+    imports: [RoleMappingComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(RoleMappingComponent);

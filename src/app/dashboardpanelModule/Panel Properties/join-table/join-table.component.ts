@@ -1,19 +1,21 @@
-import { Component, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
+import { Component, HostListener, OnInit, Renderer2, ViewChild, inject} from '@angular/core';
+import { FormGroup, FormBuilder, FormArray, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AnimationModel } from '@syncfusion/ej2-angular-charts';
-import { GridComponent } from '@syncfusion/ej2-angular-grids';
-import { DialogComponent, AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
+import { AnimationModel, ChartModule } from '@syncfusion/ej2-angular-charts';
+import { GridComponent, GridModule } from '@syncfusion/ej2-angular-grids';
+import { DialogComponent, AnimationSettingsModel, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';
 import { PopupService } from 'src/app/core/services/popup.service';
+import { KanbanModule } from '@syncfusion/ej2-angular-kanban';
+import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 
 @Component({
-  selector: 'app-join-table',
-  templateUrl: './join-table.component.html',
-  styleUrls: ['./join-table.component.scss'],
-  standalone: false
+    selector: 'app-join-table',
+    templateUrl: './join-table.component.html',
+    styleUrls: ['./join-table.component.scss'],
+    imports: [GridModule, ChartModule, KanbanModule, ButtonModule, DialogModule, FormsModule, ReactiveFormsModule]
 })
 
 export class JoinTableComponent implements OnInit {
@@ -64,7 +66,14 @@ export class JoinTableComponent implements OnInit {
   permissionObj: any = {};
   menuBasedPermissionControlArray: any = [];
 
-  constructor(private formBuilder: FormBuilder, private chartService: ChartService, private route: ActivatedRoute, private router: Router, private menuBasedAccessService: MenuBasedAccessService, private renderer: Renderer2, private loaderService: LoaderService, private popupService: PopupService) { }
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly menuBasedAccessService = inject(MenuBasedAccessService);
+  private readonly renderer = inject(Renderer2);
+  private readonly loaderService = inject(LoaderService);
+  private readonly popupService = inject(PopupService);
 
   screenWidth!: number;
   myForm!: FormGroup;

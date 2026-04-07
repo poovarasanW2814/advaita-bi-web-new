@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject} from '@angular/core';
 import { BehaviorSubject, Observable, Subject, catchError, throwError, timeout } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
@@ -58,7 +58,7 @@ export class ChartService {
   
 
 
-  constructor(private httpClient : HttpClient, ) { }
+  private readonly httpClient = inject(HttpClient);
 
 
     // swagger apis //////////

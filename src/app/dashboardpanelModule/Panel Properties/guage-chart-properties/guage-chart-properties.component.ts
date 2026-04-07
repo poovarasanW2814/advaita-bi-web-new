@@ -1,20 +1,24 @@
 import { ILoadedEventArgs, GaugeTheme, CircularGaugeModule } from '@syncfusion/ej2-angular-circulargauge';
 import { group } from '@angular/animations';
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn, ValidationErrors, FormArray, FormControl } from '@angular/forms';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn, ValidationErrors, FormArray, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
-import { TabComponent } from '@syncfusion/ej2-angular-navigations';
-import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { TabComponent, TabModule } from '@syncfusion/ej2-angular-navigations';
+import { AnimationSettingsModel, DialogComponent, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { Browser } from '@syncfusion/ej2/base';
 import { Subject } from 'rxjs';
 import { ChartService } from 'src/app/core/services/chart.service';
+import { DropDownListModule, MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns';
+import { NgIf, NgFor } from '@angular/common';
+import { ColorPickerModule } from '@syncfusion/ej2-angular-inputs';
+import { SwitchModule, ButtonModule } from '@syncfusion/ej2-angular-buttons';
 
 
 @Component({
-  selector: 'app-guage-chart-properties',
-  templateUrl: './guage-chart-properties.component.html',
-  styleUrls: ['./guage-chart-properties.component.scss'],
-  standalone: false
+    selector: 'app-guage-chart-properties',
+    templateUrl: './guage-chart-properties.component.html',
+    styleUrls: ['./guage-chart-properties.component.scss'],
+    imports: [TabModule, FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, ColorPickerModule, NgFor, SwitchModule, MultiSelectModule, ButtonModule, DialogModule]
 })
 export class guageChartPropertiesComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   @Input() getPanelObj: any;
@@ -62,7 +66,10 @@ export class guageChartPropertiesComponent implements OnInit, OnChanges, OnDestr
   // generalChartType: any = ["CircularGauge"];
   selectedMeasureIndex: any = null;
 
-  constructor(private fb: FormBuilder, private chartService: ChartService, private changeDetectorRef: ChangeDetectorRef) {
+  private readonly fb = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  constructor() {
     this.createDashboardObj();
   }
 
@@ -335,7 +342,7 @@ this.dashboardCreationForm.get('gauge.pointer.animation')?.patchValue({
   ngAfterViewInit() {
     this.refreshTabComponent();
 
-    // ✅ Load dummy only if no real panel data exists in session
+    // âœ… Load dummy only if no real panel data exists in session
     const panelsArrData = sessionStorage.getItem('createPanelSeriesArray');
     const parsedPanels = panelsArrData ? JSON.parse(panelsArrData) : [];
     const hasRealData = parsedPanels.find((p: any) => p.id === this.getPanelObj?.id);
@@ -822,7 +829,7 @@ this.editIndex = index;
         return dim;
       });
     }
-    // ✅ END BLOCK
+    // âœ… END BLOCK
 
     let apiObj: any = {
       object_id: id + "_gauge",

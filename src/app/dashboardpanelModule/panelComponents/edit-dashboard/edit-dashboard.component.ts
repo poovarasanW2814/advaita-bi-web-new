@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren, inject} from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { ChartComponent, AccumulationChartComponent, ToolbarItems, AnimationModel, ILoadedEventArgs, IAccTooltipRenderEventArgs, IAccTextRenderEventArgs, ITooltipRenderEventArgs, IAxisLabelRenderEventArgs, IPointRenderEventArgs } from '@syncfusion/ej2-angular-charts';
-import { CheckBoxSelection, DropDownListComponent, MultiSelectComponent, SelectionSettingsModel, VirtualScroll } from '@syncfusion/ej2-angular-dropdowns';
-import { GridComponent, GroupSettingsModel, FilterSettingsModel, QueryCellInfoEventArgs, PageEventArgs, DataStateChangeEventArgs, PagerComponent } from '@syncfusion/ej2-angular-grids';
-import { DashboardLayoutComponent, PanelModel } from '@syncfusion/ej2-angular-layouts';
+import { ChartComponent, AccumulationChartComponent, ToolbarItems, AnimationModel, ILoadedEventArgs, IAccTooltipRenderEventArgs, IAccTextRenderEventArgs, ITooltipRenderEventArgs, IAxisLabelRenderEventArgs, IPointRenderEventArgs, ChartModule, AccumulationChartModule } from '@syncfusion/ej2-angular-charts';
+import { CheckBoxSelection, DropDownListComponent, MultiSelectComponent, SelectionSettingsModel, VirtualScroll, DropDownListModule, ListBoxModule, MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns';
+import { GridComponent, GroupSettingsModel, FilterSettingsModel, QueryCellInfoEventArgs, PageEventArgs, DataStateChangeEventArgs, PagerComponent, GridModule } from '@syncfusion/ej2-angular-grids';
+import { DashboardLayoutComponent, PanelModel, DashboardLayoutModule } from '@syncfusion/ej2-angular-layouts';
 import { ClickEventArgs, DataBoundEventArgs } from '@syncfusion/ej2-angular-navigations';
-import { DisplayOption, EnginePopulatedEventArgs, PivotView, PivotViewComponent } from '@syncfusion/ej2-angular-pivotview';
-import { DialogComponent, AnimationSettingsModel, hideSpinner, ButtonPropsModel } from '@syncfusion/ej2-angular-popups';
+import { DisplayOption, EnginePopulatedEventArgs, PivotView, PivotViewComponent, PivotViewModule } from '@syncfusion/ej2-angular-pivotview';
+import { DialogComponent, AnimationSettingsModel, hideSpinner, ButtonPropsModel, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { PanelServiceService } from 'src/app/core/services/panel-service.service';
 import { GridSettings } from '@syncfusion/ej2-pivotview/src/pivotview/model/gridsettings';
@@ -32,13 +32,18 @@ import { RawdatadumpComponent } from '../../Panel Properties/rawdatadump/rawdata
 import { ExcelExportService } from 'src/app/core/services/excel-export.service';
 import { InputBoxPropertiesComponent } from '../../Panel Properties/input-box-properties/input-box-properties.component';
 import { CardTemplateComponent } from '../../Panel Properties/card-template/card-template.component';
-import { AIAssistViewComponent, PromptModel, ResponseToolbarSettingsModel, PromptRequestEventArgs } from '@syncfusion/ej2-angular-interactive-chat';
+import { AIAssistViewComponent, PromptModel, ResponseToolbarSettingsModel, PromptRequestEventArgs, AIAssistViewModule } from '@syncfusion/ej2-angular-interactive-chat';
 import { PropertySceduleComponent } from '../../Panel Properties/property-scedule/property-scedule.component';
-import { EventSettingsModel } from '@syncfusion/ej2-angular-schedule';
+import { EventSettingsModel, ScheduleModule } from '@syncfusion/ej2-angular-schedule';
 import { KanbanComponent } from '../../Panel Properties/kanban/kanban.component';
-import { CircularGaugeComponent } from '@syncfusion/ej2-angular-circulargauge';
+import { CircularGaugeComponent, CircularGaugeModule } from '@syncfusion/ej2-angular-circulargauge';
 import { LegendService, GaugeTooltipService } from '@syncfusion/ej2-angular-circulargauge';
 import { guageChartPropertiesComponent } from '../../Panel Properties/guage-chart-properties/guage-chart-properties.component';
+import { ButtonModule, SwitchModule } from '@syncfusion/ej2-angular-buttons';
+import { NgIf, NgFor, NgClass, NgStyle } from '@angular/common';
+import { KanbanModule } from '@syncfusion/ej2-angular-kanban';
+import { DateRangePickerModule, DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { RoleMappingComponent } from '../../Panel Properties/role-mapping/role-mapping.component';
 
 
 DropDownListComponent.Inject(VirtualScroll);
@@ -47,13 +52,12 @@ MultiSelectComponent.Inject(CheckBoxSelection);
 
 
 @Component({
-  selector: 'app-edit-dashboard',
-  templateUrl: './edit-dashboard.component.html',
-  styleUrls: ['./edit-dashboard.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [LegendService, GaugeTooltipService],
-  standalone: false
-
+    selector: 'app-edit-dashboard',
+    templateUrl: './edit-dashboard.component.html',
+    styleUrls: ['./edit-dashboard.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [LegendService, GaugeTooltipService],
+    imports: [ButtonModule, NgIf, DashboardLayoutModule, NgFor, GridModule, NgClass, ChartModule, KanbanModule, PivotViewModule, AccumulationChartModule, NgStyle, DateRangePickerModule, DatePickerModule, DropDownListModule, ListBoxModule, MultiSelectModule, ScheduleModule, AIAssistViewModule, CircularGaugeModule, DialogModule, FormsModule, ReactiveFormsModule, SwitchModule, RoleMappingComponent, InitialFiltersComponent, PropertyChartComponent, PropertyTableComponent, PivotPropertiesComponent, PropertyBoxComponent, ListboxPropertiesComponent, DropdownPropertiesComponent, DatepickerComponent, DaterangepickerComponent, PropertyMultiselectdropdownComponent, PropertySceduleComponent, InputBoxPropertiesComponent, RawdatadumpComponent, CardTemplateComponent, KanbanComponent, guageChartPropertiesComponent]
 })
 
 
@@ -320,17 +324,25 @@ export class EditDashboardComponent implements OnInit {
       sessionStorage.removeItem('leavingPage');
     }
   }
-  constructor(private panelService: PanelServiceService, private changeDetectorRef: ChangeDetectorRef, private formBuilder: FormBuilder, private chartService: ChartService, private router: Router, private route: ActivatedRoute, private loaderService: LoaderService, private popupService: PopupService, private excelService: ExcelExportService) {
-
+  private readonly panelService = inject(PanelServiceService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly loaderService = inject(LoaderService);
+  private readonly popupService = inject(PopupService);
+  private readonly excelService = inject(ExcelExportService);
+  constructor() {
     this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-
-
-        sessionStorage.removeItem('panelSeriesArray');
-        sessionStorage.removeItem('createPanelSeriesArray');
-        sessionStorage.removeItem('storeEditObj');
-        sessionStorage.removeItem('connectionIdObj');
-      }
+          if (event instanceof NavigationEnd) {
+    
+    
+            sessionStorage.removeItem('panelSeriesArray');
+            sessionStorage.removeItem('createPanelSeriesArray');
+            sessionStorage.removeItem('storeEditObj');
+            sessionStorage.removeItem('connectionIdObj');
+  }
     });
 
 
@@ -1129,7 +1141,7 @@ export class EditDashboardComponent implements OnInit {
 
 
 
-              //console.log('✔ Total Valid Seconds:', total);
+              //console.log('âœ” Total Valid Seconds:', total);
 
 
               //console.log('data', data)
@@ -1332,7 +1344,7 @@ export class EditDashboardComponent implements OnInit {
         if (value === null || value === undefined) return NaN;
         if (typeof value === 'number') return value;
         if (typeof value === 'string') {
-          const cleaned = value.replace(/[%,\s$€£¥]/g, '').trim();
+          const cleaned = value.replace(/[%,\s$â‚¬Â£Â¥]/g, '').trim();
           return parseFloat(cleaned);
         }
         return NaN;
@@ -1448,7 +1460,7 @@ export class EditDashboardComponent implements OnInit {
 
   onPopupOpen(args: any, item: any) {
     console.log('onPopupOpen args', args, item.content.enablePopup);
-    // 👉 Option: disable popup for event clicks
+    // ðŸ‘‰ Option: disable popup for event clicks
 
     if (item.content.enablePopup) {
       if (args.type === 'QuickInfo') {
@@ -1893,7 +1905,7 @@ export class EditDashboardComponent implements OnInit {
     }
     matchTable.grid.headerCellInfo = this.queryCellHeaderINfo.bind(this);
 
-    // ── STRING VALUE FIELD OVERRIDE ──────────────────────────────────────────
+    // â”€â”€ STRING VALUE FIELD OVERRIDE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const fieldDetails = item?.content?.fieldDetails || [];
 
     const stringValueFields: string[] = fieldDetails
@@ -1928,7 +1940,7 @@ export class EditDashboardComponent implements OnInit {
       args.skipFormatting = true;
       return;
     }
-    // ── END STRING VALUE FIELD OVERRIDE ──────────────────────────────────────
+    // â”€â”€ END STRING VALUE FIELD OVERRIDE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const timeFields = item.content.fieldDetails.filter(
       (f: any) => f.formatType === 'string' && f.name
     ).map((f: { name: any; }) => f.name);
@@ -2779,7 +2791,7 @@ export class EditDashboardComponent implements OnInit {
 
 
 
-            //console.log('✔ Total Valid Seconds:', total);
+            //console.log('âœ” Total Valid Seconds:', total);
 
 
             //console.log('data', data)
@@ -3115,7 +3127,7 @@ export class EditDashboardComponent implements OnInit {
   // }
 
   closePopup(): void {
-    console.log('🔍 CLOSE POPUP CALLED');
+    console.log('ðŸ” CLOSE POPUP CALLED');
     console.trace(); // This shows WHERE closePopup was called from
 
     const popup = document.getElementById('popup');
@@ -3200,10 +3212,10 @@ export class EditDashboardComponent implements OnInit {
 
               console.log(`Calculated values for ${condition.measure} - Sum: ${sum}, Average: ${avg}`);
 
-              // ✅ Assign the computed value back to condition.value1 dynamically
+              // âœ… Assign the computed value back to condition.value1 dynamically
               // condition.value1 = calculatedValue.toLowerCase() === 'sum' ? sum : avg;
 
-              // ✅ Only override if Sum or Average; else keep user's entered value
+              // âœ… Only override if Sum or Average; else keep user's entered value
               if (calculatedValue.toLowerCase() === 'sum') {
                 condition.value1 = sum;
               } else if (calculatedValue.toLowerCase() === 'average') {
@@ -3348,7 +3360,7 @@ export class EditDashboardComponent implements OnInit {
       return !(value === null || value === undefined);
     }
 
-    // At this point, if value is null but condition is not about null → false
+    // At this point, if value is null but condition is not about null â†’ false
     if (value === null || value === undefined) {
       return false;
     }
@@ -5742,7 +5754,7 @@ export class EditDashboardComponent implements OnInit {
     },
     {
       prompt: "What are common mistakes to avoid in e-book covers?",
-      response: "<p>Here are some common mistakes to avoid when designing an e-book cover:</p> <ol><li><strong>Cluttered design:</strong> Overloading the cover with too many elements can make it look messy and unprofessional. Keep it simple and focused.</li> <li><strong>Poor quality images:</strong> Using low-resolution or generic stock images can detract from the overall appeal. Always opt for high-quality, relevant visuals.</li> <li><strong>Unreadable fonts:</strong> Fancy or overly intricate fonts can be hard to read, especially in thumbnail size. Choose clear, legible fonts for the title and author name.</li> <li><strong>Ignoring genre conventions:</strong> Each genre has its own visual cues. Not adhering to these can confuse potential readers about the book’s content.</li> <li><strong>Inconsistent branding:</strong> If you have a series or multiple books, ensure a consistent style across all covers to build a recognizable brand.</li></ol> <p>Would you like any specific advice on designing your cover?</p>"
+      response: "<p>Here are some common mistakes to avoid when designing an e-book cover:</p> <ol><li><strong>Cluttered design:</strong> Overloading the cover with too many elements can make it look messy and unprofessional. Keep it simple and focused.</li> <li><strong>Poor quality images:</strong> Using low-resolution or generic stock images can detract from the overall appeal. Always opt for high-quality, relevant visuals.</li> <li><strong>Unreadable fonts:</strong> Fancy or overly intricate fonts can be hard to read, especially in thumbnail size. Choose clear, legible fonts for the title and author name.</li> <li><strong>Ignoring genre conventions:</strong> Each genre has its own visual cues. Not adhering to these can confuse potential readers about the bookâ€™s content.</li> <li><strong>Inconsistent branding:</strong> If you have a series or multiple books, ensure a consistent style across all covers to build a recognizable brand.</li></ol> <p>Would you like any specific advice on designing your cover?</p>"
     }
   ];
 
@@ -6153,7 +6165,7 @@ export class EditDashboardComponent implements OnInit {
         '.e-rowsheader, .e-columnsheader, .e-columnheader, .e-stackedheadercelldiv'
       );
 
-      // console.log('📌 Total header cells found:', allHeaders.length);
+      // console.log('ðŸ“Œ Total header cells found:', allHeaders.length);
 
       allHeaders.forEach((headerCell: Element) => {
         const headerElement = headerCell as HTMLElement;
@@ -6178,7 +6190,7 @@ export class EditDashboardComponent implements OnInit {
 
         if (!headerText) return;
 
-        // console.log('📌 Processing header:', headerText, 'Classes:', headerElement.className);
+        // console.log('ðŸ“Œ Processing header:', headerText, 'Classes:', headerElement.className);
 
         // Determine field ownership
         let belongsToField: string | null = null;
@@ -6242,7 +6254,7 @@ export class EditDashboardComponent implements OnInit {
           }
 
           if (matched) {
-            // ✅ Apply styles with !important to prevent overriding
+            // âœ… Apply styles with !important to prevent overriding
             if (format.backgroundColor) {
               headerElement.style.setProperty('background-color', format.backgroundColor, 'important');
             }
@@ -6268,7 +6280,7 @@ export class EditDashboardComponent implements OnInit {
               headerElement.style.setProperty('font-style', format.fontStyle, 'important');
             }
 
-            // ✅ Also apply to nested .e-cellvalue
+            // âœ… Also apply to nested .e-cellvalue
             if (cellValue) {
               const cellValueEl = cellValue as HTMLElement;
 
@@ -6290,10 +6302,10 @@ export class EditDashboardComponent implements OnInit {
       });
     };
 
-    // ✅ Apply immediately
+    // âœ… Apply immediately
     applyFormatting();
 
-    // ✅ Re-apply after a delay to catch any re-renders
+    // âœ… Re-apply after a delay to catch any re-renders
     setTimeout(() => applyFormatting(), 100);
     setTimeout(() => applyFormatting(), 300);
     setTimeout(() => applyFormatting(), 500);

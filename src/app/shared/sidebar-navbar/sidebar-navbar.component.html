@@ -1,220 +1,229 @@
 <div class="control-section" id="wrapper" #pageContent>
-    <!-- main content declaration -->
-    <div class="col-lg-12 col-sm-12 col-md-12" id="sidebar-section">
-        <div id="head">
-            <div class="header">
-                <div class="menu" *ngIf="isExpand"
-                    style="width: 60px; padding: 4px 9px 5px; border-right:1px solid rgba(0,0,0,.12)">
-                    <img src="./../../../assets/images/Synthetaicon.png" alt="" style="width: 35px; " class="img-fluid">
+  <!-- main content declaration -->
+  <div class="col-lg-12 col-sm-12 col-md-12" id="sidebar-section">
+    <div id="head">
+      <div class="header">
+        @if (isExpand) {
+          <div class="menu"
+            style="width: 60px; padding: 4px 9px 5px; border-right:1px solid rgba(0,0,0,.12)">
+            <img src="./../../../assets/images/Synthetaicon.png" alt="" style="width: 35px; " class="img-fluid">
                     <!-- <img src="./../../../assets/images/Llogo.jpg"  alt="" style="width: 39px;
                 height: 46px; " class="img-fluid"> -->
-                </div>
-                <div class="menu" *ngIf="!isExpand" style="width: 200px; border-right:1px solid rgba(0,0,0,.12)">
-                    <!-- <img src="./../../../assets/images/lenovoLogo.jpg"  alt="" style="width: 185px; height: 49px; padding-top: 5px;padding-left: 10px;" class="img-fluid">         -->
-                    <img src="./../../../assets/images/SynthetaLogoDarkfont4.png" alt=""
-                        style="width: 145px; padding-left:10px" class="img-fluid">
-                </div>
-                <div class="menuBar" (click)="onClickMenu()">
-                    <span class="e-icons  fas fa-bars">
-                    </span>
-                </div>
+          </div>
+        }
+        @if (!isExpand) {
+          <div class="menu" style="width: 200px; border-right:1px solid rgba(0,0,0,.12)">
+            <!-- <img src="./../../../assets/images/lenovoLogo.jpg"  alt="" style="width: 185px; height: 49px; padding-top: 5px;padding-left: 10px;" class="img-fluid">         -->
+            <img src="./../../../assets/images/SynthetaLogoDarkfont4.png" alt=""
+              style="width: 145px; padding-left:10px" class="img-fluid">
+            </div>
+          }
+          <div class="menuBar" (click)="onClickMenu()">
+            <span class="e-icons  fas fa-bars">
+            </span>
+          </div>
 
                 <div style=" text-align: center;
               padding-top: 15px">
-                    <ng-container *ngIf="dashboard_Name">
-                        <p class="dashboardTitle">
-                                {{dashboard_Name | uppercase}}
-                      </p>
-                    </ng-container>
-                </div>
+            @if (dashboard_Name) {
+              <p class="dashboardTitle">
+                {{dashboard_Name | uppercase}}
+              </p>
+            }
+          </div>
 
-                <div class="LogOut">
-                    <!-- <button ejs-dropdownbutton [items]='items' [content]="username" (select)="onselect($event)"
-                        iconCss="fas fa-user-circle"></button>
+          <div class="LogOut">
+            <!-- <button ejs-dropdownbutton [items]='items' [content]="username" (select)="onselect($event)"
+          iconCss="fas fa-user-circle"></button>
 
-                    <button ejs-dropdownbutton [items]='items' (select)="onselect($event)"
-                    iconCss="fas fa-user-circle"></button> -->
+          <button ejs-dropdownbutton [items]='items' (select)="onselect($event)"
+          iconCss="fas fa-user-circle"></button> -->
 
-                      <!-- First button for non-mobile devices -->
-                <button class="non-mobile-button" ejs-dropdownbutton [items]='items' [content]="username" (select)="onselect($event)"
-                iconCss="fas fa-user-circle"></button>
+          <!-- First button for non-mobile devices -->
+          <button class="non-mobile-button" ejs-dropdownbutton [items]='items' [content]="username" (select)="onselect($event)"
+          iconCss="fas fa-user-circle"></button>
 
-                <!-- Second button for mobile devices -->
-                <button class="mobile-button" ejs-dropdownbutton [items]='items' (select)="onselect($event)"
-                iconCss="fas fa-user-circle"></button>
+          <!-- Second button for mobile devices -->
+          <button class="mobile-button" ejs-dropdownbutton [items]='items' (select)="onselect($event)"
+          iconCss="fas fa-user-circle"></button>
 
-                </div>
-
-            </div>
-        </div>
-        <div id="target">
-            <div class="sidebar-content width2" id="sidebar-content">
-                <div class="dashboardParent">
-                    
-                    <router-outlet> <app-loader></app-loader></router-outlet>
-                     <app-popup></app-popup> 
-                    <!-- <app-paging-table> </app-paging-table> -->
-                </div>
-            </div>
-        </div>
-        <!-- sidebar component -->
-        <div class="sideBar">
-            <ejs-sidebar id="dockSidebar" [isOpen]="sidebarIsOpen"  #sidebarInstance class="dockSidebar bg-purple" [dockSize]="smlDoclSize"
-                [target]="target"   position="Left" [enableDock]='enableDock' [type]="type">
-
-                <div class="e-listview">
-                    <div class="e-list-container">
-                        <ul class="e-list-parent bg-purple">
-
-                            <ng-container *ngFor="let permission of menuBasedPermissionArray">
-                                <li class="e-list-item bg-purple" title="Home"
-                                    *ngIf="permission?.form_name == 'home' && permission?.can_view"
-                                    routerLinkActive="true" routerLink="/sidebar/panel/dashboardHome">
-                                    <div class="e-text-content">
-                                        <i class="fas fa-igloo e-list-icon" ></i>
-                                        <span class="e-list-text" style="text-align: left;">
-                                            Home
-                                        </span>
-                                    </div>
-                                </li>
-                            </ng-container>
-
-                            <ng-container *ngFor="let permission of menuBasedPermissionArray">
-                                <li class="e-list-item bg-purple " title="Create Dashboard"
-                                    *ngIf="permission?.form_name == 'createDashboard' && permission?.can_view "
-                                    routerLinkActive="true" routerLink="/sidebar/panel/create">
-                                    <div class="e-text-content">
-
-                                        <i class="fas fa-chart-bar e-list-icon"></i>
-                                        <span class="e-list-text" style="text-align: left;">
-                                            Create Dashboard
-                                        </span>
-                                    </div>
-                                </li>
-                            </ng-container>
-
-
-                            <ng-container *ngFor="let permission of menuBasedPermissionArray">
-                                <li class="e-list-item bg-purple" title="Add Role"
-                                    *ngIf="permission?.form_name == 'addRole' && permission?.can_view "
-                                    routerLinkActive="true" routerLink="/sidebar/panel/role">
-                                    <div class="e-text-content">
-                                        <i class="fas fa-user-tag e-list-icon"></i>
-                                        <span class="e-list-text" style="text-align: left;">
-                                            Add Role
-                                        </span>
-                                    </div>
-                                </li>
-                            </ng-container>
-                            
-
-                            <ng-container *ngFor="let permission of menuBasedPermissionArray">
-                                <li class="e-list-item bg-purple" title="Add User"
-                                    *ngIf="permission?.form_name == 'addUser' && permission?.can_view "
-                                    routerLinkActive="true" routerLink="/sidebar/panel/user">
-                                    <div class="e-text-content">
-                                        <i class="fas fa-users e-list-icon"></i>
-                                        <span class="e-list-text" style="text-align: left;">
-                                            Add User
-                                        </span>
-                                    </div>
-
-                                </li>
-                            </ng-container>
-                            <ng-container *ngFor="let permission of menuBasedPermissionArray">
-                                <li class="e-list-item bg-purple" title="DB Connection"
-                                    *ngIf="permission?.form_name == 'dbConnection' && permission?.can_view "
-                                    routerLinkActive="true" routerLink="/sidebar/panel/databaseConnection">
-                                    <div class="e-text-content">
-                                        <!-- <i class="fas fa-cogs e-list-icon"></i> -->
-                                        <i class="fas fa-database e-list-icon"></i>
-                                        <span class="e-list-text" style="text-align: left;">
-                                            DB Connection
-                                        </span>
-                                    </div>
-                                </li>
-                            </ng-container>
-
-
-                            <ng-container *ngFor="let permission of menuBasedPermissionArray">
-                                <li class="e-list-item bg-purple" title="File Upload"
-                                    *ngIf="permission?.form_name == 'fileUploadToDb' && permission?.can_view "
-                                    routerLinkActive="true" routerLink="/sidebar/panel/fileupload">
-                                    <div class="e-text-content">
-                                        <i class="fas fa-upload e-list-icon"></i>
-                                        <span class="e-list-text" style="text-align: left;">
-                                            File Upload
-                                        </span>
-                                    </div>
-                                </li>
-                            </ng-container>
-
-                            <ng-container *ngFor="let permission of menuBasedPermissionArray">
-                                <li class="e-list-item bg-purple" routerLinkActive="true" title=" Table Join"
-                                *ngIf="permission?.form_name == 'tableJoin' && permission?.can_view "
-                                routerLink="/sidebar/panel/jointable">
-                                <div class="e-text-content">
-                                    <i class="fas fa-table e-list-icon"></i>
-                                    <span class="e-list-text" style="text-align: left;">
-                                        Table Join
-                                    </span>
-                                </div>
-                            </li>
-                            </ng-container>
-                            <ng-container *ngFor="let permission of menuBasedPermissionArray">
-                                <li class="e-list-item bg-purple" routerLinkActive="true" title="Dashboard Setup "
-                                *ngIf="permission?.form_name == 'dashboardSetup' && permission?.can_view "
-                                routerLink="/sidebar/panel/dashboardRearrage">
-                                <div class="e-text-content">
-                                    <i class="fas fa-cog e-list-icon"></i>
-                                    <span class="e-list-text" style="text-align: left;">
-                                       Dashboard Setup 
-                                    </span>
-                                </div>
-                                </li>
-     
-                            </ng-container> 
-                            <ng-container >
-                                <li >
-                                <div >
-                                 
-                                </div>
-                                </li>
-     
-                            </ng-container> 
-                            <ng-container >
-                                <li >
-                                <div class="e-text-content">
-                                
-                                </div>
-                                </li>
-     
-                            </ng-container> 
-                            <ng-container >
-                                <li >
-                                <div class="e-text-content">
-                                
-                                </div>
-                                </li>
-     
-                            </ng-container> 
-                            <ng-container >
-                                <li >
-                                <div class="e-text-content">
-                                
-                                </div>
-                                </li>
-     
-                            </ng-container> 
-                         
-                        </ul>
-                    </div>
-                </div>
-
-            </ejs-sidebar>
         </div>
 
+      </div>
     </div>
+    <div id="target">
+      <div class="sidebar-content width2" id="sidebar-content">
+        <div class="dashboardParent">
+
+          <router-outlet> <app-loader></app-loader></router-outlet>
+          <app-popup></app-popup>
+          <!-- <app-paging-table> </app-paging-table> -->
+        </div>
+      </div>
+    </div>
+    <!-- sidebar component -->
+    <div class="sideBar">
+      <ejs-sidebar id="dockSidebar" [isOpen]="sidebarIsOpen"  #sidebarInstance class="dockSidebar bg-purple" [dockSize]="smlDoclSize"
+        [target]="target"   position="Left" [enableDock]='enableDock' [type]="type">
+
+        <div class="e-listview">
+          <div class="e-list-container">
+            <ul class="e-list-parent bg-purple">
+
+              @for (permission of menuBasedPermissionArray; track permission) {
+                @if (permission?.form_name == 'home' && permission?.can_view) {
+                  <li class="e-list-item bg-purple" title="Home"
+                    routerLinkActive="true" routerLink="/sidebar/panel/dashboardHome">
+                    <div class="e-text-content">
+                      <i class="fas fa-igloo e-list-icon" ></i>
+                      <span class="e-list-text" style="text-align: left;">
+                        Home
+                      </span>
+                    </div>
+                  </li>
+                }
+              }
+
+              @for (permission of menuBasedPermissionArray; track permission) {
+                @if (permission?.form_name == 'createDashboard' && permission?.can_view ) {
+                  <li class="e-list-item bg-purple " title="Create Dashboard"
+                    routerLinkActive="true" routerLink="/sidebar/panel/create">
+                    <div class="e-text-content">
+                      <i class="fas fa-chart-bar e-list-icon"></i>
+                      <span class="e-list-text" style="text-align: left;">
+                        Create Dashboard
+                      </span>
+                    </div>
+                  </li>
+                }
+              }
+
+
+              @for (permission of menuBasedPermissionArray; track permission) {
+                @if (permission?.form_name == 'addRole' && permission?.can_view ) {
+                  <li class="e-list-item bg-purple" title="Add Role"
+                    routerLinkActive="true" routerLink="/sidebar/panel/role">
+                    <div class="e-text-content">
+                      <i class="fas fa-user-tag e-list-icon"></i>
+                      <span class="e-list-text" style="text-align: left;">
+                        Add Role
+                      </span>
+                    </div>
+                  </li>
+                }
+              }
+
+
+              @for (permission of menuBasedPermissionArray; track permission) {
+                @if (permission?.form_name == 'addUser' && permission?.can_view ) {
+                  <li class="e-list-item bg-purple" title="Add User"
+                    routerLinkActive="true" routerLink="/sidebar/panel/user">
+                    <div class="e-text-content">
+                      <i class="fas fa-users e-list-icon"></i>
+                      <span class="e-list-text" style="text-align: left;">
+                        Add User
+                      </span>
+                    </div>
+                  </li>
+                }
+              }
+              @for (permission of menuBasedPermissionArray; track permission) {
+                @if (permission?.form_name == 'dbConnection' && permission?.can_view ) {
+                  <li class="e-list-item bg-purple" title="DB Connection"
+                    routerLinkActive="true" routerLink="/sidebar/panel/databaseConnection">
+                    <div class="e-text-content">
+                      <!-- <i class="fas fa-cogs e-list-icon"></i> -->
+                      <i class="fas fa-database e-list-icon"></i>
+                      <span class="e-list-text" style="text-align: left;">
+                        DB Connection
+                      </span>
+                    </div>
+                  </li>
+                }
+              }
+
+
+              @for (permission of menuBasedPermissionArray; track permission) {
+                @if (permission?.form_name == 'fileUploadToDb' && permission?.can_view ) {
+                  <li class="e-list-item bg-purple" title="File Upload"
+                    routerLinkActive="true" routerLink="/sidebar/panel/fileupload">
+                    <div class="e-text-content">
+                      <i class="fas fa-upload e-list-icon"></i>
+                      <span class="e-list-text" style="text-align: left;">
+                        File Upload
+                      </span>
+                    </div>
+                  </li>
+                }
+              }
+
+              @for (permission of menuBasedPermissionArray; track permission) {
+                @if (permission?.form_name == 'tableJoin' && permission?.can_view ) {
+                  <li class="e-list-item bg-purple" routerLinkActive="true" title=" Table Join"
+                    routerLink="/sidebar/panel/jointable">
+                    <div class="e-text-content">
+                      <i class="fas fa-table e-list-icon"></i>
+                      <span class="e-list-text" style="text-align: left;">
+                        Table Join
+                      </span>
+                    </div>
+                  </li>
+                }
+              }
+              @for (permission of menuBasedPermissionArray; track permission) {
+                @if (permission?.form_name == 'dashboardSetup' && permission?.can_view ) {
+                  <li class="e-list-item bg-purple" routerLinkActive="true" title="Dashboard Setup "
+                    routerLink="/sidebar/panel/dashboardRearrage">
+                    <div class="e-text-content">
+                      <i class="fas fa-cog e-list-icon"></i>
+                      <span class="e-list-text" style="text-align: left;">
+                        Dashboard Setup
+                      </span>
+                    </div>
+                  </li>
+                }
+              }
+              <ng-container >
+                <li >
+                  <div >
+
+                  </div>
+                </li>
+
+              </ng-container>
+              <ng-container >
+                <li >
+                  <div class="e-text-content">
+
+                  </div>
+                </li>
+
+              </ng-container>
+              <ng-container >
+                <li >
+                  <div class="e-text-content">
+
+                  </div>
+                </li>
+
+              </ng-container>
+              <ng-container >
+                <li >
+                  <div class="e-text-content">
+
+                  </div>
+                </li>
+
+              </ng-container>
+
+            </ul>
+          </div>
+        </div>
+
+      </ejs-sidebar>
+    </div>
+
+  </div>
 
 
 </div>

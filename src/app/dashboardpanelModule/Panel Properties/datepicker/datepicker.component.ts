@@ -1,13 +1,14 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TabComponent } from '@syncfusion/ej2-angular-navigations';
 import { ChartService } from 'src/app/core/services/chart.service';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 
 @Component({
-  selector: 'app-datepicker',
-  templateUrl: './datepicker.component.html',
-  styleUrls: ['./datepicker.component.scss'],
-  standalone: false
+    selector: 'app-datepicker',
+    templateUrl: './datepicker.component.html',
+    styleUrls: ['./datepicker.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule, DropDownListModule]
 })
 
 export class DatepickerComponent implements OnInit, OnChanges {
@@ -43,14 +44,16 @@ export class DatepickerComponent implements OnInit, OnChanges {
   ];
  
   panelSeriesArray: any = [];
-  constructor(private fb : FormBuilder, private chartService : ChartService) { 
+  private readonly fb = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  constructor() {
     this.boxTemplateForm = this.fb.group({
-      tableName : ['', [Validators.required]],
-      fieldName : ['', [Validators.required]],
-      labelName : [''],
-      dateFormat : ['yyyy-MM-dd']
-      // dateFormat : ['dd-MMM-yy']
-    })
+          tableName : ['', [Validators.required]],
+          fieldName : ['', [Validators.required]],
+          labelName : [''],
+          dateFormat : ['yyyy-MM-dd']
+          // dateFormat : ['dd-MMM-yy']
+  })
    
   }
 

@@ -1,13 +1,13 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject} from '@angular/core';
+import { FormGroup, FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from 'src/app/core/AuthServices/user.service';
 import { ChartService } from 'src/app/core/services/chart.service';
 
 @Component({
-  selector: 'app-user-based-permission',
-  templateUrl: './user-based-permission.component.html',
-  styleUrls: ['./user-based-permission.component.scss'],
-  standalone: false
+    selector: 'app-user-based-permission',
+    templateUrl: './user-based-permission.component.html',
+    styleUrls: ['./user-based-permission.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule]
 })
 
 export class UserBasedPermissionComponent implements OnInit, OnChanges {
@@ -44,7 +44,9 @@ export class UserBasedPermissionComponent implements OnInit, OnChanges {
   rolesArray: any = [];
   usersArray: any = [];
   userObjId: any;
-  constructor(private fb: FormBuilder, private chartService: ChartService, private userService: UserService) { }
+  private readonly fb = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  private readonly userService = inject(UserService);
   ngOnChanges(changes: SimpleChanges): void {
 
     let userObj = changes['getUserObj'].currentValue;

@@ -1,18 +1,21 @@
-import { Component, HostListener, OnInit, OnDestroy, ViewChild } from '@angular/core';
+﻿import {inject,  Component, HostListener, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Router, NavigationEnd } from '@angular/router';
-import { SidebarComponent } from '@syncfusion/ej2-angular-navigations';
+import { Router, NavigationEnd, RouterOutlet, RouterLinkActive, RouterLink } from '@angular/router';
+import { SidebarComponent, SidebarModule } from '@syncfusion/ej2-angular-navigations';
 import { filter, Subscription } from 'rxjs';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { DashboardBasedAccessService } from 'src/app/core/services/dashboard-based-access.service';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';
-import { ItemModel } from '@syncfusion/ej2-angular-splitbuttons';
+import { ItemModel, DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
+import { LoaderComponent } from '../../dashboardpanelModule/Panel Properties/loader/loader.component';
+import { PopupComponent } from '../../dashboardpanelModule/Panel Properties/popup/popup.component';
+import { UpperCasePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-sidebar-navbar',
-  templateUrl: './sidebar-navbar.component.html',
-  styleUrls: ['./sidebar-navbar.component.scss'],
-  standalone: false
+    selector: 'app-sidebar-navbar',
+    templateUrl: './sidebar-navbar.component.html',
+    styleUrls: ['./sidebar-navbar.component.scss'],
+    imports: [DropDownButtonModule, RouterOutlet, LoaderComponent, PopupComponent, SidebarModule, RouterLinkActive, RouterLink, UpperCasePipe]
 })
 // export class SidebarNavbarComponent implements OnInit {
 
@@ -89,10 +92,11 @@ export class SidebarNavbarComponent implements OnInit, OnDestroy {
     }
   
   
-    constructor(private chartService: ChartService, private fb: FormBuilder, private router: Router, private menuBasedAccessService: MenuBasedAccessService, private dashboardBasedAccessService: DashboardBasedAccessService) {
-  
-  
-    }
+    private readonly chartService = inject(ChartService);
+    private readonly fb = inject(FormBuilder);
+    private readonly router = inject(Router);
+    private readonly menuBasedAccessService = inject(MenuBasedAccessService);
+    private readonly dashboardBasedAccessService = inject(DashboardBasedAccessService);
   
     resetSidebarHeight() {
       // Set sidebar height to the top

@@ -1,0 +1,149 @@
+// ═══════════════════════════════════════════════════
+// SYNCFUSION GLOBAL OVERRIDES
+// Centralized Syncfusion (ej2) component overrides
+// previously duplicated across multiple components.
+// ═══════════════════════════════════════════════════
+
+// ─────────────────────────────────────────────────
+// DIALOG (e-dialog)
+// Repeated in: connection-database, add-users, join-table,
+//   file-upload-page, dashboard-rearrange
+// ─────────────────────────────────────────────────
+
+.e-dialog {
+  border-radius: var(--r-lg);
+}
+
+.e-dialog .e-dlg-header-content {
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  background: var(--bi-gradient);
+  color: white;
+}
+
+.e-dialog .e-dlg-header-content + .e-dlg-content {
+  background: var(--bi-pale);
+}
+
+// ─────────────────────────────────────────────────
+// FOOTER CONTENT
+// Repeated in: add-roles, add-users, create-dashboard,
+//   dashbord-homepage, edit-dashboard
+// ─────────────────────────────────────────────────
+
+.e-footer-content {
+  background: var(--bi-pale);
+  padding: 8px 12px;
+}
+
+// ─────────────────────────────────────────────────
+// FORM CONTROLS (Syncfusion-sized)
+// Repeated in: connection-database, add-roles, add-users,
+//   card-template, rawdatadump, dashbord-homepage
+// ─────────────────────────────────────────────────
+
+.form-control {
+  height: 28px !important;
+  font-size: 11px;
+}
+
+// ─────────────────────────────────────────────────
+// TABLE TITLE (page-level heading above data tables)
+// Repeated in: join-table, add-roles, add-users,
+//   connection-database, file-upload-page
+// ─────────────────────────────────────────────────
+
+.tableTitle {
+  margin-bottom: 10px;
+  padding: 5px;
+  text-align: left;
+  font-size: 22px;
+  font-weight: var(--fw-semibold);
+  color: var(--bi-primary);
+}
+
+// ─────────────────────────────────────────────────
+// VALIDATION ERROR (form field level)
+// Repeated in: update-user, add-roles, add-users,
+//   connection-database
+// ─────────────────────────────────────────────────
+
+.validation-error {
+  color: var(--color-error);
+  font-size: 11px;
+}
+
+// ─────────────────────────────────────────────────
+// INPUT VALUE (textarea height)
+// Repeated in: connection-database, add-roles, add-users
+// ─────────────────────────────────────────────────
+
+.inputValue {
+  height: 57px;
+  margin-bottom: 10px;
+}
+
+// ─────────────────────────────────────────────────
+// POPUP (inline popup / modal)
+// popup.scss is the source of truth — referenced here to
+// ensure any component NOT using @use popup.scss also has it.
+// ─────────────────────────────────────────────────
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: var(--shadow-md);
+  z-index: 2;
+  width: 345px;
+  border-radius: var(--r-lg);
+}
+
+.popup-content {
+  text-align: center;
+  padding-top: 20px;
+}
+
+.popup-message {
+  margin-bottom: 20px;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 1;
+}
+
+// ─────────────────────────────────────────────────
+// REGISTRATION / FORM CONTAINERS
+// Repeated across add-roles, add-users, connection-database
+// ─────────────────────────────────────────────────
+
+.registrationform {
+  width: 100%;
+  padding: 10px;
+}
+
+.formInfo {
+  padding: 15px;
+}
+
+label.labelName {
+  font-weight: 300;
+  font-size: 12px;
+}

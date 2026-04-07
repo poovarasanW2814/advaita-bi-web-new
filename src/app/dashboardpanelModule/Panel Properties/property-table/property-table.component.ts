@@ -1,20 +1,26 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Freeze, Grid, GridComponent, RowDD } from '@syncfusion/ej2-angular-grids';
-import { TabComponent } from '@syncfusion/ej2-angular-navigations';
-import { AnimationSettingsModel, Dialog, DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Freeze, Grid, GridComponent, RowDD, GridModule } from '@syncfusion/ej2-angular-grids';
+import { TabComponent, TabModule } from '@syncfusion/ej2-angular-navigations';
+import { AnimationSettingsModel, Dialog, DialogComponent, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
 import { ChartService } from 'src/app/core/services/chart.service';
+import { DropDownListModule, MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns';
+import { NgIf, NgFor } from '@angular/common';
+import { SwitchModule, ButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { ChartModule } from '@syncfusion/ej2-angular-charts';
+import { KanbanModule } from '@syncfusion/ej2-angular-kanban';
+import { ColorPickerModule } from '@syncfusion/ej2-angular-inputs';
 
 Grid.Inject(RowDD, Freeze);
 // GridComponent.Inject(RowDD, Freeze, Selection);
 
 
 @Component({
-  selector: 'app-property-table',
-  templateUrl: './property-table.component.html',
-  styleUrls: ['./property-table.component.scss'],
-  standalone: false
+    selector: 'app-property-table',
+    templateUrl: './property-table.component.html',
+    styleUrls: ['./property-table.component.scss'],
+    imports: [TabModule, FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, SwitchModule, MultiSelectModule, ButtonModule, GridModule, ChartModule, KanbanModule, NgFor, ColorPickerModule, DialogModule]
 })
 
 export class PropertyTableComponent implements OnInit, OnChanges {
@@ -70,39 +76,41 @@ export class PropertyTableComponent implements OnInit, OnChanges {
   @ViewChild('tabComponent') tab!: TabComponent
 
 
-  constructor(private fb: FormBuilder, private chartService: ChartService, private changeDetectorRef: ChangeDetectorRef) {
-
+  private readonly fb = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  constructor() {
     this.generalForm = this.fb.group({
-      header: [''],
-      tableName: ['', [Validators.required]],
-      orderBy: [""],
-      orderByType: [""],
-      groupBy: [""],
-      conditions: [""],
-      rawQuery: [""],
-      autoFitColumns: [true],
-      allowGrouping: [''],
-      enableBorders : [false],
-      is_pagination_enabled: [true],
-      allowWrapping: [false],
-      enableTooltip : [true],
-      fieldDetails: this.fb.group({
-        index: [''],
-        tableName: [""],
-        field: [""],
-        headerText: [""],
-        textAlign: ["Left"],
-        type: [""],
-        format: [''],
-        expression: [""],
-        width: [""],
-        textFormatterView: [false],
-        enableHyperlink: [false],
-        visible: [true],
-        isFrozen: [false],
-        comment_column : [false],
-        unique_column_field : ['']
-      }),
+          header: [''],
+          tableName: ['', [Validators.required]],
+          orderBy: [""],
+          orderByType: [""],
+          groupBy: [""],
+          conditions: [""],
+          rawQuery: [""],
+          autoFitColumns: [true],
+          allowGrouping: [''],
+          enableBorders : [false],
+          is_pagination_enabled: [true],
+          allowWrapping: [false],
+          enableTooltip : [true],
+          fieldDetails: this.fb.group({
+            index: [''],
+            tableName: [""],
+            field: [""],
+            headerText: [""],
+            textAlign: ["Left"],
+            type: [""],
+            format: [''],
+            expression: [""],
+            width: [""],
+            textFormatterView: [false],
+            enableHyperlink: [false],
+            visible: [true],
+            isFrozen: [false],
+            comment_column : [false],
+            unique_column_field : ['']
+  }),
       dimension: this.fb.group({
         tableName: [''],
         fieldName: [''],
@@ -1362,7 +1370,7 @@ export class PropertyTableComponent implements OnInit, OnChanges {
 
   
 
-// ✅ Update an existing field
+// âœ… Update an existing field
 onUpdateHeaderConditonalFormatting() {
 
   const formattingConditonForm: any = this.generalForm.get('headerConditonalFormatting');

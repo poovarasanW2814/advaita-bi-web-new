@@ -8,8 +8,8 @@ describe('PivotPropertiesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PivotPropertiesComponent ]
-    })
+    imports: [PivotPropertiesComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(PivotPropertiesComponent);

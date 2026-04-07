@@ -8,8 +8,8 @@ describe('RoleBasedMultiselectDashboardPermissionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RoleBasedMultiselectDashboardPermissionComponent ]
-    })
+    imports: [RoleBasedMultiselectDashboardPermissionComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(RoleBasedMultiselectDashboardPermissionComponent);

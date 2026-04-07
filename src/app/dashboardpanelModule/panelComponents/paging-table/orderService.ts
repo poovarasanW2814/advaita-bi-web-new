@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
   DataStateChangeEventArgs,
@@ -15,7 +15,8 @@ export class OrdersService extends Subject<DataStateChangeEventArgs> {
 //     'https://services.odata.org/V4/Northwind/Northwind.svc/Orders';
     private BASE_URL =
     '';
-  constructor(private http: HttpClient) {
+  private readonly http = inject(HttpClient);
+  constructor() {
     super();
   }
 

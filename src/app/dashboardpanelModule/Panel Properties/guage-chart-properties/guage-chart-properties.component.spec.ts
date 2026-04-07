@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GuageChartPropertiesComponent } from './guage-chart-properties.component';
+import { guageChartPropertiesComponent } from './guage-chart-properties.component';
 
-describe('GuageChartPropertiesComponent', () => {
-  let component: GuageChartPropertiesComponent;
-  let fixture: ComponentFixture<GuageChartPropertiesComponent>;
+describe('guageChartPropertiesComponent', () => {
+  let component: guageChartPropertiesComponent;
+  let fixture: ComponentFixture<guageChartPropertiesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GuageChartPropertiesComponent ]
-    })
+    imports: [guageChartPropertiesComponent]
+})
     .compileComponents();
 
-    fixture = TestBed.createComponent(GuageChartPropertiesComponent);
+    fixture = TestBed.createComponent(guageChartPropertiesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

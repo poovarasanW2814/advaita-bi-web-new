@@ -8,8 +8,8 @@ describe('ResponsiveSidebarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ResponsiveSidebarComponent ]
-    })
+    imports: [ResponsiveSidebarComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(ResponsiveSidebarComponent);

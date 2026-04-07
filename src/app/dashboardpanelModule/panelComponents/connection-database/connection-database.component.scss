@@ -1,48 +1,9 @@
-@import "../../../core/sass/popup.scss";
+@use "../../../core/sass/popup.scss";
   
-.validation-error {
-    color: red;
-    font-size: 11px;
-  }
-  .inputValue{
-    height: 57px;
-    margin-bottom: 10px;
-  }
-  .focused {
+.focused {
     animation: placeholderAnimation 200ms ease-in;
   }
-  .registrationform{
-    width: 100%;
-    padding: 10px;
 
-  }
-  .form-control {
-    height: 28px !important;
-    font-size: 11px;
-   
-  }
-  label.labelName {
-    // width: 50%;
-    font-weight: 300;
-    font-size: 12px;
-}
-.e-dialog {
-  border-radius: 10px;
-}
- .e-dialog .e-dlg-header-content{
-  border-radius: 10px 10px 0 0;
-}
-.tableTitle {
-  margin-bottom: 10px;
-  padding: 5px;
-  text-align: left;
-  font-size: 22px;
-  // background-color: white;
-  //font-weight: 600;
-}
-.formInfo{
-  padding: 15px;
-}
 #defaultDialog{
   // max-height: 300px;
   height: 400px;
@@ -69,11 +30,7 @@
 
 
 
-.table-container {
-  overflow-x: auto; /* Horizontal scrollbar */
-  overflow-y: auto; /* Vertical scrollbar */
-  max-width: 100%; /* Ensure table doesn't overflow container */
-}
+
 // div#defaultDialog_dialog-header {
 //   background: #CDC1FF;
 

@@ -1,12 +1,14 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject} from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartService } from 'src/app/core/services/chart.service';
+import { ColorPickerModule } from '@syncfusion/ej2-angular-inputs';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 
 @Component({
-  selector: 'app-card-template',
-  templateUrl: './card-template.component.html',
-  styleUrls: ['./card-template.component.scss'],
-  standalone: false
+    selector: 'app-card-template',
+    templateUrl: './card-template.component.html',
+    styleUrls: ['./card-template.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule, ColorPickerModule, DropDownListModule]
 })
 export class CardTemplateComponent implements OnInit , OnChanges{
 
@@ -78,9 +80,11 @@ export class CardTemplateComponent implements OnInit , OnChanges{
 
  
 
-  constructor(private fb : FormBuilder, private chartService : ChartService) {
+  private readonly fb = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  constructor() {
     this.createForm()
-   }
+  }
   
   ngOnChanges(changes: SimpleChanges): void {
 

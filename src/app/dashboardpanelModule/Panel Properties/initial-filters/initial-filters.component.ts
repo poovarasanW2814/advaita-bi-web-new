@@ -1,13 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TabComponent } from '@syncfusion/ej2-angular-navigations';
 import { ChartService } from 'src/app/core/services/chart.service';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 
 @Component({
-  selector: 'app-initial-filters',
-  templateUrl: './initial-filters.component.html',
-  styleUrls: ['./initial-filters.component.scss'],
-  standalone: false
+    selector: 'app-initial-filters',
+    templateUrl: './initial-filters.component.html',
+    styleUrls: ['./initial-filters.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule, DropDownListModule]
 })
 export class InitialFiltersComponent implements OnInit {
 
@@ -27,7 +28,8 @@ export class InitialFiltersComponent implements OnInit {
   boxIdCount: any = 0;
   fieldNameValue : string = ''
 
-  constructor(private fb : FormBuilder, private chartService : ChartService) { }
+  private readonly fb = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
 
   ngOnInit(): void {
     

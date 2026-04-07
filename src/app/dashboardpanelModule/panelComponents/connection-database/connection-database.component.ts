@@ -1,32 +1,34 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild, inject} from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimationModel } from '@syncfusion/ej2-angular-charts';
 import { MessageComponent } from '@syncfusion/ej2-angular-notifications';
-import { DialogComponent, AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
+import { DialogComponent, AnimationSettingsModel, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';
 import { PopupService } from 'src/app/core/services/popup.service';
+import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { NgStyle } from '@angular/common';
 
 @Component({
-  selector: 'app-connection-database',
-  templateUrl: './connection-database.component.html',
-  animations: [
-    trigger('placeholderAnimation', [
-      state('initial', style({
-        top: '20px'
-      })),
-      state('focused', style({
-        top: '-10px'
-      })),
-      transition('initial => focused', animate('200ms ease-in')),
-      transition('focused => initial', animate('200ms ease-out'))
-    ])
-  ],
-  styleUrls: ['./connection-database.component.scss'],
-  standalone: false
+    selector: 'app-connection-database',
+    templateUrl: './connection-database.component.html',
+    animations: [
+        trigger('placeholderAnimation', [
+            state('initial', style({
+                top: '20px'
+            })),
+            state('focused', style({
+                top: '-10px'
+            })),
+            transition('initial => focused', animate('200ms ease-in')),
+            transition('focused => initial', animate('200ms ease-out'))
+        ])
+    ],
+    styleUrls: ['./connection-database.component.scss'],
+    imports: [FormsModule, ButtonModule, DialogModule, ReactiveFormsModule, NgStyle]
 })
 
 export class ConnectionDatabaseComponent implements OnInit {
@@ -90,9 +92,13 @@ export class ConnectionDatabaseComponent implements OnInit {
 
 
 
-  constructor(private formBuilder: FormBuilder, private chartService: ChartService, private menuBasedAccessService: MenuBasedAccessService, private route: ActivatedRoute, private router: Router, private popupService : PopupService,
-    private loaderService: LoaderService
-  ) { }
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly chartService = inject(ChartService);
+  private readonly menuBasedAccessService = inject(MenuBasedAccessService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly popupService = inject(PopupService);
+  private readonly loaderService = inject(LoaderService);
 
   ngOnInit() {
 
