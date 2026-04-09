@@ -250,6 +250,14 @@ padding: 20px;
   padding: 5px 6px !important;
 }
 
+::ng-deep #createDashboard .e-grid .e-spinner-pane,
+::ng-deep #createDashboard .e-grid .e-gridspinner,
+::ng-deep #createDashboard .e-grid .e-spin-show {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
   
 
 .card {

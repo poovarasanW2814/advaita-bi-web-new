@@ -4,15 +4,15 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { registerLicense } from '@syncfusion/ej2-base';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { tokenInterceptor } from './app/core/AuthServices/token-interceptor.interceptor';
-import { sessionExpirationInterceptor } from './app/core/AuthServices/session-expiration.interceptor';
+import { tokenInterceptor } from './app/core/auth-services/token-interceptor.interceptor';
+import { sessionExpirationInterceptor } from './app/core/auth-services/session-expiration.interceptor';
 import { LineSeriesService, LegendService, TooltipService, DataLabelService, CategoryService, DateTimeCategoryService, DateTimeService, LogarithmicService, MultiLevelLabelService, MultiColoredLineSeriesService, SplineSeriesService, StepLineSeriesService, StackingLineSeriesService, AreaSeriesService, SplineAreaSeriesService, RangeStepAreaSeriesService, RangeAreaSeriesService, SplineRangeAreaSeriesService, StackingAreaSeriesService, StackingStepAreaSeriesService, RadarSeriesService, SelectionService, PolarSeriesService, BarSeriesService, ColumnSeriesService, StackingBarSeriesService, StackingColumnSeriesService, ScatterSeriesService, BubbleSeriesService, WaterfallSeriesService, HistogramSeriesService, StepAreaSeriesService, AccumulationDataLabelService, AccumulationLegendService, AccumulationTooltipService, FunnelSeriesService, PyramidSeriesService, AccumulationSelectionService, PieSeriesService, ZoomService, CrosshairService, StripLineService, ScrollBarService, ExportService } from '@syncfusion/ej2-angular-charts';
 import { VirtualScrollService, DrillThroughService, ConditionalFormattingService, FieldListService, PDFExportService, PagerService } from '@syncfusion/ej2-angular-pivotview';
 import { CommandColumnService, RowDDService, SelectionService as GridSelectionService, PagerModule } from '@syncfusion/ej2-angular-grids';
 import { DatePipe } from '@angular/common';
 import { CheckBoxSelectionService } from '@syncfusion/ej2-angular-dropdowns';
 import { DayService, WeekService, WorkWeekService, MonthService, AgendaService, MonthAgendaService, TimelineViewsService, TimelineMonthService, YearService, ICalendarImportService, ICalendarExportService, ExcelExportService as ScedularExcelExportService, ResizeService as ScedularResizeService, DragAndDropService as DragAndDropScedularService, TimelineYearService } from '@syncfusion/ej2-angular-schedule';
-import { ScrollService } from './app/core/scroll.service';
+import { ScrollService } from './app/core/services/scroll.service';
 import { ToolbarService as RichTextEditorToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { AppRoutingModule } from './app/app-routing.module';

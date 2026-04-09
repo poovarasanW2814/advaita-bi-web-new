@@ -11,39 +11,39 @@ import { DialogComponent, AnimationSettingsModel, hideSpinner, ButtonPropsModel,
 import { ChartService } from 'src/app/core/services/chart.service';
 import { PanelServiceService } from 'src/app/core/services/panel-service.service';
 import { GridSettings } from '@syncfusion/ej2-pivotview/src/pivotview/model/gridsettings';
-import { DatepickerComponent } from '../../Panel Properties/datepicker/datepicker.component';
-import { DaterangepickerComponent } from '../../Panel Properties/daterangepicker/daterangepicker.component';
-import { DropdownPropertiesComponent } from '../../Panel Properties/dropdown-properties/dropdown-properties.component';
-import { ListboxPropertiesComponent } from '../../Panel Properties/listbox-properties/listbox-properties.component';
-import { PivotPropertiesComponent } from '../../Panel Properties/pivot-properties/pivot-properties.component';
-import { PropertyBoxComponent } from '../../Panel Properties/property-box/property-box.component';
-import { PropertyChartComponent } from '../../Panel Properties/property-chart/property-chart.component';
-import { PropertyTableComponent } from '../../Panel Properties/property-table/property-table.component';
+import { DatepickerComponent } from '../../panel-properties/datepicker/datepicker.component';
+import { DaterangepickerComponent } from '../../panel-properties/daterangepicker/daterangepicker.component';
+import { DropdownPropertiesComponent } from '../../panel-properties/dropdown-properties/dropdown-properties.component';
+import { ListboxPropertiesComponent } from '../../panel-properties/listbox-properties/listbox-properties.component';
+import { PivotPropertiesComponent } from '../../panel-properties/pivot-properties/pivot-properties.component';
+import { PropertyBoxComponent } from '../../panel-properties/property-box/property-box.component';
+import { PropertyChartComponent } from '../../panel-properties/property-chart/property-chart.component';
+import { PropertyTableComponent } from '../../panel-properties/property-table/property-table.component';
 import { HeaderCellInfoEventArgs, PageSettingsModel } from '@syncfusion/ej2-grids';
 import { Observable } from 'rxjs';
 import { DataManager, Query, UrlAdaptor, WebApiAdaptor } from '@syncfusion/ej2-data';
-import { PropertyMultiselectdropdownComponent } from '../../Panel Properties/property-multiselectdropdown/property-multiselectdropdown.component';
+import { PropertyMultiselectdropdownComponent } from '../../panel-properties/property-multiselectdropdown/property-multiselectdropdown.component';
 // import { Browser } from '@syncfusion/ej2/base';
 import { Browser } from '@syncfusion/ej2-base';
-import { InitialFiltersComponent } from '../../Panel Properties/initial-filters/initial-filters.component';
+import { InitialFiltersComponent } from '../../panel-properties/initial-filters/initial-filters.component';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { PopupService } from 'src/app/core/services/popup.service';
-import { RawdatadumpComponent } from '../../Panel Properties/rawdatadump/rawdatadump.component';
+import { RawdatadumpComponent } from '../../panel-properties/rawdatadump/rawdatadump.component';
 import { ExcelExportService } from 'src/app/core/services/excel-export.service';
-import { InputBoxPropertiesComponent } from '../../Panel Properties/input-box-properties/input-box-properties.component';
-import { CardTemplateComponent } from '../../Panel Properties/card-template/card-template.component';
+import { InputBoxPropertiesComponent } from '../../panel-properties/input-box-properties/input-box-properties.component';
+import { CardTemplateComponent } from '../../panel-properties/card-template/card-template.component';
 import { AIAssistViewComponent, PromptModel, ResponseToolbarSettingsModel, PromptRequestEventArgs, AIAssistViewModule } from '@syncfusion/ej2-angular-interactive-chat';
-import { PropertySceduleComponent } from '../../Panel Properties/property-scedule/property-scedule.component';
+import { PropertySceduleComponent } from '../../panel-properties/property-scedule/property-scedule.component';
 import { EventSettingsModel, ScheduleModule } from '@syncfusion/ej2-angular-schedule';
-import { KanbanComponent } from '../../Panel Properties/kanban/kanban.component';
+import { KanbanComponent } from '../../panel-properties/kanban/kanban.component';
 import { CircularGaugeComponent, CircularGaugeModule } from '@syncfusion/ej2-angular-circulargauge';
 import { LegendService, GaugeTooltipService } from '@syncfusion/ej2-angular-circulargauge';
-import { guageChartPropertiesComponent } from '../../Panel Properties/guage-chart-properties/guage-chart-properties.component';
+import { guageChartPropertiesComponent } from '../../panel-properties/guage-chart-properties/guage-chart-properties.component';
 import { ButtonModule, SwitchModule } from '@syncfusion/ej2-angular-buttons';
 import { NgIf, NgFor, NgClass, NgStyle } from '@angular/common';
 import { KanbanModule } from '@syncfusion/ej2-angular-kanban';
 import { DateRangePickerModule, DatePickerModule } from '@syncfusion/ej2-angular-calendars';
-import { RoleMappingComponent } from '../../Panel Properties/role-mapping/role-mapping.component';
+import { RoleMappingComponent } from '../../panel-properties/role-mapping/role-mapping.component';
 
 
 DropDownListComponent.Inject(VirtualScroll);
@@ -2932,6 +2932,25 @@ export class EditDashboardComponent implements OnInit {
   }
 
 
+  private clearGridSpinner(grid: any): void {
+    const gridElement = grid?.element as HTMLElement | undefined;
+
+    if (typeof grid?.hideSpinner === 'function') {
+      grid.hideSpinner();
+    }
+
+    if (gridElement) {
+      hideSpinner(gridElement);
+
+      const spinnerPane = gridElement.querySelector('.e-spinner-pane') as HTMLElement | null;
+      if (spinnerPane) {
+        spinnerPane.classList.remove('e-spin-show');
+        spinnerPane.classList.add('e-spin-hide');
+        spinnerPane.style.display = 'none';
+      }
+    }
+  }
+
   dataBound(item: any, grid: any, args?: DataBoundEventArgs) {
     let data = item.content.dataSource[0];
 
@@ -2942,6 +2961,15 @@ export class EditDashboardComponent implements OnInit {
     if (item.content.allowWrapping == true) {
       this.wrapSettings = { wrapMode: 'Both' }
     }
+
+    // Hide spinner after all grid operations are complete
+    setTimeout(() => {
+      this.clearGridSpinner(grid);
+    }, 0);
+
+    setTimeout(() => {
+      this.clearGridSpinner(grid);
+    }, 150);
 
     if (item.content.headerConditonalFormatting?.length > 0) {
       // Object.keys(data).forEach((fieldName) => {
@@ -6562,7 +6590,6 @@ export class EditDashboardComponent implements OnInit {
     };
   }
 }
-
 
 
 

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject} from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UserService } from 'src/app/core/AuthServices/user.service';
+import { UserService } from 'src/app/core/auth-services/user.service';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';
 

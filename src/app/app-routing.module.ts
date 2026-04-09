@@ -13,11 +13,11 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 // import { UserBaseAccessComponent } from './Auth Pages/user-base-access/user-base-access.component';
 
 // import { RoleBasedDashboardAcessComponent } from './Auth Pages/role-based-dashboard-acess/role-based-dashboard-acess.component';
-import { authGuard } from './core/AuthServices/auth.guard';
+import { authGuard } from './core/auth-services/auth.guard';
 import { SidebarNavbarComponent } from './shared/sidebar-navbar/sidebar-navbar.component';
-// import { ProfilePageComponent } from './UserSettingsPages/user-settings/profile-page/profile-page.component';
-// import { SecurityPageComponent } from './UserSettingsPages/user-settings/security-page/security-page.component';
-import { UserSettingsSidebarComponent } from './UserSettingsPages/user-settings-sidebar/user-settings-sidebar.component';
+// import { ProfilePageComponent } from './user-settings-pages/user-settings/profile-page/profile-page.component';
+// import { SecurityPageComponent } from './user-settings-pages/user-settings/security-page/security-page.component';
+import { UserSettingsSidebarComponent } from './user-settings-pages/user-settings-sidebar/user-settings-sidebar.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -37,7 +37,7 @@ const routes: Routes = [
   //   children: [
   //     { 
   //       path: 'userSettings', // default path for this component
-  //       loadChildren: () => import('./UserSettingsPages/user-settings/user-settings.module')
+  //       loadChildren: () => import('./user-settings-pages/user-settings/user-settings.module')
   //         .then(m => m.UserSettingsModule) 
   //     }
   //   ]

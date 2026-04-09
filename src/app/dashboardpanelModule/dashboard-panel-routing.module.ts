@@ -13,13 +13,13 @@ import { AddUsersComponent } from './panelComponents/add-users/add-users.compone
 import { AddRolesComponent } from './panelComponents/add-roles/add-roles.component';
 import { DashbordHomepageComponent } from './panelComponents/dashbord-homepage/dashbord-homepage.component';
 import { canDeactivateGuard } from './services/can-deactivate.guard';
-import { JoinTableComponent } from './Panel Properties/join-table/join-table.component';
-import { UpdateUserComponent } from './Panel Properties/update-user/update-user.component';
+import { JoinTableComponent } from './panel-properties/join-table/join-table.component';
+import { UpdateUserComponent } from './panel-properties/update-user/update-user.component';
 import { PagingTableComponent } from './panelComponents/paging-table/paging-table.component';
 import { DashboardRearrangeComponent } from './panelComponents/dashboard-rearrange/dashboard-rearrange.component';
-import { authGuard } from '../core/AuthServices/auth.guard';
+import { authGuard } from '../core/auth-services/auth.guard';
 import { UnauthorizedComponent } from './panelComponents/unauthorized/unauthorized.component';
-import { permissionResolver } from '../core/Resolver/permission.resolver';
+import { permissionResolver } from '../core/resolvers/permission.resolver';
 import { GroupingDashboardComponent } from './panelComponents/grouping-dashboard/grouping-dashboard.component';
 import { ViewGroupedDashboardComponent } from './panelComponents/view-grouped-dashboard/view-grouped-dashboard.component';
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, inject} from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { ClickEventArgs, SidebarComponent, ToolbarModule, SidebarModule } from '@syncfusion/ej2-angular-navigations';
-import { PopupComponent } from '../../dashboardpanelModule/Panel Properties/popup/popup.component';
+import { PopupComponent } from '../../dashboardpanelModule/panel-properties/popup/popup.component';
 import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 
 @Component({

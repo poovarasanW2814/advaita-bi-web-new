@@ -3,7 +3,7 @@ import { AfterViewInit, Component, OnInit, ViewChild, inject} from '@angular/cor
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AnimationSettingsModel, DialogComponent, DialogModule } from '@syncfusion/ej2-angular-popups';
-import { UserService } from 'src/app/core/AuthServices/user.service';
+import { UserService } from 'src/app/core/auth-services/user.service';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { DashboardBasedAccessService } from 'src/app/core/services/dashboard-based-access.service';
 import { LoaderService } from 'src/app/core/services/loader.service';

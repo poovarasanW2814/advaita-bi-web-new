@@ -1324,6 +1324,11 @@ export class PropertyTableComponent implements OnInit, OnChanges {
 
   dataBound(grid: GridComponent) {
     grid.autoFitColumns([])
+    setTimeout(() => {
+      if (typeof grid.hideSpinner === 'function') {
+        grid.hideSpinner();
+      }
+    });
   }
 
   headerFeildDetailsArray : any = [];

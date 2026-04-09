@@ -1,10 +1,10 @@
 import { Component, OnInit, HostListener, ElementRef, inject} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/core/AuthServices/user.service';
+import { UserService } from 'src/app/core/auth-services/user.service';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import { CustomPasswordValidator } from 'src/app/core/services/password_validator';
+import { CustomPasswordValidator } from 'src/app/core/validators/password_validator';
 import { PopupService } from 'src/app/core/services/popup.service';
 
 @Component({

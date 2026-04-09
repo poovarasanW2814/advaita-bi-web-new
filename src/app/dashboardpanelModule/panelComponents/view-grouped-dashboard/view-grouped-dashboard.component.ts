@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } 
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AnimationSettingsModel, DialogComponent, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { Subscription } from 'rxjs';
-import { UserService } from 'src/app/core/AuthServices/user.service';
+import { UserService } from 'src/app/core/auth-services/user.service';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { DashboardBasedAccessService } from 'src/app/core/services/dashboard-based-access.service';
 import { LoaderService } from 'src/app/core/services/loader.service';

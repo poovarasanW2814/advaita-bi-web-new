@@ -14,9 +14,9 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
 import { HttpErrorResponse } from '@angular/common/http';
-import { PopupComponent } from '../../Panel Properties/popup/popup.component';
+import { PopupComponent } from '../../panel-properties/popup/popup.component';
 import { Subscription } from 'rxjs';
-import { UserService } from 'src/app/core/AuthServices/user.service';
+import { UserService } from 'src/app/core/auth-services/user.service';
 import { NgIf, NgFor, NgStyle } from '@angular/common';
 import { FilterPipe } from '../../services/filter.pipe';
 

@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit, ViewChild, inject} from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, Observable } from 'rxjs';
-import { LogaccessService } from './core/AuthServices/logaccess.service';
+import { LogaccessService } from './core/auth-services/logaccess.service';
 import { TextWrapSettingsModel, GridComponent } from '@syncfusion/ej2-angular-grids';
 import { DisplayOption, IDataOptions, IDataSet, PivotView, PivotViewComponent } from '@syncfusion/ej2-angular-pivotview';
 import { IAxisLabelRenderEventArgs } from '@syncfusion/ej2-angular-charts';

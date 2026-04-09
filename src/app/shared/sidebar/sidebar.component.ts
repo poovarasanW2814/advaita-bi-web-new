@@ -12,13 +12,13 @@ import { ChartService } from 'src/app/core/services/chart.service';
 import { DashboardBasedAccessService } from 'src/app/core/services/dashboard-based-access.service';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';
 import { AIAssistViewComponent, PromptModel, PromptRequestEventArgs, ResponseToolbarSettingsModel, User, AIAssistViewModule } from '@syncfusion/ej2-angular-interactive-chat';
-import { UserService } from 'src/app/core/AuthServices/user.service';
+import { UserService } from 'src/app/core/auth-services/user.service';
 import { v4 as uuidv4 } from 'uuid';
 import { marked } from 'marked';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { NgClass, NgStyle } from '@angular/common';
-import { LoaderComponent } from '../../dashboardpanelModule/Panel Properties/loader/loader.component';
-import { PopupComponent } from '../../dashboardpanelModule/Panel Properties/popup/popup.component';
+import { LoaderComponent } from '../../dashboardpanelModule/panel-properties/loader/loader.component';
+import { PopupComponent } from '../../dashboardpanelModule/panel-properties/popup/popup.component';
 
 @Component({
     selector: 'app-sidebar',

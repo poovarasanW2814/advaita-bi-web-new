@@ -3,11 +3,11 @@ import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } 
 import { Router } from '@angular/router';
 import { AnimationModel, ProgressBarModule } from '@syncfusion/ej2-angular-progressbar';
 import { finalize, tap } from 'rxjs';
-import { AuthService } from 'src/app/core/AuthServices/auth.service';
-import { LogaccessService } from 'src/app/core/AuthServices/logaccess.service';
-import { UserService } from 'src/app/core/AuthServices/user.service';
+import { AuthService } from 'src/app/core/auth-services/auth.service';
+import { LogaccessService } from 'src/app/core/auth-services/logaccess.service';
+import { UserService } from 'src/app/core/auth-services/user.service';
 import { ChartService } from 'src/app/core/services/chart.service';
-import { passwordValidator } from 'src/app/core/services/custom-validators';
+import { passwordValidator } from 'src/app/core/validators/custom-validators';
 import { DashboardBasedAccessService } from 'src/app/core/services/dashboard-based-access.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';

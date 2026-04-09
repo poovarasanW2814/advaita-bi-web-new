@@ -7,7 +7,7 @@ import { GridComponent, GroupSettingsModel, FilterSettingsModel, DataStateChange
 import { DashboardLayoutComponent, PanelModel, DashboardLayoutModule } from '@syncfusion/ej2-angular-layouts';
 import { ClickEventArgs } from '@syncfusion/ej2-angular-navigations';
 import { DisplayOption, EnginePopulatedEventArgs, PivotViewComponent, PivotViewModule } from '@syncfusion/ej2-angular-pivotview';
-import { DialogComponent, AnimationSettingsModel, ButtonPropsModel, Tooltip, DialogModule } from '@syncfusion/ej2-angular-popups';
+import { DialogComponent, AnimationSettingsModel, ButtonPropsModel, Tooltip, DialogModule, hideSpinner } from '@syncfusion/ej2-angular-popups';
 
 
 import { ChartService } from 'src/app/core/services/chart.service';
@@ -16,28 +16,28 @@ import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.
 import { PanelServiceService } from 'src/app/core/services/panel-service.service';
 import { GridSettings } from '@syncfusion/ej2-pivotview/src/pivotview/model/gridsettings';
 import { v4 as uuidv4 } from 'uuid';
-import { PropertyChartComponent } from '../../Panel Properties/property-chart/property-chart.component';
-import { PropertyTableComponent } from '../../Panel Properties/property-table/property-table.component';
-import { PivotPropertiesComponent } from '../../Panel Properties/pivot-properties/pivot-properties.component';
-import { PropertyBoxComponent } from '../../Panel Properties/property-box/property-box.component';
-import { ListboxPropertiesComponent } from '../../Panel Properties/listbox-properties/listbox-properties.component';
-import { DropdownPropertiesComponent } from '../../Panel Properties/dropdown-properties/dropdown-properties.component';
-import { DatepickerComponent } from '../../Panel Properties/datepicker/datepicker.component';
-import { DaterangepickerComponent } from '../../Panel Properties/daterangepicker/daterangepicker.component';
+import { PropertyChartComponent } from '../../panel-properties/property-chart/property-chart.component';
+import { PropertyTableComponent } from '../../panel-properties/property-table/property-table.component';
+import { PivotPropertiesComponent } from '../../panel-properties/pivot-properties/pivot-properties.component';
+import { PropertyBoxComponent } from '../../panel-properties/property-box/property-box.component';
+import { ListboxPropertiesComponent } from '../../panel-properties/listbox-properties/listbox-properties.component';
+import { DropdownPropertiesComponent } from '../../panel-properties/dropdown-properties/dropdown-properties.component';
+import { DatepickerComponent } from '../../panel-properties/datepicker/datepicker.component';
+import { DaterangepickerComponent } from '../../panel-properties/daterangepicker/daterangepicker.component';
 import { Observable } from 'rxjs';
-import { PropertyMultiselectdropdownComponent } from '../../Panel Properties/property-multiselectdropdown/property-multiselectdropdown.component';
+import { PropertyMultiselectdropdownComponent } from '../../panel-properties/property-multiselectdropdown/property-multiselectdropdown.component';
 import { Browser } from '@syncfusion/ej2/base';
-import { InitialFiltersComponent } from '../../Panel Properties/initial-filters/initial-filters.component';
+import { InitialFiltersComponent } from '../../panel-properties/initial-filters/initial-filters.component';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import { RawdatadumpComponent } from '../../Panel Properties/rawdatadump/rawdatadump.component';
+import { RawdatadumpComponent } from '../../panel-properties/rawdatadump/rawdatadump.component';
 import { PopupService } from 'src/app/core/services/popup.service';
-import { InputBoxPropertiesComponent } from '../../Panel Properties/input-box-properties/input-box-properties.component';
-import { CardTemplateComponent } from '../../Panel Properties/card-template/card-template.component';
+import { InputBoxPropertiesComponent } from '../../panel-properties/input-box-properties/input-box-properties.component';
+import { CardTemplateComponent } from '../../panel-properties/card-template/card-template.component';
 import { AIAssistViewComponent, PromptModel, PromptRequestEventArgs, ResponseToolbarSettingsModel, AIAssistViewModule } from '@syncfusion/ej2-angular-interactive-chat';
-import { PropertySceduleComponent } from '../../Panel Properties/property-scedule/property-scedule.component';
-import { ExpandableFiltersComponent } from '../../Panel Properties/expandable-filters/expandable-filters.component';
-import { KanbanComponent } from '../../Panel Properties/kanban/kanban.component';
-import { guageChartPropertiesComponent } from '../../Panel Properties/guage-chart-properties/guage-chart-properties.component';
+import { PropertySceduleComponent } from '../../panel-properties/property-scedule/property-scedule.component';
+import { ExpandableFiltersComponent } from '../../panel-properties/expandable-filters/expandable-filters.component';
+import { KanbanComponent } from '../../panel-properties/kanban/kanban.component';
+import { guageChartPropertiesComponent } from '../../panel-properties/guage-chart-properties/guage-chart-properties.component';
 import { CircularGaugeComponent, GaugeTheme, CircularGaugeModule } from '@syncfusion/ej2-angular-circulargauge';
 import { LegendService, GaugeTooltipService } from '@syncfusion/ej2-angular-circulargauge';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
@@ -45,7 +45,7 @@ import { NgFor, NgIf, NgClass, NgStyle } from '@angular/common';
 import { KanbanModule } from '@syncfusion/ej2-angular-kanban';
 import { ScheduleModule } from '@syncfusion/ej2-angular-schedule';
 import { DateRangePickerModule, DatePickerModule } from '@syncfusion/ej2-angular-calendars';
-import { RoleMappingComponent } from '../../Panel Properties/role-mapping/role-mapping.component';
+import { RoleMappingComponent } from '../../panel-properties/role-mapping/role-mapping.component';
 
 
 @Component({
@@ -2372,6 +2372,25 @@ export class CreateDashboardComponent implements OnInit {
   //   (this.grid as any).autoFitColumns([]);
 
   // }
+  private clearGridSpinner(grid: any): void {
+    const gridElement = grid?.element as HTMLElement | undefined;
+
+    if (typeof grid?.hideSpinner === 'function') {
+      grid.hideSpinner();
+    }
+
+    if (gridElement) {
+      hideSpinner(gridElement);
+
+      const spinnerPane = gridElement.querySelector('.e-spinner-pane') as HTMLElement | null;
+      if (spinnerPane) {
+        spinnerPane.classList.remove('e-spin-show');
+        spinnerPane.classList.add('e-spin-hide');
+        spinnerPane.style.display = 'none';
+      }
+    }
+  }
+
   dataBound(item: any, grid: any) {
 
     const columns = grid.getColumns();
@@ -2385,6 +2404,16 @@ export class CreateDashboardComponent implements OnInit {
 
       this.wrapSettings = { wrapMode: 'Both' }
     }
+
+    // Hide spinner after all grid operations are complete
+    setTimeout(() => {
+      this.clearGridSpinner(grid);
+    }, 0);
+
+    // Syncfusion occasionally leaves the pane visible after the first render.
+    setTimeout(() => {
+      this.clearGridSpinner(grid);
+    }, 150);
 
     if (item.content.headerConditonalFormatting?.length > 0) {
       // Object.keys(data).forEach((fieldName) => {
@@ -5728,4 +5757,3 @@ export class CreateDashboardComponent implements OnInit {
     };
   }
 }
-

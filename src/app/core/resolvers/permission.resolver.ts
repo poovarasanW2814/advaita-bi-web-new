@@ -3,7 +3,7 @@ import { ResolveFn, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { DashboardBasedAccessService } from '../services/dashboard-based-access.service';
-import { UserService } from '../AuthServices/user.service';
+import { UserService } from '../auth-services/user.service';
 
 export const permissionResolver: ResolveFn<boolean> = (
   route: ActivatedRouteSnapshot,

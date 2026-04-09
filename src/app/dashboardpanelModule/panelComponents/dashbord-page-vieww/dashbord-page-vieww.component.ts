@@ -15,8 +15,8 @@ import { ExportService } from '@syncfusion/ej2-angular-charts'
 import { ChartService } from 'src/app/core/services/chart.service';
 import { PanelServiceService } from 'src/app/core/services/panel-service.service';
 import { GridSettings } from '@syncfusion/ej2-pivotview/src/pivotview/model/gridsettings';
-import { PropertyChartComponent } from '../../Panel Properties/property-chart/property-chart.component';
-import { PropertyBoxComponent } from '../../Panel Properties/property-box/property-box.component';
+import { PropertyChartComponent } from '../../panel-properties/property-chart/property-chart.component';
+import { PropertyBoxComponent } from '../../panel-properties/property-box/property-box.component';
 import { DataManager, Query } from '@syncfusion/ej2-data';
 import { ChangeEventArgs } from '@syncfusion/ej2-angular-inputs';
 import { ExcelExportService } from 'src/app/core/services/excel-export.service';
@@ -28,7 +28,7 @@ import { PopupService } from 'src/app/core/services/popup.service';
 import { DashboardBasedAccessService } from 'src/app/core/services/dashboard-based-access.service';
 import { marked } from 'marked';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';
-import { UserService } from 'src/app/core/AuthServices/user.service';
+import { UserService } from 'src/app/core/auth-services/user.service';
 import { TimeScaleModel, ScheduleModule } from '@syncfusion/ej2-angular-schedule';
 import { ChartSettings } from '@syncfusion/ej2-pivotview/src/pivotview/model/chartsettings';
 import { DropDownButton } from '@syncfusion/ej2-splitbuttons';
@@ -6945,6 +6945,9 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
           item.content.dataSource = data.content.dataSource
         }
 
+        if (typeof gridInstance.hideSpinner === 'function') {
+          gridInstance.hideSpinner();
+        }
         this.cdr.detectChanges();
       })
     } else if (event.action.requestType == 'sorting') {
@@ -7019,6 +7022,9 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
           }
         }
 
+        if (typeof gridInstance.hideSpinner === 'function') {
+          gridInstance.hideSpinner();
+        }
         this.cdr.detectChanges();
       }
       )
@@ -7165,11 +7171,6 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   dataBound(item: any, grid: any) {
     const columns = grid.getColumns();
 
-    // ðŸŽ¯ Hide grid spinner/loader when data is bound
-    if (typeof grid.hideSpinner === 'function') {
-      grid.hideSpinner();
-    }
-
     if (item.content.autoFitColumns === true) {
       grid.autoFitColumns([]);
     }
@@ -7178,6 +7179,13 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       this.wrapSettings = { wrapMode: 'Both' }
       // this.wrapSettings = { wrapMode: 'Content' }
     }
+
+    // Hide spinner after all grid operations are complete
+    setTimeout(() => {
+      if (typeof grid.hideSpinner === 'function') {
+        grid.hideSpinner();
+      }
+    });
 
 
     // if (item.content.headerConditonalFormatting?.length > 0) {

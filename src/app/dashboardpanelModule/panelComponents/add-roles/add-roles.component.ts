@@ -76,6 +76,7 @@ export class AddRolesComponent implements OnInit {
 
   dialogBtnClick = (): void => {
     this.initForm()
+    this.isActiveToggle = true;
     this.submitFlag = true;
     this.updateFlag = false;
     this.defaultDialog.show();
@@ -97,6 +98,7 @@ export class AddRolesComponent implements OnInit {
   roleBasedAccessObj: any;
   roleDashboardPermissionObj : any;
   userRoleInfo : any;
+  isActiveToggle: boolean = true;
 
   private readonly formBuilder = inject(FormBuilder);
   private readonly chartService = inject(ChartService);
@@ -143,88 +145,11 @@ export class AddRolesComponent implements OnInit {
 
     if (userData) {
       userData = JSON.parse(userData);
-      console.log('userData in role...', userData);
       let userName = userData.username;
-      console.log('userName', userName);
       this.userRoleInfo = userName;
 
-      if(userName == 'superadmin'){
-        this.loaderService.show();
-        this.chartService.getAllRolesDetails().subscribe(
-          (res: any) => {
-            this.loaderService.hide()
-
-            if (res.success) {
-              this.registeredUsersArray = res['data'];
-              this.filteredRolesArray = this.registeredUsersArray.sort((a: { id: number; }, b: { id: number; }) => b.id - a.id)
-              
-              sessionStorage.setItem('rolesArray', JSON.stringify(this.registeredUsersArray))
-            } else {
-              this.popupService.showPopup({
-                message: res.message,
-                statusCode: res.status_code,
-                status : res.success
-              });
-            }
-
-          },
-       
-          (err: HttpErrorResponse) => {
-            this.loaderService.hide();
-            const errorMessage = err.error && err.error.message ? err.error.message : err.message;
-          this.popupService.showPopup({
-            message: errorMessage,
-            statusCode: err.status,
-            status :false
-          });
-          }
-
-
-        )
-
-      }else{
-        this.loaderService.show()
-
-        this.chartService.getAllActiveRoleDetails().subscribe(
-          (res: any) => {
-            this.loaderService.hide()
-
-            console.log('Active Roles', res['data'])
-
-            if (res.success) {
-              this.registeredUsersArray = res['data'];
-              this.registeredUsersArray = res['data'].filter((user: any) => user.role !== 'superadmin');
-
-              this.filteredRolesArray = this.registeredUsersArray.sort((a: { id: number; }, b: { id: number; }) => b.id - a.id)
-
-              // this.filteredRolesArray = this.registeredUsersArray;
-
-              sessionStorage.setItem('rolesArray', JSON.stringify(this.registeredUsersArray))
-            } else {
-           
-              this.popupService.showPopup({
-                message: res.message,
-                statusCode: res.status_code,
-                status : res.success
-              });
-            }
-
-          },
-  
-          (err: HttpErrorResponse) => {
-
-            this.loaderService.hide();
-            const errorMessage = err.error && err.error.message ? err.error.message : err.message;
-            this.popupService.showPopup({
-              message: errorMessage,
-              statusCode: err.status,
-              status :false
-            });
-          }
-
-
-        )
-      }
+      this.loaderService.show();
+      this.loadRoles();
 
 
 
@@ -416,8 +341,7 @@ export class AddRolesComponent implements OnInit {
   initForm() {
     this.registrationForm = this.formBuilder.group({
       role: ['', [Validators.required]],
-      description: [''],
-      is_active: true
+      description: ['']
     });
 
   }
@@ -429,6 +353,38 @@ export class AddRolesComponent implements OnInit {
       this.filteredRolesArray = this.registeredUsersArray
     } else {
       this.registeredUsersArray = [];
+    }
+  }
+
+  loadRoles() {
+    if (this.userRoleInfo === 'superadmin') {
+      this.chartService.getAllRolesDetails().subscribe(
+        (res: any) => {
+          this.loaderService.hide();
+          if (res.success) {
+            this.registeredUsersArray = res['data'];
+            this.filteredRolesArray = this.registeredUsersArray.sort((a: { id: number; }, b: { id: number; }) => b.id - a.id);
+            sessionStorage.setItem('rolesArray', JSON.stringify(this.registeredUsersArray));
+          }
+        },
+        (err: HttpErrorResponse) => {
+          this.loaderService.hide();
+        }
+      );
+    } else {
+      this.chartService.getAllActiveRoleDetails().subscribe(
+        (res: any) => {
+          this.loaderService.hide();
+          if (res.success) {
+            this.registeredUsersArray = res['data'].filter((user: any) => user.role !== 'superadmin');
+            this.filteredRolesArray = this.registeredUsersArray.sort((a: { id: number; }, b: { id: number; }) => b.id - a.id);
+            sessionStorage.setItem('rolesArray', JSON.stringify(this.registeredUsersArray));
+          }
+        },
+        (err: HttpErrorResponse) => {
+          this.loaderService.hide();
+        }
+      );
     }
   }
 
@@ -450,10 +406,10 @@ export class AddRolesComponent implements OnInit {
         "role_id": data.id || '',
         is_active: data.is_active != null ? data.is_active : true
       };
+      this.isActiveToggle = apiObj.is_active != null ? apiObj.is_active : true;
       this.registrationForm.patchValue({
         role: apiObj.role || '',
-        description: apiObj.description || '',
-        is_active: apiObj.is_active != null ? apiObj.is_active : true
+        description: apiObj.description || ''
       });
     });
   }
@@ -564,33 +520,53 @@ export class AddRolesComponent implements OnInit {
     if (deleteMessage) {
       this.loaderService.show()
 
+      // First fetch role details to get reliable id, then delete by id
+      this.chartService.getRoleDetailsByRolename(user.role).subscribe(
+        (roleRes: any) => {
+          const roleId = roleRes['data']?.id;
+          if (!roleId) {
+            this.loaderService.hide();
+            this.popupService.showPopup({
+              message: 'Unable to find role ID for deletion',
+              statusCode: 404,
+              status: false
+            });
+            return;
+          }
 
-      this.chartService.deleteRoleById(user.id).subscribe(
-        (res: any) => {
-          this.loaderService.hide()
-          // this.showPopup(res.success, '35px', res.message)
-          this.popupService.showPopup({
-            message: res.message,
-            statusCode: res.status_code,
-            status : res.success
-          });
+          this.chartService.deleteRoleById(roleId).subscribe(
+            (res: any) => {
+              this.loaderService.hide()
+              this.loadRoles();
+
+              this.popupService.showPopup({
+                message: res.message,
+                statusCode: res.status_code,
+                status: res.success
+              });
+            },
+
+            (err: HttpErrorResponse) => {
+              this.loaderService.hide();
+              const errorMessage = err.error && err.error.message ? err.error.message : err.message;
+              this.popupService.showPopup({
+                message: errorMessage,
+                statusCode: err.status,
+                status: false
+              });
+            }
+          );
         },
-
-   
         (err: HttpErrorResponse) => {
-
           this.loaderService.hide();
-          // this.showPopup(false, '35px', "Something Went wrong, Please reload the page");
           const errorMessage = err.error && err.error.message ? err.error.message : err.message;
           this.popupService.showPopup({
             message: errorMessage,
             statusCode: err.status,
-            status :false
+            status: false
           });
-  
         }
-      )
-
+      );
 
     } else {
       console.log('Cancel the delete');
@@ -629,7 +605,7 @@ export class AddRolesComponent implements OnInit {
     if (this.registrationForm.valid) {
 
       let apiObj = {
-        "is_active": formValue.is_active != null ? formValue.is_active : true,
+        "is_active": this.isActiveToggle,
         role: formValue.role || '',
         description: formValue.description || ''
       }
@@ -653,15 +629,9 @@ export class AddRolesComponent implements OnInit {
           (res: any) => {
             console.log('res', res);
             this.defaultDialog.hide();
-
-            let data = res['data'];
-            this.registeredUsersArray.push(data);
-            this.registeredUsersArray = [data, ...this.registeredUsersArray].sort((a, b) => b.id - a.id);
-            // this.registeredUsersArray = [...this.registeredUsersArray];
-            this.filteredRolesArray = this.registeredUsersArray
-            sessionStorage.setItem('rolesArray', JSON.stringify(this.registeredUsersArray));
-            this.registrationForm.reset();
-            this.loaderService.hide()
+            this.registrationForm.reset({ role: '', description: '' });
+            this.isActiveToggle = true;
+            this.loadRoles();
 
             this.popupService.showPopup({
               message: res.message,
@@ -709,7 +679,7 @@ export class AddRolesComponent implements OnInit {
       let apiObj = {
         "role": updatedObj.role || '',
         "description": updatedObj.description || '',
-        "is_active": updatedObj.is_active != null ? updatedObj.is_active : true
+        "is_active": this.isActiveToggle
       };
 
       this.loaderService.show()
@@ -717,15 +687,13 @@ export class AddRolesComponent implements OnInit {
         (res: any) => {
 
           this.loaderService.hide()
-          // this.showPopup(res.success, '35px', res.message)
+          this.loadRoles();
+
           this.popupService.showPopup({
             message: res.message,
             statusCode: res.status_code,
             status : res.success
           });
-
-  
-          sessionStorage.setItem('rolesArray', JSON.stringify(this.registeredUsersArray));
 
 
         },
