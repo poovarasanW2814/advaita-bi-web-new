@@ -506,7 +506,7 @@ button.downloadBtn:disabled {
 
 .cacheRefreshHeading{
   margin-right: 17px;
-  display: inline; font-size: 11px;   color: #264a9f;
+  display: inline; font-size: 11px;   color: var(--bi-primary);
 
 }
 
@@ -757,7 +757,7 @@ i {
 }
 
 .popupHeader{
-  color: #264a9f;
+  color: var(--bi-primary);
 }
 
 .e-grid .e-leftfreeze.e-freezeleftborder {
@@ -1587,7 +1587,7 @@ i {
 
   .cacheRefreshHeading{
     margin-right: 17px;
-  color: #264a9f;
+  color: var(--bi-primary);
   display: block; font-size: 15px; 
   }
 

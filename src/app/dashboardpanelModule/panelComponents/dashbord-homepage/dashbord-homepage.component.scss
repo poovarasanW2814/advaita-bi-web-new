@@ -160,7 +160,7 @@ width: 100%;
   color: white;
   box-shadow: -3px -3px 6px 0 #fff, 3px 3px 6px 0 #bfc3cf;
 
-  background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, .898) 109.98%);
+  background: var(--bi-gradient);
 
   i{
   color: white;

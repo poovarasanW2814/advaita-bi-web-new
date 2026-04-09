@@ -8,6 +8,17 @@
 @use 'app/core/sass/syncfusion-overrides.scss';
 
 /* ──────────────────────────────
+   Global Typography
+────────────────────────────── */
+
+body {
+  font-family: var(--font-family-base);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ──────────────────────────────
    Switch Wrapper (Syncfusion)
 ────────────────────────────── */
 
@@ -15,6 +26,18 @@
 .e-switch-wrapper.bar-color .e-switch-on {
   background: var(--bi-primary);
   border-color: var(--bi-primary);
+}
+
+/* ──────────────────────────────
+   Bootstrap Icons — Spin utility
+────────────────────────────── */
+@keyframes bi-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.bi-spin {
+  display: inline-block;
+  animation: bi-spin 1s linear infinite;
 }
 
 .e-switch-wrapper.bar-color .e-switch-inner,
@@ -309,4 +332,134 @@ textarea:focus {
 * {
   scrollbar-color: var(--bi-mid) var(--bg-primary);
   scrollbar-width: thin;
+}
+
+/* ══════════════════════════════════════════════════
+   LUMINA BI — Dark Sidebar Theme
+   Must be in global styles to beat Syncfusion CDN
+══════════════════════════════════════════════════ */
+
+/* Sidebar container */
+ejs-sidebar#dockSidebar,
+#dockSidebar.e-sidebar,
+.e-sidebar.e-left,
+.e-sidebar {
+  background: #164E63 !important;
+  border-right: none !important;
+}
+
+/* Sidebar list container */
+#dockSidebar .e-listview,
+.e-sidebar .e-listview {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Sidebar list items */
+#dockSidebar .e-list-item,
+#dockSidebar li {
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  border-left: 3px solid transparent;
+  transition: all 0.3s ease-in-out;
+}
+
+#dockSidebar .e-list-item .e-text-content,
+#dockSidebar .e-list-item .e-list-text {
+  color: inherit !important;
+}
+
+/* Sidebar icons */
+#dockSidebar .e-list-icon,
+#dockSidebar .e-list-item i {
+  color: rgba(255, 255, 255, 0.65) !important;
+}
+
+/* Hover state */
+#dockSidebar .e-list-item:hover,
+#dockSidebar li:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #fff !important;
+}
+
+#dockSidebar .e-list-item:hover .e-list-icon,
+#dockSidebar .e-list-item:hover i,
+#dockSidebar li:hover i {
+  color: #fff !important;
+}
+
+/* Active state — routerLinkActive="true" adds class "true" */
+#dockSidebar .e-list-item.true,
+#dockSidebar li.true {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #fff !important;
+  font-weight: 600;
+  border-left: 3px solid #22D3EE !important;
+}
+
+#dockSidebar .e-list-item.true .e-list-icon,
+#dockSidebar .e-list-item.true i,
+#dockSidebar li.true i {
+  color: #fff !important;
+}
+
+/* Sidebar sub-item scrollbar (dark) */
+#dockSidebar ::-webkit-scrollbar-track {
+  background: #164E63;
+}
+#dockSidebar ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  &:hover {
+    background: rgba(255, 255, 255, 0.35);
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   LUMINA BI — Topbar Overrides
+   Ensure dropdown buttons on gradient topbar are white
+══════════════════════════════════════════════════ */
+
+#head {
+  background: linear-gradient(135deg, #0D5C7A 0%, #0891B2 60%, #22D3EE 100%) !important;
+}
+
+#head .e-dropdown-btn,
+#head .e-btn,
+#head button {
+  color: #fff !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+#head .e-dropdown-btn .e-btn-icon,
+#head .e-dropdown-btn .e-icon-btn,
+#head .e-btn .e-btn-icon {
+  color: #fff !important;
+}
+
+#head .e-dropdown-btn:hover,
+#head .e-dropdown-btn:focus {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-radius: 4px;
+}
+
+/* ══════════════════════════════════════════════════
+   LUMINA BI — Grid Header
+══════════════════════════════════════════════════ */
+
+.e-grid .e-headercell,
+.e-grid .e-headercontent .e-headercell {
+  background: #0D5C7A !important;
+  color: #fff !important;
+}
+
+.e-grid .e-headercelldiv,
+.e-grid .e-headercontent .e-headercelldiv {
+  color: #fff !important;
+}
+
+.e-grid .e-sortfilter .e-icons,
+.e-grid .e-headercell .e-icons {
+  color: rgba(255, 255, 255, 0.7) !important;
 }

@@ -66,6 +66,12 @@
     #dockSidebar li.sidebar-item .e-icons {
       font-size: 20px;
     }
+    #dockSidebar .e-listview .e-list-icon {
+      margin-right: 10px;
+      font-size: 16px;
+      vertical-align: middle;
+      line-height: 1;
+    }
     #dockSidebar li {
       list-style-type: none;
       cursor: pointer;
@@ -82,8 +88,9 @@
     }
   
   
-    span.e-icons {
+    span.e-icons, .menuBar i.bi {
       line-height: 2;
+      font-size: 1.3rem;
     }
     
     #dockSidebar .e-listview {

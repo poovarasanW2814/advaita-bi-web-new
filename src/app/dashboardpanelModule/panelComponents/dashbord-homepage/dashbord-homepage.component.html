@@ -11,26 +11,26 @@
       <button class="e-btn e-btn-purple" style="margin:0px 5px"  
     title="Card View" routerLink="/sidebar/panel/groupingViewDashboard"
        >
-       <i class="fas fa-plus" title="View Grouped Dashboard">
+       <i class="bi bi-plus-lg" title="View Grouped Dashboard">
        </i>
      </button> -->
 
       <button class="e-btn e-btn-purple" style="margin:0px 5px" *ngIf="listviewIcon" title="List View"
         (click)="toggleView('listView')">
-        <i class="fas fa-list " title="List View">
+        <i class="bi bi-list " title="List View">
         </i>
       </button>
 
       <button class="e-btn e-btn-purple" style="margin:0px 5px" *ngIf="cardViewIcon" title="Card View"
         (click)="toggleView('card')">
-        <i class="fas fa-th " title="Card View">
+        <i class="bi bi-grid " title="Card View">
         </i>
       </button>
 
       <ng-container *ngFor="let permission of menuBasedPermissionControlArray">
         <button class="e-btn e-btn-purple" *ngIf="permission?.form_name == 'dashboardSetup' && permission?.can_view "
           title="Dashboard Setup" routerLink="/sidebar/panel/dashboardRearrage">
-          <i class="fas fa-cog " title="Dashboard Setup"></i>
+          <i class="bi bi-gear " title="Dashboard Setup"></i>
         </button>
       </ng-container>
 
@@ -80,7 +80,7 @@
                     getPermissionById(obj.dashboard_id) === undefined || getPermissionById(obj.dashboard_id)?.can_view !== false
                     " (click)="onViewClick(obj); $event.stopPropagation()">
                   <span class="iconColor">
-                    <i class="fas fa-eye icon" [ngStyle]="{
+                    <i class="bi bi-eye icon" [ngStyle]="{
                       'color':'rgb(38, 74, 159)'}"></i>
                   </span>
                 </button>
@@ -90,7 +90,7 @@
                  getPermissionById(obj.dashboard_id) === undefined || getPermissionById(obj.dashboard_id)?.can_update !== false"
                   (click)="onEditClick(obj); $event.stopPropagation()">
                   <span class="iconColor">
-                    <i class="fas fa-edit icon" [ngStyle]="{
+                    <i class="bi bi-pencil-square icon" [ngStyle]="{
                       'color':'rgb(38, 74, 159)'}"></i>
                   </span>
                 </button>
@@ -102,7 +102,7 @@
                getPermissionById(obj.dashboard_id) === undefined  || getPermissionById(obj.dashboard_id)?.can_create !== false"
                   (click)="copyDashboard(obj); $event.stopPropagation()">
                   <span class="iconColor">
-                    <i class="fas fa-copy icon" [ngStyle]="{
+                    <i class="bi bi-copy icon" [ngStyle]="{
                       'color':'rgb(38, 74, 159)'}"></i>
                   </span>
                 </button>
@@ -112,7 +112,7 @@
                  roleDashboardPermissionObj.can_view !== false" [title]="'Role Dashboard Permission'"
                   (click)="onRoleBasedAcess(obj); $event.stopPropagation()">
                   <span class="iconColor">
-                    <i class="fas fa-user-tag icon" [ngStyle]="{
+                    <i class="bi bi-person-badge icon" [ngStyle]="{
                       'color':'rgb(38, 74, 159)'}"></i>
                   </span>
                 </button>
@@ -123,7 +123,7 @@
                     " style=" cursor: pointer;" [title]="'User Dashboard Permission'"
                   (click)="onUserBasedAccess(obj); $event.stopPropagation()">
                   <span class="iconColor">
-                    <i class="fas fa-users icon" [ngStyle]="{
+                    <i class="bi bi-people icon" [ngStyle]="{
                       'color':'rgb(38, 74, 159)'}"></i>
                   </span>
                 </button>
@@ -132,7 +132,7 @@
                    getPermissionById(obj.dashboard_id) === undefined || getPermissionById(obj.dashboard_id)?.can_delete !== false
                      " [title]="'Delete'" (click)="onDeleteClick(obj); $event.stopPropagation()">
                   <span class="iconColor">
-                    <i class="fas fa-trash icon" [ngStyle]="{
+                    <i class="bi bi-trash icon" [ngStyle]="{
                       'color':'rgb(38, 74, 159)'}"></i>
                   </span>
                 </button>
@@ -210,7 +210,7 @@
                   *ngIf=" getPermissionById(obj.dashboard_id) === undefined || getPermissionById(obj.dashboard_id)?.can_view !== false "
                   (click)="onViewClick(obj); $event.stopPropagation()">
                   <span class="iconColor">
-                    <i class="fas fa-eye icon" [ngStyle]="{
+                    <i class="bi bi-eye icon" [ngStyle]="{
                       'color':'rgb(38, 74, 159)'}"></i>
                   </span>
                 </button>
@@ -218,7 +218,7 @@
                   *ngIf=" getPermissionById(obj.dashboard_id) === undefined || getPermissionById(obj.dashboard_id)?.can_update !== false"
                   (click)="onEditClick(obj); $event.stopPropagation()">
                   <span class="iconColor">
-                    <i class="fas fa-edit icon" [ngStyle]="{
+                    <i class="bi bi-pencil-square icon" [ngStyle]="{
                       'color':'rgb(38, 74, 159)'}"></i>
                   </span>
                 </button>
@@ -230,7 +230,7 @@
                getPermissionById(obj.dashboard_id) === undefined  || getPermissionById(obj.dashboard_id)?.can_create !== false"
                   (click)="copyDashboard(obj); $event.stopPropagation()">
                   <span class="iconColor">
-                    <i class="fas fa-copy icon" [ngStyle]="{
+                    <i class="bi bi-copy icon" [ngStyle]="{
                       'color':'rgb(38, 74, 159)'}"></i>
                   </span>
                 </button>
@@ -241,7 +241,7 @@
                   *ngIf="  roleDashboardPermissionObj &&  roleDashboardPermissionObj?.can_view !== false"
                   [title]="'Role Dashboard Permission'" (click)="onRoleBasedAcess(obj); $event.stopPropagation()">
                   <span class="iconColor">
-                    <i class="fas fa-user-tag icon" [ngStyle]="{
+                    <i class="bi bi-person-badge icon" [ngStyle]="{
                       'color':'rgb(38, 74, 159)'}"></i>
                   </span>
                 </button>
@@ -250,7 +250,7 @@
                   *ngIf="  userDashboardPermissionObj &&   userDashboardPermissionObj?.can_view !== false"
                   [title]="'User Dashboard Permission'" (click)="onUserBasedAccess(obj); $event.stopPropagation()">
                   <span class="iconColor">
-                    <i class="fas fa-users icon" [ngStyle]="{
+                    <i class="bi bi-people icon" [ngStyle]="{
                       'color':'rgb(38, 74, 159)'}"></i>
                   </span>
                 </button>
@@ -259,7 +259,7 @@
                   *ngIf=" getPermissionById(obj.dashboard_id) === undefined || getPermissionById(obj.dashboard_id)?.can_delete !== false "
                   [title]="'Delete'" (click)="onDeleteClick(obj); $event.stopPropagation()">
                   <span class="iconColor">
-                    <i class="fas fa-trash icon" [ngStyle]="{
+                    <i class="bi bi-trash icon" [ngStyle]="{
                       'color':'rgb(38, 74, 159)'}"></i>
                   </span>
                 </button>

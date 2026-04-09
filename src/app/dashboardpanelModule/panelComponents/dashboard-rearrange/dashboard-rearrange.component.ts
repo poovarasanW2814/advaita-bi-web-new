@@ -1,4 +1,4 @@
-
+﻿
 import { Component, OnInit, ViewChild, inject} from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonComponent, ButtonModule, SwitchModule } from '@syncfusion/ej2-angular-buttons';
@@ -45,11 +45,11 @@ export class DashboardRearrangeComponent implements OnInit {
    items: ItemModel[] = [
     {
       text: 'DB Backup',
-      // iconCss: 'fas fa-user-cog',
+      // iconCss: 'bi bi-person-gear',
     },
     {
       text: 'Empty DB',
-      // iconCss: 'fas fa-power-off'
+      // iconCss: 'bi bi-power'
     }];
 
   private readonly chartService = inject(ChartService);

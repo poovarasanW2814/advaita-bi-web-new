@@ -156,11 +156,11 @@
                                         <td>{{ item.level }}</td>
                                         <td style="max-width: 250px; word-wrap: break-word;">{{ item.rawQuery }}</td>
                                         <td style="cursor: pointer;">
-                                            <i class="fas fa-edit" style="margin-right:10px; cursor: pointer;"
+                                            <i class="bi bi-pencil-square" style="margin-right:10px; cursor: pointer;"
                                                 [title]="'Edit'" (click)="onEditDiemsionSeries(item, i)"></i>
-                                            <i class="fas fa-trash-alt" [title]="'Delete'" style="cursor: pointer;"
+                                            <i class="bi bi-trash" [title]="'Delete'" style="cursor: pointer;"
                                                 (click)="onDeleteDiemnsionSeries(i, item)"></i>
-                                            <i class="fas fa-database" [title]="'Add Query'"
+                                            <i class="bi bi-database" [title]="'Add Query'"
                                                 style="margin-left:10px; cursor: pointer;"
                                                 (click)="onOpenrawQuery(item, i, item.level)"></i>
                                         </td>
@@ -355,8 +355,8 @@
                                             <td>{{ item.dataLabel?.font?.color }}</td>
                                             <td>{{ item.dataLabel?.angle }}</td>
                                             <td style="cursor:pointer; font-size: 11px">
-                                                <i class="fas fa-trash-alt" (click)="onDeleteSeries(i)"></i>
-                                                <i class="fas fa-edit" style="margin-left:10px"
+                                                <i class="bi bi-trash" (click)="onDeleteSeries(i)"></i>
+                                                <i class="bi bi-pencil-square" style="margin-left:10px"
                                                     (click)="onEditSeries(item, i)"></i>
                                             </td>
                                         </tr>
@@ -1205,9 +1205,9 @@ border:1px solid #ccc;"
 
 </td> -->
             <td style="display:flex; gap:10px; cursor:pointer; border-bottom: transparent;">
-                <i class="fas fa-edit" style="margin-right:10px; cursor: pointer;"
+                <i class="bi bi-pencil-square" style="margin-right:10px; cursor: pointer;"
                     [title]="'Edit'" (click)="editRangess(i)"></i>
-                <i class="fas fa-trash-alt" [title]="'Delete'" style="cursor: pointer;"
+                <i class="bi bi-trash" [title]="'Delete'" style="cursor: pointer;"
                     (click)="deleteRangess(i)"></i>
              
               
@@ -1340,9 +1340,9 @@ border:1px solid #ccc;"
                         <td>{{ item.legendText }}</td>
                         <td>{{ item.gradient?.type }}</td>
                         <td style="cursor: pointer;">
-                            <i class="fas fa-edit" style="margin-right:10px; cursor: pointer;"
+                            <i class="bi bi-pencil-square" style="margin-right:10px; cursor: pointer;"
                                 [title]="'Edit'" (click)="onEditRange(item, i)"></i>
-                            <i class="fas fa-trash-alt" [title]="'Delete'" style="cursor: pointer;"
+                            <i class="bi bi-trash" [title]="'Delete'" style="cursor: pointer;"
                                 (click)="onDeleteRange(i)"></i>
                         </td>
                     </tr>

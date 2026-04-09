@@ -147,3 +147,98 @@ label.labelName {
   font-weight: 300;
   font-size: 12px;
 }
+
+// ─────────────────────────────────────────────────
+// SIDEBAR (e-sidebar) — Dark theme overrides
+// Ensures our dark sidebar beats Syncfusion CDN styles
+// ─────────────────────────────────────────────────
+
+.e-sidebar {
+  background: var(--bi-primary-dark) !important;
+
+  &.e-right,
+  &.e-left {
+    background: var(--bi-primary-dark) !important;
+  }
+
+  .e-listview {
+    background: transparent !important;
+    border: none !important;
+  }
+
+  .e-list-item {
+    background: transparent !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    border-bottom: none !important;
+
+    &:hover,
+    &.e-hover {
+      background: rgba(255, 255, 255, 0.08) !important;
+      color: white !important;
+    }
+
+    &.e-active,
+    &.true {
+      background: rgba(255, 255, 255, 0.1) !important;
+      color: white !important;
+    }
+
+    .e-text-content {
+      color: inherit !important;
+    }
+
+    .e-list-text {
+      color: inherit !important;
+    }
+
+    .e-list-icon {
+      color: rgba(255, 255, 255, 0.7) !important;
+    }
+
+    &:hover .e-list-icon,
+    &.true .e-list-icon,
+    &.e-active .e-list-icon {
+      color: white !important;
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────
+// DROPDOWN BUTTON (topbar) — on gradient bg
+// ─────────────────────────────────────────────────
+
+.e-dropdown-btn {
+  &.non-mobile-button,
+  &.mobile-button {
+    color: white !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+
+    .e-btn-icon {
+      color: white !important;
+    }
+
+    &:hover,
+    &:focus {
+      background: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────
+// GRID — Lumina BI header gradient
+// ─────────────────────────────────────────────────
+
+.e-grid .e-headercell {
+  background: var(--bi-primary) !important;
+  color: white !important;
+}
+
+.e-grid .e-headercelldiv {
+  color: white !important;
+}
+
+.e-grid .e-sortfilter .e-icons {
+  color: rgba(255, 255, 255, 0.7) !important;
+}

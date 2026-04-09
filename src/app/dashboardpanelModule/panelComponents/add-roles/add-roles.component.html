@@ -20,7 +20,7 @@
       <button ejs-button class="e-btn e-btn-purple" title="Create"
         *ngIf="(!permissionObj || permissionObj?.can_create) !== false" style="margin-top:10px"
         (click)="dialogBtnClick()">
-        <i class="fas fa-user-plus" title="Create"></i>
+        <i class="bi bi-person-plus" title="Create"></i>
       </button>
     </div>
   </div>
@@ -45,39 +45,39 @@
               <button ejs-button cssClass="e-btn e-btn-purple" title="Edit"
                 *ngIf="(!permissionObj || permissionObj?.can_update) !== false"
                 (click)="editRecord(filteredRolesArray)">
-                <i class="fas fa-edit"></i>
+                <i class="bi bi-pencil-square"></i>
               </button>
-              <!-- <i class="fas fa-edit " style="color:rgb(162, 90, 230); margin-right:10px"></i> -->
+              <!-- <i class="bi bi-pencil-square " style="color:rgb(162, 90, 230); margin-right:10px"></i> -->
 
 
               <button style="margin-left:7px" title="Role Permission"
                 *ngIf="(!roleBasedAccessObj || roleBasedAccessObj?.can_view) !== false" ejs-button
                 cssClass="e-btn e-btn-purple" (click)="onRoleFormClick(filteredRolesArray)">
-                <i class="fas fa-user-lock"></i>
+                <i class="bi bi-person-lock"></i>
               </button>
-              <!-- <i class="fas fa-user-lock" style="color:rgb(162, 90, 230)"></i> -->
+              <!-- <i class="bi bi-person-lock" style="color:rgb(162, 90, 230)"></i> -->
 
               <!-- <button style="margin-left:7px" title="Dashboard Permission"
                 *ngIf="(!roleBasedAccessObj || roleBasedAccessObj?.can_view) !== false"
                 ejs-button cssClass="e-btn e-btn-purple" (click)="openDashboardPopup(filteredRolesArray)">
-                  <i class="fas fa-th-list"></i>
+                  <i class="bi bi-list-ul"></i>
 
                 </button> -->
-              <!-- <i class="fas fa-th-list" style="color:rgb(162, 90, 230); margin:0px 10px"></i> -->
+              <!-- <i class="bi bi-list-ul" style="color:rgb(162, 90, 230); margin:0px 10px"></i> -->
 
 
               <button ejs-button cssClass="e-btn e-btn-purple" title="Delete"
                 *ngIf="(!permissionObj || permissionObj?.can_delete) !== false" style="margin-left:7px "
                 (click)="deleteRecord(filteredRolesArray)">
-                <i class="fas fa-trash"></i>
+                <i class="bi bi-trash"></i>
               </button>
 
               <button style="margin-left:7px" title="Role dashboard Permission"
                 *ngIf="(!roleDashboardPermissionObj || roleDashboardPermissionObj?.can_view) !== false" ejs-button
                 cssClass="e-btn e-btn-purple" (click)="onRoledashboardFormClick(filteredRolesArray)">
-                <i class="fas fa-th-list"></i>
+                <i class="bi bi-list-ul"></i>
               </button>
-              <!-- <i class="fas fa-trash" style="color:rgb(162, 90, 230)"></i> -->
+              <!-- <i class="bi bi-trash" style="color:rgb(162, 90, 230)"></i> -->
 
             </ng-template>
           </e-column>

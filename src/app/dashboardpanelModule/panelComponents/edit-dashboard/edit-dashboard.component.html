@@ -7,42 +7,42 @@
 
 
             <div [align]="'left'" class="connectionName" style="cursor:pointer">
-                <p>Selected Connection :<b> {{ connectionNameFromApi}}</b> <i class="fas fa-pencil-alt"
+                <p>Selected Connection :<b> {{ connectionNameFromApi}}</b> <i class="bi bi-pencil-alt"
                         (click)="BtnClick()"></i></p>
             </div>
 
             <!-- <button ejs-button id='dlgbtn1' cssClass='e-btn e-btn-purple' [title]="'Ask Help'"
             (click)="openChatbot()" style="margin-right:10px">
-            <i class="fas fa-question-circle"></i>
+            <i class="bi bi-question-circle"></i>
             </button> -->
 
             <div style="margin-top: -22px">
-                <button class="e-btn e-btn-purple" (click)="showTablePopup()"><i class="fas fa-exchange-alt"></i>
+                <button class="e-btn e-btn-purple" (click)="showTablePopup()"><i class="bi bi-exchange-alt"></i>
                     Table</button>
                 <button style="margin-right:5px ; margin-left:8px; padding: 5px 8px" [title]="'Toggle Floating'"
                     ejs-button id='floatingBtn'
                     [cssClass]="dashboardCreationObj?.allowFloating ? 'e-btn e-btn-purple' : 'e-btn e-btn-purple'"
                     (click)="toggleFloating()">
-                    <i class="fas fa-arrows-alt" style="font-size: 9px;"></i>
+                    <i class="bi bi-arrows-alt" style="font-size: 9px;"></i>
                 </button>
 
 
                 <button ejs-button id='dlgbtn' style="margin-right:5px; margin-left:5px;  padding: 5px 8px;"
                     cssClass='e-btn e-btn-purple' [title]="'Initial Filter'" (click)="applyInititalFilters()">
-                    <i class="fas fa-filter" style="font-size: 9px;"></i>
+                    <i class="bi bi-funnel" style="font-size: 9px;"></i>
                 </button>
 
 
                 <button style="margin-right:5px ; padding: 5px 8px" [title]="'Role Mapping'" ejs-button id='dlgbtn'
                     cssClass='e-btn e-btn-purple' (click)="onMappingUserBtn()">
-                    <i class="fab fa-fedora" style="font-size: 9px;"></i>
+                    <i class="bi bi-lightning-charge" style="font-size: 9px;"></i>
                     <!-- Mapping -->
                 </button>
 
                 <!-- <button ejs-button id='dlgbtn'  (click)="BtnClick()">Open</button> -->
                 <button ejs-button class="e-btn e-btn-purple" style=" padding: 5px 8px" [title]="'Add Panel'"
                     (click)="onAddPanel()">
-                    <i class="fas fa-plus" style="font-size: 9px;"></i>
+                    <i class="bi bi-plus-lg" style="font-size: 9px;"></i>
                     <!-- Add Panel -->
                 </button>
                 <button style="margin-left:5px; margin-right:5px;  padding: 5px 8px" [title]="'Update'" ejs-button
@@ -53,7 +53,7 @@
 
                 <button ejs-button cssClass="e-btn e-btn-purple" style=" padding: 5px 8px" [title]="'View'"
                     (click)="onViewClick()">
-                    <i class="fas fa-eye icon" style="font-size: 9px;"></i>
+                    <i class="bi bi-eye icon" style="font-size: 9px;"></i>
 
                 </button>
             </div>
@@ -75,8 +75,8 @@
                             <!-- <div >
                                 {{ item.header }}
                                 <div style="cursor: pointer; float:right">
-                                    <i class="fas fa-window-close" (click)="onDeletePanel($event, i)"></i>
-                                    <i class="fas fa-pencil-alt" style="padding-left:10px"
+                                    <i class="bi bi-window-close" (click)="onDeletePanel($event, i)"></i>
+                                    <i class="bi bi-pencil-alt" style="padding-left:10px"
                                         (click)="onEditPanel($event,i)"></i>
                                 </div>
                             </div> -->
@@ -87,9 +87,9 @@
                                     {{ item.header }}
                                 </div>
                                 <div class="icon-group">
-                                    <i class="fas fa-window-close" (click)="onDeletePanel($event, i)"></i>
-                                    <i class="fas fa-pencil-alt" (click)="onEditPanel($event, i)"></i>
-                                    <i class="fas fa-copy" (click)="copyPanel($event, item)"></i>
+                                    <i class="bi bi-window-close" (click)="onDeletePanel($event, i)"></i>
+                                    <i class="bi bi-pencil-alt" (click)="onEditPanel($event, i)"></i>
+                                    <i class="bi bi-copy" (click)="copyPanel($event, item)"></i>
                                 </div>
                             </div>
 
@@ -103,8 +103,8 @@
                                   {{ item.header }}
                                 </div>
                                 <div style="cursor: pointer; white-space: nowrap; margin-left: 10px;">
-                                  <i class="fas fa-window-close" (click)="onDeletePanel($event, i)" style="margin-right: 10px;"></i>
-                                  <i class="fas fa-pencil-alt" (click)="onEditPanel($event, i)"></i>
+                                  <i class="bi bi-window-close" (click)="onDeletePanel($event, i)" style="margin-right: 10px;"></i>
+                                  <i class="bi bi-pencil-alt" (click)="onEditPanel($event, i)"></i>
                                 </div>
                               </div>
                                -->
@@ -636,7 +636,7 @@
                                   padding: 3px 10px;
                                   border-radius: 29px
                                   "  [title]="'Download Reports'">
-                                    <i class="fas fa-download" [ngStyle]="{'background-color': item.content.backgroundColor}" style="cursor: pointer;
+                                    <i class="bi bi-download" [ngStyle]="{'background-color': item.content.backgroundColor}" style="cursor: pointer;
                                     border: 1px solid white;
                                     border-radius: 50%;
                                     padding: 5px;
@@ -670,7 +670,7 @@
                                         [ngStyle]="{'padding': buttonPadding, 'font-size': btnfontSize}"
                                         style="cursor: pointer; border-radius: 29px; width: 100%;"
                                         title="Download Reports">
-                                        <i class="fas fa-download"
+                                        <i class="bi bi-download"
                                             [ngStyle]="{'background-color': item.content.backgroundColor}"
                                             style="cursor: pointer; border: 1px solid white; border-radius: 50%; padding: 5px; color: white; font-size: 7px;"
                                             title="Download Reports"></i>
@@ -705,7 +705,7 @@
                                       padding: 3px 10px;
                                       border-radius: 29px
                                       " [title]="'Download Reports'">
-                                            <i class="fas fa-download"
+                                            <i class="bi bi-download"
                                                 [ngStyle]="{'background-color': item.content.backgroundColor}" style="cursor: pointer;
                                         border: 1px solid white;
                                         border-radius: 50%;

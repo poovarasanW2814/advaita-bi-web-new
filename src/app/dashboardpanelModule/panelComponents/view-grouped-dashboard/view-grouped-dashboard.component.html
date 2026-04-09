@@ -5,8 +5,8 @@
   </div> -->
 
   <div class="toaster" [class.show]="showToaster" [class.error]="toasterType === 'error'">
-    <span class="icon" *ngIf="toasterType === 'success'"><i class="fas fa-check"></i></span>
-    <span class="icon" *ngIf="toasterType === 'error'"><i class="fas fa-exclamation-triangle"></i></span>
+    <span class="icon" *ngIf="toasterType === 'success'"><i class="bi bi-check-lg"></i></span>
+    <span class="icon" *ngIf="toasterType === 'error'"><i class="bi bi-exclamation-triangle"></i></span>
     <span class="message">{{ toasterMessage }}</span>
     <button class="close-btn" style="text-align: right;" (click)="showToaster = false">&times;</button>
   </div>
@@ -17,7 +17,7 @@
     <div class="search-bar-top">
       <input type="text" class="search-input" placeholder="Search dashboards..." [(ngModel)]="searchQuery"
         (input)="onSearch()">
-      <i class="fas fa-search search-icon"></i>
+      <i class="bi bi-search search-icon"></i>
     </div>
 
     <div class="text-right rightMenuBtn" >
@@ -38,7 +38,7 @@
       <button class="e-btn e-btn-purple"
         *ngIf="(dashboardSetupPermissionObj && dashboardSetupPermissionObj?.can_view !== false) || role == 'superadmin'"
         title="Dashboard Setup" routerLink="/sidebar/panel/dashboardRearrage">
-        <i class="fas fa-cog " title="Dashboard Setup"></i>
+        <i class="bi bi-gear " title="Dashboard Setup"></i>
       </button>
 
 
@@ -73,7 +73,7 @@
                 <!-- Card Header with Group Name and Count -->
                 <div class="card-header">
                   <div class="group-info">
-                    <i class="fas fa-tachometer-alt" style="
+                    <i class="bi bi-speedometer2" style="
                           color: white;
                           font-size: 20px;
                     "></i>
@@ -82,7 +82,7 @@
                     <div class="group-text">
                       <h4 class="group-name">{{ group.group_name }}</h4>
                       <a class="view-dashboards">
-                        View Dashboards <i class="fas fa-arrow-right"></i>
+                        View Dashboards <i class="bi bi-arrow-right"></i>
                       </a>
                     </div>
                   </div>
@@ -101,7 +101,7 @@
           <!-- Header with Back Button -->
           <div class="list-header">
             <button class="btn-back" (click)="backToGroups()">
-              <i class="fas fa-arrow-left"></i>
+              <i class="bi bi-arrow-left"></i>
             </button>
             <h2 class="list-title">
               {{ selectedGroup.group_name }}
@@ -119,7 +119,7 @@
 
                   <!-- Left: Dashboard Icon -->
                   <div class="dashboard-icon-section">
-                    <i class="fas fa-chart-line" style="
+                    <i class="bi bi-graph-up" style="
                           color: white;
                           font-size: 20px;
                     "></i>
@@ -140,35 +140,35 @@
                     <div class="dashboard-actions-hover" (click)="$event.stopPropagation()">
                       <button *ngIf="dashboard['can_view'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5"
                         title="View" [routerLink]="['/sidebar/panel/panelView', dashboard.dashboard_id]">
-                        <i class="fas fa-eye"></i>
+                        <i class="bi bi-eye"></i>
                       </button>
 
                       <button *ngIf="dashboard['can_update'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5"
                         title="Edit" (click)="$event.stopPropagation()"
                         [routerLink]="['/sidebar/panel/edit', dashboard.dashboard_id]">
-                        <i class="fas fa-edit"></i>
+                        <i class="bi bi-pencil-square"></i>
                       </button>
 
                       <button *ngIf="dashboard['can_create'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5"
                         title="Copy Dashboard" (click)="showDialog(dashboard, 'copy'); $event.stopPropagation()">
-                        <i class="fas fa-copy"></i>
+                        <i class="bi bi-copy"></i>
                       </button>
 
                       <button *ngIf="role == 'superadmin' || (roleDashboardPermissionObj?.can_view !== false)"
                         class="e-btn e-btn-purple mr-5" title="Role Dashboard Permission"
                         (click)="showDialog(dashboard, 'role'); $event.stopPropagation()">
-                        <i class="fas fa-user-tag"></i>
+                        <i class="bi bi-person-badge"></i>
                       </button>
 
                       <button *ngIf="role == 'superadmin' || (userDashboardPermissionObj?.can_view !== false)"
                         class="e-btn e-btn-purple mr-5" title="User Dashboard Permission"
                         (click)="showDialog(dashboard, 'user'); $event.stopPropagation()">
-                        <i class="fas fa-users"></i>
+                        <i class="bi bi-people"></i>
                       </button>
 
                       <button *ngIf="dashboard['can_delete'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5"
                         title="Delete" (click)="onDeleteClick(dashboard); $event.stopPropagation()">
-                        <i class="fas fa-trash"></i>
+                        <i class="bi bi-trash"></i>
                       </button>
                     </div>
                   </div>
@@ -225,32 +225,32 @@
             <div class="dashboard-actions d-flex gap-2" style="display: flex; margin-bottom: 9px;">
               <button *ngIf="dashboard['can_view'] || role == 'superadmin' " class="e-btn e-btn-purple mr-5"
                 title="View" [routerLink]="['/sidebar/panel/panelView', dashboard.dashboard_id]">
-                <i class="fas fa-eye"></i>
+                <i class="bi bi-eye"></i>
               </button>
               <button *ngIf="dashboard['can_update'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5"
                 title="Edit" (click)="$event.stopPropagation()"
                 [routerLink]="['/sidebar/panel/edit', dashboard.dashboard_id]">
-                <i class="fas fa-edit"></i>
+                <i class="bi bi-pencil-square"></i>
               </button>
               <button *ngIf="dashboard['can_create'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5"
                 title="Copy Dashboard" (click)="showDialog(dashboard, 'copy'); $event.stopPropagation()">
-                <i class="fas fa-copy"></i>
+                <i class="bi bi-copy"></i>
               </button>
               <button
                 *ngIf="role == 'superadmin' || (roleDashboardPermissionObj &&  roleDashboardPermissionObj?.can_view !== false)"
                 class="e-btn e-btn-purple mr-5" title="Role Dashboard Permission"
                 (click)="showDialog(dashboard, 'role'); $event.stopPropagation()">
-                <i class="fas fa-user-tag"></i>
+                <i class="bi bi-person-badge"></i>
               </button>
               <button
                 *ngIf="role == 'superadmin' || (userDashboardPermissionObj && userDashboardPermissionObj?.can_view !== false)"
                 class="e-btn e-btn-purple mr-5" title="User Dashboard Permission"
                 (click)="showDialog(dashboard, 'user'); $event.stopPropagation()">
-                <i class="fas fa-users"></i>
+                <i class="bi bi-people"></i>
               </button>
               <button *ngIf="dashboard['can_delete'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5"
                 (click)="onDeleteClick(dashboard); $event.stopPropagation()" title="Delete">
-                <i class="fas fa-trash"></i>
+                <i class="bi bi-trash"></i>
               </button>
             </div>
           </div>
@@ -290,31 +290,31 @@
         <div class="listview-actions-col">
           <button *ngIf="dashboard['can_view'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5" title="View"
             [routerLink]="['/sidebar/panel/panelView', dashboard.dashboard_id]">
-            <i class="fas fa-eye"></i>
+            <i class="bi bi-eye"></i>
           </button>
           <button *ngIf="dashboard['can_update'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5" title="Edit"
             (click)="$event.stopPropagation()" [routerLink]="['/sidebar/panel/edit', dashboard.dashboard_id]">
-            <i class="fas fa-edit"></i>
+            <i class="bi bi-pencil-square"></i>
           </button>
           <button *ngIf="dashboard['can_create'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5"
             title="Copy Dashboard" (click)="showDialog(dashboard, 'copy'); $event.stopPropagation()">
-            <i class="fas fa-copy"></i>
+            <i class="bi bi-copy"></i>
           </button>
           <button
             *ngIf="role == 'superadmin' || (roleDashboardPermissionObj &&  roleDashboardPermissionObj?.can_view !== false)"
             class="e-btn-purple e-btn mr-5" title="Role Dashboard Permission"
             (click)="showDialog(dashboard, 'role'); $event.stopPropagation()">
-            <i class="fas fa-user-tag"></i>
+            <i class="bi bi-person-badge"></i>
           </button>
           <button
             *ngIf="role == 'superadmin' || (userDashboardPermissionObj && userDashboardPermissionObj?.can_view !== false)"
             class="e-btn-purple e-btn mr-5" title="User Dashboard Permission"
             (click)="showDialog(dashboard, 'user'); $event.stopPropagation()">
-            <i class="fas fa-users"></i>
+            <i class="bi bi-people"></i>
           </button>
           <button *ngIf="dashboard['can_delete'] || role == 'superadmin'" class="e-btn-purple e-btn mr-5"
             (click)="onDeleteClick(dashboard); $event.stopPropagation()" title="Delete">
-            <i class="fas fa-trash"></i>
+            <i class="bi bi-trash"></i>
           </button>
         </div>
         </div> 

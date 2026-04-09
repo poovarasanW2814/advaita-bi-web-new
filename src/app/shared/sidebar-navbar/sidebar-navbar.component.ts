@@ -1,4 +1,4 @@
-import {inject,  Component, HostListener, OnInit, OnDestroy, ViewChild } from '@angular/core';
+﻿import {inject,  Component, HostListener, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router, NavigationEnd, RouterOutlet, RouterLinkActive, RouterLink } from '@angular/router';
 import { SidebarComponent, SidebarModule } from '@syncfusion/ej2-angular-navigations';
@@ -65,11 +65,11 @@ export class SidebarNavbarComponent implements OnInit, OnDestroy {
   
       {
         text: 'User Settings',
-        iconCss: 'fas fa-user-cog',
+        iconCss: 'bi bi-person-gear',
       },
       {
         text: 'Logout',
-        iconCss: 'fas fa-power-off'
+        iconCss: 'bi bi-power'
       }];
   
     onselect(eve: any) {

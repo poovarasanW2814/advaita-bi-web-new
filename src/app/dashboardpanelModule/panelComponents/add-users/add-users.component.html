@@ -21,18 +21,18 @@
       <button class="e-btn e-btn-purple pointer" title="Create"
         *ngIf="(!permissionObj || permissionObj?.can_create) !== false" ejs-button (click)="dialogBtnClick()">
         <!-- Add User -->
-        <i class="fas fa-user-plus" title="Create"></i>
+        <i class="bi bi-person-plus" title="Create"></i>
       </button>
 
       <button class="e-btn e-btn-purple pointer"  title="Upload Users" (click)="openUserPopup()" style="margin:2px 10px"
         *ngIf="(!permissionObj || permissionObj?.can_create) !== false">
         <!-- Upload Users -->
-        <i class="fas fa-file-upload" title="Upload Users"></i>
+        <i class="bi bi-file-earmark-arrow-up" title="Upload Users"></i>
       </button>
 
       <button class="e-btn e-btn-purple pointer " title="Upload Users" (click)="downloadUsers()" 
         *ngIf="(!permissionObj || permissionObj?.can_create) !== false">
-         <i class="fas fa-download" title="Download Users"></i>
+         <i class="bi bi-download" title="Download Users"></i>
       </button>
 
     </div>
@@ -63,39 +63,39 @@
 
             <button ejs-button cssClass="e-btn e-btn-purple pointer" [title]="'Edit'"
               *ngIf="(!permissionObj || permissionObj?.can_update) !== false" (click)="editRecord(filteredUsersArray)">
-              <i class="fas fa-edit"></i>
+              <i class="bi bi-pencil-square"></i>
             </button>
             <button style="margin-left:7px; cursor: pointer;"
               *ngIf="(!userBasedAcessObj || userBasedAcessObj?.can_view) !== false" ejs-button
               cssClass="e-btn e-btn-purple pointer" [title]="'User Permissions'"
               (click)="onRoleFormClick(filteredUsersArray)">
-              <i class="fas fa-user-lock"></i>
+              <i class="bi bi-person-lock"></i>
 
             </button>
 
             <!-- <button style="margin-left:7px" title="Dashboard Permission"
             *ngIf="(!userBasedAcessObj || userBasedAcessObj?.can_view) !== false"
             ejs-button cssClass="e-btn e-btn-purple pointer" (click)="openDashboardPopup(filteredUsersArray)">
-              <i class="fas fa-th-list"></i>
+              <i class="bi bi-list-ul"></i>
 
             </button> -->
 
             <button ejs-button cssClass="e-btn e-btn-purple pointer" [title]="'Delete'"
               *ngIf="(!permissionObj || permissionObj?.can_delete) !== false" style="margin-left:7px; cursor: pointer;"
               (click)="deleteRecord(filteredUsersArray)">
-              <i class="fas fa-trash"></i>
+              <i class="bi bi-trash"></i>
             </button>
 
             <button style="margin-left:7px" title="Dashboard Permission"
               *ngIf="(!userDashboardPermissionObj || userDashboardPermissionObj?.can_view) !== false" ejs-button
               cssClass="e-btn e-btn-purple pointer" (click)="openDashboardPermissionPopup(filteredUsersArray)">
-              <i class="fas fa-th-list"></i>
+              <i class="bi bi-list-ul"></i>
 
             </button>
 
             <button  *ngIf="userInfoData.username === 'superadmin'" style="margin-left:7px" title="Reset Password" ejs-button
               cssClass="e-btn e-btn-purple pointer" (click)="openResetPasswordDialog(filteredUsersArray)">
-              <i class="fas fa-key"></i>
+              <i class="bi bi-key"></i>
 
             </button>
 
@@ -208,7 +208,7 @@
               <div class="col-md-4 form-group" >
                 <div class="inputValue">
                   <label class="labelName">Password 
-                    <!-- <i class="fas fa-info-circle" (click)="togglePasswordRequirements($event)"></i>  -->
+                    <!-- <i class="bi bi-info-circle" (click)="togglePasswordRequirements($event)"></i>  -->
                     
                     
                     </label>
@@ -224,7 +224,7 @@
                     />
 
                     <i class="password-eye-icon" (click)="toggleRegisterPasswordVisibility(password)">
-                      <i [ngClass]="isRegistedPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                      <i [ngClass]="isRegistedPasswordVisible ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
                     </i>
 
                     <div class="validation-error" *ngIf="getRegisteredPasswordErrors('password').length > 0">
@@ -257,7 +257,7 @@
                     (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" />
 
                     <i class="password-eye-icon" (click)="toggleRegisterConfirmPasswordVisibility(confirmRegisteredPassword)">
-                      <i [ngClass]="isRegistedConfirmPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                      <i [ngClass]="isRegistedConfirmPasswordVisible ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
                     </i>
 
                   <div class="validation-error"
@@ -359,7 +359,7 @@
             <label for="" style="display:block; font-weight: 500; font-size: 12px;">Download Format</label>
 
             <button class="e-btn e-btn-purple" title="Download Format" (click)="downloadTemplate()">
-              <i class="fas fa-download"></i>
+              <i class="bi bi-download"></i>
             </button>
           </div>
 
@@ -473,7 +473,7 @@
               <div class="field position-relative">
                 <label class="labelName">New Password 
                   
-                  <!-- <i class="fas fa-info-circle" (click)="togglePasswordRequirements($event)"></i>  -->
+                  <!-- <i class="bi bi-info-circle" (click)="togglePasswordRequirements($event)"></i>  -->
            
                   
                   </label>
@@ -481,9 +481,9 @@
                 <input #newPasswordInput [type]="isResetPasswordVisible ? 'text' : 'password'" placeholder="New Password *"
                   formControlName="new_password" (focus)="onInputFocus($event)" (blur)="onInputBlur($event)"
                   class="form-control" required />
-                <span class="fas fa-lock"></span>
+                <span class="bi bi-lock"></span>
                 <i class="eye-icon" (click)="toggleResetPasswordVisibility(newPasswordInput)">
-                  <i [ngClass]="isResetPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                  <i [ngClass]="isResetPasswordVisible ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
                 </i>
               </div>
 
@@ -511,9 +511,9 @@
                 <input #confirmPasswordInput [type]="isResetConfirmPasswordVisible ? 'text' : 'password'"
                   placeholder="Confirm Password *" formControlName="confirm_password" (focus)="onInputFocus($event)"
                   (blur)="onInputBlur($event)" class="form-control" required />
-                <span class="fas fa-lock"></span>
+                <span class="bi bi-lock"></span>
                 <i class="eye-icon" (click)="toggleResetConfirmPasswordVisibility(confirmPasswordInput)">
-                  <i [ngClass]="isResetConfirmPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                  <i [ngClass]="isResetConfirmPasswordVisible ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
                 </i>
               </div>
 

@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, inject} from '@angular/core';
+﻿import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, inject} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router, RouterOutlet, RouterLinkActive, RouterLink } from '@angular/router';
 import { ChartTheme, IAxisLabelRenderEventArgs, ILoadedEventArgs } from '@syncfusion/ej2-angular-charts';
@@ -49,6 +49,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   menuBasedPermissionArray: any = [];
   app_logo: string = '';
   app_name: string = 'Syntheta';
+  appDisplayName: string = 'Syntheta';
   sessionThreadId: string = '';
 
 
@@ -112,11 +113,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     {
       text: 'User Settings',
-      iconCss: 'fas fa-user-cog',
+      iconCss: 'bi bi-person-gear',
     },
     {
       text: 'Logout',
-      iconCss: 'fas fa-power-off'
+      iconCss: 'bi bi-power'
     }];
 
   onselect(eve: any) {
@@ -181,6 +182,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   private titleSub!: Subscription;
   role: any;
   isCredPresent: boolean = false;
+  userInitials: string = '';
+  roleLabel: string = '';
 
   public isHomeTreeviewOpen: boolean = false;
   isDashboardsLoaded: boolean = false;
@@ -348,6 +351,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.username = userData.username;
     }
 
+    // Compute derived display values
+    this.userInitials = this.username
+      ? this.username.slice(0, 2).toUpperCase()
+      : 'U';
+    this.roleLabel = this.role === 'superadmin' ? 'Super Admin'
+      : this.role ? this.role.charAt(0).toUpperCase() + this.role.slice(1)
+      : 'User';
+
     this.titleSub = this.chartService.title$.subscribe(title => {
       this.dashboard_Name = title;
 
@@ -393,6 +404,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       orgDetailsFormStorage = JSON.parse(orgDetailsFormStorage);
 
       this.app_name = orgDetailsFormStorage.name ? orgDetailsFormStorage.name : "Syntheta"
+      this.appDisplayName = this.app_name;
       this.app_logo =
         orgDetailsFormStorage.client_logo_inside ||
         orgDetailsFormStorage.client_logo ||
@@ -401,6 +413,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         "assets/images/SynthetaLogoDarkfont4.png"; // Fallback value
     } else {
       this.app_name = "Syntheta"
+      this.appDisplayName = this.app_name;
       this.app_logo = 'assets/images/SynthetaLogoDarkfont4.png'
 
     }
@@ -408,11 +421,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     this.org_Properteis_obj = {
       font_style: '',
-      font_color: '#264a9f',
+      font_color: '#0D5C7A',
       menu_color: 'color',
       menu_hover_color: '',
-      menu_bar_bg: 'linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, .898) 109.98%)',
-      default_menu_bar: '#9977f9',
+      menu_bar_bg: 'linear-gradient(135deg, #0D5C7A 0%, #0891B2 60%, #22D3EE 100%)',
+      default_menu_bar: '#0D5C7A',
       nav_bar_bg: '',
       dashboard_bg: '',
       panel_header_bg: '',

@@ -6,8 +6,7 @@
         <div class="menuBar1" (click)="onClickMenu()">
 
 
-          <span class="e-icons   fas fa-bars" style="color:rgba(13, 53, 148, 0.898);">
-          </span>
+          <i class="bi bi-list" style="color: white; font-size: 1.3rem;"></i>
         </div>
 
         <!-- <div class="menu1">
@@ -28,11 +27,11 @@
     <div class="LogOut">
 
       <button class="non-mobile-button" ejs-dropdownbutton [items]='items' [content]="username"
-      (select)="onselect($event)" iconCss="fas fa-user-circle"></button>
+      (select)="onselect($event)" iconCss="bi bi-person-circle"></button>
 
       <!-- Second button for mobile devices -->
       <button class="mobile-button" ejs-dropdownbutton [items]='items' (select)="onselect($event)"
-      iconCss="fas fa-user-circle"></button>
+      iconCss="bi bi-person-circle"></button>
 
     </div>
 
@@ -67,7 +66,7 @@
             <!-- <li class="e-list-item bg-purple" title="Home" routerLinkActive="true"
             routerLink="/sidebar/panel/dashboardHome">
             <div class="e-text-content">
-              <i class="fas fa-igloo e-list-icon"></i>
+              <i class="bi bi-house e-list-icon"></i>
               <span class="e-list-text" style="text-align: left;">
                 Home
               </span>
@@ -81,16 +80,13 @@
             (mouseleave)="onHomeHover(false)"
             (click)="navigateToHome($event)">
             <div class="e-text-content">
-              <i class="fas fa-igloo e-list-icon"></i>
+              <i class="bi bi-house e-list-icon"></i>
               <span class="e-list-text" style="text-align: left;">
                 Home
               </span>
               <span class="arrow-click-area"
                 (click)="toggleHomeTreeview(); $event.stopPropagation()">
-                            <i class="fas" [ngClass]="{
-                            'fa-chevron-down': isHomeTreeviewOpen,
-                            'fa-chevron-right': !isHomeTreeviewOpen
-                            }"></i>
+                            <i [class]="isHomeTreeviewOpen ? 'bi bi-chevron-down' : 'bi bi-chevron-right'"></i>
               </span>
             </div>
           </li>
@@ -106,7 +102,7 @@
                 <li class="e-list-item bg-purple no-hover"
                   style="text-align: center; padding: 80px; padding-left: 30px;">
                   <div class="e-text-content">
-                    <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: #264a9f;"></i>
+                    <i class="bi bi-arrow-clockwise bi-spin" style="font-size: 24px; color: var(--bi-bright);"></i>
                   </div>
                 </li>
               }
@@ -148,7 +144,7 @@
           routerLinkActive="true" routerLink="/sidebar/panel/create">
           <div class="e-text-content">
 
-            <i class="fas fa-chart-bar e-list-icon"></i>
+            <i class="bi bi-bar-chart-line e-list-icon"></i>
             <span class="e-list-text" style="text-align: left;">
               Create Dashboard
             </span>
@@ -159,9 +155,11 @@
       <ng-container >
         @if (role == 'superadmin' || createDashboardObj?.can_view ) {
           <li class="e-list-item bg-purple " title="Create Dashboard"
-            routerLinkActive="true" routerLink="/sidebar/panel/create">
+            routerLinkActive="true" routerLink="/sidebar/panel/create"
+            (mouseenter)="onHomeHover(true)"
+            (mouseleave)="onHomeHover(false)">
             <div class="e-text-content">
-              <i class="fas fa-chart-bar e-list-icon"></i>
+              <i class="bi bi-bar-chart-line e-list-icon"></i>
               <span class="e-list-text" style="text-align: left;">
                 Create Dashboard
               </span>
@@ -177,7 +175,7 @@
         *ngIf="permission?.form_name == 'addRole' && permission?.can_view "
         routerLinkActive="true" routerLink="/sidebar/panel/role">
         <div class="e-text-content">
-          <i class="fas fa-user-tag e-list-icon"></i>
+          <i class="bi bi-person-badge e-list-icon"></i>
           <span class="e-list-text" style="text-align: left;">
             Add Role
           </span>
@@ -188,9 +186,11 @@
     <ng-container >
       @if (role == 'superadmin' || createRoleObj?.can_view ) {
         <li class="e-list-item bg-purple" title="Add Role"
-          routerLinkActive="true" routerLink="/sidebar/panel/role">
+          routerLinkActive="true" routerLink="/sidebar/panel/role"
+          (mouseenter)="onHomeHover(true)"
+          (mouseleave)="onHomeHover(false)">
           <div class="e-text-content">
-            <i class="fas fa-user-tag e-list-icon"></i>
+            <i class="bi bi-person-badge e-list-icon"></i>
             <span class="e-list-text" style="text-align: left;">
               Add Role
             </span>
@@ -207,7 +207,7 @@
         *ngIf="permission?.form_name == 'addUser' && permission?.can_view "
         routerLinkActive="true" routerLink="/sidebar/panel/user">
         <div class="e-text-content">
-          <i class="fas fa-users e-list-icon"></i>
+          <i class="bi bi-people e-list-icon"></i>
           <span class="e-list-text" style="text-align: left;">
             Add User
           </span>
@@ -220,9 +220,11 @@
     <ng-container >
       @if (role == 'superadmin' || createUserObj?.can_view ) {
         <li class="e-list-item bg-purple" title="Add User"
-          routerLinkActive="true" routerLink="/sidebar/panel/user">
+          routerLinkActive="true" routerLink="/sidebar/panel/user"
+          (mouseenter)="onHomeHover(true)"
+          (mouseleave)="onHomeHover(false)">
           <div class="e-text-content">
-            <i class="fas fa-users e-list-icon"></i>
+            <i class="bi bi-people e-list-icon"></i>
             <span class="e-list-text" style="text-align: left;">
               Add User
             </span>
@@ -236,7 +238,7 @@
       *ngIf="permission?.form_name == 'dbConnection' && permission?.can_view "
       routerLinkActive="true" routerLink="/sidebar/panel/databaseConnection">
       <div class="e-text-content">
-        <i class="fas fa-database e-list-icon"></i>
+        <i class="bi bi-database e-list-icon"></i>
         <span class="e-list-text" style="text-align: left;">
           DB Connection
         </span>
@@ -247,9 +249,11 @@
   <ng-container >
     @if (role == 'superadmin' || createDatabaseConnectionObj?.can_view ) {
       <li class="e-list-item bg-purple" title="DB Connection"
-        routerLinkActive="true" routerLink="/sidebar/panel/databaseConnection">
+        routerLinkActive="true" routerLink="/sidebar/panel/databaseConnection"
+        (mouseenter)="onHomeHover(true)"
+        (mouseleave)="onHomeHover(false)">
         <div class="e-text-content">
-          <i class="fas fa-database e-list-icon"></i>
+          <i class="bi bi-database e-list-icon"></i>
           <span class="e-list-text" style="text-align: left;">
             DB Connection
           </span>
@@ -264,7 +268,7 @@
     *ngIf="permission?.form_name == 'fileUploadToDb' && permission?.can_view "
     routerLinkActive="true" routerLink="/sidebar/panel/fileupload">
     <div class="e-text-content">
-      <i class="fas fa-upload e-list-icon"></i>
+      <i class="bi bi-cloud-upload e-list-icon"></i>
       <span class="e-list-text" style="text-align: left;">
         File Upload
       </span>
@@ -275,9 +279,11 @@
 <ng-container >
   @if (role == 'superadmin' || fileUploadObj?.can_view ) {
     <li class="e-list-item bg-purple" title="File Upload"
-      routerLinkActive="true" routerLink="/sidebar/panel/fileupload">
+      routerLinkActive="true" routerLink="/sidebar/panel/fileupload"
+      (mouseenter)="onHomeHover(true)"
+      (mouseleave)="onHomeHover(false)">
       <div class="e-text-content">
-        <i class="fas fa-upload e-list-icon"></i>
+        <i class="bi bi-cloud-upload e-list-icon"></i>
         <span class="e-list-text" style="text-align: left;">
           File Upload
         </span>
@@ -291,7 +297,7 @@
   *ngIf="permission?.form_name == 'tableJoin' && permission?.can_view "
   routerLink="/sidebar/panel/jointable">
   <div class="e-text-content">
-    <i class="fas fa-table e-list-icon"></i>
+    <i class="bi bi-table e-list-icon"></i>
     <span class="e-list-text" style="text-align: left;">
       Table Join
     </span>
@@ -302,9 +308,11 @@
 <ng-container >
   @if (role == 'superadmin' || createjointableObj?.can_view ) {
     <li class="e-list-item bg-purple" routerLinkActive="true" title=" Table Join"
-      routerLink="/sidebar/panel/jointable">
+      routerLink="/sidebar/panel/jointable"
+      (mouseenter)="onHomeHover(true)"
+      (mouseleave)="onHomeHover(false)">
       <div class="e-text-content">
-        <i class="fas fa-table e-list-icon"></i>
+        <i class="bi bi-table e-list-icon"></i>
         <span class="e-list-text" style="text-align: left;">
           Table Join
         </span>
@@ -317,7 +325,7 @@
   *ngIf="permission?.form_name == 'dashboardSetup' && permission?.can_view "
   routerLink="/sidebar/panel/dashboardRearrage">
   <div class="e-text-content">
-    <i class="fas fa-cog e-list-icon"></i>
+    <i class="bi bi-gear e-list-icon"></i>
     <span class="e-list-text" style="text-align: left;">
       Dashboard Setup
     </span>
@@ -329,9 +337,11 @@
 <ng-container>
   @if (role == 'superadmin' || DashboardSetupObj?.can_view ) {
     <li class="e-list-item bg-purple" routerLinkActive="true" title="Dashboard Setup "
-      routerLink="/sidebar/panel/dashboardRearrage">
+      routerLink="/sidebar/panel/dashboardRearrage"
+      (mouseenter)="onHomeHover(true)"
+      (mouseleave)="onHomeHover(false)">
       <div class="e-text-content">
-        <i class="fas fa-cog e-list-icon"></i>
+        <i class="bi bi-gear e-list-icon"></i>
         <span class="e-list-text" style="text-align: left;">
           Dashboard Setup
         </span>
@@ -360,7 +370,7 @@
   <div class="chat-popup" [class.show-popup]="showChatPopup">
     <div class="chat-header">
       <div class="chat-title">
-        <i class="fas fa-robot"></i>
+        <i class="bi bi-robot"></i>
         <div>
           <h3>{{userMessage}}</h3>
           <!-- <p>{{userMessage}}</p> -->
@@ -370,14 +380,14 @@
       <!-- Info Icon and Tooltip -->
       @if (!isCredPresent) {
         <div class="info-tooltip-wrapper" style="margin-left:80px" id="infoIconHeader">
-          <i class="fas fa-info-circle info-icon" id="infoIconClick" onclick="toggleTooltip()"></i>
+          <i class="bi bi-info-circle info-icon" id="infoIconClick" onclick="toggleTooltip()"></i>
           <div class="tooltip-text" id="tooltipText">
-            <h4>📊 Need insights from a chart or table?</h4>
+            <h4>ðŸ“Š Need insights from a chart or table?</h4>
             <p>
               Add this to your prompt: <code class="syntax">#table:'TableTitle' / #chart:'ChartTitle'</code>
             </p>
             <p>
-              📌 Replace <code class="syntax">'Title'</code> with the actual title of chart or table  following with your prompt.
+              ðŸ“Œ Replace <code class="syntax">'Title'</code> with the actual title of chart or table  following with your prompt.
             </p>
           </div>
         </div>
@@ -385,7 +395,7 @@
 
 
       <button class="close-btn" (click)="toggleChatPopup()">
-        <i class="fas fa-times"></i>
+        <i class="bi bi-x-lg"></i>
       </button>
     </div>
     <div class="chat-body">
@@ -399,13 +409,13 @@
     </div>
   </div>
   <!-- <button class="chat-button" (click)="openChatbot()" *ngIf="chatbotSetupObj?.can_view || usersData.username == 'superadmin' ">
-  <i class="fas fa-comment-dots"></i>
+  <i class="bi bi-chat-dots-fill"></i>
   <span>Wizard</span>
 </button> -->
 
 @if (chatbotSetupObj?.can_view || usersData.username == 'superadmin' ) {
   <button class="chat-button" (click)="openChatbot()">
-    <i class="fas fa-comment-dots"></i>
+    <i class="bi bi-chat-dots-fill"></i>
     <span>{{ isCredPresent ? 'Wizard' : 'Help' }}</span>
   </button>
 }

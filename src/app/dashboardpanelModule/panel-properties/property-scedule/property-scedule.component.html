@@ -219,10 +219,10 @@
         
         <td>
           <button class="e-btn e-btn-purple" style="margin-right:15px" (click)="onEdit(i)">
-            <i class="fas fa-edit"></i>
+            <i class="bi bi-pencil-square"></i>
           </button>
           <button class="e-btn e-btn-purple" (click)="onDelete(i)">
-            <i class="fas fa-trash-alt"></i>
+            <i class="bi bi-trash"></i>
           </button>
 
         </td>
@@ -316,10 +316,10 @@
                     <td>{{ item.interval }}</td>
                     <td>
                       <button class="e-btn e-btn-purple" style="margin-right:15px" (click)="onEditView(i)">
-                        <i class="fas fa-edit"></i>
+                        <i class="bi bi-pencil-square"></i>
                       </button>
                       <button class="e-btn e-btn-danger" (click)="onDeleteView(i)">
-                        <i class="fas fa-trash-alt"></i>
+                        <i class="bi bi-trash"></i>
                       </button>
                     </td>
                   </tr>
@@ -511,8 +511,8 @@
                     <td>{{ view.startHour }}</td>
                     <td>{{ view.endHour }}</td>
                     <td style="cursor:pointer">
-                      <i class="fas fa-trash-alt" (click)="onDeleteView(i)"></i>
-                      <i class="fas fa-edit" style="margin-left:5px" (click)="onEditView(i)"></i>
+                      <i class="bi bi-trash" (click)="onDeleteView(i)"></i>
+                      <i class="bi bi-pencil-square" style="margin-left:5px" (click)="onEditView(i)"></i>
                     </td>
                   </tr>
                 </tbody>
@@ -618,8 +618,8 @@
                     <td>{{item.style.fontSize}}</td>
                     <td>{{item.style.fontFamily}}</td>
                     <td style="cursor:pointer">
-                      <i class="fas fa-trash-alt" (click)="onDeleteConditionObj(i)"></i>
-                      <i class="fas fa-edit" style="margin-left:5px" (click)="onEditConditionObj(item, i)"></i>
+                      <i class="bi bi-trash" (click)="onDeleteConditionObj(i)"></i>
+                      <i class="bi bi-pencil-square" style="margin-left:5px" (click)="onEditConditionObj(item, i)"></i>
                     </td>
                   </tr>
                 </tbody>

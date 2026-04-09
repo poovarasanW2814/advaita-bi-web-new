@@ -2,7 +2,7 @@
     <div class="layout">
         <div class="headingDiv">
             <div>
-                <h5> Selected Connection : {{connectionDatabaseNameLabel}} <i class="fas fa-pencil-alt"
+                <h5> Selected Connection : {{connectionDatabaseNameLabel}} <i class="bi bi-pencil"
                         (click)="BtnClick()"></i></h5>
             </div>
 
@@ -10,32 +10,32 @@
 
                 <!-- <button ejs-button id='dlgbtn1' cssClass='e-btn e-btn-purple' [title]="'Ask Help'"
                     (click)="openChatbot()">
-                    <i class="fas fa-question-circle"></i>
+                    <i class="bi bi-question-circle"></i>
                 </button> -->
 
                 <button ejs-button id='floatingBtn' [title]="'Toggle Floating'" style=" margin-left:10px"
                     cssClass='e-btn e-btn-purple' (click)="toggleFloating()">
-                    <i class="fas fa-arrows-alt"></i>
+                    <i class="bi bi-arrows-move"></i>
                 </button>
 
                 <button ejs-button id='dlgbtn2' style="margin-right:10px; margin-left:10px"
                     cssClass='e-btn e-btn-purple' [title]="'Initial Filter'" (click)="applyInititalFilters()">
-                    <i class="fas fa-filter"></i>
+                    <i class="bi bi-funnel"></i>
                 </button>
 
                 <button ejs-button id='dlgbtn3' cssClass='e-btn e-btn-purple' [title]="'Role Mapping'"
                     (click)="onMappingUserBtn()">
-                    <i class="fab fa-fedora"></i>
+                    <i class="bi bi-lightning-charge"></i>
                 </button>
 
                 <button ejs-button id='dlgbtn4' cssClass='e-btn e-btn-purple' [title]="'Add Panel'"
                     style="margin-right:10px; margin-left:10px" (click)="onAddPanel()">
-                    <i class="fas fa-plus"></i>
+                    <i class="bi bi-plus-lg"></i>
                 </button>
 
                 <button ejs-button id='dlgbtn5' cssClass='e-btn e-btn-purple' [title]="'Save Dashboard'"
                     (click)="onDashboardSave()">
-                    <i class="far fa-save"></i>
+                    <i class="bi bi-floppy"></i>
 
                 </button>
             </div>
@@ -54,8 +54,8 @@
                             <!-- <div>
                                 {{ item.header }}
                                 <div style="cursor: pointer; float:right">
-                                    <i class="fas fa-window-close" (click)="onDeletePanel($event, i)"></i>
-                                    <i class="fas fa-pencil-alt" style="padding-left:10px"
+                                    <i class="bi bi-x-square" (click)="onDeletePanel($event, i)"></i>
+                                    <i class="bi bi-pencil" style="padding-left:10px"
                                         (click)="onEditPanel($event,i)"></i>
                                 </div>
                             </div> -->
@@ -66,9 +66,9 @@
                                     {{ item.header }}
                                 </div>
                                 <div class="icon-group">
-                                    <i class="fas fa-window-close" (click)="onDeletePanel($event, i)"></i>
-                                    <i class="fas fa-pencil-alt" (click)="onEditPanel($event, i)"></i>
-                                    <i class="fas fa-copy" (click)="copyPanel($event, item)"></i>
+                                    <i class="bi bi-x-square" (click)="onDeletePanel($event, i)"></i>
+                                    <i class="bi bi-pencil" (click)="onEditPanel($event, i)"></i>
+                                    <i class="bi bi-copy" (click)="copyPanel($event, item)"></i>
                                 </div>
                             </div>
 
@@ -170,7 +170,7 @@
 
                                 <div *ngIf="item.content.chartType == 'Pie' || item.content.chartType == 'Pyramid'  || item.content.chartType == 'Funnel' "
                                     style="height:100%; width:100%">
-                                    <!-- <i class="fas fa-download" style="float:right"></i> -->
+                                    <!-- <i class="bi bi-download" style="float:right"></i> -->
                                     <ejs-accumulationchart align="center" [width]="item.content.width"
                                         [height]="item.content.height" #pie [legendSettings]="item.content.legends"
                                         [tooltip]="item.content.tooltip" [enableBorderOnMouseMove]='false'
@@ -230,7 +230,7 @@
                                   <e-series *ngFor="let obj of item.content.series" [dataSource]='obj.dataSource' [xName]='obj.xName' [yName]='obj.yName' [fill]="obj.fill" [border]="{width : 1}" [type]="obj.type" [name]="obj.name" [yAxisName]="obj.opposedPosition ? obj.yAxisName : null" [marker]="obj.marker"> </e-series>
                               </e-series-collection>
                           </ejs-chart> -->
-                                    <!-- <i class="fas fa-download" style="float:right; cursor: pointer; margin-right:10px" (click)="onchartDownload($event , item, chart)"></i> -->
+                                    <!-- <i class="bi bi-download" style="float:right; cursor: pointer; margin-right:10px" (click)="onchartDownload($event , item, chart)"></i> -->
 
 
                                     <ejs-chart [primaryXAxis]="item.content.primaryXAxis" #chart
@@ -528,7 +528,7 @@
                                       padding: 3px 10px;
                                       border-radius: 29px;
                                      " [title]="'Download Reports'">
-                                            <i class="fas fa-download"
+                                            <i class="bi bi-download"
                                                 [ngStyle]="{'background-color': item.content.backgroundColor}" style="cursor: pointer;
                                         border: 1px solid white;
                                         border-radius: 50%;
@@ -1192,7 +1192,7 @@
         <div ejs-aiassistview #dialogAIAssistView id="aiAssistView" [promptSuggestions]="suggestions" (promptRequest)="promptRequest($event)" [toolbarSettings]="assistViewToolbarSettings" [responseToolbarSettings]="responseToolbarSettings" cssClass="custom-aiassistview">
             <ng-template #bannerTemplate>
                 <div class="banner-content">
-                    <div class="e-icons e-assistview-icon"></div>
+                    <i class="bi bi-stars" style="font-size: 2rem;"></i>
                     <h3>AI Assistance</h3>
                     <i>To get started, provide input or choose a suggestion.</i>
                 </div>
@@ -1209,7 +1209,7 @@
             [responseToolbarSettings]="responseToolbarSettings" cssClass="custom-aiassistview">
             <ng-template #bannerTemplate>
                 <div class="banner-content">
-                    <div class="e-icons e-assistview-icon"></div>
+                    <i class="bi bi-stars" style="font-size: 2rem;"></i>
                     <h3>AI Assistance</h3>
                     <p>{{userMessage}} </p>
                     <!-- <p>Hello Superadmin, how can i help you</p> -->

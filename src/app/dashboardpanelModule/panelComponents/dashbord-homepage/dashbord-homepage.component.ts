@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, inject} from '@angular/core';
+﻿import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, inject} from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
 import { ButtonComponent, ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { AnimationModel } from '@syncfusion/ej2-angular-charts';
@@ -122,11 +122,11 @@ export class DashbordHomepageComponent implements OnInit, AfterViewInit, OnDestr
       text: 'Settings',
       iconCss: 'fa-solid fa-ellipsis-vertical',
       items: [
-        { text: 'View', iconCss: 'fas fa-eye icon' },
-        { text: 'Edit', iconCss: 'fas fa-edit icon' },
-        { text: 'Delete', iconCss: 'fas fa-trash icon' },
-        { text: 'Role Dashboard', iconCss: 'fas fa-user-lock icon' },
-        { text: 'User Dashboard', iconCss: 'fas fa-user-lock icon' },
+        { text: 'View', iconCss: 'bi bi-eye icon' },
+        { text: 'Edit', iconCss: 'bi bi-pencil-square icon' },
+        { text: 'Delete', iconCss: 'bi bi-trash icon' },
+        { text: 'Role Dashboard', iconCss: 'bi bi-person-lock icon' },
+        { text: 'User Dashboard', iconCss: 'bi bi-person-lock icon' },
 
       ]
     },

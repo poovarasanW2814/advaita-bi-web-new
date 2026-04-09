@@ -351,8 +351,8 @@
                                                     </td>
                                                     <td>
                                                         <div style="cursor: pointer;">
-                                                            <i class="fas fa-edit" (click)="onEditColumn(item, i)"  style="margin:0px 5px"></i>
-                                                            <i class="fas fa-trash-alt" (click)="onDeleteColumn(i)"></i>
+                                                            <i class="bi bi-pencil-square" (click)="onEditColumn(item, i)"  style="margin:0px 5px"></i>
+                                                            <i class="bi bi-trash" (click)="onDeleteColumn(i)"></i>
                                                         </div>
                                                                                                  
                                                     </td>
@@ -370,7 +370,7 @@
                                                             <button type="button"
                                                                 (click)="editRecord(fieldDetailsArray)" ejs-button
                                                                 cssClass="e-flat-icon">
-                                                                <i class="fas fa-edit"></i>
+                                                                <i class="bi bi-pencil-square"></i>
                                                             </button>
                                                         </ng-template>
                                                     </e-column>
@@ -378,7 +378,7 @@
                                                         <ng-template #template let-fieldDetailsArray>
                                                             <button type="button" ejs-button cssClass="e-flat-icon"
                                                                 (click)="deleteRecord(fieldDetailsArray)">
-                                                                <i class="fas fa-trash"></i>
+                                                                <i class="bi bi-trash"></i>
                                                             </button>
                                                         </ng-template>
                                                     </e-column>
@@ -530,11 +530,11 @@
                                             <td style="max-width: 200px; word-wrap: break-word;">{{ row.rawQuery }}</td>
                                             <td style="max-width: 30px; word-wrap: break-word;">{{ row.level }}</td>
                                             <td style="max-width: 200px; word-wrap: break-word;">
-                                                <i class="fas fa-edit" (click)="onEditDiemsionSeries(row, i)" style="margin-right:10px; cursor: pointer;"
+                                                <i class="bi bi-pencil-square" (click)="onEditDiemsionSeries(row, i)" style="margin-right:10px; cursor: pointer;"
                                                     [title]="'Edit'"></i>
-                                                <i class="fas fa-trash-alt" [title]="'Delete'"
+                                                <i class="bi bi-trash" [title]="'Delete'"
                                                     style="cursor: pointer;"  (click)="onDeleteDiemnsionSeries(i, row)"></i>
-                                                <i class="fas fa-database" [title]="'Add Query'"
+                                                <i class="bi bi-database" [title]="'Add Query'"
                                                     (click)="onOpenrawQuery(row, i, row.level)"
                                                     style="margin-left:10px; cursor: pointer;"></i>
                                             </td>
@@ -960,8 +960,8 @@
                                         <td>{{item.style.color}}</td>
                                         <td>{{item.style.fontSize}}</td>
                                         <td style="cursor:pointer">
-                                            <i class="fas fa-trash-alt" (click)="onDeleteConditionObj(i)"></i>
-                                            <i class="fas fa-edit" style="margin-left:5px"
+                                            <i class="bi bi-trash" (click)="onDeleteConditionObj(i)"></i>
+                                            <i class="bi bi-pencil-square" style="margin-left:5px"
                                                 (click)="onEditConditionObj(item, i)"></i>
                                         </td>
 
@@ -1098,8 +1098,8 @@
                                           <!-- <button class="btn btn-info btn-sm" (click)="onEdit(i)">Edit</button>
                                           <button class="btn btn-danger btn-sm" (click)="onDelete(i)">Delete</button> -->
 
-                                          <i class="fas fa-trash-alt" (click)="onDelete(i)"></i>
-                                          <i class="fas fa-edit" style="margin-left:5px"
+                                          <i class="bi bi-trash" (click)="onDelete(i)"></i>
+                                          <i class="bi bi-pencil-square" style="margin-left:5px"
                                               (click)="onEdit(i,field )"></i>
                                         </td>
                                       </tr>

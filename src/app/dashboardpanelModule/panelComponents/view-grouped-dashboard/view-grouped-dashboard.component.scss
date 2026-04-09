@@ -169,7 +169,7 @@
           &:hover {
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             transform: translateX(4px);
-            border-color: rgba(13, 53, 148, 0.898);
+            border-color: var(--bi-primary);
 
             .dashboard-actions {
               opacity: 1;
@@ -182,7 +182,7 @@
             flex-shrink: 0;
             width: 34px;
             height: 34px;
-            background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, 0.898) 109.98%);
+            background: var(--bi-gradient);
             border-radius: 6px;
             display: flex;
             align-items: center;
@@ -203,7 +203,7 @@
             .dashboard-name {
               margin: 0 0 2px 0;
               // color: #2C3E50;
-              color: rgba(4, 43, 134, 0.898);
+              color: var(--bi-primary);
               font-size: 11px;
               font-weight: 600;
               line-height: 1.2;
@@ -214,7 +214,7 @@
 
             .dashboard-desc {
               margin: 0;
-              color: #4e69c9;
+              color: var(--bi-mid);
               font-size: 9px;
               line-height: 1.2;
               overflow: hidden;
@@ -256,8 +256,8 @@
             }
 
             &:hover {
-              background: rgba(13, 53, 148, 0.898);
-              border-color: rgba(13, 53, 148, 0.898);
+              background: var(--bi-primary);
+              border-color: var(--bi-primary);
               transform: scale(1.1);
 
               i {
@@ -657,7 +657,7 @@
   padding: 5px 7px;
   border-radius: 7px;
   cursor: pointer;
-  color: rgba(13, 53, 148, 0.898);
+  color: var(--bi-primary);
   border: 1px solid rgba(81, 96, 129, 0.2);
   background: #eff0f3;
 
@@ -671,7 +671,7 @@
 }
 .permission_btn:hover{
 
-background-color: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, 0.898) 109.98%);
+background-color: var(--bi-gradient);
 color: white;
 }
 
@@ -1057,7 +1057,7 @@ color: white;
   margin-top: 10px;
   font-size: 12px;
   font-weight: 700;
-  color: rgba(13, 53, 148, 0.898);
+  color: var(--bi-primary);
 }
 
 .dashboard-title {
@@ -1259,7 +1259,7 @@ color: white;
 
 .dashboard-card:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border-color: rgba(13, 53, 148, 0.898);
+  border-color: var(--bi-primary);
   transform: translateX(3px);
 }
 
@@ -1268,7 +1268,7 @@ color: white;
   flex-shrink: 0;
   width: 50px;
   height: 50px;
-  background: linear-gradient(140deg, #35d3e1 -12.54%, rgba(13, 53, 148, 0.898) 109.98%);
+  background: var(--bi-gradient);
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -1299,7 +1299,7 @@ color: white;
 .dashboard-title-text {
   font-size: 12px;
   font-weight: 600;
-  color: rgba(4, 43, 134, 0.898);
+  color: var(--bi-primary);
   margin: 0 0 4px 0;
   white-space: nowrap;
   overflow: hidden;
@@ -1308,7 +1308,7 @@ color: white;
 
 .dashboard-subtitle {
   font-size: 10px;
-  color: #4e69c9;
+  color: var(--bi-mid);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -1347,8 +1347,8 @@ color: white;
 
 .action-btn-hover:hover {
   transform: scale(1.1);
-  background: rgba(13, 53, 148, 0.898);
-  border-color: rgba(13, 53, 148, 0.898);
+  background: var(--bi-primary);
+  border-color: var(--bi-primary);
   color: white;
 }
 
@@ -1379,7 +1379,7 @@ color: white;
 }
 
 .btn-back:hover {
-  background: rgba(13, 53, 148, 0.898);
+  background: var(--bi-primary);
   transform: translateX(-2px);
 }
 

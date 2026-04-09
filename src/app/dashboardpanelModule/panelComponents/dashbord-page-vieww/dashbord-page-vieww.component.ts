@@ -1,4 +1,4 @@
-import { DatePipe, NgIf, NgFor, NgClass, NgStyle } from '@angular/common';
+﻿import { DatePipe, NgIf, NgFor, NgClass, NgStyle } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren, inject} from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
@@ -186,11 +186,11 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   items: ItemModel[] = [
     {
       text: 'Current Page',
-      iconCss: 'fas fa-file-excel'
+      iconCss: 'bi bi-file-earmark-excel'
     },
     {
       text: 'All Pages',
-      iconCss: 'fas fa-file-excel',
+      iconCss: 'bi bi-file-earmark-excel',
     }
 
   ];

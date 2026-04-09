@@ -17,7 +17,7 @@
       @if ((!permissionObj || permissionObj?.can_create) !== false) {
         <button ejs-button class="e-flat-icon e-btn-purple-sm"  title="Create"
           (click)="dialogBtnClick()">
-          <i class="fas fa-plus" title="Create"></i>
+          <i class="bi bi-plus-lg" title="Create"></i>
         </button>
       }
     </div>
@@ -57,14 +57,14 @@
                     <button ejs-button cssClass="e-flat-icon e-btn-purple-sm "
                       (click)="editDbObj(item, i)" title="Edit">
                       <!-- <span class="e-btn-icon e-icons"></span> -->
-                      <i class="fas fa-edit" title="Edit"></i>
+                      <i class="bi bi-pencil-square" title="Edit"></i>
                     </button>
                   }
                   @if ((!permissionObj || permissionObj?.can_delete) !== false) {
                     <button ejs-button cssClass="e-flat-icon e-btn-purple-sm  deleteBtn"
                       (click)="deleteDbObj(item, i)" title="Delete">
                       <!-- <span class="e-btn-icon e-icons"></span> -->
-                      <i class="fas fa-trash"  title="Delete"></i>
+                      <i class="bi bi-trash"  title="Delete"></i>
                     </button>
                   }
                 </td>
@@ -235,7 +235,7 @@
   @if (isMessageVisible) {
     <div class="message-popup" [ngStyle]="{'background-color': messageBackgroundColor === 'success' ? '#ccefb5' : messageBackgroundColor === 'error' ? '#ff00001a' : '','color': messageBackgroundColor === 'success' ? '#059223' : messageBackgroundColor === 'error' ? 'red' : '' }">
       <span class="msgSpan">{{ message }}</span>
-      <i class="fas fa-times-circle" style="cursor:pointer"  (click)="closeMessage()"></i>
+      <i class="bi bi-x-circle" style="cursor:pointer"  (click)="closeMessage()"></i>
     </div>
   }
 

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, Query, QueryList, ViewChild, ViewChildren, inject} from '@angular/core';
+﻿import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, Query, QueryList, ViewChild, ViewChildren, inject} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
 import { ChartComponent, AccumulationChartComponent, ToolbarItems, AnimationModel, ILoadedEventArgs, IAccTextRenderEventArgs, IAccTooltipRenderEventArgs, ExportType, ChartModule, AccumulationChartModule } from '@syncfusion/ej2-angular-charts';
@@ -134,27 +134,27 @@ export class CreateDashboardComponent implements OnInit {
 
   iconFields: any = { text: 'PanelType', iconCss: 'Class', value: 'PanelType' };
   panelTypeDataArray: any[] = [
-    { Class: 'fas fa-chart-bar', PanelType: 'Chart', Id: '1' },
-    { Class: 'fas fa-tv', PanelType: 'Box', Id: '2' },
-    { Class: 'fas fa-table', PanelType: 'Table', Id: '3' },
-    { Class: 'fas fa-table', PanelType: 'Pivot', Id: '4' },
-    { Class: 'fas fa-calendar-alt', PanelType: 'DatePicker', Id: '5' },
-    { Class: 'fas fa-calendar-alt', PanelType: 'DateRangePicker', Id: '6' },
-    { Class: 'fas fa-th-list', PanelType: 'ListBox', Id: '7' },
-    { Class: 'fas fa-caret-square-down', PanelType: 'DropdownList', Id: '8' },
-    { Class: 'fas fa-chevron-circle-down', PanelType: 'MultiSelectDropDown', Id: '9' },
-    { Class: 'fas fa-download', PanelType: 'RawDataDump', Id: '10' },
-    { Class: 'fas fa-search', PanelType: 'InputBox', Id: '11' },
-    { Class: 'fas fa-tv', PanelType: 'Card', Id: '12' },
-    { Class: 'fas fa-calendar-week', PanelType: 'Calender', Id: '13' },
-    // { Class: 'fas fa-filter', PanelType: 'ExpandableFilters', Id: '14' },
-    { Class: 'fas fa-tasks', PanelType: 'Kanban', Id: '14' },
-    { Class: 'fas fa-tachometer-alt', PanelType: 'Gauge', Id: '15' }
+    { Class: 'bi bi-bar-chart-line', PanelType: 'Chart', Id: '1' },
+    { Class: 'bi bi-display', PanelType: 'Box', Id: '2' },
+    { Class: 'bi bi-table', PanelType: 'Table', Id: '3' },
+    { Class: 'bi bi-table', PanelType: 'Pivot', Id: '4' },
+    { Class: 'bi bi-calendar-event', PanelType: 'DatePicker', Id: '5' },
+    { Class: 'bi bi-calendar-event', PanelType: 'DateRangePicker', Id: '6' },
+    { Class: 'bi bi-list-ul', PanelType: 'ListBox', Id: '7' },
+    { Class: 'bi bi-caret-down-square', PanelType: 'DropdownList', Id: '8' },
+    { Class: 'bi bi-chevron-down-circle', PanelType: 'MultiSelectDropDown', Id: '9' },
+    { Class: 'bi bi-download', PanelType: 'RawDataDump', Id: '10' },
+    { Class: 'bi bi-search', PanelType: 'InputBox', Id: '11' },
+    { Class: 'bi bi-display', PanelType: 'Card', Id: '12' },
+    { Class: 'bi bi-calendar-week', PanelType: 'Calender', Id: '13' },
+    // { Class: 'bi bi-funnel', PanelType: 'ExpandableFilters', Id: '14' },
+    { Class: 'bi bi-kanban', PanelType: 'Kanban', Id: '14' },
+    { Class: 'bi bi-speedometer2', PanelType: 'Gauge', Id: '15' }
 
 
   ];
 
-  // <i class="fas fa-chevron-circle-down"></i>
+  // <i class="bi bi-chevron-down-circle"></i>
   public pageSettings: object = { pageSize: ['50', '100', '200', '500', '1000'] };
 
   animation: AnimationModel = { enable: true, duration: 2000, delay: 0 };

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
+﻿import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TabComponent, TabModule } from '@syncfusion/ej2-angular-navigations';
 import { ChartService } from 'src/app/core/services/chart.service';
@@ -26,17 +26,17 @@ export class RawdatadumpComponent implements OnInit, OnChanges {
 
 
   panelTypeDataArray: any[] = [
-    { Class: 'fas fa-chart-bar', PanelType: 'Chart', Id: '1' },
-    { Class: 'fas fa-signal', PanelType: 'Signal', Id: '2' },
-    { Class: 'fas fa-dollar-sign', PanelType: 'Doller', Id: '3' },
-    { Class: 'fas fa-rupee-sign', PanelType: 'Rupee', Id: '4' },
-    { Class: 'fas fa-comments', PanelType: 'Comments', Id: '5' },
-    { Class: 'fas fa-user', PanelType: 'User', Id: '6' },
-    { Class: 'fas fa-percentage', PanelType: 'Percentage', Id: '7' },
-    { Class: 'fas fa-plus', PanelType: 'Plus', Id: '8' },
-    { Class: 'fas fa-percentage', PanelType: 'Percentage', Id: '9' },
-    { Class: 'fas fa-phone', PanelType: 'phone', Id: '10' },
-    { Class: 'fas fa-voicemail', PanelType: 'VoiceMail', Id: '11' },
+    { Class: 'bi bi-bar-chart-line', PanelType: 'Chart', Id: '1' },
+    { Class: 'bi bi-reception-4', PanelType: 'Signal', Id: '2' },
+    { Class: 'bi bi-currency-dollar', PanelType: 'Doller', Id: '3' },
+    { Class: 'bi bi-currency-rupee', PanelType: 'Rupee', Id: '4' },
+    { Class: 'bi bi-chat-dots', PanelType: 'Comments', Id: '5' },
+    { Class: 'bi bi-person', PanelType: 'User', Id: '6' },
+    { Class: 'bi bi-percent', PanelType: 'Percentage', Id: '7' },
+    { Class: 'bi bi-plus-lg', PanelType: 'Plus', Id: '8' },
+    { Class: 'bi bi-percent', PanelType: 'Percentage', Id: '9' },
+    { Class: 'bi bi-telephone', PanelType: 'phone', Id: '10' },
+    { Class: 'bi bi-voicemail', PanelType: 'VoiceMail', Id: '11' },
 
   ];
   rawQueryValue: string = '';

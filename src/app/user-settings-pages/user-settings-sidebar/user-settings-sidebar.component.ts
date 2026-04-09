@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject} from '@angular/core';
+﻿import { Component, OnInit, ViewChild, inject} from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { ClickEventArgs, SidebarComponent, ToolbarModule, SidebarModule } from '@syncfusion/ej2-angular-navigations';
 import { PopupComponent } from '../../dashboardpanelModule/panel-properties/popup/popup.component';
@@ -21,11 +21,11 @@ export class UserSettingsSidebarComponent implements OnInit {
   public enableDock: boolean = true;
   public showIcon: boolean = true;
   target : any = '.dockmaincontent'
-//   <i class="fas fa-key"></i>
+//   <i class="bi bi-key"></i>
   listFields: { [key: string]: Object } = { id: "id", text: "text", iconCss: "iconcss" };
   public ListData: { [key: string]: Object }[] = [
-      { id: "1", text: "Profile", iconcss: "fas fa-user" },
-      { id: "2", text: "Change Password", iconcss: "fas fa-key", 
+      { id: "1", text: "Profile", iconcss: "bi bi-person" },
+      { id: "2", text: "Change Password", iconcss: "bi bi-key", 
           }]
 
   toolbarCliked(args: ClickEventArgs) {

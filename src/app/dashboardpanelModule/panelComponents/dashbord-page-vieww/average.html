@@ -9,7 +9,7 @@
           <div>
             <p class="popupHeader">
               {{dashboardName}}
-              <span><i class="fas fa-info-circle" [title]="description"></i></span>
+              <span><i class="bi bi-info-circle" [title]="description"></i></span>
             </p>
 
           </div>
@@ -17,7 +17,7 @@
           <div class="filterBtn">
             <!-- <button class="e-btn e-btn-purple" style=" cursor: pointer; margin-right:10px" >
             <span class="iconColor" (click)="showMarkdwonBox()">
-              <i class="fas fa-bolt" 
+              <i class="bi bi-lightning-charge" 
            ></i>
             </span>
           </button> -->
@@ -30,7 +30,7 @@
               *ngIf=" getPermissionById(editDashboardId) === undefined || getPermissionById(editDashboardId)?.can_update !== false"
               (click)="onEditClick()">
               <span class="iconColor">
-                <i class="fas fa-edit icon"></i>
+                <i class="bi bi-pencil-square icon"></i>
               </span>
             </button>
 
@@ -39,25 +39,25 @@
               (click)="applyGlobalFilter()">
 
 
-              <i class="fas fa-filter" style="margin-right: 1px;"></i>
+              <i class="bi bi-funnel" style="margin-right: 1px;"></i>
             </button>
 
 
             <button style=" cursor: pointer; margin-right: 10px;" class="e-btn e-btn-purple " [title]="'Clear Filter'"
               (click)="onCancel()">
 
-              <i class="fas fa-eraser"></i>
+              <i class="bi bi-eraser"></i>
             </button>
 
 
             <button class="e-btn e-btn-purple" style="cursor: pointer; margin-right: 10px;" (click)="onFilteredIconClick()" [title]="'Applied filter'">
 
-              <i class="fas fa-bookmark" style="margin-right: 1px;"></i>
+              <i class="bi bi-bookmark" style="margin-right: 1px;"></i>
             </button>
 
             <button class="e-btn e-btn-purple" style="cursor: pointer; margin-right:10px"
               [title]="'Download All Panels'" (click)="downloadAllPanelsData()">
-              <i class="fas fa-download icon" style="margin-right: 1px;"></i>
+              <i class="bi bi-download icon" style="margin-right: 1px;"></i>
             </button>
 
           </div>
@@ -83,7 +83,7 @@
                             {{ item.header }}
                         </div>
                         <!-- <i class="fas expand-collapse-icon"
-                            [ngClass]="isPanelExpanded(item.id) ? 'fa-chevron-down' : 'fa-chevron-right collapsed'"
+                            [ngClass]="isPanelExpanded(item.id) ? 'bi-chevron-down' : 'bi-chevron-right'"
                             (click)="togglePanelExpansion(item.id)"
                             title="{{ isPanelExpanded(item.id) ? 'Collapse' : 'Expand' }}">
                         </i> -->
@@ -99,7 +99,7 @@
 
 
                     <div style="display: flex; align-items: center; gap: 12px; margin-right: 10px;">
-                      <i class="fas fa-bolt" (click)="onOpenEditerDlg(item)"
+                      <i class="bi bi-lightning-charge" (click)="onOpenEditerDlg(item)"
                         style="cursor: pointer; color: black; font-size: 10px; ">
                       </i>
 
@@ -121,7 +121,7 @@
                       </div> -->
 
                       <!-- <i class="fas expand-collapse-icon"
-        [ngClass]="isPanelExpanded(item.id) ? 'fa-chevron-down' : 'fa-chevron-right collapsed'"
+        [ngClass]="isPanelExpanded(item.id) ? 'bi-chevron-down' : 'bi-chevron-right'"
         (click)="togglePanelExpansion(item.id)"
         title="{{ isPanelExpanded(item.id) ? 'Collapse' : 'Expand' }}"
         style="cursor: pointer;">
@@ -135,24 +135,24 @@
                   <div class="copyText" style="display: flex; justify-content: space-between;">
                     <div class="panelHeader">
                       {{ item.header }}
-                      <!-- <i class="fas fa-arrow-left"  *ngIf="drilldownFlag && chartLevels[item.id] > 0"  (click)="onReturnBackClick(item)"
+                      <!-- <i class="bi bi-arrow-left"  *ngIf="drilldownFlag && chartLevels[item.id] > 0"  (click)="onReturnBackClick(item)"
                         style="float: right; cursor: pointer;"></i>  -->
 
                     </div>
                     <div>
-                      <i class="fas fa-bolt" *ngIf="chatbotPermissionOBj.can_view || userRole == 'superadmin'"
+                      <i class="bi bi-lightning-charge" *ngIf="chatbotPermissionOBj.can_view || userRole == 'superadmin'"
                         (click)="onOpenEditerDlg(item)"
                         style=" cursor: pointer; color : black; font-size: 10px;"></i>
 
-                      <i class="fas fa-arrow-left" (click)="onchartDrillUp(item)"
+                      <i class="bi bi-arrow-left" (click)="onchartDrillUp(item)"
                         *ngIf="drilldownFlag && chartLevels[item.id] > 0"
                         style=" cursor: pointer; color : black; font-size: 10px;"></i>
 
                       <button ejs-dropdownbutton #ChartDropdown id="excelChartDropdown" [items]='exportDropdownItems'
                         (select)="onChartDropdwonSelect($event, item)" style=" cursor: pointer; font-size: 10px;"
-                        iconCss="fas fa-download"></button>
+                        iconCss="bi bi-download"></button>
                       <!-- <i class="fas expand-collapse-icon"
-                        [ngClass]="isPanelExpanded(item.id) ? 'fa-chevron-down' : 'fa-chevron-right collapsed'"
+                        [ngClass]="isPanelExpanded(item.id) ? 'bi-chevron-down' : 'bi-chevron-right'"
                         (click)="togglePanelExpansion(item.id,$event)"
                         title="{{ isPanelExpanded(item.id) ? 'Collapse' : 'Expand' }}"> </i> -->
                     </div>
@@ -170,13 +170,13 @@
                     </div>
                     <div style="cursor: pointer; color: grey; padding: 2px 5px;  white-space: nowrap; display: flex; align-items: center; gap: 6px;">
                       <a (click)="applyFilter(item)" style="color: grey; margin-right: 5px;" title="Apply Filter">
-                        <i class="fas fa-filter" style="font-size: 9px"></i>
+                        <i class="bi bi-funnel" style="font-size: 9px"></i>
                       </a>
                       <a (click)="onlistboxClearFilters(item)" style="color: grey;" title="Clear Filter">
-                        <i class="fas fa-eraser" style="font-size: 10px"></i>
+                        <i class="bi bi-eraser" style="font-size: 10px"></i>
                       </a>
                       <!-- <i class="fas expand-collapse-icon"
-                        [ngClass]="isPanelExpanded(item.id) ? 'fa-chevron-down' : 'fa-chevron-right collapsed'"
+                        [ngClass]="isPanelExpanded(item.id) ? 'bi-chevron-down' : 'bi-chevron-right'"
                         (click)="togglePanelExpansion(item.id)"
                         title="{{ isPanelExpanded(item.id) ? 'Collapse' : 'Expand' }}"> </i> -->
                     </div>
@@ -190,10 +190,10 @@
                       {{ item.header }}
                     </div>
                     <div *ngIf="item.content.isInitialFilter" style="cursor: pointer; color:grey; font-size: 10px;">
-                      <i class="fas fa-info-circle" [title]="'This is Initial filter'"></i>
+                      <i class="bi bi-info-circle" [title]="'This is Initial filter'"></i>
                     </div>
                     <!-- <i class="fas expand-collapse-icon"
-                        [ngClass]="isPanelExpanded(item.id) ? 'fa-chevron-down' : 'fa-chevron-right collapsed'"
+                        [ngClass]="isPanelExpanded(item.id) ? 'bi-chevron-down' : 'bi-chevron-right'"
                         (click)="togglePanelExpansion(item.id)"
                         title="{{ isPanelExpanded(item.id) ? 'Collapse' : 'Expand' }}"> </i> -->
                   </div>
@@ -205,7 +205,7 @@
                     <div class="panelHeader">
                       {{ item.header }}
                       <!-- <i class="fas expand-collapse-icon"
-                        [ngClass]="isPanelExpanded(item.id) ? 'fa-chevron-down' : 'fa-chevron-right collapsed'"
+                        [ngClass]="isPanelExpanded(item.id) ? 'bi-chevron-down' : 'bi-chevron-right'"
                         (click)="togglePanelExpansion(item.id)"
                         title="{{ isPanelExpanded(item.id) ? 'Collapse' : 'Expand' }}"> </i> -->
                     </div>
@@ -223,13 +223,13 @@
                     </div>
 
                     <div style="margin:0px 5px 5px">
-                      <i class="fas fa-bolt" (click)="onOpenEditerDlg(item)"
+                      <i class="bi bi-lightning-charge" (click)="onOpenEditerDlg(item)"
                         style="cursor: pointer; color: black; font-size: 10px; ">
                       </i>
 
                     </div>
                     <!-- <i class="fas expand-collapse-icon"
-                        [ngClass]="isPanelExpanded(item.id) ? 'fa-chevron-down' : 'fa-chevron-right collapsed'"
+                        [ngClass]="isPanelExpanded(item.id) ? 'bi-chevron-down' : 'bi-chevron-right'"
                         (click)="togglePanelExpansion(item.id)"
                         title="{{ isPanelExpanded(item.id) ? 'Collapse' : 'Expand' }}"> </i> -->
 
@@ -243,19 +243,19 @@
                     </div>
                      <div style="margin:0px 5px 5px; display: flex; align-items: center;">
 
-                       <!-- <i class="fas fa-comments " *ngIf="item?.content?.comments_dataSource?.length > 0" (click)="onCommentsDownload(item)"  style=" cursor: pointer; color : black; font-size: 10px;margin-right: 10px " title="Download Comments">
+                       <!-- <i class="bi bi-comments " *ngIf="item?.content?.comments_dataSource?.length > 0" (click)="onCommentsDownload(item)"  style=" cursor: pointer; color : black; font-size: 10px;margin-right: 10px " title="Download Comments">
                           </i> -->
 
                          <!-- <button class="e-btn e-btn-purple"  title="Download Comments">
-                           <i class="fas fa-comments"></i>  <i class="e-icons e-download"></i> 
+                           <i class="bi bi-comments"></i>  <i class="e-icons e-download"></i> 
                         </button>  -->
 
-                      <i class="fas fa-bolt" *ngIf="chatbotPermissionOBj.can_view || userRole == 'superadmin' "
+                      <i class="bi bi-lightning-charge" *ngIf="chatbotPermissionOBj.can_view || userRole == 'superadmin' "
                         (click)="onOpenEditerDlg(item)"
                         style=" cursor: pointer; color : black; font-size: 10px;margin-right: 6px "></i>
 
 
-                      <i class="fas fa-arrow-left" *ngIf="tableDrilldownLevelFlag && tableLevels[item.id] > 0"
+                      <i class="bi bi-arrow-left" *ngIf="tableDrilldownLevelFlag && tableLevels[item.id] > 0"
                         (click)="onTableDrillUpClick(item)"
                         style=" cursor: pointer; font-size: 10px; color : black; margin-right: 5px"></i>
 
@@ -269,7 +269,7 @@
                         [disabled]="isDownloadingMap[item.id]"
                         iconCss="fas fa-file-excel"></button>
                       <!-- <i class="fas expand-collapse-icon"
-                        [ngClass]="isPanelExpanded(item.id) ? 'fa-chevron-down' : 'fa-chevron-right collapsed'"
+                        [ngClass]="isPanelExpanded(item.id) ? 'bi-chevron-down' : 'bi-chevron-right'"
                         (click)="togglePanelExpansion(item.id)"
                         title="{{ isPanelExpanded(item.id) ? 'Collapse' : 'Expand' }}"> </i> -->
                     </div>
@@ -771,7 +771,7 @@
                       padding: 3px 10px;
                       border-radius: 29px
                       " [title]="'Download Reports'">
-                        <i class="fas fa-download" [ngStyle]="{'background-color': item.content.backgroundColor}" style="cursor: pointer;
+                        <i class="bi bi-download" [ngStyle]="{'background-color': item.content.backgroundColor}" style="cursor: pointer;
                         border: 1px solid white;
                         border-radius: 50%;
                         padding: 5px;
@@ -785,7 +785,7 @@
                         style="cursor: pointer; font-size: 10px; padding: 3px 10px; border-radius: 29px; background-color: white;"
                         [title]="'Download Reports'">
 
-                        <!-- <i class="fas fa-download"
+                        <!-- <i class="bi bi-download"
                          [ngClass]="{'spin-icon': isDownloadingMap[item.id]}"
                          [ngStyle]="{
                            'background-color': item.content.backgroundColor
@@ -798,7 +798,7 @@
                           <span class="spinner-ring" [ngClass]="{'spin-border': isDownloadingMap[item.id]}"
                             [ngStyle]="{ 'border-color': item.content.backgroundColor }">
                           </span>
-                          <i class="fas fa-download icon-static" title="Download Reports">
+                          <i class="bi bi-download icon-static" title="Download Reports">
                           </i>
                         </span>
 
@@ -806,7 +806,7 @@
                           <span class="spinner-ring" [ngClass]="{'spin-border': isDownloadingMap[item.id]}"
                             [ngStyle]="{ 'border-top-color': item.content.backgroundColor }">
                           </span>
-                          <i class="fas fa-download icon-static" title="Download Reports">
+                          <i class="bi bi-download icon-static" title="Download Reports">
                           </i>
                         </span>
 
@@ -996,24 +996,24 @@
             </div>
             <div class="filter-options" >
               <span class="filter-label" title="Bookmark Filters set by you.">
-                <i class="fas fa-user-circle"></i> Yours Bookmark Filters
+                <i class="bi bi-person-circle"></i> Yours Bookmark Filters
               </span>
               <ejs-switch style="margin:5px 10px 0px" class="bar-color" [(ngModel)]="bookmark_flag"
                 (ngModelChange)="onSwitchChange($event)">
               </ejs-switch>
               <span class="filter-label" title=" Bookmark Filters set by admin or superadmin">
-                <i class="fas fa-shield-alt"></i> Default(Superadmin/Admin) Bookmark Filters
+                <i class="bi bi-shield-alt"></i> Default(Superadmin/Admin) Bookmark Filters
               </span>
               <!-- <div class="note-container" *ngIf="showNote">
                 <span class="note-text">
-                  <i class="fas fa-info-circle"></i>
+                  <i class="bi bi-info-circle"></i>
                   {{ bookmark_flag ? 'Filters set by the admin or superadmin.' : 'Filters set by you.' }}
                 </span>
               </div> -->
 
               <div class="note-container" *ngIf="initialFilerObj.startDate">
                 <span class="note-text">
-                  <i class="fas fa-info-circle"></i> Initial Filter :-
+                  <i class="bi bi-info-circle"></i> Initial Filter :-
                   Start Date: {{ initialFilerObj.startDate | date: 'dd-MMM-yyyy' }} - End Date: {{
                   initialFilerObj.endDate | date: 'dd-MMM-yyyy' }}
                   <!-- {{ bookmark_flag ? 'Filters set by the admin or superadmin.' : 'Filters set by you.' }} -->
@@ -1056,13 +1056,13 @@
 
         <div>
           <button class="e-btn e-btn-purple" type="button" (click)="onBookmarkFilterSave()">
-            Save <i class="fas fa-bookmark" style="padding-left:5px"></i>
+            Save <i class="bi bi-bookmark" style="padding-left:5px"></i>
           </button>
 
           <button style=" cursor: pointer; margin-left:5px" class="e-btn e-btn-purple "
             [title]="'Clear bookmark filter'" (click)="clearBookmarkFilter(bookmark_flag)">
 
-            <i class="fas fa-trash"></i>
+            <i class="bi bi-trash"></i>
           </button>
 
         </div>
