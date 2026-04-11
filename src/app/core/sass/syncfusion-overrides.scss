@@ -11,17 +11,38 @@
 // ─────────────────────────────────────────────────
 
 .e-dialog {
-  border-radius: var(--r-lg);
+  border-radius: var(--r-xl);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 20px 60px rgba(13, 59, 86, 0.18);
+  overflow: hidden;
 }
 
 .e-dialog .e-dlg-header-content {
-  border-radius: var(--r-lg) var(--r-lg) 0 0;
-  background: var(--bi-gradient);
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  background: linear-gradient(135deg, #0d3b56 0%, #0d5c7a 60%, #1185a8 100%);
   color: white;
+  padding: 14px 20px;
+  border-bottom: 3px solid rgba(255, 255, 255, 0.12);
+}
+
+.e-dialog .e-dlg-header-content .e-dlg-header {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: white !important;
+}
+
+.e-dialog .e-dlg-header-content .e-btn.e-dlg-closeicon-btn {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.e-dialog .e-dlg-header-content .e-btn.e-dlg-closeicon-btn:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: white !important;
 }
 
 .e-dialog .e-dlg-header-content + .e-dlg-content {
-  background: var(--bi-pale);
+  background: #ffffff;
 }
 
 // ─────────────────────────────────────────────────
@@ -31,7 +52,8 @@
 // ─────────────────────────────────────────────────
 
 .e-footer-content {
-  background: var(--bi-pale);
+  background: #f4f6f8;
+  border-top: 1px solid var(--border-color);
   padding: 8px 12px;
 }
 
@@ -241,4 +263,40 @@ label.labelName {
 
 .e-grid .e-sortfilter .e-icons {
   color: rgba(255, 255, 255, 0.7) !important;
+}
+
+// Workspace shell light overrides
+#dockSidebar.e-sidebar {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border-right: 1px solid rgba(13, 92, 122, 0.1) !important;
+}
+
+#dockSidebar .e-listview {
+  background: transparent !important;
+  border: none !important;
+}
+
+#head .e-dropdown-btn,
+#head .e-btn {
+  color: var(--text-secondary) !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+
+  .e-btn-icon {
+    color: currentColor !important;
+  }
+}
+
+.e-grid .e-headercell {
+  background: #f7fbfd !important;
+  color: var(--bi-primary) !important;
+}
+
+.e-grid .e-headercelldiv {
+  color: var(--bi-primary) !important;
+}
+
+.e-grid .e-sortfilter .e-icons {
+  color: rgba(13, 92, 122, 0.55) !important;
 }

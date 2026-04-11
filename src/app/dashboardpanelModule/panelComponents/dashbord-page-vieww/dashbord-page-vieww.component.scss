@@ -2258,5 +2258,366 @@ background-color: transparent !important;
   }
 }
 
+/* Workspace refresh */
+:host {
+  display: block;
+}
+
+.dashboard_Title {
+  height: auto;
+  min-height: 68px;
+  margin-bottom: 0;
+  color: var(--bi-primary-dark);
+}
+
+.dashboard_Title .popupHeader {
+  margin: 0;
+  color: var(--bi-primary-dark);
+  font-family: var(--font-family-display);
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.filterBtn {
+  gap: 10px;
+}
+
+.copyText {
+  padding: 4px 0 2px;
+  min-height: 30px;
+}
+
+.panelHeader {
+  color: var(--bi-primary-dark);
+  font-family: var(--font-family-base) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}
+
+.expand-collapse-icon {
+  color: var(--text-muted);
+}
+
+.expand-collapse-icon:hover {
+  color: var(--bi-primary);
+}
+
+::ng-deep #createDashboard .e-panel-header {
+  min-height: 48px;
+  padding: 10px 14px !important;
+  border-bottom: 1px solid rgba(13, 92, 122, 0.08);
+  background: #fbfeff;
+  color: var(--bi-primary-dark);
+}
+
+::ng-deep #createDashboard .e-panel-content {
+  background: #fff;
+}
+
+::ng-deep #createDashboard .e-grid .e-headercell {
+  background: #f7fbfd !important;
+  color: var(--bi-primary) !important;
+}
+
+::ng-deep #createDashboard .e-grid .e-headercelldiv {
+  color: var(--bi-primary) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Dashboard view contrast fixes */
+.filteredListDiv {
+  margin-bottom: 18px;
+}
+
+.dashboard_Title {
+  min-height: 76px;
+  padding: 14px 18px !important;
+  border: 1px solid rgba(13, 92, 122, 0.1);
+  border-radius: 24px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(240, 253, 255, 0.92) 100%);
+  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
+}
+
+.dashboard_Title .popupHeader,
+.dashboard_Title .popupHeader i {
+  color: var(--bi-primary) !important;
+}
+
+.filterBtn .e-btn-purple,
+.filterBtn .e-btn-purple-sm {
+  min-width: 38px;
+  min-height: 38px;
+  padding: 0 12px !important;
+  border-radius: 14px !important;
+  background: var(--surface-primary) !important;
+  color: var(--bi-primary) !important;
+  border: 1px solid rgba(13, 92, 122, 0.12) !important;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.06);
+}
+
+.filterBtn .e-btn-purple i,
+.filterBtn .e-btn-purple-sm i,
+.filterBtn .iconColor,
+.filterBtn .iconColor i {
+  color: currentColor !important;
+}
+
+.copyText a,
+.copyText a i,
+.copyText i.bi,
+.copyText .e-dropdown-btn,
+.copyText .e-dropdown-btn .e-btn-icon,
+.copyText .e-btn .e-btn-icon {
+  color: var(--bi-primary) !important;
+}
+
+::ng-deep #createDashboard .e-panel,
+::ng-deep #createDashboard .e-panel-container,
+::ng-deep #createDashboard .e-panel-header,
+::ng-deep #createDashboard .e-panel-content,
+::ng-deep #createDashboard .e-grid,
+::ng-deep #createDashboard .e-grid .e-gridcontent,
+::ng-deep #createDashboard .e-grid .e-content,
+::ng-deep #createDashboard .e-grid .e-table,
+::ng-deep #createDashboard .e-grid .e-toolbar,
+::ng-deep #createDashboard .e-grid .e-toolbar-items {
+  background: #ffffff !important;
+}
+
+::ng-deep #createDashboard .e-panel-header .copyText,
+::ng-deep #createDashboard .e-panel-header .panelHeader,
+::ng-deep #createDashboard .e-panel-header .header-text,
+::ng-deep #createDashboard .e-panel-header .copyText > div,
+::ng-deep #createDashboard .e-panel-header .copyText > div:first-child,
+::ng-deep #createDashboard .e-panel-header .copyText > div:last-child,
+::ng-deep #createDashboard .e-panel-header .copyText a,
+::ng-deep #createDashboard .e-panel-header .copyText a i,
+::ng-deep #createDashboard .e-panel-header .copyText i,
+::ng-deep #createDashboard .e-panel-header .copyText .e-btn,
+::ng-deep #createDashboard .e-panel-header .copyText .e-btn .e-btn-icon,
+::ng-deep #createDashboard .e-panel-header .copyText .e-dropdown-btn,
+::ng-deep #createDashboard .e-panel-header .copyText .e-dropdown-btn .e-btn-icon {
+  color: var(--bi-primary-dark) !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+
+::ng-deep #createDashboard .e-panel-header .expand-collapse-icon {
+  color: rgba(13, 92, 122, 0.72) !important;
+}
+
+::ng-deep #createDashboard .e-panel-header .expand-collapse-icon:hover {
+  color: var(--bi-primary) !important;
+}
+
+::ng-deep #createDashboard .e-grid .e-headercell,
+::ng-deep #createDashboard .e-grid .e-headercontent .e-headercell {
+  background: #f7fbfd !important;
+  color: var(--bi-primary) !important;
+  border-bottom: 1px solid rgba(13, 92, 122, 0.08) !important;
+}
+
+::ng-deep #createDashboard .e-grid .e-headercelldiv,
+::ng-deep #createDashboard .e-grid .e-headercontent .e-headercelldiv,
+::ng-deep #createDashboard .e-grid .e-headercell .e-icons,
+::ng-deep #createDashboard .e-grid .e-sortfilter .e-icons {
+  color: var(--bi-primary) !important;
+}
+
+::ng-deep #createDashboard .e-grid .e-rowcell,
+::ng-deep #createDashboard .e-grid .e-detailrowcollapse,
+::ng-deep #createDashboard .e-grid .e-detailrowexpand {
+  background: #ffffff !important;
+  color: var(--text-secondary) !important;
+  border-color: rgba(229, 231, 235, 0.9) !important;
+}
+
+::ng-deep #createDashboard .e-grid .e-row:nth-child(even) .e-rowcell {
+  background: #fbfeff !important;
+}
+
+::ng-deep #createDashboard .e-grid .e-row:hover .e-rowcell {
+  background: #f4fbfd !important;
+}
+
+.copyText .expand-collapse-icon {
+  color: var(--text-muted) !important;
+}
+
+.copyText .expand-collapse-icon:hover {
+  color: var(--bi-primary) !important;
+}
+
+.popup,
+.popup1 {
+  border-radius: 20px;
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.18);
+}
+
+.popup-message {
+  color: var(--text-secondary);
+}
+
+:host-context([data-theme='dark']) .dashboard_Title .popupHeader,
+:host-context([data-theme='dark']) .dashboard_Title .popupHeader i {
+  color: var(--bi-primary-dark) !important;
+}
+
+:host-context([data-theme='dark']) .filterBtn .e-btn-purple,
+:host-context([data-theme='dark']) .filterBtn .e-btn-purple-sm {
+  background: rgba(34, 211, 238, 0.08) !important;
+  color: var(--bi-bright) !important;
+  border-color: rgba(34, 211, 238, 0.16) !important;
+  box-shadow: 0 16px 28px rgba(2, 6, 23, 0.22);
+}
+
+:host-context([data-theme='dark']) .copyText a,
+:host-context([data-theme='dark']) .copyText a i,
+:host-context([data-theme='dark']) .copyText i.bi,
+:host-context([data-theme='dark']) .copyText .e-dropdown-btn,
+:host-context([data-theme='dark']) .copyText .e-dropdown-btn .e-btn-icon,
+:host-context([data-theme='dark']) .copyText .e-btn .e-btn-icon {
+  color: var(--bi-primary) !important;
+}
+
+:host-context([data-theme='dark']) .dashboard_Title {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 253, 255, 0.94) 100%);
+  border-color: rgba(13, 92, 122, 0.12);
+  box-shadow: 0 22px 40px rgba(2, 6, 23, 0.18);
+}
+
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-panel,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-panel-container,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-panel-header,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-panel-content,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-grid,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-grid .e-gridcontent,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-grid .e-content,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-grid .e-table,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-grid .e-toolbar,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-grid .e-toolbar-items {
+  background: #ffffff !important;
+}
+
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-panel-header,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-panel-header .copyText,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-panel-header .panelHeader,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-panel-header .header-text,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-panel-header .copyText > div,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-panel-header .copyText > div:first-child,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-panel-header .copyText > div:last-child,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-panel-header .copyText a,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-panel-header .copyText a i,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-panel-header .copyText i,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-panel-header .copyText .e-btn,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-panel-header .copyText .e-btn .e-btn-icon,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-panel-header .copyText .e-dropdown-btn,
+:host-context([data-theme='dark']) ::ng-deep #createDashboard .e-panel-header .copyText .e-dropdown-btn .e-btn-icon {
+  color: var(--bi-primary-dark) !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+
+:host-context([data-theme='dark']) .popup,
+:host-context([data-theme='dark']) .popup1 {
+  background: rgba(12, 31, 42, 0.98);
+  border-color: rgba(165, 243, 252, 0.14);
+  box-shadow: 0 30px 56px rgba(2, 6, 23, 0.34);
+}
+
+:host-context([data-theme='dark']) .popup-message {
+  color: var(--text-tertiary);
+}
+
+/* Restore table behavior without overriding dynamic conditional-format colors */
+::ng-deep #createDashboard .workspace-table-grid.e-grid,
+::ng-deep #createDashboard .workspace-table-grid .e-gridheader,
+::ng-deep #createDashboard .workspace-table-grid .e-headercontent,
+::ng-deep #createDashboard .workspace-table-grid .e-gridcontent,
+::ng-deep #createDashboard .workspace-table-grid .e-content,
+::ng-deep #createDashboard .workspace-table-grid .e-table,
+::ng-deep #createDashboard .workspace-table-grid .e-pager,
+::ng-deep #createDashboard .workspace-table-grid .e-gridpager,
+::ng-deep #createDashboard .workspace-table-grid .e-pagercontainer {
+  background: #ffffff !important;
+}
+
+::ng-deep #createDashboard .workspace-table-grid .e-headercontent,
+::ng-deep #createDashboard .workspace-table-grid .e-gridcontent,
+::ng-deep #createDashboard .workspace-table-grid .e-content {
+  overflow: auto !important;
+}
+
+::ng-deep #createDashboard .workspace-table-grid .e-headercontent table,
+::ng-deep #createDashboard .workspace-table-grid .e-gridcontent table,
+::ng-deep #createDashboard .workspace-table-grid .e-content table {
+  width: max-content !important;
+  min-width: 100% !important;
+}
+
+::ng-deep #createDashboard .workspace-table-grid .e-headercell,
+::ng-deep #createDashboard .workspace-table-grid .e-headercontent .e-headercell {
+  background: #ffffff !important;
+  color: var(--bi-primary-dark) !important;
+  border-bottom: 1px solid rgba(13, 92, 122, 0.12) !important;
+}
+
+::ng-deep #createDashboard .workspace-table-grid .e-headercelldiv,
+::ng-deep #createDashboard .workspace-table-grid .e-headercontent .e-headercelldiv,
+::ng-deep #createDashboard .workspace-table-grid .e-headertext,
+::ng-deep #createDashboard .workspace-table-grid .e-sortfilter .e-icons,
+::ng-deep #createDashboard .workspace-table-grid .e-headercell .e-icons {
+  color: var(--bi-primary-dark) !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+::ng-deep #createDashboard .workspace-table-grid .e-rowcell:not([style*='background-color']) {
+  background: transparent !important;
+}
+
+::ng-deep #createDashboard .workspace-table-grid .e-rowcell:not([style*='color']) {
+  color: #243341 !important;
+}
+
+::ng-deep #createDashboard .workspace-table-grid .e-row:hover .e-rowcell:not([style*='background-color']) {
+  background: rgba(13, 92, 122, 0.04) !important;
+}
+
+::ng-deep #createDashboard .workspace-table-grid .e-rowcell[style*='background-color'],
+::ng-deep #createDashboard .workspace-table-grid .e-rowcell[style*='background-color'] * {
+  color: inherit !important;
+}
+
+::ng-deep #createDashboard .workspace-table-grid .e-pager,
+::ng-deep #createDashboard .workspace-table-grid .e-gridpager,
+::ng-deep #createDashboard .workspace-table-grid .e-pagercontainer {
+  color: var(--bi-primary-dark) !important;
+  border-top: 1px solid rgba(13, 92, 122, 0.1) !important;
+}
+
+::ng-deep #createDashboard .workspace-table-grid .e-pager .e-parentmsgbar,
+::ng-deep #createDashboard .workspace-table-grid .e-pager .e-pagesizes,
+::ng-deep #createDashboard .workspace-table-grid .e-pager .e-pagerdropdown,
+::ng-deep #createDashboard .workspace-table-grid .e-pager .e-icons,
+::ng-deep #createDashboard .workspace-table-grid .e-pager .e-numericitem,
+::ng-deep #createDashboard .workspace-table-grid .e-pager .e-next,
+::ng-deep #createDashboard .workspace-table-grid .e-pager .e-prev,
+::ng-deep #createDashboard .workspace-table-grid .e-pager .e-first,
+::ng-deep #createDashboard .workspace-table-grid .e-pager .e-last {
+  color: var(--bi-primary-dark) !important;
+}
+
+::ng-deep #createDashboard .workspace-table-grid .e-pager .e-currentitem {
+  background: rgba(13, 92, 122, 0.12) !important;
+  color: var(--bi-primary-dark) !important;
+  border-radius: 999px;
+}
+
 
 

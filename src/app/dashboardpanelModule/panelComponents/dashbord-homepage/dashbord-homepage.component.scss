@@ -145,43 +145,50 @@ width: 100%;
   margin-bottom: 12px !important;
   font-size: 11px
 }
-.card1-content-icon{
+.card1-content-icon {
   margin-right: 6px;
   cursor: pointer;
-  border-radius: 43%;
+  border-radius: 10px;
   margin-top: 5px;
-  padding: 3px 5px;
+  padding: 4px 7px;
+  color: var(--bi-primary);
+  background: var(--bi-pale);
+  border: 1px solid var(--border-bi);
+  box-shadow: 0 1px 4px rgba(13, 92, 122, 0.08);
+  transition: all 0.25s ease;
+  font-size: 13px;
 
+  i {
+    color: var(--bi-primary);
+  }
 }
-.card1-content-icon:hover{
-  transition: all 0.3s;
+
+.card1-content-icon:hover {
   cursor: pointer;
-  border: none;
   color: white;
-  box-shadow: -3px -3px 6px 0 #fff, 3px 3px 6px 0 #bfc3cf;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(13, 92, 122, 0.22);
+  background: linear-gradient(135deg, #0d3b56 0%, #0d5c7a 60%, #1185a8 100%);
 
-  background: var(--bi-gradient);
-
-  i{
-  color: white;
-
+  i {
+    color: white;
   }
 }
 
 .listViewIcon{
-  margin-right:14px; font-size:17px; cursor:pointer; color: rgb(5, 85, 68) ; 
+  margin-right:14px; font-size:17px; cursor:pointer; color: var(--bi-primary);
 }
 
 
 .cardViewIcon, .refreshIcon{
-  margin-right:14px; font-size:17px; cursor:pointer; color: rgb(5, 85, 68); 
+  margin-right:14px; font-size:17px; cursor:pointer; color: var(--bi-primary);
 }
 
 
 .dashboardSetup{
   font-size: 17px;
   cursor: pointer;
-  color: rgb(5, 85, 68)
+  color: var(--bi-primary);
 }
 .imageDescription img{
   // object-fit: cover;
@@ -233,13 +240,14 @@ width: 100%;
     margin-bottom: 8px;
  }
  .card1-content-icon{
-  margin-right: 20px;
+  margin-right: 8px;
   cursor: pointer;
-  border-radius: 43%;
+  border-radius: 10px;
   margin-top: 5px;
-
- 
-
+  color: var(--bi-primary);
+  background: var(--bi-pale);
+  border: 1px solid var(--border-bi);
+  padding: 4px 7px;
  }
  .dbTitle{
   font-size: 16px;
@@ -313,9 +321,12 @@ width: 100%;
 
   margin-right: 3px;
   cursor: pointer;
-  border-radius: 43%;
+  border-radius: 10px;
   margin-top: 5px;
-  padding: 3px 5px;
+  padding: 4px 7px;
+  color: var(--bi-primary);
+  background: var(--bi-pale);
+  border: 1px solid var(--border-bi);
 }
 
 .listView{
@@ -434,20 +445,42 @@ width: 100%;
 }
 
 .e-btn1 {
-  border: none;
-  box-shadow: -3px -3px 6px 0 #fff, 3px 3px 6px 0 #bfc3cf;
-  i{
-  color:aliceblue
+  border: 1px solid var(--border-bi);
+  background: var(--bi-pale);
+  color: var(--bi-primary);
+  box-shadow: var(--shadow-sm);
+  border-radius: 8px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
 
+  i {
+    color: var(--bi-primary);
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, #0d3b56 0%, #0d5c7a 60%, #1185a8 100%);
+    color: white;
+    border-color: transparent;
+    i { color: white; }
   }
 }
 
 .e-btn2 {
-  border: none;
-  box-shadow: -3px -3px 6px 0 #fff, 3px 3px 6px 0 #bfc3cf;
-  color:aliceblue
+  border: 1px solid var(--border-bi);
+  background: var(--bi-pale);
+  color: var(--bi-primary);
+  box-shadow: var(--shadow-sm);
+  border-radius: 8px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
 
-
+  &:hover {
+    background: linear-gradient(135deg, #0d3b56 0%, #0d5c7a 60%, #1185a8 100%);
+    color: white;
+    border-color: transparent;
+  }
 }
 
 .main-card{

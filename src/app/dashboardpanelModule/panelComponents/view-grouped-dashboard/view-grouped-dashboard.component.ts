@@ -12,7 +12,7 @@ import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.
 import { PopupService } from 'src/app/core/services/popup.service';
 import { RoleDashboardAccessComponent } from '../role-dashboard-access/role-dashboard-access.component';
 import { UserDashboardAccessComponent } from '../user-dashboard-access/user-dashboard-access.component';
-import { NgIf, NgClass, NgFor, NgStyle } from '@angular/common';
+import { NgIf, NgFor, NgStyle } from '@angular/common';
 
 interface Dashboard {
   dashboard_id: string;
@@ -39,7 +39,7 @@ interface Group {
     templateUrl: './view-grouped-dashboard.component.html',
     styleUrls: ['./view-grouped-dashboard.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [NgIf, FormsModule, NgClass, RouterLink, NgFor, NgStyle, DialogModule, ReactiveFormsModule, RoleDashboardAccessComponent, UserDashboardAccessComponent]
+    imports: [NgIf, FormsModule, RouterLink, NgFor, NgStyle, DialogModule, ReactiveFormsModule, RoleDashboardAccessComponent, UserDashboardAccessComponent]
 })
 
 
@@ -1562,6 +1562,5 @@ onCopyDashboardSubmit() {
 
 
 }
-
 
 

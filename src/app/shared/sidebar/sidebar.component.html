@@ -1,423 +1,397 @@
-<div class="control-section" id="wrapper" #pageContent>
-  <!-- main content declaration -->
+<div
+  class="workspace-shell control-section"
+  id="wrapper"
+  #pageContent
+  [class.sidebar-open]="isSidebarDesktopExpanded"
+  [class.sidebar-collapsed]="isSidebarDocked()"
+  [class.sidebar-mobile]="windowWidth <= 1024">
   <div class="col-lg-12 col-sm-12 col-md-12" id="sidebar-section">
     <div id="head">
-      <div class="header" style="display: flex;">
-        <div class="menuBar1" (click)="onClickMenu()">
+      <div class="header header-content">
+        <div class="topbar-left header-left">
+          <button class="menuBar1 sidebar-toggle" type="button" (click)="onClickMenu()" aria-label="Toggle sidebar">
+            <i class="bi bi-list"></i>
+          </button>
 
-
-          <i class="bi bi-list" style="color: white; font-size: 1.3rem;"></i>
+          <div
+            class="menu1 logo"
+            [ngClass]="{ 'img-set': app_name !== 'alticeus' }"
+            [ngStyle]="{
+              width: app_name === 'altice' ? '162px' : (app_name === 'trasccon-arnir' ? '192px' : 'auto')
+            }">
+            <img [src]="app_logo" [alt]="appDisplayName + ' logo'" class="img-fluid">
+          </div>
         </div>
 
-        <!-- <div class="menu1">
-        <img src="./../../../assets/images/tataAigUpdatedLogo.jpeg" alt=""  class="img-fluid">
-      </div> -->
+        <div class="topbar-center search-container">
+          <label class="topbar-search search-input-wrapper">
+            <i class="bi bi-search search-icon"></i>
+            <input class="search-input" type="search" placeholder="Search..." aria-label="Search">
+          </label>
+        </div>
 
-      <!-- working code <div class="menu1" [ngClass]="{'img-set': app_name !== 'alticeus'}">
-      <img [src]="app_logo" alt="" class="img-fluid">
-    </div> -->
+        <div class="topbar-right header-right">
+          <button class="workspace-pill selector-button" type="button" aria-label="Current workspace">
+            <span class="workspace-pill-icon hierarchy-icon">
+              <i class="bi bi-grid-3x3-gap-fill"></i>
+            </span>
+            <span class="workspace-pill-copy hierarchy-info">
+              <strong class="hierarchy-name">{{ appDisplayName }}</strong>
+              <small class="hierarchy-path">Workspace</small>
+            </span>
+            <i class="bi bi-chevron-down dropdown-arrow"></i>
+          </button>
 
-                <div class="menu1" [ngClass]="{'img-set': app_name !== 'alticeus'}" [ngStyle]="{
-    width: app_name === 'altice' ? '162px' : (app_name === 'trasccon-arnir' ? '192px' : 'auto')
-  }">
-      <img [src]="app_logo" alt="" class="img-fluid">
-    </div>
+          <button class="topbar-icon-button notification-button notification-btn" type="button" aria-label="Notifications">
+            <i class="bi bi-bell"></i>
+          </button>
 
+          <button
+            class="topbar-icon-button theme-toggle"
+            type="button"
+            [class.active]="isDarkTheme"
+            [class.dark-mode]="isDarkTheme"
+            [attr.aria-label]="isDarkTheme ? 'Switch to light theme' : 'Switch to dark theme'"
+            (click)="toggleTheme()">
+            <i [class]="isDarkTheme ? 'bi bi-moon-stars-fill' : 'bi bi-brightness-high'"></i>
+          </button>
 
-    <div class="LogOut">
-
-      <button class="non-mobile-button" ejs-dropdownbutton [items]='items' [content]="username"
-      (select)="onselect($event)" iconCss="bi bi-person-circle"></button>
-
-      <!-- Second button for mobile devices -->
-      <button class="mobile-button" ejs-dropdownbutton [items]='items' (select)="onselect($event)"
-      iconCss="bi bi-person-circle"></button>
-
-    </div>
-
-  </div>
-</div>
-<div id="target">
-
-  <div class="sidebar-content " id="sidebar-content">
-    <app-loader></app-loader>
-    <div class="dashboardParent">
-      <app-popup></app-popup>
-
-      <router-outlet>
-      </router-outlet>
-
-      <!-- <app-paging-table></app-paging-table> -->
-
-    </div>
-  </div>
-</div>
-<!-- sidebar component -->
-<div class="sideBar">
-  <ejs-sidebar id="dockSidebar" #sidebarInstance class="dockSidebar bg-purple" [dockSize]="smlDoclSize"
-    [width]="docksizeWidth" [target]="target" [isOpen]="false" [enableGestures]="false"
-    [enableDock]='enableDock' [type]="type">
-
-    <div class="e-listview">
-      <div class="e-list-container">
-        <ul class="e-list-parent bg-purple">
-
-          <ng-container>
-            <!-- <li class="e-list-item bg-purple" title="Home" routerLinkActive="true"
-            routerLink="/sidebar/panel/dashboardHome">
-            <div class="e-text-content">
-              <i class="bi bi-house e-list-icon"></i>
-              <span class="e-list-text" style="text-align: left;">
-                Home
-              </span>
+          <div class="profile-card user-profile">
+            <div class="profile-avatar avatar">{{ userInitials }}</div>
+            <div class="profile-copy user-info">
+              <strong class="user-name">{{ username }}</strong>
+              <small class="user-role">{{ roleLabel }}</small>
             </div>
-          </li> -->
 
-          <li class="e-list-item bg-purple"
-            title="Home"
-            routerLinkActive="true"
-            (mouseenter)="onHomeHover(true)"
-            (mouseleave)="onHomeHover(false)"
-            (click)="navigateToHome($event)">
-            <div class="e-text-content">
-              <i class="bi bi-house e-list-icon"></i>
-              <span class="e-list-text" style="text-align: left;">
-                Home
-              </span>
-              <span class="arrow-click-area"
-                (click)="toggleHomeTreeview(); $event.stopPropagation()">
-                            <i [class]="isHomeTreeviewOpen ? 'bi bi-chevron-down' : 'bi bi-chevron-right'"></i>
-              </span>
-            </div>
-          </li>
+            <button
+              class="non-mobile-button profile-dropdown"
+              ejs-dropdownbutton
+              [items]="items"
+              [content]="''"
+              (select)="onselect($event)"
+              aria-label="Open account menu">
+            </button>
 
+            <button
+              class="mobile-button profile-dropdown"
+              ejs-dropdownbutton
+              [items]="items"
+              [content]="''"
+              (select)="onselect($event)"
+              iconCss="bi bi-person-circle"
+              aria-label="Open account menu">
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <div id="target" class="main-content">
+      <div class="sidebar-content" id="sidebar-content">
+        <app-loader></app-loader>
+        <div class="dashboardParent">
+          <app-popup></app-popup>
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
 
-          <!-- ...existing code... -->
-          @if (isHomeTreeviewOpen) {
-            <ul class="e-list-parent bg-purple"
-              style="padding-left: 20px; height: 200px; overflow-y: auto;">
-              <!-- LOADER - Shows when loading -->
-              @if (isLoadingDashboards) {
-                <li class="e-list-item bg-purple no-hover"
-                  style="text-align: center; padding: 80px; padding-left: 30px;">
-                  <div class="e-text-content">
-                    <i class="bi bi-arrow-clockwise bi-spin" style="font-size: 24px; color: var(--bi-bright);"></i>
+    @if (isMobileSidebarOpen) {
+      <button class="sidebar-backdrop" type="button" (click)="closeSidebar()" aria-label="Close sidebar"></button>
+    }
+
+    <div class="sideBar">
+      <aside
+        id="dockSidebar"
+        class="dockSidebar sidebar sidebar-theme custom-sidebar"
+        [class.e-close]="isSidebarDocked()"
+        [class.mobile-open]="isMobileSidebarOpen"
+        [attr.aria-hidden]="windowWidth <= 1024 && !sidebarIsOpen">
+
+        <div class="sidebar-shell sidebar-content">
+          <nav class="sidebar-groups sidebar-nav">
+            <div class="sidebar-group menu-section">
+              <div class="sidebar-group-title group-header" (click)="toggleSection('main')">
+                <div class="group-info">
+                  <span class="group-title">Main</span>
+                </div>
+                <i [class]="(isSectionOpen['main'] ? 'bi bi-chevron-up' : 'bi bi-chevron-down') + ' expand-icon'"></i>
+              </div>
+
+              @if (isSectionOpen['main']) {
+              <ul class="e-list-parent bg-purple sidebar-list menu-items">
+                <li
+                  class="e-list-item bg-purple menu-item"
+                  title="Dashboard"
+                  routerLinkActive="true"
+                  (mouseenter)="onHomeHover(true)"
+                  (mouseleave)="onHomeHover(false)"
+                  (click)="navigateToHome($event)">
+                  <div class="e-text-content item-content">
+                    <i class="bi bi-grid-1x2 e-list-icon sidebar-item-icon item-icon"></i>
+                    <span class="e-list-text item-label">Dashboard</span>
+                    <span class="arrow-click-area" (click)="toggleHomeTreeview(); $event.stopPropagation()">
+                      <i [class]="(isHomeTreeviewOpen ? 'bi bi-chevron-down' : 'bi bi-chevron-right') + ' sidebar-trailing-icon'"></i>
+                    </span>
                   </div>
                 </li>
+              </ul>
+
+              @if (isHomeTreeviewOpen) {
+                <ul class="e-list-parent bg-purple sidebar-sub-list menu-items">
+                  @if (isLoadingDashboards) {
+                    <li class="e-list-item bg-purple no-hover sidebar-loader-item menu-item">
+                      <div class="e-text-content item-content">
+                        <i class="bi bi-arrow-clockwise bi-spin item-icon"></i>
+                        <span class="e-list-text item-label">Loading dashboards</span>
+                      </div>
+                    </li>
+                  }
+
+                  @if (!isLoadingDashboards) {
+                    @for (dash of viewableDashboards; track dash) {
+                      <li
+                        class="e-list-item bg-purple menu-item"
+                        routerLinkActive="true"
+                        [title]="dash.dashboard_name"
+                        [routerLink]="'/sidebar/panel/panelView/' + dash.dashboard_id">
+                        <div class="e-text-content item-content">
+                          <span class="e-list-text item-label dashboard-tree-item">{{ dash.dashboard_name }}</span>
+                        </div>
+                      </li>
+                    }
+
+                    @if (viewableDashboards.length === 0 && role !== 'superadmin') {
+                      <li class="e-list-item bg-purple no-hover menu-item">
+                        <div class="e-text-content item-content">
+                          <span class="e-list-text item-label empty-sidebar-note">No dashboards available</span>
+                        </div>
+                      </li>
+                    }
+                  }
+                </ul>
               }
-              <!-- DASHBOARD LIST - Shows when not loading -->
-              @if (!isLoadingDashboards) {
-                @for (dash of viewableDashboards; track dash) {
-                  <li class="e-list-item bg-purple"
-                    routerLinkActive="true" [title]="dash.dashboard_name"
-                    [routerLink]="'/sidebar/panel/panelView/' + dash.dashboard_id">
-                    <div class="e-text-content">
-                      <span class="e-list-text"
-                        style="text-align: left; font-size: 10px; font-family: sans-serif, Roboto,Segoe UI, GeezaPro; padding-bottom: 0px;">
-                        {{ dash.dashboard_name }}
-                      </span>
-                    </div>
-                  </li>
-                }
-                <!-- No dashboards message -->
-                @if (viewableDashboards.length === 0 && role !== 'superadmin') {
-                  <li class="e-list-item bg-purple">
-                    <div class="e-text-content">
-                      <span class="e-list-text" style="text-align: left; font-size: 10px; font-style: italic;">
-                        No dashboards available
-                      </span>
-                    </div>
-                  </li>
-                }
               }
-            </ul>
-          }
-          <!-- ...existing code... -->
-
-
-        </ng-container>
-
-        <!-- <ng-container *ngFor="let permission of menuBasedPermissionArray">
-        <li class="e-list-item bg-purple " title="Create Dashboard"
-          *ngIf="permission?.form_name == 'createDashboard' && permission?.can_view "
-          routerLinkActive="true" routerLink="/sidebar/panel/create">
-          <div class="e-text-content">
-
-            <i class="bi bi-bar-chart-line e-list-icon"></i>
-            <span class="e-list-text" style="text-align: left;">
-              Create Dashboard
-            </span>
-          </div>
-        </li>
-      </ng-container> -->
-
-      <ng-container >
-        @if (role == 'superadmin' || createDashboardObj?.can_view ) {
-          <li class="e-list-item bg-purple " title="Create Dashboard"
-            routerLinkActive="true" routerLink="/sidebar/panel/create"
-            (mouseenter)="onHomeHover(true)"
-            (mouseleave)="onHomeHover(false)">
-            <div class="e-text-content">
-              <i class="bi bi-bar-chart-line e-list-icon"></i>
-              <span class="e-list-text" style="text-align: left;">
-                Create Dashboard
-              </span>
             </div>
-          </li>
-        }
-      </ng-container>
 
+            @if (role == 'superadmin' || createDashboardObj?.can_view || createRoleObj?.can_view || createUserObj?.can_view) {
+              <div class="sidebar-group menu-section">
+                <div class="sidebar-group-title group-header" (click)="toggleSection('workspace')">
+                  <div class="group-info">
+                    <span class="group-title">Workspace</span>
+                  </div>
+                  <i [class]="(isSectionOpen['workspace'] ? 'bi bi-chevron-up' : 'bi bi-chevron-down') + ' expand-icon'"></i>
+                </div>
 
+                @if (isSectionOpen['workspace']) {
+                <ul class="e-list-parent bg-purple sidebar-list menu-items">
+                  @if (role == 'superadmin' || createDashboardObj?.can_view) {
+                    <li
+                      class="e-list-item bg-purple menu-item"
+                      title="Create Dashboard"
+                      routerLinkActive="true"
+                      routerLink="/sidebar/panel/create"
+                      (mouseenter)="onHomeHover(true)"
+                      (mouseleave)="onHomeHover(false)">
+                      <div class="e-text-content item-content">
+                        <i class="bi bi-plus-square e-list-icon sidebar-item-icon item-icon"></i>
+                        <span class="e-list-text item-label">Create Dashboard</span>
+                      </div>
+                    </li>
+                  }
 
-      <!-- <ng-container *ngFor="let permission of menuBasedPermissionArray">
-      <li class="e-list-item bg-purple" title="Add Role"
-        *ngIf="permission?.form_name == 'addRole' && permission?.can_view "
-        routerLinkActive="true" routerLink="/sidebar/panel/role">
-        <div class="e-text-content">
-          <i class="bi bi-person-badge e-list-icon"></i>
-          <span class="e-list-text" style="text-align: left;">
-            Add Role
-          </span>
-        </div>
-      </li>
-    </ng-container> -->
+                  @if (role == 'superadmin' || createRoleObj?.can_view) {
+                    <li
+                      class="e-list-item bg-purple menu-item"
+                      title="Add Role"
+                      routerLinkActive="true"
+                      routerLink="/sidebar/panel/role"
+                      (mouseenter)="onHomeHover(true)"
+                      (mouseleave)="onHomeHover(false)">
+                      <div class="e-text-content item-content">
+                        <i class="bi bi-shield-lock e-list-icon sidebar-item-icon item-icon"></i>
+                        <span class="e-list-text item-label">Add Role</span>
+                      </div>
+                    </li>
+                  }
 
-    <ng-container >
-      @if (role == 'superadmin' || createRoleObj?.can_view ) {
-        <li class="e-list-item bg-purple" title="Add Role"
-          routerLinkActive="true" routerLink="/sidebar/panel/role"
-          (mouseenter)="onHomeHover(true)"
-          (mouseleave)="onHomeHover(false)">
-          <div class="e-text-content">
-            <i class="bi bi-person-badge e-list-icon"></i>
-            <span class="e-list-text" style="text-align: left;">
-              Add Role
-            </span>
+                  @if (role == 'superadmin' || createUserObj?.can_view) {
+                    <li
+                      class="e-list-item bg-purple menu-item"
+                      title="Add User"
+                      routerLinkActive="true"
+                      routerLink="/sidebar/panel/user"
+                      (mouseenter)="onHomeHover(true)"
+                      (mouseleave)="onHomeHover(false)">
+                      <div class="e-text-content item-content">
+                        <i class="bi bi-person-plus e-list-icon sidebar-item-icon item-icon"></i>
+                        <span class="e-list-text item-label">Add User</span>
+                      </div>
+                    </li>
+                  }
+                </ul>
+                }
+              </div>
+            }
+
+            @if (role == 'superadmin' || createDatabaseConnectionObj?.can_view || fileUploadObj?.can_view || createjointableObj?.can_view) {
+              <div class="sidebar-group menu-section">
+                <div class="sidebar-group-title group-header" (click)="toggleSection('etl')">
+                  <div class="group-info">
+                    <span class="group-title">ETL Management</span>
+                  </div>
+                  <i [class]="(isSectionOpen['etl'] ? 'bi bi-chevron-up' : 'bi bi-chevron-down') + ' expand-icon'"></i>
+                </div>
+
+                @if (isSectionOpen['etl']) {
+                <ul class="e-list-parent bg-purple sidebar-list menu-items">
+                  @if (role == 'superadmin' || createDatabaseConnectionObj?.can_view) {
+                    <li
+                      class="e-list-item bg-purple menu-item"
+                      title="DB Connection"
+                      routerLinkActive="true"
+                      routerLink="/sidebar/panel/databaseConnection"
+                      (mouseenter)="onHomeHover(true)"
+                      (mouseleave)="onHomeHover(false)">
+                      <div class="e-text-content item-content">
+                        <i class="bi bi-hdd-network e-list-icon sidebar-item-icon item-icon"></i>
+                        <span class="e-list-text item-label">DB Connection</span>
+                      </div>
+                    </li>
+                  }
+
+                  @if (role == 'superadmin' || fileUploadObj?.can_view) {
+                    <li
+                      class="e-list-item bg-purple menu-item"
+                      title="File Upload"
+                      routerLinkActive="true"
+                      routerLink="/sidebar/panel/fileupload"
+                      (mouseenter)="onHomeHover(true)"
+                      (mouseleave)="onHomeHover(false)">
+                      <div class="e-text-content item-content">
+                        <i class="bi bi-cloud-arrow-up e-list-icon sidebar-item-icon item-icon"></i>
+                        <span class="e-list-text item-label">File Upload</span>
+                      </div>
+                    </li>
+                  }
+
+                  @if (role == 'superadmin' || createjointableObj?.can_view) {
+                    <li
+                      class="e-list-item bg-purple menu-item"
+                      title="Table Join"
+                      routerLinkActive="true"
+                      routerLink="/sidebar/panel/jointable"
+                      (mouseenter)="onHomeHover(true)"
+                      (mouseleave)="onHomeHover(false)">
+                      <div class="e-text-content item-content">
+                        <i class="bi bi-diagram-3 e-list-icon sidebar-item-icon item-icon"></i>
+                        <span class="e-list-text item-label">Table Join</span>
+                      </div>
+                    </li>
+                  }
+                </ul>
+                }
+              </div>
+            }
+
+            @if (role == 'superadmin' || DashboardSetupObj?.can_view) {
+              <div class="sidebar-group menu-section">
+                <div class="sidebar-group-title group-header" (click)="toggleSection('settings')">
+                  <div class="group-info">
+                    <span class="group-title">Settings</span>
+                  </div>
+                  <i [class]="(isSectionOpen['settings'] ? 'bi bi-chevron-up' : 'bi bi-chevron-down') + ' expand-icon'"></i>
+                </div>
+
+                @if (isSectionOpen['settings']) {
+                <ul class="e-list-parent bg-purple sidebar-list menu-items">
+                  <li
+                    class="e-list-item bg-purple menu-item"
+                    title="Dashboard Setup"
+                    routerLinkActive="true"
+                    routerLink="/sidebar/panel/dashboardRearrage"
+                    (mouseenter)="onHomeHover(true)"
+                    (mouseleave)="onHomeHover(false)">
+                    <div class="e-text-content item-content">
+                      <i class="bi bi-sliders2 e-list-icon sidebar-item-icon item-icon"></i>
+                      <span class="e-list-text item-label">Dashboard Setup</span>
+                    </div>
+                  </li>
+                </ul>
+                }
+              </div>
+            }
+          </nav>
+
+          <div class="sidebar-footer">
+            <div class="footer-info">
+              <div class="system-status">
+                <span class="status-indicator status-online"></span>
+                <span class="status-text">System Online</span>
+              </div>
+              <div class="version-info">
+                <span>Version 2.0.1</span>
+              </div>
+            </div>
           </div>
-        </li>
-      }
-    </ng-container>
-
-
-
-    <!--
-    <ng-container *ngFor="let permission of menuBasedPermissionArray">
-      <li class="e-list-item bg-purple" title="Add User"
-        *ngIf="permission?.form_name == 'addUser' && permission?.can_view "
-        routerLinkActive="true" routerLink="/sidebar/panel/user">
-        <div class="e-text-content">
-          <i class="bi bi-people e-list-icon"></i>
-          <span class="e-list-text" style="text-align: left;">
-            Add User
-          </span>
         </div>
-
-      </li>
-    </ng-container> -->
-
-
-    <ng-container >
-      @if (role == 'superadmin' || createUserObj?.can_view ) {
-        <li class="e-list-item bg-purple" title="Add User"
-          routerLinkActive="true" routerLink="/sidebar/panel/user"
-          (mouseenter)="onHomeHover(true)"
-          (mouseleave)="onHomeHover(false)">
-          <div class="e-text-content">
-            <i class="bi bi-people e-list-icon"></i>
-            <span class="e-list-text" style="text-align: left;">
-              Add User
-            </span>
-          </div>
-        </li>
-      }
-    </ng-container>
-
-    <!-- <ng-container *ngFor="let permission of menuBasedPermissionArray">
-    <li class="e-list-item bg-purple" title="DB Connection"
-      *ngIf="permission?.form_name == 'dbConnection' && permission?.can_view "
-      routerLinkActive="true" routerLink="/sidebar/panel/databaseConnection">
-      <div class="e-text-content">
-        <i class="bi bi-database e-list-icon"></i>
-        <span class="e-list-text" style="text-align: left;">
-          DB Connection
-        </span>
-      </div>
-    </li>
-  </ng-container> -->
-
-  <ng-container >
-    @if (role == 'superadmin' || createDatabaseConnectionObj?.can_view ) {
-      <li class="e-list-item bg-purple" title="DB Connection"
-        routerLinkActive="true" routerLink="/sidebar/panel/databaseConnection"
-        (mouseenter)="onHomeHover(true)"
-        (mouseleave)="onHomeHover(false)">
-        <div class="e-text-content">
-          <i class="bi bi-database e-list-icon"></i>
-          <span class="e-list-text" style="text-align: left;">
-            DB Connection
-          </span>
-        </div>
-      </li>
-    }
-  </ng-container>
-
-
-  <!-- <ng-container *ngFor="let permission of menuBasedPermissionArray">
-  <li class="e-list-item bg-purple" title="File Upload"
-    *ngIf="permission?.form_name == 'fileUploadToDb' && permission?.can_view "
-    routerLinkActive="true" routerLink="/sidebar/panel/fileupload">
-    <div class="e-text-content">
-      <i class="bi bi-cloud-upload e-list-icon"></i>
-      <span class="e-list-text" style="text-align: left;">
-        File Upload
-      </span>
+      </aside>
     </div>
-  </li>
-</ng-container> -->
-
-<ng-container >
-  @if (role == 'superadmin' || fileUploadObj?.can_view ) {
-    <li class="e-list-item bg-purple" title="File Upload"
-      routerLinkActive="true" routerLink="/sidebar/panel/fileupload"
-      (mouseenter)="onHomeHover(true)"
-      (mouseleave)="onHomeHover(false)">
-      <div class="e-text-content">
-        <i class="bi bi-cloud-upload e-list-icon"></i>
-        <span class="e-list-text" style="text-align: left;">
-          File Upload
-        </span>
-      </div>
-    </li>
-  }
-</ng-container>
-
-<!-- <ng-container *ngFor="let permission of menuBasedPermissionArray">
-<li class="e-list-item bg-purple" routerLinkActive="true" title=" Table Join"
-  *ngIf="permission?.form_name == 'tableJoin' && permission?.can_view "
-  routerLink="/sidebar/panel/jointable">
-  <div class="e-text-content">
-    <i class="bi bi-table e-list-icon"></i>
-    <span class="e-list-text" style="text-align: left;">
-      Table Join
-    </span>
   </div>
-</li>
-</ng-container> -->
-
-<ng-container >
-  @if (role == 'superadmin' || createjointableObj?.can_view ) {
-    <li class="e-list-item bg-purple" routerLinkActive="true" title=" Table Join"
-      routerLink="/sidebar/panel/jointable"
-      (mouseenter)="onHomeHover(true)"
-      (mouseleave)="onHomeHover(false)">
-      <div class="e-text-content">
-        <i class="bi bi-table e-list-icon"></i>
-        <span class="e-list-text" style="text-align: left;">
-          Table Join
-        </span>
-      </div>
-    </li>
-  }
-</ng-container>
-<!-- <ng-container *ngFor="let permission of menuBasedPermissionArray">
-<li class="e-list-item bg-purple" routerLinkActive="true" title="Dashboard Setup "
-  *ngIf="permission?.form_name == 'dashboardSetup' && permission?.can_view "
-  routerLink="/sidebar/panel/dashboardRearrage">
-  <div class="e-text-content">
-    <i class="bi bi-gear e-list-icon"></i>
-    <span class="e-list-text" style="text-align: left;">
-      Dashboard Setup
-    </span>
-  </div>
-</li>
-
-</ng-container> -->
-
-<ng-container>
-  @if (role == 'superadmin' || DashboardSetupObj?.can_view ) {
-    <li class="e-list-item bg-purple" routerLinkActive="true" title="Dashboard Setup "
-      routerLink="/sidebar/panel/dashboardRearrage"
-      (mouseenter)="onHomeHover(true)"
-      (mouseleave)="onHomeHover(false)">
-      <div class="e-text-content">
-        <i class="bi bi-gear e-list-icon"></i>
-        <span class="e-list-text" style="text-align: left;">
-          Dashboard Setup
-        </span>
-      </div>
-    </li>
-  }
-
-</ng-container>
-
-
-
-</ul>
-</div>
 </div>
 
-</ejs-sidebar>
-</div>
-
-</div>
-
-
-</div>
-
-<!-- Chat Button and Popup -->
 <div class="chat-widget">
   <div class="chat-popup" [class.show-popup]="showChatPopup">
     <div class="chat-header">
       <div class="chat-title">
         <i class="bi bi-robot"></i>
         <div>
-          <h3>{{userMessage}}</h3>
-          <!-- <p>{{userMessage}}</p> -->
+          <h3>{{ userMessage }}</h3>
         </div>
       </div>
 
-      <!-- Info Icon and Tooltip -->
       @if (!isCredPresent) {
-        <div class="info-tooltip-wrapper" style="margin-left:80px" id="infoIconHeader">
-          <i class="bi bi-info-circle info-icon" id="infoIconClick" onclick="toggleTooltip()"></i>
+        <div class="info-tooltip-wrapper" id="infoIconHeader">
+          <i class="bi bi-info-circle info-icon" id="infoIconClick" (click)="toggleTooltip()"></i>
           <div class="tooltip-text" id="tooltipText">
-            <h4>ðŸ“Š Need insights from a chart or table?</h4>
+            <h4>Need insights from a chart or table?</h4>
             <p>
-              Add this to your prompt: <code class="syntax">#table:'TableTitle' / #chart:'ChartTitle'</code>
+              Add this to your prompt:
+              <code class="syntax">#table:'TableTitle' / #chart:'ChartTitle'</code>
             </p>
             <p>
-              ðŸ“Œ Replace <code class="syntax">'Title'</code> with the actual title of chart or table  following with your prompt.
+              Replace <code class="syntax">'Title'</code> with the actual title of the chart or table in your prompt.
             </p>
           </div>
         </div>
       }
 
-
-      <button class="close-btn" (click)="toggleChatPopup()">
+      <button class="close-btn" type="button" (click)="toggleChatPopup()">
         <i class="bi bi-x-lg"></i>
       </button>
     </div>
+
     <div class="chat-body">
-
       <div class="default-aiassistview">
-
-        <div id="aiAssistView" ejs-aiassistview #defaultAIAssistView #dialogAIAssistView [promptSuggestions]="suggestions" [toolbarSettings]="assistViewToolbarSettings"  (promptRequest)="promptRequest($event)"  [responseToolbarSettings]="responseToolbarSettings"  [showHeader]="false" ></div>
+        <div
+          id="aiAssistView"
+          ejs-aiassistview
+          #defaultAIAssistView
+          #dialogAIAssistView
+          [promptSuggestions]="suggestions"
+          [toolbarSettings]="assistViewToolbarSettings"
+          (promptRequest)="promptRequest($event)"
+          [responseToolbarSettings]="responseToolbarSettings"
+          [showHeader]="false">
+        </div>
       </div>
-
-
     </div>
   </div>
-  <!-- <button class="chat-button" (click)="openChatbot()" *ngIf="chatbotSetupObj?.can_view || usersData.username == 'superadmin' ">
-  <i class="bi bi-chat-dots-fill"></i>
-  <span>Wizard</span>
-</button> -->
 
-@if (chatbotSetupObj?.can_view || usersData.username == 'superadmin' ) {
-  <button class="chat-button" (click)="openChatbot()">
-    <i class="bi bi-chat-dots-fill"></i>
-    <span>{{ isCredPresent ? 'Wizard' : 'Help' }}</span>
-  </button>
-}
-
+  @if (chatbotSetupObj?.can_view || usersData.username == 'superadmin') {
+    <button class="chat-button" type="button" (click)="openChatbot()">
+      <i class="bi bi-chat-dots-fill"></i>
+      <span>{{ isCredPresent ? 'Wizard' : 'Help' }}</span>
+    </button>
+  }
 </div>

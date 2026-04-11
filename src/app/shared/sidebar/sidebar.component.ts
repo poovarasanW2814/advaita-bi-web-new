@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router, RouterOutlet, RouterLinkActive, RouterLink } from '@angular/router';
 import { ChartTheme, IAxisLabelRenderEventArgs, ILoadedEventArgs } from '@syncfusion/ej2-angular-charts';
 import { PanelModel } from '@syncfusion/ej2-angular-layouts';
-import { ClickEventArgs, SelectEventArgs, TreeViewComponent, SidebarModule } from '@syncfusion/ej2-angular-navigations';
 import { AnimationSettingsModel, ButtonPropsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { ItemModel, DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
 import { Browser } from '@syncfusion/ej2/base';
@@ -24,21 +23,14 @@ import { PopupComponent } from '../../dashboardpanelModule/panel-properties/popu
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.scss'],
-    imports: [NgClass, NgStyle, DropDownButtonModule, LoaderComponent, PopupComponent, RouterOutlet, SidebarModule, RouterLinkActive, RouterLink, AIAssistViewModule]
+    imports: [NgClass, NgStyle, DropDownButtonModule, LoaderComponent, PopupComponent, RouterOutlet, RouterLinkActive, RouterLink, AIAssistViewModule]
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   [x: string]: any;
+  private readonly themeStorageKey = 'advaita-lumina-theme';
 
   sidebarIsOpen: boolean = false;
   windowWidth: any;
-  @ViewChild('sidebarInstance')
-  sidebarInstance!: SidebarComponent;
-  enableDock: boolean = true;
-  type: string = 'Auto';
-  smlDoclSize: string = '220px';
-  docksizeWidth: string = '60px'
-
-  target: string = '#target';
   enablesmartlabel: boolean = true;
   isExpand: boolean = true
   username: string = 'superadmin';
@@ -103,6 +95,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
     // Get the current window width
     const windowWidth = event.target.innerWidth;
     this.windowWidth = windowWidth;
+    this.applySidebarLayout();
+    if (this.windowWidth <= 1024) {
+      this.sidebarIsOpen = false;
+    }
     // console.log('windowWidth', windowWidth)
 
     let sideDiv = document.getElementById('sidebar-content');
@@ -184,13 +180,24 @@ export class SidebarComponent implements OnInit, OnDestroy {
   isCredPresent: boolean = false;
   userInitials: string = '';
   roleLabel: string = '';
+  currentTheme: 'light' | 'dark' = 'light';
 
   public isHomeTreeviewOpen: boolean = false;
   isDashboardsLoaded: boolean = false;
   public isLoadingDashboards: boolean = false;
 
-  @ViewChild('treeviewInstance')
-  public treeview!: TreeViewComponent;
+  // Section collapse states (like Data Bridge)
+  public isSectionOpen: { [key: string]: boolean } = {
+    main: true,
+    workspace: true,
+    etl: true,
+    settings: true
+  };
+
+  toggleSection(section: string): void {
+    this.isSectionOpen[section] = !this.isSectionOpen[section];
+  }
+  private wasSidebarDockedBeforeTreeview: boolean = false;
   // public toggleHomeTreeview(): void {
 
   //   this.isHomeTreeviewOpen = !this.isHomeTreeviewOpen;
@@ -237,11 +244,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
       clearTimeout(this.hoverTimeout);
     }
 
+    const isDocked = this.isSidebarDocked();
     this.isHomeTreeviewOpen = !this.isHomeTreeviewOpen;
 
     if (this.isHomeTreeviewOpen) {
       // Mark as expanded so hover doesn't interfere
-      this.isSidebarExpanded = true;
+      this.isSidebarExpanded = isDocked;
+      this.wasSidebarDockedBeforeTreeview = isDocked;
 
       if (!this.isDashboardsLoaded) {
         this.isLoadingDashboards = true;
@@ -259,34 +268,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
         }, 10000);
       }
 
-      if (this.sidebarInstance['isOpen']) {
-        if (this.windowWidth <= 1024) {
-          this.type = 'Over';
-          this.smlDoclSize = '0px';
-          this.docksizeWidth = '220px';
-        } else {
-          this.type = 'Auto';
-          this.smlDoclSize = '220px';
-          this.docksizeWidth = '60px';
-        }
-        this.sidebarInstance['toggle']();
-      }
     } else {
       // Reset expansion state when closing
-      this.isSidebarExpanded = false;
-
-      if (!this.sidebarInstance['isOpen']) {
-        if (this.windowWidth <= 1024) {
-          this.type = 'Over';
-          this.smlDoclSize = '0px';
-          this.docksizeWidth = '220px';
-        } else {
-          this.type = 'Auto';
-          this.smlDoclSize = '220px';
-          this.docksizeWidth = '60px';
-        }
-        this.sidebarInstance['toggle']();
+      if (this.wasSidebarDockedBeforeTreeview) {
+        this.isSidebarExpanded = false;
       }
+
+      this.wasSidebarDockedBeforeTreeview = false;
     }
   }
   // chatbotSetupObj : any = {};
@@ -296,24 +284,19 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.windowWidth = window.innerWidth;
     let sideDiv = document.getElementById('sidebar-content');
 
-    if (this.windowWidth <= 1024) {
-      this.type = 'Over';
-      this.smlDoclSize = '0px';
-      this.docksizeWidth = '220px';
-      // this.sidebarInstance['toggle']()
-    } else {
-      this.type = 'Auto';
-      this.smlDoclSize = '220px';
-      this.docksizeWidth = '60px'
-      // this.sidebarInstance['toggle']()
-
-    }
+    this.initializeTheme();
+    this.applySidebarLayout();
+    this.sidebarIsOpen = this.windowWidth > 1024;
 
     this.router.events.pipe(
       filter(_ => _ instanceof NavigationEnd) // Use _ to indicate that the variable is not used
     ).subscribe(() => { // Remove event parameter as it's not used
       // Reset sidebar height whenever navigation changes
       this.resetSidebarHeight();
+      if (this.windowWidth <= 1024) {
+        this.sidebarIsOpen = false;
+        this.isSidebarExpanded = false;
+      }
     });
 
     // this.route.queryParams.subscribe(params => {
@@ -539,36 +522,25 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
 
   onClickMenu() {
-
-    if (this.windowWidth <= 1024) {
-      this.type = 'Over';
-      this.smlDoclSize = '0px';
-      this.docksizeWidth = '220px'
-      this.sidebarInstance['toggle']()
-
-    } else {
-      this.type = 'Auto';
-      this.smlDoclSize = '220px';
-      this.docksizeWidth = '60px'
-      this.sidebarInstance['toggle']()
-
-    }
+    this.applySidebarLayout();
+    this.sidebarIsOpen = !this.sidebarIsOpen;
+    this.isSidebarExpanded = false;
   }
 
 
   private adjustSidebar(toggle: boolean): void {
-    if (this.windowWidth <= 1024) {
-      this.type = 'Over';
-      this.smlDoclSize = '0px';
-      this.docksizeWidth = '220px';
-    } else {
-      this.type = 'Auto';
-      this.smlDoclSize = '220px';
-      this.docksizeWidth = '60px';
-    }
+    this.applySidebarLayout();
 
     if (toggle) {
-      this.sidebarInstance['toggle']();
+      this.sidebarIsOpen = !this.sidebarIsOpen;
+      this.isSidebarExpanded = false;
+    }
+  }
+
+  closeSidebar(): void {
+    if (this.windowWidth <= 1024) {
+      this.sidebarIsOpen = false;
+      this.isSidebarExpanded = false;
     }
   }
 
@@ -1271,22 +1243,52 @@ promptRequest = (args: PromptRequestEventArgs) => {
       this.router.navigate(['/sidebar/panel/dashboardHome']);
     }
   }
+
+  get isDarkTheme(): boolean {
+    return this.currentTheme === 'dark';
+  }
+
+  get isSidebarDesktopExpanded(): boolean {
+    return this.windowWidth > 1024 && (this.sidebarIsOpen || this.isSidebarExpanded);
+  }
+
+  get isMobileSidebarOpen(): boolean {
+    return this.windowWidth <= 1024 && this.sidebarIsOpen;
+  }
+
+  toggleTheme(): void {
+    this.applyTheme(this.isDarkTheme ? 'light' : 'dark');
+  }
+
+  private initializeTheme(): void {
+    const storedTheme = localStorage.getItem(this.themeStorageKey);
+    const theme = storedTheme === 'dark' ? 'dark' : 'light';
+    this.applyTheme(theme);
+  }
+
+  private applyTheme(theme: 'light' | 'dark'): void {
+    this.currentTheme = theme;
+    const root = document.documentElement;
+    root.setAttribute('data-app', 'lumina');
+    root.setAttribute('data-theme', theme);
+    localStorage.setItem(this.themeStorageKey, theme);
+  }
+
+  private applySidebarLayout(): void {
+    if (this.windowWidth <= 1024) {
+      this.isSidebarExpanded = false;
+      this.wasSidebarDockedBeforeTreeview = false;
+    }
+  }
+
+  isSidebarDocked(): boolean {
+    return this.windowWidth > 1024 && !this.sidebarIsOpen && !this.isSidebarExpanded;
+  }
+
   private expandSidebarOnHover(): void {
-    if (this.sidebarInstance['isOpen'] && !this.isSidebarExpanded) {
+    if (this.windowWidth > 1024 && this.isSidebarDocked() && !this.isSidebarExpanded) {
       this.isAnimating = true;
       this.isSidebarExpanded = true;
-
-      if (this.windowWidth <= 1024) {
-        this.type = 'Over';
-        this.smlDoclSize = '0px';
-        this.docksizeWidth = '220px';
-      } else {
-        this.type = 'Auto';
-        this.smlDoclSize = '220px';
-        this.docksizeWidth = '60px';
-      }
-
-      this.sidebarInstance['toggle']();
 
       // Reset animation flag after sidebar animation completes
       setTimeout(() => {
@@ -1295,21 +1297,9 @@ promptRequest = (args: PromptRequestEventArgs) => {
     }
   }
   private collapseSidebarFromHover(): void {
-    if (!this.sidebarInstance['isOpen'] && this.isSidebarExpanded) {
+    if (this.windowWidth > 1024 && this.isSidebarExpanded) {
       this.isAnimating = true;
       this.isSidebarExpanded = false;
-
-      if (this.windowWidth <= 1024) {
-        this.type = 'Over';
-        this.smlDoclSize = '0px';
-        this.docksizeWidth = '220px';
-      } else {
-        this.type = 'Auto';
-        this.smlDoclSize = '220px';
-        this.docksizeWidth = '60px';
-      }
-
-      this.sidebarInstance['toggle']();
 
       setTimeout(() => {
         this.isAnimating = false;
@@ -1335,7 +1325,7 @@ promptRequest = (args: PromptRequestEventArgs) => {
       }
 
       // Only expand if sidebar is narrow AND not already expanded
-      if (this.sidebarInstance['isOpen'] && !this.isSidebarExpanded) {
+      if (this.isSidebarDocked() && !this.isSidebarExpanded) {
         this.hoverTimeout = setTimeout(() => {
           if (this.isHovering && !this.isSidebarExpanded && !this.isAnimating) {
             this.expandSidebarOnHover();

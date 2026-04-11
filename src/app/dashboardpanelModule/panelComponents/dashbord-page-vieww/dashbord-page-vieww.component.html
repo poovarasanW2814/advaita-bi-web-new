@@ -523,7 +523,7 @@
                 <div *ngIf="item.panelType == 'Table'" style="height:100%; width:100%; overflow-y: auto">
                   <div style="height: 100%; width: 100%;">
 
-                    <ejs-grid [dataSource]='item.content.dataSource' cssClass="custom-font-grid" allowReordering='true'
+                    <ejs-grid [dataSource]='item.content.dataSource' cssClass="custom-font-grid workspace-table-grid" allowReordering='true'
                       [enableHover]="false" #grid [autoFit]="item.content.autoFitColumns" [id]="'gridcomp' + item.id"
                       [allowPaging]="true" [pageSettings]='initialPage' [rowHeight]="30"
                       (queryCellInfo)="onQueryCellInfo($event,item)" [height]="item.content.height"

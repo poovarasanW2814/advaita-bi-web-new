@@ -1,12 +1,12 @@
 <div class="control-section editDbBox" style="position: relative;">
     <div class="layout">
-        <div class="dashboard_InfoDiv">
+        <div class="dashboard_InfoDiv workspace-page-banner">
             <p class="dbTitle">{{dashboardName}}</p>
         </div>
-        <div [align]="'right'" class="connectionDiv" style="margin-bottom:10px">
+        <div [align]="'right'" class="connectionDiv workspace-toolbar">
 
 
-            <div [align]="'left'" class="connectionName" style="cursor:pointer">
+            <div [align]="'left'" class="connectionName workspace-toolbar-copy">
                 <p>Selected Connection :<b> {{ connectionNameFromApi}}</b> <i class="bi bi-pencil-alt"
                         (click)="BtnClick()"></i></p>
             </div>
@@ -16,7 +16,7 @@
             <i class="bi bi-question-circle"></i>
             </button> -->
 
-            <div style="margin-top: -22px">
+            <div class="workspace-toolbar-actions">
                 <button class="e-btn e-btn-purple" (click)="showTablePopup()"><i class="bi bi-exchange-alt"></i>
                     Table</button>
                 <button style="margin-right:5px ; margin-left:8px; padding: 5px 8px" [title]="'Toggle Floating'"
