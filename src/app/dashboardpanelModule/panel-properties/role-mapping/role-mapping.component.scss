@@ -1,13 +1,171 @@
 
+$rm-primary:      #0D5C7A;
+$rm-primary-dark: #0a4e69;
+$rm-primary-ring: rgba(13, 92, 122, 0.15);
+$rm-border:       #E4E7ED;
+$rm-surface:      #F8F9FB;
+$rm-text-strong:  #0F1623;
+$rm-text-body:    #374151;
+$rm-text-muted:   #8C93A6;
 
-// .e-btn-purple {
-//     background-color: #9977f9;
-//     color: white;
-//     font-size: 12px;
-// }
+.rm-wrapper {
+  padding: 4px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
-// .e-btn-purple:hover {
-//     color: #9977f9;
-//     background-color: white;
-//     transition: all 0.3s;
-// }
+// ── Form row: 3 equal columns ────────────────────────
+.rm-form-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+// ── Reuse cd-* classes from parent; override ::ng-deep ─
+.cd-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 0;
+}
+
+.cd-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #4B5563;
+}
+
+.cd-dropdown {
+  display: block;
+  width: 100%;
+
+  ::ng-deep .e-input-group.e-control-wrapper.e-ddl,
+  ::ng-deep .e-input-group.e-control-wrapper {
+    box-sizing: border-box !important;
+    height: 36px !important;
+    width: 100% !important;
+    border: 1.5px solid $rm-border !important;
+    border-radius: 7px !important;
+    font-size: 13px !important;
+    background: #fff !important;
+    padding: 0 !important;
+    transition: border-color 0.12s, box-shadow 0.12s;
+
+    // Kill Syncfusion underline pseudo-elements
+    &::before,
+    &::after {
+      display: none !important;
+      background: transparent !important;
+    }
+
+    .e-input {
+      height: 34px !important;
+      font-size: 13px !important;
+      padding: 0 11px !important;
+      line-height: 34px !important;
+      color: $rm-text-strong !important;
+    }
+
+    .e-input-group-icon {
+      min-height: 34px !important;
+      min-width: 28px !important;
+    }
+
+    &.e-input-focus {
+      border-color: $rm-primary !important;
+      box-shadow: 0 0 0 3px $rm-primary-ring !important;
+    }
+  }
+}
+
+// ── Action row (Add / Update) ────────────────────────
+.rm-action-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+// ── Buttons (matching cd-btn) ────────────────────────
+.cd-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.12s;
+  white-space: nowrap;
+
+  i { font-size: 12px; }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  &.cd-btn-primary {
+    background: $rm-primary;
+    color: #fff;
+    &:hover:not(:disabled) { background: $rm-primary-dark; box-shadow: 0 2px 8px rgba(13,92,122,0.3); }
+  }
+}
+
+// ── Icon buttons in grid ─────────────────────────────
+.rm-icon-btn {
+  background: transparent;
+  border: 1px solid $rm-border;
+  border-radius: 5px;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: $rm-text-muted;
+  transition: all 0.12s;
+  margin-right: 6px;
+
+  &:hover { background: $rm-surface; color: $rm-text-strong; }
+
+  &.rm-icon-btn-danger:hover {
+    background: #FEF2F2;
+    color: #EF4444;
+    border-color: #FCA5A5;
+  }
+
+  i { font-size: 13px; }
+}
+
+// ── Grid wrap ────────────────────────────────────────
+.rm-grid-wrap {
+  border: 1px solid $rm-border;
+  border-radius: 8px;
+  overflow: hidden;
+
+  ::ng-deep .e-grid {
+    border: none !important;
+
+    .e-headercell {
+      background: $rm-surface !important;
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      color: $rm-text-muted !important;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .e-rowcell {
+      font-size: 13px !important;
+      color: $rm-text-body !important;
+      padding: 8px 12px !important;
+    }
+  }
+}
+
+// ── Footer ───────────────────────────────────────────
+.rm-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 4px;
+}

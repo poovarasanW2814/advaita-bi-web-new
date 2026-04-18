@@ -4,10 +4,10 @@ import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
 import { ChartComponent, AccumulationChartComponent, AnimationModel, IMouseEventArgs, indexFinder, ILoadedEventArgs, IAccTextRenderEventArgs, IAccTooltipRenderEventArgs, ExportType, IAxisLabelRenderEventArgs, ITooltipRenderEventArgs, ChartTheme, ChartModule, AccumulationChartModule } from '@syncfusion/ej2-angular-charts';
 import { CheckBoxSelection, DropDownList, DropDownListComponent, FilteringEventArgs, ListBoxComponent, MultiSelectComponent, VirtualScroll, visualMode, MultiSelectModule, DropDownListModule, ListBoxModule } from '@syncfusion/ej2-angular-dropdowns';
-import { GridComponent, GroupSettingsModel, FilterSettingsModel, SelectionSettingsModel, QueryCellInfoEventArgs, DataStateChangeEventArgs, ExcelExportProperties, ColumnMenuOpenEventArgs, ColumnMenuItemModel, Grid, VirtualScroll as GridVirtualScroll, GridModule } from '@syncfusion/ej2-angular-grids';
+import { GridComponent, GroupSettingsModel, FilterSettingsModel, SelectionSettingsModel, QueryCellInfoEventArgs, DataStateChangeEventArgs, ExcelExportProperties, ColumnMenuOpenEventArgs, ColumnMenuItemModel, Grid, VirtualScroll as GridVirtualScroll, GridModule, PageService, GroupService, SortService, FilterService, ResizeService, ReorderService, ColumnMenuService, ExcelExportService as GridExcelExportService, PdfExportService as GridPdfExportService, ToolbarService as GridToolbarService } from '@syncfusion/ej2-angular-grids';
 import { DashboardLayoutComponent, PanelModel, DashboardLayoutModule } from '@syncfusion/ej2-angular-layouts';
 import { ClickEventArgs, FieldSettingsModel, TabComponent } from '@syncfusion/ej2-angular-navigations';
-import { CellTemplateArgs, DisplayOption, EnginePopulatedEventArgs, PivotView, PivotViewComponent, ToolbarItems, VirtualScroll as PivotVirtualScroll, PageSettings, PagerSettings, BeforeExportEventArgs, PivotViewModule } from '@syncfusion/ej2-angular-pivotview';
+import { CellTemplateArgs, DisplayOption, EnginePopulatedEventArgs, PivotView, PivotViewComponent, ToolbarItems, VirtualScroll as PivotVirtualScroll, PageSettings, PagerSettings, BeforeExportEventArgs, PivotViewModule, ConditionalFormattingService, ToolbarService, ExcelExportService as PivotExcelExportService, PDFExportService } from '@syncfusion/ej2-angular-pivotview';
 import { DialogComponent, AnimationSettingsModel, setSpinner, hideSpinner, Tooltip, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { ProgressBar } from '@syncfusion/ej2-angular-progressbar';
 import { interval, Observable, Subscription } from 'rxjs';
@@ -53,7 +53,7 @@ MultiSelectComponent.Inject(CheckBoxSelection);
     templateUrl: './dashbord-page-vieww.component.html',
     styleUrls: ['./dashbord-page-vieww.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [LegendService, GaugeTooltipService, ImageExportService],
+    providers: [LegendService, GaugeTooltipService, ImageExportService, ConditionalFormattingService, ToolbarService, PivotExcelExportService, PDFExportService, PageService, GroupService, SortService, FilterService, ResizeService, ReorderService, ColumnMenuService, GridExcelExportService, GridPdfExportService, GridToolbarService],
     imports: [NgIf, DashboardLayoutModule, NgFor, NgClass, DropDownButtonModule, MultiSelectModule, ScheduleModule, AIAssistViewModule, FormsModule, GridModule, ChartModule, KanbanModule, ButtonModule, PivotViewModule, AccumulationChartModule, NgStyle, DateRangePickerModule, DatePickerModule, DropDownListModule, ListBoxModule, CircularGaugeModule, DialogModule, SwitchModule, RichTextEditorModule, DatePipe]
 })
 
@@ -70,8 +70,8 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   @ViewChildren('grid') grids!: QueryList<GridComponent>;
   @ViewChild('grid1') grid1!: GridComponent;
   @ViewChild('defaultDialog') defaultDialog!: DialogComponent;
-  @ViewChild('editerViewDlg') editerViewDlg!: DialogComponent;
-  @ViewChild('promptDialog') promptDialog!: DialogComponent;
+  showEditerViewDlg: boolean = false;
+  showPromptDialog: boolean = false;
 
 
 
@@ -83,8 +83,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   @ViewChild(PropertyBoxComponent) boxPropertiesComponent!: PropertyBoxComponent;
   @ViewChild(PropertyChartComponent) chartPropertiesComponent!: PropertyChartComponent;
   @ViewChild('listboxObj') listboxObj!: ListBoxComponent;
-  @ViewChild('defaultDialog1')
-  defaultDialog1 !: DialogComponent;
+  showFilterDialog1: boolean = false;
   @ViewChild('listboxObj') listboxObjELe!: ElementRef;
   @ViewChild('tabComponent') tab!: TabComponent
   @ViewChildren('circularGauge') gaugeRefSData!: QueryList<CircularGaugeComponent>;
@@ -575,7 +574,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
 
   onFilteredIconClick() {
-    this.defaultDialog1.show();
+    this.showFilterDialog1 = true;
     this.showNote = true;
 
     // let panelData: any = localStorage.getItem('storedDrilldownAndFilterArray');
@@ -4156,7 +4155,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       }
 
       // this.userInformationData.role
-      this.defaultDialog1.hide();
+      this.showFilterDialog1 = false;
       this.loaderService.show();
       this.cdr.detectChanges();
 
@@ -4212,14 +4211,14 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
 
   pivottoolbarClick(args: any, pivotviewInstance: PivotViewComponent, item: any) {
-    //// //console.log('pivotviewInstance', pivotviewInstance, args, item)
-    args.customToolbar.splice(3, 0, {
+    if (!args?.customToolbar) return;
+    const insertAt = Math.min(3, args.customToolbar.length);
+    args.customToolbar.splice(insertAt, 0, {
       prefixIcon: 'e-icons e-expand',
       tooltipText: 'Expand/Collapse',
       cssClass: 'e-btn',
-      click: () => this.toolbarClicked(pivotviewInstance, item), // Bind to specific instance
+      click: () => this.toolbarClicked(pivotviewInstance, item),
     });
-
   }
 
 
@@ -4421,7 +4420,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
   commentText: string = '';
   selectedCell: any = null;
-  @ViewChild('commentDialog') commentDialog!: DialogComponent;
+  showCommentDialog: boolean = false;
   // Store comments (you can later sync to backend or sessionStorage)
   cellComments: { [key: string]: string } = {};
 
@@ -4455,7 +4454,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
     })
 
-    this.commentDialog.show();
+    this.showCommentDialog = true;
 
 
     this.selectedCell = { row: rowData, field, rowIndex, colIndex, item, grid };
@@ -4517,7 +4516,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     if (this.selectedCell) {
       const cellKey = this.getCellKey(this.selectedCell.row, this.selectedCell.field);
       this.cellComments[cellKey] = this.commentText;
-      this.commentDialog.hide();
+      this.showCommentDialog = false;
       // console.log('Comment saved:', this.selectedUniqueColumn);
 
       const rowIndex = this.selectedCell.rowIndex;
@@ -4614,7 +4613,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   closeDialog() {
-    this.commentDialog.hide();
+    this.showCommentDialog = false;
   }
 
   parseValue(value: string): string | number {
@@ -7172,7 +7171,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     const columns = grid.getColumns();
 
     if (item.content.autoFitColumns === true) {
-      grid.autoFitColumns([]);
+      setTimeout(() => grid.autoFitColumns([]), 0);
     }
 
     if (item.content.allowWrapping == true) {
@@ -8062,7 +8061,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       Object.keys(this.selectedItemsMap).forEach(key => {
         this.selectedItemsMap[key] = [];
       });
-      this.defaultDialog1.hide()
+      this.showFilterDialog1 = false;
 
       this.changeDetectorRef.detectChanges();
 
@@ -8139,7 +8138,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       Object.keys(this.selectedItemsMap).forEach(key => {
         this.selectedItemsMap[key] = [];
       });
-      this.defaultDialog1.hide()
+      this.showFilterDialog1 = false;
 
       this.changeDetectorRef.detectChanges();
 
@@ -8183,12 +8182,12 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
             statusCode: res.status_code,
             status: res.success
           });
-          this.defaultDialog1.hide()
+          this.showFilterDialog1 = false;
         },
 
         (err: any) => {
           this.loaderService.hide()
-          this.defaultDialog1.hide()
+          this.showFilterDialog1 = false;
           const errorMessage = err.error && err.error.message ? err.error.message : err.message;
           this.popupService.showPopup({
             message: errorMessage,
@@ -9830,11 +9829,11 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     }
 
     if (this.filterandDrilldownObjArray.filter_obj.length === 0) {
-      this.defaultDialog1.hide();
+      this.showFilterDialog1 = false;
 
     }
 
-    this.defaultDialog1.hide();
+    this.showFilterDialog1 = false;
 
 
     this.filterandDrilldownObjArray = {
@@ -9908,7 +9907,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     // console.log('Markdown prompt submitted:', this.userPrompt);
     const finalPrompt = this.userPrompt.trim() || this.selectedPrompt;
     const containsHash = finalPrompt.includes('#');
-    this.promptDialog.hide();
+    this.showPromptDialog = false;
     this.isMarkdownLoading = true;
     if (!finalPrompt) {
       alert("Please enter or select a prompt.");
@@ -9971,7 +9970,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
         })
       };
 
-      this.editerViewDlg.show();
+      this.showEditerViewDlg = true;
 
       // console.log('finalObj', finalObj)
       this.chartService.createHTMLViewer(finalObj).subscribe((res: any) => {
@@ -10011,7 +10010,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
 
   showMarkdwonBox() {
     this.dialogMode = 'markdown';  // set the mode
-    this.promptDialog.show();
+    this.showPromptDialog = true;
     this.userPrompt = ''
   }
 
@@ -10029,7 +10028,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
   onOpenEditerDlg(item: any) {
     this.dialogMode = 'edit';      // set the mode
     this.userPrompt = ''
-    this.promptDialog.show()
+    this.showPromptDialog = true;
     this.selectedELement = item;
 
     let loginTimeData: any = sessionStorage.getItem('loginSession');
@@ -10061,7 +10060,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
     }
 
     // console.log('Submitted prompt:', finalPrompt);
-    this.promptDialog.hide();
+    this.showPromptDialog = false;
     this.isMarkdownLoading = true;
     this.cdr.detectChanges();
 
@@ -10095,7 +10094,7 @@ export class DashbordPageViewwComponent implements OnInit, OnDestroy, AfterViewI
       modifedDataSource = this.selectedELement.content.DataSource;
     }
 
-    this.editerViewDlg.show();
+    this.showEditerViewDlg = true;
 
     const obj = {
       data: modifedDataSource,

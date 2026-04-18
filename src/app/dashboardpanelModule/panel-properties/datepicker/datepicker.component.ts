@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TabComponent } from '@syncfusion/ej2-angular-navigations';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 
@@ -12,9 +11,12 @@ import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 })
 
 export class DatepickerComponent implements OnInit, OnChanges {
+  activeTab: number = 0;
+  tabLabels: string[] = ['General', 'Condition'];
+  selectTab(i: number): void { this.activeTab = i; }
+
   @Input() getPanelObj : any;
   public headerText: any = [{ text: "General" }];
-  @ViewChild('tabComponent') tab! : TabComponent
 
 
   fieldObjArray : any = [];
@@ -62,10 +64,8 @@ export class DatepickerComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     let currentValue = changes['getPanelObj'].currentValue;
     if (currentValue != undefined || currentValue != null) {
-      // this.tab.selectedItem = 0;
-      if (this.tab) {
-        this.tab.selectedItem = 0;
-      }
+      // this.activeTab = 0;
+        this.activeTab = 0;
    //   let panelsArrData: any = localStorage.getItem('createPanelSeriesArray');
       let panelsArrData: any = sessionStorage.getItem('createPanelSeriesArray');
       this.panelSeriesArray = panelsArrData

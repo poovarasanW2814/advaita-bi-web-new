@@ -316,92 +316,77 @@
 </div>
 
 <!-- Reusable Dialog -->
-<ejs-dialog id="actionDialog" #actionDialog [isModal]='isModal' [visible]='dialogVisible' [header]='dialogHeader'
-  [allowDragging]='dialogdragging' [animationSettings]='animationSettings' [showCloseIcon]='dialogCloseIcon'
-  (close)="onDialogClose()" [width]='dialogWidth'>
-
-  <ng-template #content>
+@if (dialogVisible) {
+<div class="cd-modal-backdrop" (click)="onDialogClose()"></div>
+<div class="cd-modal cd-modal-xl">
+  <div class="cd-modal-header">
+    <div class="cd-modal-header-icon"><i class="bi bi-shield-check"></i></div>
+    <h3 class="cd-modal-title">{{ dialogHeader }}</h3>
+    <button class="cd-modal-close" type="button" (click)="onDialogClose()" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+  </div>
+  <div class="cd-modal-body">
     <!-- Copy Dashboard Form -->
-    <div *ngIf="dialogContent === 'copy'" style="padding: 22px 0px 0px">
-      <form [formGroup]="copyDashboardForm">
-        <div class="form-group">
-          <label for="dashboard_name">Dashboard Name <span style="color: red">*</span></label>
-          <input type="text" class="form-control" formControlName="dashboard_name">
-          <div *ngIf="copyDashboardForm.get('dashboard_name')?.invalid && copyDashboardForm.get('group_name')?.touched"
-            style="color: red;">
-            Dashboard name is required.
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="description">Description</label>
-          <input type="text" class="form-control" formControlName="description">
-        </div>
-      </form>
-
-    </div>
+    @if (dialogContent === 'copy') {
+    <form [formGroup]="copyDashboardForm">
+      <div class="form-group">
+        <label for="dashboard_name">Dashboard Name <span class="cd-req">*</span></label>
+        <input type="text" class="form-control" formControlName="dashboard_name">
+        @if (copyDashboardForm.get('dashboard_name')?.invalid && copyDashboardForm.get('group_name')?.touched) {
+          <div style="color: red; font-size:11px;">Dashboard name is required.</div>
+        }
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" formControlName="description">
+      </div>
+    </form>
+    }
 
     <!-- Role Permission Form -->
-    <div *ngIf="dialogContent === 'role'">
-      <!-- Add role permission form content here -->
-      <div class="role-permission-form">
-        <app-role-dashboard-access [dashboardId]="roleDashboardObj" (resFlag)="resFlag($event)"
-          (resMessage)="getResponseMessage($event)" #roleBasedDialog></app-role-dashboard-access>
-      </div>
+    @if (dialogContent === 'role') {
+    <div class="role-permission-form">
+      <app-role-dashboard-access [dashboardId]="roleDashboardObj" (resFlag)="resFlag($event)"
+        (resMessage)="getResponseMessage($event)" #roleBasedDialog></app-role-dashboard-access>
     </div>
+    }
 
     <!-- User Permission Form -->
-    <div *ngIf="dialogContent === 'user'" style="    padding: 16px 0px 0px;">
-      <!-- Add user permission form content here -->
-      <div class="user-permission-form">
-        <app-user-dashboard-access [userBasedDashboardId]="userDashboardObj" (resFlag)="resUserFlag($event)"
-          (resMessage)="getResponseMessage($event)" #userBasedDialog></app-user-dashboard-access>
-
-
-      </div>
+    @if (dialogContent === 'user') {
+    <div class="user-permission-form">
+      <app-user-dashboard-access [userBasedDashboardId]="userDashboardObj" (resFlag)="resUserFlag($event)"
+        (resMessage)="getResponseMessage($event)" #userBasedDialog></app-user-dashboard-access>
     </div>
-  </ng-template>
-
-
-
-  <ng-template #footerTemplate>
-    <div class="form-actions">
-      <!-- Copy Dashboard -->
-      <button class="e-btn e-btn-purple" *ngIf="dialogType === 'copy'" type="button" [disabled]="copyDashboardForm.invalid" (click)="onCopyDashboardSubmit()">
-        Copy
-      </button>
-
-      <!-- Role Permissions -->
-      <ng-container *ngIf="dialogType === 'role'">
-        <button class="e-btn e-btn-purple" *ngIf="roleSubmitFlag" (click)="onRoleBasedAccessSubmit()">
-          Submit
-        </button>
-
-        <button class="e-btn e-btn-purple" *ngIf="roleUpdateFlag" (click)="onUpdateRoleBasedAccess()">
-          Update
-        </button>
-
-        <button class="e-btn e-btn-purple" type="button" *ngIf="roleUpdateFlag" (click)="delteRolePermission()">
-          Delete Permission
-        </button>
-      </ng-container>
-
-      <!-- User Permissions -->
-      <ng-container *ngIf="dialogType === 'user'">
-        <button class="e-btn e-btn-purple" *ngIf="userSubmitFlag" (click)="onUserBasedAccessSubmit()">
-          Submit
-        </button>
-
-        <button class="e-btn e-btn-purple" *ngIf="userUpdateFlag" (click)="onUserUpdateDashboardAccess()">
-          Update
-        </button>
-
-        <button class="e-btn e-btn-purple" type="button" *ngIf="userUpdateFlag" (click)="deleteUserPermission()">
-          Delete Permission
-        </button>
-      </ng-container>
-
-    </div>
-  </ng-template>
-
-
-</ejs-dialog>
+    }
+  </div>
+  <div class="cd-modal-footer-inline">
+    <!-- Copy Dashboard -->
+    @if (dialogType === 'copy') {
+      <button class="cd-btn cd-btn-sm cd-btn-primary" type="button" [disabled]="copyDashboardForm.invalid" (click)="onCopyDashboardSubmit()">Copy</button>
+    }
+    <!-- Role Permissions -->
+    @if (dialogType === 'role') {
+      @if (roleSubmitFlag) {
+        <button class="cd-btn cd-btn-sm cd-btn-primary" (click)="onRoleBasedAccessSubmit()">Submit</button>
+      }
+      @if (roleUpdateFlag) {
+        <button class="cd-btn cd-btn-sm cd-btn-primary" (click)="onUpdateRoleBasedAccess()">Update</button>
+      }
+      @if (roleUpdateFlag) {
+        <button class="cd-btn cd-btn-sm cd-btn-danger" type="button" (click)="delteRolePermission()">Delete Permission</button>
+      }
+    }
+    <!-- User Permissions -->
+    @if (dialogType === 'user') {
+      @if (userSubmitFlag) {
+        <button class="cd-btn cd-btn-sm cd-btn-primary" (click)="onUserBasedAccessSubmit()">Submit</button>
+      }
+      @if (userUpdateFlag) {
+        <button class="cd-btn cd-btn-sm cd-btn-primary" (click)="onUserUpdateDashboardAccess()">Update</button>
+      }
+      @if (userUpdateFlag) {
+        <button class="cd-btn cd-btn-sm cd-btn-danger" type="button" (click)="deleteUserPermission()">Delete Permission</button>
+      }
+    }
+  </div>
+</div>
+}

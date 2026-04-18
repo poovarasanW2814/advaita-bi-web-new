@@ -3,14 +3,13 @@ import { group } from '@angular/animations';
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn, ValidationErrors, FormArray, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
-import { TabComponent, TabModule } from '@syncfusion/ej2-angular-navigations';
 import { AnimationSettingsModel, DialogComponent, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { Browser } from '@syncfusion/ej2/base';
 import { Subject } from 'rxjs';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { DropDownListModule, MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns';
 import { NgIf, NgFor } from '@angular/common';
-import { ColorPickerModule } from '@syncfusion/ej2-angular-inputs';
+
 import { SwitchModule, ButtonModule } from '@syncfusion/ej2-angular-buttons';
 
 
@@ -18,11 +17,14 @@ import { SwitchModule, ButtonModule } from '@syncfusion/ej2-angular-buttons';
     selector: 'app-guage-chart-properties',
     templateUrl: './guage-chart-properties.component.html',
     styleUrls: ['./guage-chart-properties.component.scss'],
-    imports: [TabModule, FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, ColorPickerModule, NgFor, SwitchModule, MultiSelectModule, ButtonModule, DialogModule]
+    imports: [FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, NgFor, SwitchModule, MultiSelectModule, ButtonModule, DialogModule]
 })
 export class guageChartPropertiesComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
+  activeTab: number = 0;
+  tabLabels: string[] = ['General', 'Dimension', 'Measure', 'Condition', 'Gauge Props', 'Axis', 'Pointers', 'Ranges'];
+  selectTab(i: number): void { this.activeTab = i; }
+
   @Input() getPanelObj: any;
-  @ViewChild('tabComponent', { static: true }) tab!: TabComponent;
   @Output() sendBoxObj = new EventEmitter();
   @Output() sendChartOBj = new EventEmitter();
   @ViewChild('dimensionGrid') dimensionGrid!: GridComponent;
@@ -63,8 +65,56 @@ export class guageChartPropertiesComponent implements OnInit, OnChanges, OnDestr
   selectedTableFieldName: string[] = [];
   isSecondTableNameDisabled = false;
   fontWeights: number[] = [100, 200, 300, 400, 500, 600, 700, 800, 900];
-  // generalChartType: any = ["CircularGauge"];
   selectedMeasureIndex: any = null;
+
+  ddlFields: Object = { text: 'text', value: 'value' };
+
+  levelOptions: any[] = [
+    { text: '0', value: '0' }, { text: '1', value: '1' }, { text: '2', value: '2' },
+    { text: '3', value: '3' }, { text: '4', value: '4' }, { text: '5', value: '5' },
+    { text: '6', value: '6' }, { text: '7', value: '7' }, { text: '8', value: '8' },
+    { text: '9', value: '9' }, { text: '10', value: '10' }
+  ];
+
+  dataLabelFormatOptions: any[] = [
+    { text: 'Select', value: '{value}' },
+    { text: 'Number (1000)', value: 'n' }, { text: 'Number (1000.0)', value: 'n1' },
+    { text: 'Number (1000.00)', value: 'n2' }, { text: 'Number (1000.000)', value: 'n3' },
+    { text: 'Percentage (1%)', value: 'p' }, { text: 'Percentage (1.0%)', value: 'p1' },
+    { text: 'Percentage (1.00%)', value: 'p2' }, { text: 'Percentage (1.000%)', value: 'p3' },
+    { text: 'Currency ($1000)', value: 'c' }, { text: 'Currency ($1000.0)', value: 'c1' },
+    { text: 'Currency ($1000.00)', value: 'c2' }, { text: 'Currency ($1000.000)', value: 'c3' },
+    { text: 'Thousands (K)', value: '{value}K' }, { text: 'Percentage (%)', value: '{value}%' },
+    { text: 'Millions (M)', value: '{value}M' }, { text: 'Currency', value: '${value}' }
+  ];
+
+  fontWeightOptions: any[] = this.fontWeights.map(w => ({ text: String(w), value: w }));
+
+  orderByTypeOptions: any[] = [
+    { text: 'Select', value: '' }, { text: 'ASC', value: 'ASC' }, { text: 'DESC', value: 'DESC' }
+  ];
+
+  legendsPositionOptions: any[] = [
+    { text: 'Select', value: '' }, { text: 'Top', value: 'Top' },
+    { text: 'Bottom', value: 'Bottom' }, { text: 'Left', value: 'Left' }, { text: 'Right', value: 'Right' }
+  ];
+
+  legendsShapeOptions: any[] = [
+    { text: 'Circle', value: 'Circle' }, { text: 'Rectangle', value: 'Rectangle' },
+    { text: 'Triangle', value: 'Triangle' }, { text: 'Diamond', value: 'Diamond' },
+    { text: 'Cross', value: 'Cross' }, { text: 'HorizontalLine', value: 'HorizontalLine' },
+    { text: 'VerticalLine', value: 'VerticalLine' }
+  ];
+
+  pointerTypeOptions: any[] = [
+    { text: 'Needle', value: 'Needle' }, { text: 'Marker', value: 'Marker' }
+  ];
+
+  markerShapeOptions: any[] = [
+    { text: 'Circle', value: 'Circle' }, { text: 'Rectangle', value: 'Rectangle' },
+    { text: 'Triangle', value: 'Triangle' }, { text: 'InvertedTriangle', value: 'InvertedTriangle' },
+    { text: 'Diamond', value: 'Diamond' }, { text: 'Arrow', value: 'Arrow' }
+  ];
 
   private readonly fb = inject(FormBuilder);
   private readonly chartService = inject(ChartService);
@@ -95,9 +145,7 @@ export class guageChartPropertiesComponent implements OnInit, OnChanges, OnDestr
     if (changes['getPanelObj']) {
       let currentValue = changes['getPanelObj'].currentValue;
       this.getPanelObj = currentValue;
-      if (this.tab) {
-        this.tab.selectedItem = 0;
-      }
+        this.activeTab = 0;
 
       let panelsArrData: any = sessionStorage.getItem('createPanelSeriesArray');
 
@@ -247,7 +295,6 @@ this.dashboardCreationForm.get('gauge.pointer.animation')?.patchValue({
             if (matchingPanel.content.tableName) {
               this.onTableDropdown(matchingPanel.content.tableName);
             }
-            this.refreshTabComponent();
           });
         }
       }
@@ -256,8 +303,7 @@ this.dashboardCreationForm.get('gauge.pointer.animation')?.patchValue({
     // this.setrangesData()
   }
 
-  @ViewChild('rawQueryDimension')
-  rawQueryDimension!: DialogComponent;
+  showRawQueryDimensionDialog: boolean = false;
 
   columnsArr: any = [];
   conditionalFormatArray: any[] = [];
@@ -316,7 +362,7 @@ this.dashboardCreationForm.get('gauge.pointer.animation')?.patchValue({
       rawQuery: rawQueryValue
     });
 
-    this.rawQueryDimension.show();
+    this.showRawQueryDimensionDialog = true;
     console.log(item, index, level);
   }
 
@@ -336,11 +382,10 @@ this.dashboardCreationForm.get('gauge.pointer.animation')?.patchValue({
       }
     });
 
-    this.rawQueryDimension.hide();
+    this.showRawQueryDimensionDialog = false;
   }
 
   ngAfterViewInit() {
-    this.refreshTabComponent();
 
     // âœ… Load dummy only if no real panel data exists in session
     const panelsArrData = sessionStorage.getItem('createPanelSeriesArray');
@@ -361,17 +406,6 @@ this.dashboardCreationForm.get('gauge.pointer.animation')?.patchValue({
       }
     }
     
-  }
-
- 
-
-  refreshTabComponent() {
-    setTimeout(() => {
-      if (this.tab) {
-        this.tab.refresh();
-        this.setrangesData()
-      }
-    }, 100);
   }
 
   onAddGrouping() {

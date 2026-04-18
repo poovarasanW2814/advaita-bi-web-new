@@ -201,7 +201,7 @@
 .heightDiv {
   height: 100%;
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
 }
 
 
@@ -2329,17 +2329,17 @@ background-color: transparent !important;
 
 /* Dashboard view contrast fixes */
 .filteredListDiv {
-  margin-bottom: 18px;
+  margin-bottom: 4px;
 }
 
 .dashboard_Title {
-  min-height: 76px;
-  padding: 14px 18px !important;
+  min-height: unset;
+  padding: 7px 14px !important;
   border: 1px solid rgba(13, 92, 122, 0.1);
-  border-radius: 24px;
+  border-radius: 14px;
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(240, 253, 255, 0.92) 100%);
-  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
 }
 
 .dashboard_Title .popupHeader,
@@ -2349,14 +2349,14 @@ background-color: transparent !important;
 
 .filterBtn .e-btn-purple,
 .filterBtn .e-btn-purple-sm {
-  min-width: 38px;
-  min-height: 38px;
-  padding: 0 12px !important;
-  border-radius: 14px !important;
+  min-width: 28px;
+  min-height: 28px;
+  padding: 0 8px !important;
+  border-radius: 8px !important;
   background: var(--surface-primary) !important;
   color: var(--bi-primary) !important;
   border: 1px solid rgba(13, 92, 122, 0.12) !important;
-  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
 }
 
 .filterBtn .e-btn-purple i,
@@ -2428,19 +2428,22 @@ background-color: transparent !important;
   color: var(--bi-primary) !important;
 }
 
-::ng-deep #createDashboard .e-grid .e-rowcell,
+::ng-deep #createDashboard .e-grid .e-rowcell:not([style*='background-color']),
 ::ng-deep #createDashboard .e-grid .e-detailrowcollapse,
 ::ng-deep #createDashboard .e-grid .e-detailrowexpand {
   background: #ffffff !important;
-  color: var(--text-secondary) !important;
   border-color: rgba(229, 231, 235, 0.9) !important;
 }
 
-::ng-deep #createDashboard .e-grid .e-row:nth-child(even) .e-rowcell {
+::ng-deep #createDashboard .e-grid .e-rowcell:not([style*='color']) {
+  color: var(--text-secondary) !important;
+}
+
+::ng-deep #createDashboard .e-grid .e-row:nth-child(even) .e-rowcell:not([style*='background-color']) {
   background: #fbfeff !important;
 }
 
-::ng-deep #createDashboard .e-grid .e-row:hover .e-rowcell {
+::ng-deep #createDashboard .e-grid .e-row:hover .e-rowcell:not([style*='background-color']) {
   background: #f4fbfd !important;
 }
 
@@ -2547,7 +2550,10 @@ background-color: transparent !important;
   background: #ffffff !important;
 }
 
-::ng-deep #createDashboard .workspace-table-grid .e-headercontent,
+::ng-deep #createDashboard .workspace-table-grid .e-headercontent {
+  overflow: hidden !important;
+}
+
 ::ng-deep #createDashboard .workspace-table-grid .e-gridcontent,
 ::ng-deep #createDashboard .workspace-table-grid .e-content {
   overflow: auto !important;

@@ -21,6 +21,23 @@ export class InitialFiltersComponent implements OnInit {
   firstDropdownValue = '';
   connection_id : any;
 
+  ddlFields: Object = { text: 'text', value: 'value' };
+
+  filterTypeOptions: any[] = [
+    { text: 'Date', value: 'date' },
+    { text: 'Day', value: 'day' },
+    { text: 'Week', value: 'week' },
+    { text: 'Month', value: 'month' },
+    { text: 'Year', value: 'year' }
+  ];
+
+  get currentPreviousOptions(): any[] {
+    return [
+      { text: 'Current ' + this.firstDropdownValue, value: 'current' },
+      { text: 'No of Previous ' + this.firstDropdownValue, value: 'previous' }
+    ];
+  }
+
   @Input() getInitialFIlterObj: any;
   @ViewChild('tabComponent') tab! : TabComponent
 

@@ -1,5 +1,7 @@
 <div
   class="workspace-shell control-section"
+  [class.route-dashboard-view]="isDashboardViewRoute"
+  [class.route-role]="isRoleRoute"
   id="wrapper"
   #pageContent
   [class.sidebar-open]="isSidebarDesktopExpanded"
@@ -23,13 +25,6 @@
           </div>
         </div>
 
-        <div class="topbar-center search-container">
-          <label class="topbar-search search-input-wrapper">
-            <i class="bi bi-search search-icon"></i>
-            <input class="search-input" type="search" placeholder="Search..." aria-label="Search">
-          </label>
-        </div>
-
         <div class="topbar-right header-right">
           <button class="workspace-pill selector-button" type="button" aria-label="Current workspace">
             <span class="workspace-pill-icon hierarchy-icon">
@@ -40,10 +35,6 @@
               <small class="hierarchy-path">Workspace</small>
             </span>
             <i class="bi bi-chevron-down dropdown-arrow"></i>
-          </button>
-
-          <button class="topbar-icon-button notification-button notification-btn" type="button" aria-label="Notifications">
-            <i class="bi bi-bell"></i>
           </button>
 
           <button

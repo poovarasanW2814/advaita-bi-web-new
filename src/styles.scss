@@ -1,15 +1,15 @@
-/* ═══════════════════════════════════════════════════
-   ADVAITA LUMINA BI — Global Styles v2.1
+﻿/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   ADVAITA LUMINA BI â€” Global Styles v2.1
    Color System: Steel Indigo-Teal (#0D5C7A)
-═══════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 @use 'app/core/sass/design-system.scss';
 @use 'app/core/sass/panel-properties.scss';
 @use 'app/core/sass/syncfusion-overrides.scss';
 
-/* ──────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Global Typography
-────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 body {
   font-family: var(--font-family-base);
@@ -18,9 +18,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ──────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Switch Wrapper (Syncfusion)
-────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .e-switch-wrapper.bar-color .e-switch-inner,
 .e-switch-wrapper.bar-color .e-switch-on {
@@ -28,9 +28,9 @@ body {
   border-color: var(--bi-primary);
 }
 
-/* ──────────────────────────────
-   Bootstrap Icons — Spin utility
-────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   Bootstrap Icons â€” Spin utility
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @keyframes bi-spin {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
@@ -50,9 +50,9 @@ body {
   background-color: #fff !important;
 }
 
-/* ──────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Dialog Styling (Syncfusion)
-────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .e-dialog {
   border-radius: var(--r-xl);
@@ -94,9 +94,9 @@ body {
   border-top: 1px solid var(--border-color);
 }
 
-/* ──────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Dialog Title Headers
-────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .popupHeader {
   font-family: 'Roboto', 'Segoe UI', 'GeezaPro', 'DejaVu Serif', sans-serif !important;
@@ -120,9 +120,9 @@ body {
   font-weight: 400 !important;
 }
 
-/* ──────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Button Styling
-────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .e-btn-purple {
   font-size: 11px;
@@ -179,9 +179,9 @@ body {
   }
 }
 
-/* ──────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Form Styling
-────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 textarea.form-control {
   border-radius: 0px;
@@ -197,9 +197,9 @@ textarea.form-control {
   }
 }
 
-/* ──────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Page Title Styling
-────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .tableTitle {
   margin-bottom: 10px;
@@ -209,9 +209,9 @@ textarea.form-control {
   color: var(--bi-primary);
 }
 
-/* ──────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Panel Component Styling
-────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .headerstylepopup {
   text-align: center;
@@ -252,9 +252,9 @@ textarea.form-control {
   border: 1px solid var(--border-color);
 }
 
-/* ──────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Fieldset and Legend
-────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 fieldset {
   display: block;
@@ -283,9 +283,9 @@ legend {
   color: var(--text-primary);
 }
 
-/* ──────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Action Buttons and Operations
-────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .actionbuttons {
   padding-top: 12px;
@@ -297,9 +297,9 @@ legend {
   padding: 3px 8px;
 }
 
-/* ──────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    List Items
-────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .Tablelist li.list-group-items {
   list-style: none;
@@ -317,9 +317,9 @@ li.list-group-items:hover {
   color: white;
 }
 
-/* ──────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Accessibility & Focus States
-────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 button:focus,
 input:focus,
@@ -333,9 +333,9 @@ button:focus:not(:focus-visible) {
   outline: none;
 }
 
-/* ──────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    scrollbar Styling
-────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 /* For Chrome, Edge, and Safari */
 ::-webkit-scrollbar {
@@ -362,10 +362,10 @@ button:focus:not(:focus-visible) {
   scrollbar-width: thin;
 }
 
-/* ══════════════════════════════════════════════════
-   LUMINA BI — Dark Sidebar Theme
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   LUMINA BI â€” Dark Sidebar Theme
    Must be in global styles to beat Syncfusion CDN
-══════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 /* Sidebar container */
 ejs-sidebar#dockSidebar,
@@ -413,7 +413,7 @@ ejs-sidebar#dockSidebar,
   color: #fff !important;
 }
 
-/* Active state — routerLinkActive="true" adds class "true" */
+/* Active state â€” routerLinkActive="true" adds class "true" */
 #dockSidebar .e-list-item.true,
 #dockSidebar li.true {
   background: var(--bi-primary) !important;
@@ -438,10 +438,10 @@ ejs-sidebar#dockSidebar,
   }
 }
 
-/* ══════════════════════════════════════════════════
-   LUMINA BI — Topbar Overrides
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   LUMINA BI â€” Topbar Overrides
    Ensure dropdown buttons on gradient topbar are white
-══════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 #head {
   background: linear-gradient(135deg, #0D5C7A 0%, #0891B2 60%, #22D3EE 100%) !important;
@@ -468,9 +468,9 @@ ejs-sidebar#dockSidebar,
   border-radius: 4px;
 }
 
-/* ══════════════════════════════════════════════════
-   LUMINA BI — Grid Header
-══════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   LUMINA BI â€” Grid Header
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 .e-grid .e-headercell,
 .e-grid .e-headercontent .e-headercell {
@@ -493,6 +493,24 @@ ejs-sidebar#dockSidebar,
   background: rgba(255, 255, 255, 0.98) !important;
   border-right: 1px solid rgba(13, 92, 122, 0.1) !important;
   box-shadow: 18px 0 36px rgba(15, 23, 42, 0.08) !important;
+  z-index: 999 !important;
+}
+
+// Prevent Syncfusion sidebar from creating a containing block
+// that breaks position:fixed on descendant modals
+#wrapper,
+#target,
+#sidebar-section,
+#sidebar-section #target,
+.sidebar-content,
+.dashboardParent,
+.e-content-animation {
+  transform: none !important;
+  -webkit-transform: none !important;
+  will-change: auto !important;
+  contain: none !important;
+  filter: none !important;
+  perspective: none !important;
 }
 
 #dockSidebar .e-listview {
@@ -546,7 +564,7 @@ ejs-sidebar#dockSidebar,
 .layout {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 6px;
 }
 
 .dashboard_InfoDiv,
@@ -561,13 +579,13 @@ ejs-sidebar#dockSidebar,
 }
 
 .dashboard_InfoDiv {
-  min-height: 54px;
-  padding: 14px 20px;
+  min-height: unset;
+  padding: 6px 14px;
 }
 
 .dashboard_Title {
-  min-height: 64px;
-  padding: 14px 20px;
+  min-height: unset;
+  padding: 6px 14px;
 }
 
 .dbTitle,
@@ -575,20 +593,20 @@ ejs-sidebar#dockSidebar,
   margin: 0;
   color: var(--text-primary);
   font-family: var(--font-family-display);
-  font-size: 1.6rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .connectionDiv,
 .headingDiv,
 .filteredListDiv {
   margin: 0;
-  padding: 18px 20px;
+  padding: 6px 14px;
   border: 1px solid rgba(13, 92, 122, 0.08);
-  border-radius: 20px;
+  border-radius: 12px;
   background: var(--surface-primary);
-  box-shadow: 0 18px 34px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.04);
 }
 
 .connectionDiv,
@@ -649,11 +667,13 @@ ejs-sidebar#dockSidebar,
 }
 
 #createDashboard .e-panel-header {
-  min-height: 48px;
-  padding: 0 14px !important;
+  min-height: 36px;
+  padding: 0 8px 0 8px !important;
   border-bottom: 1px solid rgba(13, 92, 122, 0.08);
   background: #fbfeff;
   color: var(--bi-primary-dark);
+  display: flex !important;
+  align-items: center !important;
 }
 
 #createDashboard .e-panel-content {
@@ -673,9 +693,10 @@ ejs-sidebar#dockSidebar,
 .panelHeader {
   color: var(--bi-primary-dark);
   font-family: var(--font-family-base) !important;
-  font-size: 13px !important;
-  font-weight: 700 !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
   letter-spacing: -0.01em;
+  text-align: left;
 }
 
 .icon-group,
@@ -684,7 +705,7 @@ ejs-sidebar#dockSidebar,
   align-items: center;
   gap: 10px;
   margin-left: 12px;
-  color: rgba(13, 92, 122, 0.72);
+  color: #0d3b56;
 }
 
 .icon-group i,
@@ -702,6 +723,9 @@ ejs-sidebar#dockSidebar,
 #createDashboard .e-panel-header .copyText > div:first-child {
   color: var(--bi-primary-dark) !important;
   opacity: 1 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100%;
 }
 
 .icon-group i:hover,
@@ -764,9 +788,15 @@ ejs-sidebar#dockSidebar,
   }
 }
 
-html,
-body {
+html {
   min-height: 100%;
+  overflow-x: hidden;
+  background: var(--bg-primary);
+}
+
+body {
+  min-height: 100vh;
+  height: auto;
   background: var(--bg-primary);
 }
 
@@ -877,4 +907,818 @@ html:not([data-theme='dark']) #head .topbar-icon-button,
 html:not([data-theme='dark']) #head .workspace-pill,
 html:not([data-theme='dark']) #head .profile-dropdown {
   color: var(--bi-primary) !important;
+}
+
+
+/* --------------------------------------------------
+   MODAL OPEN ï¿½ Remove stacking context from #target
+   Only when add-users or add-roles modals are open.
+   This does NOT affect the normal dashboard layout.
+-------------------------------------------------- */
+body.au-modal-open #target,
+body.au-modal-open .dashboardParent,
+body.ar-modal-open #target,
+body.ar-modal-open .dashboardParent {
+  z-index: auto !important;
+}
+
+
+/* property-table uses custom pt-tab-* classes â€” no Syncfusion tab rules needed */
+
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   PANEL MODAL â€” ejs-tab â†’ left vertical sidebar
+   Applies to ALL panel components inside .cd-modal-body
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+
+/* Fade-in animation for tab pane switch */
+@keyframes pt-pane-in {
+  from { opacity: 0; transform: translateX(6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.cd-modal-body {
+
+  /* Layout helpers for outer wrappers */
+  .control-section,
+  .e-tab-section,
+  .e-sample-resize-container {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    width: 100% !important;
+  }
+
+  /* 1 · Tab root â†’ flex row */
+  .e-tab.e-control {
+    display: flex !important;
+    flex-direction: row !important;
+    flex: 1 !important;
+    min-height: 0 !important;
+    height: auto !important;
+  }
+
+  /* 2 · Tab header â†’ left sidebar */
+  .e-tab .e-tab-header {
+    width: 160px !important;
+    min-width: 160px !important;
+    max-width: 160px !important;
+    border-bottom: none !important;
+    border-right: 1px solid #ECEEF3 !important;
+    background: #F8F9FB !important;
+    flex-shrink: 0 !important;
+    float: none !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 12px 0 8px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-self: stretch !important;
+    height: auto !important;
+    min-height: 0 !important;
+    position: static !important;
+  }
+
+  /* "CONFIGURATION" pseudo-label at top of sidebar */
+  .e-tab .e-tab-header::before {
+    content: 'Configuration' !important;
+    display: block !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    color: #9CA3AF !important;
+    padding: 0 14px 10px !important;
+    font-family: 'DM Sans', system-ui, sans-serif !important;
+  }
+
+  .e-tab .e-tab-header .e-background {
+    width: 100% !important;
+    height: auto !important;
+    flex: 1 !important;
+    overflow: visible !important;
+  }
+
+  /* 3 · Toolbar items â†’ column stack */
+  .e-tab .e-tab-header .e-toolbar-items {
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    width: 100% !important;
+    background: transparent !important;
+    counter-reset: pt-counter !important;
+    transform: none !important;
+    position: static !important;
+  }
+
+  /* 4 · Each tab item */
+  .e-tab .e-tab-header .e-toolbar-item,
+  .e-tab .e-tab-header .e-toolbar-item.e-toolbar-popup {
+    height: auto !important;
+    min-height: 0 !important;
+    line-height: 1 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    counter-increment: pt-counter !important;
+    transition: background 0.15s ease !important;
+    display: flex !important;
+    visibility: visible !important;
+    box-shadow: none !important;
+    position: static !important;
+  }
+
+  .e-tab .e-tab-header .e-toolbar-item:hover:not(.e-active) {
+    background: #EEF0F6 !important;
+  }
+
+  .e-tab .e-tab-header .e-toolbar-item.e-active {
+    background: rgba(13, 92, 122, 0.08) !important;
+    box-shadow: inset 3px 0 0 #0D5C7A !important;
+  }
+
+  /* 5 · Tab link */
+  .e-tab .e-tab-header .e-tab-wrap {
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 9px 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 9px !important;
+    text-decoration: none !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Numbered circle via CSS counter */
+  .e-tab .e-tab-header .e-tab-wrap::before {
+    content: counter(pt-counter) !important;
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 50% !important;
+    background: #E4E7EE !important;
+    color: #8C93A6 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    font-family: 'DM Sans', system-ui, sans-serif !important;
+    transition: background 0.15s ease, color 0.15s ease !important;
+  }
+
+  .e-tab .e-tab-header .e-active .e-tab-wrap::before {
+    background: #0D5C7A !important;
+    color: #fff !important;
+  }
+
+  /* 6 · Tab label text */
+  .e-tab .e-tab-header .e-tab-text {
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    color: #4B5563 !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    font-family: 'DM Sans', system-ui, sans-serif !important;
+    max-width: 100px !important;
+    transition: color 0.15s ease !important;
+  }
+
+  .e-tab .e-tab-header .e-active .e-tab-text {
+    color: #0D5C7A !important;
+    font-weight: 600 !important;
+  }
+
+  /* 7 · Hide scroll nav, indicator, overflow popup completely */
+  .e-tab .e-tab-header .e-scroll-nav,
+  .e-tab .e-tab-header .e-hscroll-bar,
+  .e-tab .e-tab-header .e-hscroll-device,
+  .e-tab .e-tab-header .e-indicator,
+  .e-tab .e-tab-header .e-toolbar-pop,
+  .e-tab .e-tab-header .e-hor-nav,
+  .e-tab .e-tab-header .e-nav-arrow,
+  .e-tab .e-tab-header .e-nav-left-arrow,
+  .e-tab .e-tab-header .e-nav-right-arrow {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  /* 8 · Content area */
+  .e-tab .e-content {
+    flex: 1 !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    display: block !important;
+    background: #fff !important;
+    padding: 0 !important;
+    max-height: calc(90vh - 200px) !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: #D1D5DB transparent !important;
+    position: static !important;
+  }
+
+  .e-tab .e-content::-webkit-scrollbar { width: 5px !important; }
+  .e-tab .e-content::-webkit-scrollbar-track { background: transparent !important; }
+  .e-tab .e-content::-webkit-scrollbar-thumb { background: #D1D5DB !important; border-radius: 4px !important; }
+
+  /* 9 · Inactive panes â€” hidden */
+  .e-tab .e-content .e-item {
+    display: none !important;
+    padding: 0 !important;
+  }
+
+  /* 10 · Active pane â€” animate in */
+  .e-tab .e-content .e-item.e-active {
+    display: block !important;
+    padding: 18px 22px !important;
+    box-sizing: border-box !important;
+    animation: pt-pane-in 0.18s ease both !important;
+  }
+
+  /* â”€â”€ Font size reductions inside all panels â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  label,
+  .labelFeild,
+  label.labelFeild,
+  label.inputTitle {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #374151 !important;
+    margin-bottom: 3px !important;
+    display: block !important;
+  }
+
+  input.form-control,
+  select.form-control,
+  .inputFeild,
+  .selectInputFeild,
+  .inputField,
+  .selectFeild,
+  .colorInput,
+  input.form-control.colorInputField {
+    font-size: 11px !important;
+    height: 28px !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+    border-color: #D1D5DB !important;
+    color: #374151 !important;
+  }
+
+  textarea.form-control {
+    font-size: 11px !important;
+    height: auto !important;
+    padding: 6px 8px !important;
+    border-radius: 4px !important;
+    border-color: #D1D5DB !important;
+  }
+
+  .form-group {
+    margin-bottom: 8px !important;
+  }
+
+  /* ── Syncfusion EJS control compactness ────────────────────────────── */
+  .e-control-wrapper.e-input-group,
+  .e-input-group:not(.e-float-icon-left) {
+    height: 28px !important;
+    min-height: 28px !important;
+    font-size: 11px !important;
+  }
+
+  .e-control-wrapper.e-input-group input.e-input,
+  .e-input-group input.e-input {
+    height: 26px !important;
+    font-size: 11px !important;
+    min-height: 0 !important;
+    padding: 0 8px !important;
+  }
+
+  .e-multi-select-wrapper {
+    min-height: 28px !important;
+    max-height: 52px !important;
+    padding: 2px 4px !important;
+    font-size: 11px !important;
+  }
+
+  .e-multi-select-wrapper .e-chips {
+    height: 20px !important;
+    line-height: 20px !important;
+    margin: 1px 2px !important;
+  }
+
+  .e-chips .e-chipcontent {
+    font-size: 10px !important;
+    padding: 0 4px !important;
+  }
+
+  .e-dropdownbase .e-list-item {
+    font-size: 11px !important;
+    line-height: 28px !important;
+    height: 28px !important;
+    min-height: 0 !important;
+  }
+
+  .e-input-group .e-input-group-icon {
+    height: 26px !important;
+    width: 26px !important;
+    min-height: 0 !important;
+    line-height: 26px !important;
+  }
+
+  legend {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: #374151 !important;
+    padding: 0 6px !important;
+    width: auto !important;
+    margin-bottom: 6px !important;
+    border: none !important;
+  }
+
+  fieldset {
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 6px !important;
+    padding: 10px 12px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .e-btn,
+  button.e-btn {
+    font-size: 11px !important;
+  }
+
+  table.table th,
+  table.table td {
+    font-size: 11px !important;
+    padding: 5px 8px !important;
+  }
+
+  table.table th {
+    font-weight: 600 !important;
+    background: #F8F9FB !important;
+    color: #374151 !important;
+  }
+
+  h6, .popuph5style {
+    font-size: 11px !important;
+  }
+
+  li.list-group-items {
+    font-size: 11px !important;
+  }
+}
+
+/* ── Custom pt-tab sidebar shell — globally available for all panel dialogs ── */
+.pt-tab-shell {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 11px;
+  color: #374151;
+}
+
+.pt-tab-nav {
+  width: 160px;
+  min-width: 160px;
+  min-height: 0;
+  align-self: stretch;
+  background: #F8F9FB;
+  border-right: 1px solid #ECEEF3;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px 0;
+  flex-shrink: 0;
+
+  &::-webkit-scrollbar { width: 3px; }
+  &::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 2px; }
+}
+
+.pt-nav-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  color: #9CA3AF;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0 14px 10px;
+}
+
+.pt-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 7px 14px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 11px;
+  color: #4B5563;
+  text-align: left;
+  line-height: 1.3;
+  transition: background 0.12s;
+
+  &:hover:not(.pt-nav-active) {
+    background: #EEF0F6;
+  }
+
+  &.pt-nav-active {
+    background: rgba(13, 92, 122, 0.08);
+    box-shadow: inset 3px 0 0 #0D5C7A;
+    color: #0D5C7A;
+    font-weight: 600;
+  }
+}
+
+.pt-nav-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #E4E7EE;
+  color: #8C93A6;
+  font-size: 10px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.12s, color 0.12s;
+}
+
+.pt-nav-item.pt-nav-active .pt-nav-num {
+  background: #0D5C7A;
+  color: #fff;
+}
+
+.pt-nav-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}
+
+/* Required field asterisk — shared across all panel dialogs */
+.cd-req {
+  color: #EF4444;
+  font-size: 11px;
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+.pt-tab-content {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: thin;
+  scrollbar-color: #D1D5DB transparent;
+}
+
+.pt-tab-pane {
+  display: none;
+  padding: 10px 14px;
+
+  &.pt-tab-active {
+    display: block;
+    animation: pt-pane-in 0.18s ease both;
+  }
+}
+
+.pt-tab-pane--flex.pt-tab-active {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── Shared panel utilities — toggle pill grid ── */
+.pt-toggle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.pt-toggle-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  background: #F8F9FB;
+  border: 1px solid #E9ECF2;
+  border-radius: 6px;
+}
+
+.pt-toggle-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #374151;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Shared panel utilities — section card ── */
+.pt-section {
+  background: #fff;
+  border: 1px solid #E9ECF2;
+  border-radius: 8px;
+  padding: 12px 14px 6px;
+  margin-bottom: 12px;
+}
+
+.pt-section-header {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0D5C7A;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #EEF0F6;
+}
+
+/* ── Shared label style ── */
+label.labelFeild {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 3px;
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+/* ══════════════════════════════════════════════════════
+   GLOBAL cd-modal design system
+   Applies to ALL pages that use cd-modal-* classes
+   ══════════════════════════════════════════════════════ */
+
+@keyframes cdFadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cdSlideUp {
+  from { opacity: 0; transform: translate(-50%, calc(-50% + 14px)); }
+  to   { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+/* Ensure Syncfusion popups/dropdowns triggered inside a cd-modal stay above it */
+body > .e-popup,
+body > .e-ddl.e-popup,
+body > .e-multiselect-popup,
+body > .e-dropdownbase {
+  z-index: 10002 !important;
+}
+
+.cd-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 10000;
+  animation: cdFadeIn 0.15s ease;
+}
+
+.cd-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10001;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  animation: cdSlideUp 0.2s ease;
+  width: 90vw;
+  border: 1px solid #DFE2E8;
+  font-family: 'DM Sans', system-ui, sans-serif;
+
+  &.cd-modal-sm    { max-width: 440px;  max-height: 90vh; }
+  &.cd-modal-md    { max-width: 560px;  max-height: 90vh; }
+  &.cd-modal-xl    { max-width: 980px;  max-height: 90vh; }
+  &.cd-modal-panel { max-width: 980px;  height: 74vh; max-height: 74vh; }
+}
+
+.cd-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 22px;
+  background: #ffffff;
+  border-bottom: 1px solid #F0F2F5;
+  flex-shrink: 0;
+
+  .cd-modal-header-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: rgba(13, 92, 122, 0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    i { font-size: 16px; color: #0D5C7A; }
+  }
+
+  .cd-modal-title-block { flex: 1; min-width: 0; }
+
+  .cd-modal-title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #0F1623;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+  }
+
+  .cd-modal-subtitle {
+    font-size: 11px;
+    color: #8C93A6;
+    display: block;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cd-modal-close {
+    width: 28px;
+    height: 28px;
+    border: 1px solid #E4E7ED;
+    background: #fff;
+    border-radius: 6px;
+    color: #8C93A6;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.12s;
+    &:hover { background: #F8F9FB; color: #0F1623; }
+    i { font-size: 12px; }
+  }
+}
+
+.cd-modal-body {
+  padding: 16px 20px 10px;
+  flex: 1;
+  min-height: 0;
+  background: #fff;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 11px;
+  color: #374151;
+
+  &::-webkit-scrollbar       { width: 5px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 4px; }
+}
+
+.cd-modal-panel .cd-modal-body {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  /* stretch the unnamed wrapper div that holds each panel component */
+  > div {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.cd-modal-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.cd-modal-footer,
+.cd-modal-footer-inline {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 20px;
+  border-top: 1px solid #F0F2F5;
+  background: #FAFBFC;
+  flex-shrink: 0;
+}
+
+.cd-modal-footer { justify-content: space-between; }
+
+.cd-footer-info {
+  font-size: 12px;
+  color: #9CA3AF;
+  strong { color: #374151; font-weight: 500; }
+}
+
+/* cd-modal form helpers */
+.cd-modal-body {
+  label, .labelName, .labelFeild, label.labelFeild {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #374151 !important;
+    margin-bottom: 3px !important;
+    display: block;
+  }
+
+  input.form-control,
+  select.form-control,
+  textarea.form-control {
+    height: 28px;
+    padding: 3px 8px;
+    font-size: 11px;
+    border-radius: 4px;
+    border: 1px solid #D1D5DB;
+    color: #374151;
+    width: 100%;
+    &:focus {
+      border-color: #0D5C7A;
+      box-shadow: 0 0 0 2px rgba(13,92,122,0.12);
+      outline: none;
+    }
+  }
+
+  textarea.form-control { height: auto; padding: 6px 8px; }
+
+  .form-group { margin-bottom: 8px; }
+
+  .validation-error {
+    color: #DC2626;
+    font-size: 10px;
+    margin-top: 2px;
+  }
+}
+
+/* ── Global cd-btn button system ────────────────────── */
+.cd-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  transition: all 0.12s;
+  white-space: nowrap;
+
+  i { font-size: 12px; }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  &.cd-btn-sm {
+    padding: 5px 12px;
+    font-size: 11px;
+    border-radius: 6px;
+    gap: 5px;
+    i { font-size: 11px; }
+  }
+
+  &.cd-btn-primary {
+    background: #0D5C7A;
+    color: #fff;
+    &:hover:not(:disabled) { background: #0A4A62; box-shadow: 0 2px 8px rgba(13,92,122,0.3); }
+  }
+
+  &.cd-btn-ghost {
+    background: #fff;
+    color: #374151;
+    border: 1.5px solid #DFE2E8;
+    &:hover { background: #F7F9FB; }
+  }
+
+  &.cd-btn-danger {
+    background: #fff;
+    color: #EF4444;
+    border: 1.5px solid #FCA5A5;
+    &:hover { background: #FEF2F2; border-color: #F87171; }
+  }
 }

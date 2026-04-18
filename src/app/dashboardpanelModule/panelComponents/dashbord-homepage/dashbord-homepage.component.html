@@ -284,105 +284,76 @@
 </div>
 
 
-<ejs-dialog id="roleDialogBox" #roleDialogBox [isModal]='isModal' [visible]='visible'
-  [header]="'Role - Dashboard Permission'" [allowDragging]='dialogdragging' [animationSettings]='animationSettings'
-  [showCloseIcon]='dialogCloseIcon' (open)="dialogOpen()" (close)="dialogClose()" [target]="'.drag'" [width]='800'>
-
-  <ng-template #content>
+@if (showRoleDialog) {
+<div class="cd-modal-backdrop" (click)="onCancelPopup()"></div>
+<div class="cd-modal cd-modal-xl">
+  <div class="cd-modal-header">
+    <div class="cd-modal-header-icon"><i class="bi bi-person-lock"></i></div>
+    <h3 class="cd-modal-title">Role - Dashboard Permission</h3>
+    <button class="cd-modal-close" type="button" (click)="onCancelPopup()" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+  </div>
+  <div class="cd-modal-body">
     <div class="accessDiv" *ngIf="showChildComponent">
       <app-role-dashboard-access [dashboardId]="roleDashboardObj" (resFlag)="resFlag($event)"
         (resMessage)="getResponseMessage($event)" #roleBasedDialog></app-role-dashboard-access>
     </div>
-  </ng-template>
-
-  <ng-template #footerTemplate>
-
-    <button class="e-btn e-btn-purple" *ngIf="(roleDashboardPermissionObj?.can_create !== false) && submitFlag"
-      (click)="onRoleBasedAccessSubmit()">
-      Submit
-    </button>
-
-    <button class="e-btn e-btn-purple" *ngIf="(roleDashboardPermissionObj?.can_update !== false) && updateFlag"
-      (click)="onUpdateRoleBasedAccess()">
-      Update
-    </button>
-
-    <button (click)="delteRolePermission()" *ngIf="(roleDashboardPermissionObj?.can_delete !== false) && updateFlag"
-      type='button' class="e-btn e-btn-purple">
-      Delete Permission
-    </button>
+  </div>
+  <div class="cd-modal-footer-inline">
+    <button class="cd-btn cd-btn-sm cd-btn-primary" *ngIf="(roleDashboardPermissionObj?.can_create !== false) && submitFlag" (click)="onRoleBasedAccessSubmit()">Submit</button>
+    <button class="cd-btn cd-btn-sm cd-btn-primary" *ngIf="(roleDashboardPermissionObj?.can_update !== false) && updateFlag" (click)="onUpdateRoleBasedAccess()">Update</button>
+    <button class="cd-btn cd-btn-sm cd-btn-danger" *ngIf="(roleDashboardPermissionObj?.can_delete !== false) && updateFlag" type='button' (click)="delteRolePermission()">Delete Permission</button>
+  </div>
+</div>
+}
 
 
-  </ng-template>
-
-</ejs-dialog>
-
-
-<ejs-dialog id="userDialogBox" #userDialogBox [isModal]='isModal' [visible]='visible'
-  [header]="'User - Dashboard Permissions'" [allowDragging]='dialogdragging' [animationSettings]='animationSettings'
-  [showCloseIcon]='dialogCloseIcon' height="300" (open)="dialogOpen()" (close)="dialogClose()" [target]="'.drag'"
-  [width]='800'>
-
-  <ng-template #content>
+@if (showUserDialog) {
+<div class="cd-modal-backdrop" (click)="showUserDialog = false; showUserPopup = false"></div>
+<div class="cd-modal cd-modal-xl">
+  <div class="cd-modal-header">
+    <div class="cd-modal-header-icon"><i class="bi bi-person-lock"></i></div>
+    <h3 class="cd-modal-title">User - Dashboard Permissions</h3>
+    <button class="cd-modal-close" type="button" (click)="showUserDialog = false; showUserPopup = false" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+  </div>
+  <div class="cd-modal-body">
     <div class="accessDiv" *ngIf="showUserPopup">
-
       <app-user-dashboard-access [userBasedDashboardId]="sendDashboardId" (resFlag)="resUserFlag($event)"
         (resMessage)="getResponseMessage($event)" #userBasedDialog></app-user-dashboard-access>
-
     </div>
-  </ng-template>
+  </div>
+  <div class="cd-modal-footer-inline">
+    <button class="cd-btn cd-btn-sm cd-btn-primary" *ngIf="(userDashboardPermissionObj?.can_create !== false) && userSubmitFlag" (click)="onUserBasedAccessSubmit()">Submit</button>
+    <button class="cd-btn cd-btn-sm cd-btn-primary" type="button" *ngIf="(userDashboardPermissionObj?.can_update !== false) && userUpdateFlag" (click)="onUserUpdateDashboardAccess()">Update</button>
+    <button class="cd-btn cd-btn-sm cd-btn-danger" *ngIf="(userDashboardPermissionObj?.can_delete !== false) && userUpdateFlag" type='button' (click)="deleteUserPermission()">Delete Permission</button>
+  </div>
+</div>
+}
 
-  <ng-template #footerTemplate>
-
-    <button class="e-btn e-btn-purple" [ngStyle]="{
-      'background-image': orgPropertiesData.menu_bar_bg ? orgPropertiesData.menu_bar_bg : '#9977f9'}"
-      *ngIf=" (userDashboardPermissionObj?.can_create !== false) && userSubmitFlag" (click)="onUserBasedAccessSubmit()">
-      Submit
-    </button>
-
-    <button class="e-btn e-btn-purple" type="button"
-      *ngIf=" (userDashboardPermissionObj?.can_update !== false) && userUpdateFlag"
-      (click)="onUserUpdateDashboardAccess()">
-      Update
-    </button>
-
-    <button (click)="deleteUserPermission()"
-      *ngIf="  (userDashboardPermissionObj?.can_delete !== false) &&  userUpdateFlag" type='button'
-      class="e-btn e-btn-purple">
-      Delete Permission
-    </button>
-
-  </ng-template>
-
-</ejs-dialog>
-
-<ejs-dialog id="dashboardPopup" height="300" #dashboardPopup [isModal]='isModal' [visible]='visible'
-  [header]="'Create Dashboard'" [allowDragging]='dialogdragging' [animationSettings]='animationSettings'
-  [showCloseIcon]='dialogCloseIcon' (open)="dialogOpen()" (close)="dialogClose()" [target]="'.drag'" [width]='400'>
-
-  <ng-template #content>
+@if (showDashboardPopup) {
+<div class="cd-modal-backdrop" (click)="showDashboardPopup = false"></div>
+<div class="cd-modal cd-modal-sm">
+  <div class="cd-modal-header">
+    <div class="cd-modal-header-icon"><i class="bi bi-layout-wtf"></i></div>
+    <h3 class="cd-modal-title">Create Dashboard</h3>
+    <button class="cd-modal-close" type="button" (click)="showDashboardPopup = false" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+  </div>
+  <div class="cd-modal-body">
     <form [formGroup]="dashboardCreationForm">
       <div class="form-group">
-        <label for="title">Title <span style="color: red">*</span></label>
+        <label for="title">Title <span class="cd-req">*</span></label>
         <input type="text" class="form-control" formControlName="dashboard_name">
-        <div *ngIf="dashboardCreationForm.get('title')?.invalid && dashboardCreationForm.get('title')?.touched"
-          style="color: red;">
-          Title is required.
-        </div>
+        @if (dashboardCreationForm.get('title')?.invalid && dashboardCreationForm.get('title')?.touched) {
+          <div style="color: red; font-size:11px;">Title is required.</div>
+        }
       </div>
-
       <div class="form-group">
         <label for="description">Description</label>
         <input type="text" class="form-control" formControlName="description">
       </div>
-
     </form>
-  </ng-template>
-
-  <ng-template #footerTemplate>
-    <button class="e-btn e-btn-purple" type="button" (click)="createDashboard()">
-      Create
-    </button>
-  </ng-template>
-
-</ejs-dialog>
+  </div>
+  <div class="cd-modal-footer-inline">
+    <button class="cd-btn cd-btn-sm cd-btn-primary" type="button" (click)="createDashboard()">Create</button>
+  </div>
+</div>
+}

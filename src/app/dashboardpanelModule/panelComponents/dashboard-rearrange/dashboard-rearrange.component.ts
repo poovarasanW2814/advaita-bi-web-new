@@ -23,8 +23,8 @@ import { NgIf, NgFor } from '@angular/common';
 export class DashboardRearrangeComponent implements OnInit {
 
   @ViewChild('listbox1') listObj1!: ListBoxComponent; 
-  @ViewChild('defaultDialog') defaultDialog!: DialogComponent;
-  @ViewChild('groupingDialog') groupingDialog!: DialogComponent;
+  showSetupDialog: boolean = false;
+  showGroupingDialog: boolean = false;
   @ViewChild('dialogBtn')dialogBtn!: ButtonComponent;
 
   fields: FieldSettingsModel = { text: 'dashboard_name', description : 'description', value: 'dashboard_index'};
@@ -91,11 +91,12 @@ export class DashboardRearrangeComponent implements OnInit {
    ngOnInit(): void {
 
     let userData : any =  sessionStorage.getItem('userInformation');
-    this.userObj = userData;
-    this.isSuperadmin = userData.user_id == 1;
-    console.log(this.isSuperadmin)
     if(userData){
      userData = JSON.parse(userData);
+    }
+    this.userObj = userData;
+    this.isSuperadmin = userData?.username === 'superadmin' || userData?.user_id == 1;
+    console.log(this.isSuperadmin)
      console.log(userData)
     this.chartService.getDashboardSetupByUserId(userData.user_id).subscribe((res : any) =>{
       console.log(res);
@@ -119,7 +120,6 @@ export class DashboardRearrangeComponent implements OnInit {
         this.updateFlag  = false;
       }
     })
-    }
 
 
     if(userData){
@@ -481,13 +481,13 @@ export class DashboardRearrangeComponent implements OnInit {
     isSuperadmin: boolean = false;
 
 dialogBtnClick() {
-  this.defaultDialog.show();
+  this.showSetupDialog = true;
   let userData : any =  sessionStorage.getItem('userInformation');
   // this.userObj = userData;
   if(userData){
    userData = JSON.parse(userData);
   console.log('userData', userData)
-  this.isSuperadmin = userData.user_id === 1;
+  this.isSuperadmin = userData?.username === 'superadmin' || userData?.user_id === 1;
 
   this.chartService.getDashboardSetupByUserId(userData.user_id).subscribe((res : any) =>{
     console.log(res);
@@ -517,7 +517,7 @@ createDashboardSetup(){
   console.log(formValue);
   this.loaderService.show();
 
-  this.defaultDialog.hide()
+  this.showSetupDialog = false;
   this.chartService.createDashboardSetup(formValue).subscribe(
     (res : any) =>{
       console.log(res)
@@ -554,7 +554,7 @@ toggleUpdateMode(isUpdate: boolean): void {
 updateDashboardSetup(){
   let formValue = this.dashboardSetupForm.value
   console.log(this.setupId,formValue )
-  this.defaultDialog.hide()
+  this.showSetupDialog = false;
   this.loaderService.show();
 
  this.chartService.updateDashboardSetup(this.setupId, formValue).subscribe(

@@ -1,17 +1,23 @@
 ﻿import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject} from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartService } from 'src/app/core/services/chart.service';
-import { ColorPickerModule } from '@syncfusion/ej2-angular-inputs';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 
 @Component({
     selector: 'app-card-template',
     templateUrl: './card-template.component.html',
     styleUrls: ['./card-template.component.scss'],
-    imports: [FormsModule, ReactiveFormsModule, ColorPickerModule, DropDownListModule]
+    imports: [FormsModule, ReactiveFormsModule, DropDownListModule]
 })
 export class CardTemplateComponent implements OnInit , OnChanges{
 
+  ddlFields: any = { text: 'text', value: 'value' };
+  layoutOptions: any[] = [
+    { text: 'space-between-layout', value: 'space-between' },
+    { text: 'reverse-horizontal-layout', value: 'reverse-horizontal' },
+    { text: 'vertical-layout', value: 'vertical' },
+    { text: 'horizontal-layout', value: 'horizontal' }
+  ];
 
   boxTemplateForm! : FormGroup;
   @Input() getPanelObj : any;

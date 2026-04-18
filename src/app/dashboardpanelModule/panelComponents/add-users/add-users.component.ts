@@ -1,13 +1,13 @@
-import { Component, HostListener, OnInit, ViewChild, inject} from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, inject, ChangeDetectorRef} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DialogComponent, AnimationSettingsModel, DialogModule } from '@syncfusion/ej2-angular-popups';
+
 
 import { ChartService } from 'src/app/core/services/chart.service';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';
 import { UserBasedPermissionComponent } from '../user-based-permission/user-based-permission.component';
 import { passwordValidator } from 'src/app/core/validators/custom-validators';
-import { GridComponent, GridModule } from '@syncfusion/ej2-angular-grids';
+import { GridComponent, GridModule, PageService, GroupService, SortService, FilterService, ResizeService, ReorderService, ColumnMenuService, ExcelExportService as GridExcelExportService, PdfExportService as GridPdfExportService, ToolbarService as GridToolbarService } from '@syncfusion/ej2-angular-grids';
 import { AnimationModel, ChartModule } from '@syncfusion/ej2-angular-charts';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { passwordMatchValidator } from 'src/app/core/validators/passwordMatch-validator';
@@ -27,7 +27,8 @@ import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
     selector: 'app-add-users',
     templateUrl: './add-users.component.html',
     styleUrls: ['./add-users.component.scss'],
-    imports: [FormsModule, NgIf, ButtonModule, GridModule, ChartModule, KanbanModule, NgStyle, DialogModule, ReactiveFormsModule, DropDownListModule, NgClass, NgFor, SwitchModule, UserBasedPermissionComponent, MultipleDashboardUserPermissionComponent]
+    providers: [PageService, GroupService, SortService, FilterService, ResizeService, ReorderService, ColumnMenuService, GridExcelExportService, GridPdfExportService, GridToolbarService],
+    imports: [FormsModule, NgIf, ButtonModule, GridModule, ChartModule, KanbanModule, NgStyle, ReactiveFormsModule, DropDownListModule, NgClass, NgFor, SwitchModule, UserBasedPermissionComponent, MultipleDashboardUserPermissionComponent]
 })
 
 export class AddUsersComponent implements OnInit {
@@ -35,23 +36,46 @@ export class AddUsersComponent implements OnInit {
   registrationForm!: FormGroup;
   resetPasswordForm!: FormGroup;
 
-  @ViewChild('defaultDialog')
-  defaultDialog!: DialogComponent;
-  @ViewChild('roleDialogBox')
-  roleDialogBox!: DialogComponent;
-  @ViewChild('userUploadPopup')
-  userUploadPopup!: DialogComponent;
+  // Custom modal visibility flags
+  showDefaultDialog = false;
+  showRoleDialog = false;
+  showUserUploadPopup = false;
+  showDbPermissionDialog = false;
+  showMultipleDbPermission = false;
+  showResetPasswordPopup = false;
+  isModalClosing = false;
+
+  private openModal(flag: 'showDefaultDialog' | 'showRoleDialog' | 'showUserUploadPopup' | 'showDbPermissionDialog' | 'showMultipleDbPermission' | 'showResetPasswordPopup'): void {
+    (this as any)[flag] = true;
+    document.body.classList.add('au-modal-open');
+  }
+
+  private closeModalWithAnimation(flag: 'showDefaultDialog' | 'showRoleDialog' | 'showUserUploadPopup' | 'showDbPermissionDialog' | 'showMultipleDbPermission' | 'showResetPasswordPopup'): void {
+    this.isModalClosing = true;
+    setTimeout(() => {
+      (this as any)[flag] = false;
+      this.isModalClosing = false;
+      if (!this.showDefaultDialog && !this.showRoleDialog && !this.showUserUploadPopup &&
+          !this.showDbPermissionDialog && !this.showMultipleDbPermission && !this.showResetPasswordPopup) {
+        document.body.classList.remove('au-modal-open');
+      }
+    }, 250);
+  }
+
+  closeDefaultDialog(): void { this.closeModalWithAnimation('showDefaultDialog'); }
+  closeRoleDialog(): void {
+    this.permissionDialogOpen = false;
+    this.closeModalWithAnimation('showRoleDialog');
+  }
+  closeUserUploadPopup(): void { this.closeModalWithAnimation('showUserUploadPopup'); }
+  closeDbPermissionDialog(): void { this.closeModalWithAnimation('showDbPermissionDialog'); }
+  closeMultipleDbPermission(): void { this.closeModalWithAnimation('showMultipleDbPermission'); }
+  closeResetPasswordPopup(): void { this.closeModalWithAnimation('showResetPasswordPopup'); }
 
 
   sendUserObj: any;
+  permissionDialogOpen: boolean = false;
 
-  dialogCloseIcon: Boolean = true;
-  dialogWidth: string = '850px';
-  dialogdragging: Boolean = true;
-  animationSettings: AnimationSettingsModel = { effect: 'SlideBottom' };
-  isModal: Boolean = true;
-  target: string = '.control-section';
-  showCloseIcon: Boolean = false;
   visible: Boolean = false;
   submitFlag: boolean = true;
   updateFlag: boolean = false;
@@ -75,13 +99,12 @@ export class AddUsersComponent implements OnInit {
   activeUsersArray: any = [];
 
   dialogBtnClick = (): void => {
-    this.initForm()
-    this.defaultDialog.show();
+    this.initForm();
     this.submitFlag = true;
     this.updateFlag = false;
     this.FormTitle = 'Add User';
     this.registrationForm.reset();
-
+    this.openModal('showDefaultDialog');
   }
 
 
@@ -151,6 +174,7 @@ export class AddUsersComponent implements OnInit {
   private readonly loaderService = inject(LoaderService);
   private readonly popupService = inject(PopupService);
   private readonly userService = inject(UserService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   userBasedAcessObj: any;
   userDashboardPermissionObj: any
@@ -203,6 +227,8 @@ export class AddUsersComponent implements OnInit {
       console.log('userInfoData in add user page', userData,  this.userInfoData);
       let userName = userData.username;
 
+      this.loaderService.show();
+
       if(userName == 'superadmin'){
         this.chartService.getAllUsersDetails().subscribe(
 
@@ -212,10 +238,10 @@ export class AddUsersComponent implements OnInit {
             if (res.success) {
 
               this.registeredUsersArray = res['data'];
-              this.filteredUsersArray = this.registeredUsersArray;
-
-              this.filteredUsersArray = this.filteredUsersArray.sort((a: any, b: any) => b.user_id - a.user_id)
+              this.filteredUsersArray = [...this.registeredUsersArray].sort((a: any, b: any) => b.user_id - a.user_id);
               sessionStorage.setItem('usersArray', JSON.stringify(this.registeredUsersArray));
+              this.cdr.detectChanges();
+              setTimeout(() => { if (this.grid) { this.grid.dataSource = this.filteredUsersArray; } });
 
             } else {
               // this.showPopup(res.success, '35px', res.message)
@@ -247,12 +273,12 @@ export class AddUsersComponent implements OnInit {
             console.log('active users for other users', res)
             if (res.success) {
               this.registeredUsersArray = res['data'];
-              this.filteredUsersArray = this.registeredUsersArray;
-              this.filteredUsersArray = this.filteredUsersArray.filter((user: any) => user.role !== 'superadmin');
-
-              this.filteredUsersArray = this.filteredUsersArray.sort((a: any, b: any) => b.user_id - a.user_id)
-
+              this.filteredUsersArray = [...this.registeredUsersArray]
+                .filter((user: any) => user.role !== 'superadmin')
+                .sort((a: any, b: any) => b.user_id - a.user_id);
               sessionStorage.setItem('usersArray', JSON.stringify(this.registeredUsersArray));
+              this.cdr.detectChanges();
+              setTimeout(() => { if (this.grid) { this.grid.dataSource = this.filteredUsersArray; } });
             } else {
               //this.showPopup(res.success, '35px', res.message)
 
@@ -384,8 +410,6 @@ export class AddUsersComponent implements OnInit {
       }
 
     })
-
-    this.loaderService.show()
 
     // this.resetPasswordForm = this.formBuilder.group({
     //   confirm_password: ['', [Validators.required, Validators.minLength(8), CustomPasswordValidator]],
@@ -624,7 +648,7 @@ export class AddUsersComponent implements OnInit {
     this.submitFlag = false;
     this.updateFlag = true;
     console.log(data.user_id, typeof (data.user_id))
-    this.defaultDialog.show()
+    this.openModal('showDefaultDialog');
     this.FormTitle = 'Update User'
 
     this.chartService.getUserDetailsById(data.user_id).subscribe((res: any) => {
@@ -666,7 +690,7 @@ export class AddUsersComponent implements OnInit {
 
   onUserBasedFormSubmit() {
     this.UserBasedPermissionComponent.onFormSubmit();
-    this.roleDialogBox.hide()
+    this.closeRoleDialog();
   }
   onRoleFormClick(data: any) {
     console.log(data);
@@ -675,10 +699,12 @@ export class AddUsersComponent implements OnInit {
       role: data.role,
       user_id: data.user_id
     }
+    // Destroy child first so it recreates with fresh state
+    this.permissionDialogOpen = false;
     this.sendUserObj = obj;
-    // let roleObj = this.rolesObjArr.find((ele : any) => ele.role === obj.role);
-    // let userObj = this.registeredUsersArray.find((ele : any) => ele.username === obj.username);
-    this.roleDialogBox.show();
+    this.openModal('showRoleDialog');
+    // Let Angular destroy the old component, then recreate it with new input
+    setTimeout(() => { this.permissionDialogOpen = true; }, 0);
 
     this.chartService.getRoleDetailsByRolename(data.role).subscribe((res: any) => {
       let roleData = res['data'];
@@ -726,16 +752,13 @@ export class AddUsersComponent implements OnInit {
 
   }
   onUpdateUserPermission() {
-
     this.UserBasedPermissionComponent.onUpdateFormSubmit();
-    this.roleDialogBox.hide()
-
+    this.closeRoleDialog();
   }
 
   onDeleteUserPermission() {
     this.UserBasedPermissionComponent.onDeleteUserBasedForm();
-    this.roleDialogBox.hide()
-
+    this.closeRoleDialog();
   }
 
 
@@ -850,7 +873,7 @@ export class AddUsersComponent implements OnInit {
           this.chartService.registerUser(obj).subscribe(
             (res: any) => {
               console.log(' user res', res);
-              this.defaultDialog.hide()
+              this.showDefaultDialog = false;
               this.loaderService.hide()
               this.popupService.showPopup({
                 message: res.message,
@@ -896,14 +919,7 @@ export class AddUsersComponent implements OnInit {
 
 
   editColumnObjIndex: any;
-  @ViewChild('roleDbPermissionDlgBox')
-  roleDbPermissionDlgBox!: DialogComponent;
 
-  @ViewChild('multipleDbPermission')
-  multipleDbPermission!: DialogComponent;
-
-  @ViewChild('resetPasswordPopup')
-  resetPasswordPopup!: DialogComponent;
   
 
   dashboardPermissionsList: any[] = [];
@@ -961,7 +977,7 @@ export class AddUsersComponent implements OnInit {
 
             //  this.showPopup(res.success, '35px', 'User updated successfully')
 
-            this.defaultDialog.hide();
+            this.showDefaultDialog = false;
             this.submitFlag = true;
             this.updateFlag = false;
             this.popupService.showPopup({
@@ -1076,7 +1092,7 @@ export class AddUsersComponent implements OnInit {
   headerValidationMessage: string = '';
   isValidFile: boolean = false;
   openUserPopup() {
-    this.userUploadPopup.show()
+    this.openModal('showUserUploadPopup');
   }
   downloadTemplate(): void {
     this.exportAsExcelFile();
@@ -1186,7 +1202,7 @@ export class AddUsersComponent implements OnInit {
     this.loaderService.show()
 
     console.log('obj', obj)
-    this.userUploadPopup.hide()
+    this.showUserUploadPopup = false;
     this.chartService.updateBulkUsers(obj).subscribe(
       (res: any) => {
         console.log('res', res)
@@ -1221,7 +1237,7 @@ export class AddUsersComponent implements OnInit {
       "file_type": this.fileType
     }
 
-    this.userUploadPopup.hide()
+    this.showUserUploadPopup = false;
     this.chartService.uploadBulkUsers(obj).subscribe(
       (res: any) => {
         //  this.showPopup(res.success, '35px', res.message)
@@ -1386,7 +1402,7 @@ export class AddUsersComponent implements OnInit {
 
   openDashboardPopup(data: any) {
     console.log('data', data);
-    this.roleDbPermissionDlgBox.show();
+    this.openModal('showDbPermissionDialog');
     let roleId: any;
     this.UserName = 'Dashboard Permissions for User :- ' + data.username
     this.chartService.getRoleDetailsByRolename(data.role).subscribe((res: any) => {
@@ -1409,7 +1425,7 @@ export class AddUsersComponent implements OnInit {
   isUpdateUserDashboardFlag: boolean = false;
   openDashboardPermissionPopup(data: any) {
     console.log('data', data)
-    this.multipleDbPermission.show();
+    this.openModal('showMultipleDbPermission');
     let roleId: any;
     this.UserName = 'Dashboard Permissions for User :- ' + data.username;
 
@@ -1441,14 +1457,12 @@ export class AddUsersComponent implements OnInit {
 
   onDashboardRoleUserSubmit() {
     this.MultipleDashboardUserPermissionComponent.submitPermissions();
-    this.multipleDbPermission.hide();
-
+    this.closeMultipleDbPermission();
   }
 
   onDashboardRoleUserUpdate() {
     this.MultipleDashboardUserPermissionComponent.updatePermissions();
-    this.multipleDbPermission.hide();
-
+    this.closeMultipleDbPermission();
   }
 
   // code for reset password
@@ -1456,7 +1470,7 @@ export class AddUsersComponent implements OnInit {
   selectedUserInfo! : any;
   resetPasswordHeader : string = 'Reset Password for :- '
   openResetPasswordDialog(data : any){
-    this.resetPasswordPopup.show();
+    this.openModal('showResetPasswordPopup');
     this.resetPasswordHeader = 'Reset Password for :- ' + data.username;
     console.log('data in users', data)
     this.selectedUserInfo = data;
@@ -1511,7 +1525,7 @@ export class AddUsersComponent implements OnInit {
       }).subscribe({
         next: (res: any) => {
           this.loaderService.hide();
-          this.resetPasswordPopup.hide();
+          this.showResetPasswordPopup = false;
 
           this.popupService.showPopup({
             message: res.message,
@@ -1519,13 +1533,12 @@ export class AddUsersComponent implements OnInit {
             status: res.success
           });
           if (res.success) {
-            this.visible = false;
             this.resetPasswordForm.reset();
           }
         },
         error: (err: any) => {
           this.loaderService.hide();
-          this.resetPasswordPopup.hide();
+          this.showResetPasswordPopup = false;
           const errorMessage = err.error && err.error.message ? err.error.message : err.message;
           this.popupService.showPopup({
             message: errorMessage,

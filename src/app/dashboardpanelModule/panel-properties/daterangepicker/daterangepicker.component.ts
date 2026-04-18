@@ -1,7 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TabComponent } from '@syncfusion/ej2-angular-navigations';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { SwitchModule } from '@syncfusion/ej2-angular-buttons';
@@ -14,9 +13,12 @@ import { SwitchModule } from '@syncfusion/ej2-angular-buttons';
 })
 
 export class DaterangepickerComponent implements OnInit, OnChanges {
+  activeTab: number = 0;
+  tabLabels: string[] = ['General', 'Condition'];
+  selectTab(i: number): void { this.activeTab = i; }
+
   @Input() getPanelObj: any;
   public headerText: any = [{ text: "General" }];
-  @ViewChild('tabComponent') tab! : TabComponent
 
 
   @Output() sendBoxObj = new EventEmitter()
@@ -73,10 +75,8 @@ export class DaterangepickerComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     let currentValue = changes['getPanelObj'].currentValue;
     if (currentValue != undefined || currentValue != null) {
-      // this.tab.selectedItem = 0;
-      if (this.tab) {
-        this.tab.selectedItem = 0;
-      }
+      // this.activeTab = 0;
+        this.activeTab = 0;
       this.getPanelObj = currentValue;
       this.connection_id = this.getPanelObj.connection_id;
       // console.log('before assigning', this.getPanelObj)

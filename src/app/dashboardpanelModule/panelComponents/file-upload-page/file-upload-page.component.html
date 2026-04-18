@@ -254,34 +254,28 @@
 
 <div class="control-section drag">
 
-  <ejs-dialog id="defaultDialog" #defaultDialog [isModal]='isModal'  [visible]='visible'
-    [header]='dialogHeader' [allowDragging]='dialogdragging' [header]="uploadedFileName" [animationSettings]='animationSettings'
-    [showCloseIcon]='dialogCloseIcon'  [target]='target'
-    [width]='dialogWidth'>
-
-    <ng-template #content>
-
-      <div style="padding:10px">
-        <ejs-grid #grid (dataBound)="onDataBound(grid)"  [dataSource]="gridDatasource" [autoFit]="true" [scrollLeft]="true">
-
-        </ejs-grid>
-      </div>
-
-
-    </ng-template>
-    <ng-template #footerTemplate>
+  @if (showPreviewDialog) {
+  <div class="cd-modal-backdrop" (click)="onCancel()"></div>
+  <div class="cd-modal cd-modal-xl">
+    <div class="cd-modal-header">
+      <div class="cd-modal-header-icon"><i class="bi bi-file-earmark-spreadsheet"></i></div>
+      <h3 class="cd-modal-title">{{ uploadedFileName }}</h3>
+      <button class="cd-modal-close" type="button" (click)="onCancel()" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="cd-modal-body" style="padding:10px">
+      <ejs-grid #grid (dataBound)="onDataBound(grid)" [dataSource]="gridDatasource" [autoFit]="true" [scrollLeft]="true">
+      </ejs-grid>
+    </div>
+    <div class="cd-modal-footer-inline">
       @if (permissionObj.can_create) {
-        <button class="e-btn e-btn-purple"  (click)="onSubmit()">
-          Upload
-        </button>
+        <button class="cd-btn cd-btn-sm cd-btn-primary" (click)="onSubmit()">Upload</button>
       }
-      @if ( permissionObj.can_update) {
-        <button class="e-btn e-btn-purple"  (click)="onCancel()">
-          Cancel
-        </button>
+      @if (permissionObj.can_update) {
+        <button class="cd-btn cd-btn-sm cd-btn-ghost" (click)="onCancel()">Cancel</button>
       }
-    </ng-template>
-  </ejs-dialog>
+    </div>
+  </div>
+  }
 </div>
 
 </div>

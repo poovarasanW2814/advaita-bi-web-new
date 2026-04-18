@@ -1,76 +1,65 @@
-<div class="control-section drag" style="padding:20px 10px;">
-
-
-  <div>
-    <form action="" [formGroup]="userMappingForm" (ngSubmit)="onMappingFormSubmit()">
-      <div class="row">
-        <div class="form-group col-md-4">
-          <label for="tableName">Tabel Name</label>
-
+<div class="rm-wrapper">
+  <form [formGroup]="userMappingForm" (ngSubmit)="onMappingFormSubmit()">
+    <div class="rm-form-row">
+      <div class="cd-field">
+        <label class="cd-label">Table Name</label>
+        <div class="cd-dropdown">
           <ejs-dropdownlist [dataSource]='tableNamesArray' [allowFiltering]="true" formControlName="tableName"
-            (change)="onTableDropdown(tableDropdown.value)" #tableDropdown
-          class="tableNameDropdown"></ejs-dropdownlist>
-
-
+            (change)="onTableDropdown(tableDropdown.value)" #tableDropdown></ejs-dropdownlist>
         </div>
-        <div class="form-group col-md-4">
-          <label for="tableName">Field Name</label>
-
-
+      </div>
+      <div class="cd-field">
+        <label class="cd-label">Field Name</label>
+        <div class="cd-dropdown">
           <ejs-dropdownlist [dataSource]='fieldNamesArray' [allowFiltering]="true"
-          formControlName="fieldName"  class="tableNameDropdown"></ejs-dropdownlist>
-
+            formControlName="fieldName"></ejs-dropdownlist>
         </div>
-        <div class="form-group col-md-4">
-          <label for="tableName"> Role</label>
-
+      </div>
+      <div class="cd-field">
+        <label class="cd-label">Role</label>
+        <div class="cd-dropdown">
           <ejs-dropdownlist [dataSource]='RolesArray' [allowFiltering]="true"
-          formControlName="roleName" [fields]="roleFields"  class="tableNameDropdown"></ejs-dropdownlist>
-
+            formControlName="roleName" [fields]="roleFields"></ejs-dropdownlist>
         </div>
       </div>
+    </div>
+    <div class="rm-action-row">
+      @if (saveflag) {
+        <button type="submit" class="cd-btn cd-btn-primary">
+          <i class="bi bi-plus-lg"></i> Add
+        </button>
+      }
+      @if (updateFlag) {
+        <button type="button" class="cd-btn cd-btn-primary" (click)="updateForm()">
+          <i class="bi bi-arrow-repeat"></i> Update
+        </button>
+      }
+    </div>
+  </form>
 
-      <div class="form-group" style="text-align: right;">
-        @if (saveflag) {
-          <button ejs-button class="e-btn e-btn-purple">
-            Add
-          </button>
-        }
-        @if (updateFlag) {
-          <button ejs-button class="e-btn e-btn-purple" (click)="updateForm()" type="button">
-            Update
-          </button>
-        }
-      </div>
-    </form>
-  </div>
-  <div>
-    <ejs-grid [dataSource]='userMappingArr' height="100">
+  <div class="rm-grid-wrap">
+    <ejs-grid [dataSource]='userMappingArr' height="180">
       <e-columns>
-        <e-column field= "roleName" headerText="Role"  ></e-column>
-        <e-column field= "tableName" headerText="TableName" ></e-column>
-        <e-column field= "fieldName" headerText="FieldName" ></e-column>
-        <e-column headerText='Action' width='160'>
+        <e-column field="roleName" headerText="Role"></e-column>
+        <e-column field="tableName" headerText="Table Name"></e-column>
+        <e-column field="fieldName" headerText="Field Name"></e-column>
+        <e-column headerText='Action' width='120'>
           <ng-template #template let-userMappingArr>
-            <button ejs-button cssClass="e-flat-icon" (click)="editRecord(userMappingArr)">
+            <button class="rm-icon-btn" (click)="editRecord(userMappingArr)" title="Edit">
               <i class="bi bi-pencil-square"></i>
             </button>
-            <button ejs-button cssClass="e-flat-icon" style="margin-left:15px" (click)="deleteRecord(userMappingArr)">
-              <i class="bi bi-trash"  ></i>
+            <button class="rm-icon-btn rm-icon-btn-danger" (click)="deleteRecord(userMappingArr)" title="Delete">
+              <i class="bi bi-trash"></i>
             </button>
-
-
           </ng-template>
-
         </e-column>
       </e-columns>
     </ejs-grid>
   </div>
 
-  <div style="text-align: right; margin-top:10px">
-    <button ejs-button class="e-btn e-btn-purple" (click)="onSubmit()">
-      Save
+  <div class="rm-footer">
+    <button type="button" class="cd-btn cd-btn-primary" (click)="onSubmit()">
+      <i class="bi bi-check2-all"></i> Save
     </button>
   </div>
-
 </div>

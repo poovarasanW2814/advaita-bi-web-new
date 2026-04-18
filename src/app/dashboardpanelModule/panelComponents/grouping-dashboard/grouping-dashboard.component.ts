@@ -60,10 +60,9 @@ export class GroupingDashboardComponent implements OnInit , AfterViewInit {
   dashboardDataList: Group[] = [];
   flattenedDashboards: Dashboard[] = [];
   unGroupedDashboards: Dashboard[] = [];
-  @ViewChild('groupingDialog') groupingDialog!: DialogComponent;
+  showGroupingDialog: boolean = false;
   selectedGroup: Group | null = null;
   availableDashboards: Dashboard[] = [];
-  @ViewChild('editDashboardDialog') editDashboardDialog!: DialogComponent;
   editDashboardDialogVisible: boolean = false;
   dashboardToEdit: any = null;
   editDashboardForm!: FormGroup;
@@ -467,7 +466,7 @@ ngAfterViewInit(): void {
   createGroupingOld() {
     // Logic to create a new grouping
     console.log('Create Grouping');
-    this.groupingDialog.show();
+    this.showGroupingDialog = true;
     this.groupingFormInit();
 
     // editDashboardDialog;
@@ -615,7 +614,7 @@ ngAfterViewInit(): void {
 
     console.log('modifiedDashboards', modifiedDashboards)
     this.loaderService.show();
-    this.groupingDialog.hide();
+    this.showGroupingDialog = false;
 
     this.chartService.updateDashboardDetails(modifiedDashboards).subscribe(
       (res: any) => {
@@ -661,7 +660,7 @@ ngAfterViewInit(): void {
     });
 
     // Show dialog
-    this.groupingDialog.show();
+    this.showGroupingDialog = true;
   }
 
 
@@ -685,7 +684,7 @@ ngAfterViewInit(): void {
       dashboardNames: dashboardIds
     });
 
-    this.groupingDialog.show();
+    this.showGroupingDialog = true;
   }
 
 
@@ -715,9 +714,6 @@ ngAfterViewInit(): void {
     });
     this.isEditCustomGroup = false;
     this.editDashboardDialogVisible = true;
-    setTimeout(() => {
-      if (this.editDashboardDialog) this.editDashboardDialog.show();
-    });
   }
 
 
@@ -740,9 +736,6 @@ ngAfterViewInit(): void {
   createGrouping() {
     this.createGroupFormInit();
     this.createGroupDialogVisible = true;
-    setTimeout(() => {
-      if (this.editDashboardDialog) this.editDashboardDialog.show();
-    });
   }
 
   onCreateGroupSubmit() {
@@ -802,7 +795,6 @@ ngAfterViewInit(): void {
 
     // Close the dialog and show success message
     this.createGroupDialogVisible = false;
-    if (this.editDashboardDialog) this.editDashboardDialog.hide();
     this.showToasterMessage('Group created successfully');
     // this.popupService.showPopup({
     //   message:'Group created successfully',
@@ -835,7 +827,6 @@ ngAfterViewInit(): void {
       (res: any) => {
         this.loaderService.hide();
         this.editDashboardDialogVisible = false;
-        if (this.editDashboardDialog) this.editDashboardDialog.hide();
         this.popupService.showPopup({
           message: res.message,
           statusCode: res.status_code,
@@ -846,7 +837,6 @@ ngAfterViewInit(): void {
       (err: any) => {
         this.loaderService.hide();
         this.editDashboardDialogVisible = false;
-        if (this.editDashboardDialog) this.editDashboardDialog.hide();
         const errorMessage = err.error && err.error.message ? err.error.message : err.message;
         this.popupService.showPopup({
           message: errorMessage,

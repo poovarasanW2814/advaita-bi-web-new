@@ -1,11 +1,10 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild ,ChangeDetectorRef, inject} from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TabComponent, TabModule } from '@syncfusion/ej2-angular-navigations';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { SwitchModule, ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { NgIf, NgFor } from '@angular/common';
-import { ColorPickerModule } from '@syncfusion/ej2-angular-inputs';
+
 
 interface ViewConfig {
   scheduleView: string;
@@ -18,9 +17,13 @@ interface ViewConfig {
     selector: 'app-property-scedule',
     templateUrl: './property-scedule.component.html',
     styleUrls: ['./property-scedule.component.scss'],
-    imports: [TabModule, FormsModule, ReactiveFormsModule, DropDownListModule, SwitchModule, NgIf, NgFor, ButtonModule, ColorPickerModule]
+    imports: [FormsModule, ReactiveFormsModule, DropDownListModule, SwitchModule, NgIf, NgFor, ButtonModule]
 })
 export class PropertySceduleComponent implements OnInit, OnChanges {
+  activeTab: number = 0;
+  tabLabels: string[] = ['General', 'Measure', 'Grouping', 'Raw Query', 'Views', 'Cond. Format'];
+  selectTab(i: number): void { this.activeTab = i; }
+
 
   private readonly fb = inject(FormBuilder);
   private readonly chartService = inject(ChartService);
@@ -32,8 +35,6 @@ export class PropertySceduleComponent implements OnInit, OnChanges {
 
   @Input() getPanelObj: any;
   @Output() sendBoxObj = new EventEmitter()
-
-  @ViewChild('tabComponent') tab!: TabComponent
   public headerText: any = [{ text: "General" },
   { text: "Measure" }, { text: "Grouping" },{ text: "Raw Query" },{ text: "Views" },{text: "Conditional Formatting"}];
 
@@ -71,6 +72,18 @@ export class PropertySceduleComponent implements OnInit, OnChanges {
   ];
   currentViewOptions: any[] = [];
   viewFields: Object = { text: 'text', value: 'value' };
+  ddlFields: Object = { text: 'text', value: 'value' };
+
+  conditionFormatOptions: any[] = [
+    { text: 'Select', value: '' },
+    { text: 'Less Than', value: 'LessThan' },
+    { text: 'Between', value: 'Between' },
+    { text: 'Less Than Or Equal To', value: 'LessThanOrEqualTo' },
+    { text: 'Greater Than', value: 'GreaterThan' },
+    { text: 'Greater Than Or Equal To', value: 'GreaterThanOrEqualTo' },
+    { text: 'Equals', value: 'Equals' },
+    { text: 'Not Equals', value: 'NotEquals' }
+  ];
 
   editConditionIndex: number | null = null;
   ngOnInit(): void {
@@ -98,7 +111,7 @@ export class PropertySceduleComponent implements OnInit, OnChanges {
   //   if (currentValue != undefined || currentValue != null) {
   //     this.getPanelObj = currentValue;
   //     if (this.tab) {
-  //       this.tab.selectedItem = 0;
+  //       this.activeTab = 0;
 
   //     }
 
@@ -194,7 +207,7 @@ ngOnChanges(changes: SimpleChanges): void {
   if (currentValue == undefined && currentValue == null) return;
 
   this.getPanelObj = currentValue;
-  if (this.tab) this.tab.selectedItem = 0;
+  this.activeTab = 0;
   this.connection_id = currentValue.connection_id;
 
   // âœ… Load views - only set ONCE, no overwrite below
@@ -476,9 +489,6 @@ onGroupingFieldChange(e: any) {
       }
     }
   }
-
-
-   @ViewChild('tabComponent') tabObj!: TabComponent;
    submitted = false;
 
 
@@ -520,20 +530,20 @@ isTabInvalid(...tabGroupNames: string[]): boolean {
     const firstInvalid = this.findInvalidControls(this.scedularTemplateForm)[0];
 
     console.log('firstInvalid', firstInvalid);
-    console.log('this.tabObj', this.tabObj);
+    console.log('this.activeTab', this.activeTab);
 
     if (firstInvalid.includes('fieldDetails')) {
-      this.tabObj.select(1); // switch to Field Details tab
+      this.activeTab = 1; // switch to Field Details tab
     } else if (firstInvalid.includes('timeScale')) {
-      this.tabObj.select(1); // switch to Time Scale tab
+      this.activeTab = 1; // switch to Time Scale tab
     }
      else if (firstInvalid.includes('viewConfig')) {
-      this.tabObj.select(3); // switch to Views tab
+      this.activeTab = 3; // switch to Views tab
     }
      else if (firstInvalid.includes('rawQuery')) {
-      this.tabObj.select(4); // switch to Raw Query tab
+      this.activeTab = 4; // switch to Raw Query tab
     } else {
-      this.tabObj.select(0); // default tab
+      this.activeTab = 0; // default tab
     }
 
     // alert("Please fill in all mandatory fields: " + firstInvalid);
@@ -1046,8 +1056,8 @@ onDeleteView(index: number) {
     return this.conditionalFormatSettingsArray.some((item: any) => item.conditions === 'Between');
   }
   onSelectCondtionFormatValue(eve: any) {
-    let value = eve.target.value;
-    this.selectedConditionType = value
+    let value = eve?.value ?? eve?.target?.value;
+    this.selectedConditionType = value;
   }
 
   onDeleteConditionObj(index: number) {

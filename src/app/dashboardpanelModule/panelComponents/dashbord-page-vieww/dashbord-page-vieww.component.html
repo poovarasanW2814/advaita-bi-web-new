@@ -520,13 +520,12 @@
 
 
 
-                <div *ngIf="item.panelType == 'Table'" style="height:100%; width:100%; overflow-y: auto">
-                  <div style="height: 100%; width: 100%;">
+                <div *ngIf="item.panelType == 'Table'" style="height:100%; width:100%; overflow: hidden;">
 
                     <ejs-grid [dataSource]='item.content.dataSource' cssClass="custom-font-grid workspace-table-grid" allowReordering='true'
-                      [enableHover]="false" #grid [autoFit]="item.content.autoFitColumns" [id]="'gridcomp' + item.id"
-                      [allowPaging]="true" [pageSettings]='initialPage' [rowHeight]="30"
-                      (queryCellInfo)="onQueryCellInfo($event,item)" [height]="item.content.height"
+                      [enableHover]="false" #grid [id]="'gridcomp' + item.id"
+                      [allowPaging]="true" [pageSettings]='initialPage' [rowHeight]="30" height="100%"
+                      (queryCellInfo)="onQueryCellInfo($event,item)"
                       (dataBound)="dataBound(item, grid)" [width]="'100%'" [allowGrouping]='item.content.allowGrouping'
                       [ngClass]="item.content.enableBorders ? 'show-borders' : 'no-borders'"
                       [allowSorting]='item.content.allowSorting' [showColumnMenu]="'true'"
@@ -582,8 +581,6 @@
                     </ejs-grid>
 
 
-
-                  </div>
                 </div>
                 <div *ngIf="item.panelType == 'Pivot'" class="heightDiv"
                   [class.chart-view]="item?.content?.defaultView === 'chart' || pivotDisplayOptions[item.id] === 'Chart'">
@@ -604,8 +601,8 @@
                     </ejs-pivotview> -->
 
                   <ejs-pivotview [id]="item.id" #pivotview [toolbar]="PivottoolbarOptions" cssClass="custom-font-pivot"
-                    [height]="item.content.height" [allowConditionalFormatting]="!item?.content?.pivotLightMode"
-                    showToolbar="true" [dataSourceSettings]="item.content.dataSourceSettings" allowExcelExport="true"
+                    [height]="item.content.height" [allowConditionalFormatting]="true"
+                    [showToolbar]="true" [dataSourceSettings]="item.content.dataSourceSettings" allowExcelExport="true"
                     allowPdfExport="true" [enableVirtualization]="item?.content?.enableVirtualization !== false"
                     width="100%" [enableValueSorting]='true' (excelQueryCellInfo)="excelQueryCellInfo($event)"
                     (excelHeaderQueryCellInfo)="excelHeaderQueryCellInfo($event)"
@@ -1190,190 +1187,106 @@
 
 
   <div class="control-section1 drag">
-
-    <ejs-dialog id="defaultDialog" #defaultDialog1 [isModal]='true' [allowDragging]='true' [visible]="false"
-      [animationSettings]='animationSettings1' height="350" [showCloseIcon]='true' [target]='target' [width]="'700px'">
-
-      <div *ngIf="this.filterandDrilldownObjArray.filter_obj">
-
-        <ng-template #header>
-
-          <div class="popup-container">
-            <div class="popup-header">
-              <span class="popup-title" style="font-size:22px">Filters</span>
-            </div>
-            <div class="filter-options">
-              <span class="filter-label" title="Bookmark Filters set by you.">
-                <i class="bi bi-person-circle"></i> Yours Bookmark Filters
-              </span>
-              <ejs-switch style="margin:5px 10px 0px" class="bar-color" [(ngModel)]="bookmark_flag"
-                (ngModelChange)="onSwitchChange($event)">
-              </ejs-switch>
-              <span class="filter-label" title=" Bookmark Filters set by admin or superadmin">
-                <i class="bi bi-shield-alt"></i> Default(Superadmin/Admin) Bookmark Filters
-              </span>
-              <!-- <div class="note-container" *ngIf="showNote">
-                <span class="note-text">
-                  <i class="bi bi-info-circle"></i>
-                  {{ bookmark_flag ? 'Filters set by the admin or superadmin.' : 'Filters set by you.' }}
-                </span>
-              </div> -->
-
-              <div class="note-container" *ngIf="initialFilerObj.startDate">
-                <span class="note-text">
-                  <i class="bi bi-info-circle"></i> Initial Filter :-
-                  Start Date: {{ initialFilerObj.startDate | date: 'dd-MMM-yyyy' }} - End Date: {{
-                  initialFilerObj.endDate | date: 'dd-MMM-yyyy' }}
-                  <!-- {{ bookmark_flag ? 'Filters set by the admin or superadmin.' : 'Filters set by you.' }} -->
-                </span>
-              </div>
-
-            </div>
-
+    @if (showFilterDialog1) {
+    <div class="cd-modal-backdrop" (click)="showFilterDialog1 = false"></div>
+    <div class="cd-modal cd-modal-md">
+      <div class="cd-modal-header">
+        <div class="cd-modal-header-icon">
+          <ejs-switch style="margin:0 4px" class="bar-color" [(ngModel)]="bookmark_flag" (ngModelChange)="onSwitchChange($event)"></ejs-switch>
+        </div>
+        <h3 class="cd-modal-title">Filters</h3>
+        <button class="cd-modal-close" type="button" (click)="showFilterDialog1 = false" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <div class="cd-modal-body" *ngIf="this.filterandDrilldownObjArray.filter_obj">
+        <div class="filter-options" style="margin-bottom:8px; font-size:11px; display:flex; align-items:center; gap:8px; flex-wrap:wrap">
+          <span class="filter-label" title="Bookmark Filters set by you."><i class="bi bi-person-circle"></i> Yours</span>
+          <span class="filter-label" title="Bookmark Filters set by admin or superadmin"><i class="bi bi-shield-alt"></i> Default</span>
+          <div class="note-container" *ngIf="initialFilerObj.startDate">
+            <span class="note-text" style="font-size:10px; color:#6B7280">
+              <i class="bi bi-info-circle"></i> Initial Filter: {{ initialFilerObj.startDate | date: 'dd-MMM-yyyy' }} - {{ initialFilerObj.endDate | date: 'dd-MMM-yyyy' }}
+            </span>
           </div>
-        </ng-template>
-
-
-        <div class="chip-container" style="padding:10px 0px">
-
-          <div style="margin-bottom: 10px;">
-            <!-- <button class="chip">
-              Start Date: {{ initialFilerObj.startDate | date: 'dd-MMM-yyyy' }} - End Date: {{ initialFilerObj.endDate | date: 'dd-MMM-yyyy' }}
-              <span class="cancel-icon" (click)="initialFilerObj.startDate = null">x</span>
-            </button> -->
-
-            <!-- <button class="chip">
-              End Date: {{ initialFilerObj.endDate | date: 'dd-MMM-yyyy' }}
-              <span class="cancel-icon" (click)="initialFilerObj.endDate = null">x</span>
-            </button> -->
-          </div>
-
+        </div>
+        <div class="chip-container" style="padding:4px 0px">
           <div>
             <button *ngFor="let item of this.filterandDrilldownObjArray.filter_obj; let i = index" class="chip">
               {{ getChipText(item) }}
               <span class="cancel-icon" (click)="removeItem(item,i)">x</span>
             </button>
           </div>
-
         </div>
-
-
       </div>
-
-      <ng-template #footerTemplate>
-
-        <div>
-          <button class="e-btn e-btn-purple" type="button" (click)="onBookmarkFilterSave()">
-            Save <i class="bi bi-bookmark" style="padding-left:5px"></i>
-          </button>
-
-          <button style=" cursor: pointer; margin-left:5px" class="e-btn e-btn-purple "
-            [title]="'Clear bookmark filter'" (click)="clearBookmarkFilter(bookmark_flag)">
-
-            <i class="bi bi-trash"></i>
-          </button>
-
-        </div>
-
-      </ng-template>
-    </ejs-dialog>
+      <div class="cd-modal-footer-inline">
+        <button class="cd-btn cd-btn-sm cd-btn-primary" type="button" (click)="onBookmarkFilterSave()">Save <i class="bi bi-bookmark" style="padding-left:5px"></i></button>
+        <button class="cd-btn cd-btn-sm cd-btn-ghost" title="Clear bookmark filter" (click)="clearBookmarkFilter(bookmark_flag)"><i class="bi bi-trash"></i></button>
+      </div>
+    </div>
+    }
   </div>
 
-  <ejs-dialog id="editerViewDlg" #editerViewDlg [isModal]='true' [allowDragging]='true' [visible]="false"
-    [header]="'Dasboard Insights'" [animationSettings]='animationSettings1' height="450" [showCloseIcon]='true'
-    [target]='target' [width]="'1000px'">
-
-    <ng-template #content>
-
-      <!-- Overlay Loader -->
+  @if (showEditerViewDlg) {
+  <div class="cd-modal-backdrop" (click)="showEditerViewDlg = false"></div>
+  <div class="cd-modal cd-modal-xl">
+    <div class="cd-modal-header">
+      <div class="cd-modal-header-icon"><i class="bi bi-bar-chart-fill"></i></div>
+      <h3 class="cd-modal-title">Dashboard Insights</h3>
+      <button class="cd-modal-close" type="button" (click)="showEditerViewDlg = false" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="cd-modal-body">
       <div class="overlay" *ngIf="isMarkdownLoading">
         <div class="loader"></div>
       </div>
-
       <ng-container *ngIf="!isMarkdownLoading">
-        <ejs-richtexteditor [value]="markdownContent">
-        </ejs-richtexteditor>
+        <ejs-richtexteditor [value]="markdownContent"></ejs-richtexteditor>
       </ng-container>
+    </div>
+  </div>
+  }
 
-    </ng-template>
-  </ejs-dialog>
 
-
-  <ejs-dialog id="promptDialog" [header]="'User Prompt'" #promptDialog [isModal]='true' [allowDragging]='true'
-    [visible]="false" [animationSettings]='animationSettings1' height="400px" [showCloseIcon]='true' [width]="'700px'">
-
-    <ng-template #content>
-      <div class="form-group" style="    margin-top: 15px;   padding: 5px 0px;">
-        <label for="userprompt" style="margin-bottom:7px;font-size: 15px;">Enter a prompt</label>
-        <textarea id="promptInput" placeholder="Enter a prompt" class="form-control" rows="4" maxlength="6000"
-          [(ngModel)]="userPrompt"></textarea>
-
+  @if (showPromptDialog) {
+  <div class="cd-modal-backdrop" (click)="showPromptDialog = false"></div>
+  <div class="cd-modal cd-modal-md">
+    <div class="cd-modal-header">
+      <div class="cd-modal-header-icon"><i class="bi bi-chat-dots"></i></div>
+      <h3 class="cd-modal-title">User Prompt</h3>
+      <button class="cd-modal-close" type="button" (click)="showPromptDialog = false" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="cd-modal-body">
+      <div class="form-group" style="margin-top: 8px;">
+        <label for="userprompt">Enter a prompt</label>
+        <textarea id="promptInput" placeholder="Enter a prompt" class="form-control" rows="4" maxlength="6000" [(ngModel)]="userPrompt"></textarea>
       </div>
-
       <div class="form-group">
-        <label for="userprompt" style="margin-bottom:7px;font-size: 15px;">Select from Existing Prompt</label>
-        <!-- <select id="existingPrompt" class="form-control" [(ngModel)]="selectedPrompt">
-        <option value="">Select</option>
-        <option value="Give me an overview of the data.">Give me an overview of the data.</option>
-        <option value="Summarize the key insights from this dataset.">Summarize the key insights from this dataset.</option>
-        <option value="What are the top 5 values by revenue?">What are the top 5 values by revenue?</option>
-        <option value="Show trends over time.">Show trends over time.</option>
-        <option value="Highlight any outliers or anomalies.">Highlight any outliers or anomalies.</option>
-        <option value="What is the average and median of each metric?">What is the average and median of each metric?</option>
-        <option value="Compare category-wise performance.">Compare category-wise performance.</option>
-        <option value="Give me a count of records grouped by category.">Give me a count of records grouped by category.</option>
-        <option value="Generate a summary report in markdown format.">Generate a summary report in markdown format.</option>
-        <option value="List all columns with their data types and a sample value.">List all columns with their data types and a sample value.</option>
-      </select> -->
-
-        <ejs-listbox [dataSource]="promptOptions" [(ngModel)]="selectedPrompt" (change)="onPromptSelect($event)"
-          [fields]="{ text: 'text', value: 'value' }">
-        </ejs-listbox>
-
+        <label for="userprompt">Select from Existing Prompt</label>
+        <ejs-listbox [dataSource]="promptOptions" [(ngModel)]="selectedPrompt" (change)="onPromptSelect($event)" [fields]="{ text: 'text', value: 'value' }"></ejs-listbox>
       </div>
-
-      <!-- <div class="text-right mt-3">
-      <button class="btn btn-primary" (click)="submitPrompt()">Submit</button>
-
-      
-    </div> -->
-
-
-    </ng-template>
-
-    <ng-template #footerTemplate>
-      <div class="text-right mt-3">
-        <button *ngIf="dialogMode === 'markdown'" class="e-btn e-btn-purple" (click)="submitMarkdownPrompt()">Submit
-          Markdown</button>
-        <button *ngIf="dialogMode === 'edit'" class="e-btn e-btn-purple" (click)="submitPrompt()">Analyze</button>
-      </div>
-    </ng-template>
-  </ejs-dialog>
+    </div>
+    <div class="cd-modal-footer-inline">
+      <button *ngIf="dialogMode === 'markdown'" class="cd-btn cd-btn-sm cd-btn-primary" (click)="submitMarkdownPrompt()">Submit Markdown</button>
+      <button *ngIf="dialogMode === 'edit'" class="cd-btn cd-btn-sm cd-btn-primary" (click)="submitPrompt()">Analyze</button>
+    </div>
+  </div>
+  }
 </div>
 
 
-<ejs-dialog #commentDialog [visible]="false" [isModal]="true" [width]="'500px'" [header]="'Add Comment'"
-  (overlayClick)="closeDialog()">
-  <ng-template #content>
-
-    <!-- <div style="margin-top:10px">
-      <label for="" class="comment_label">Select Unique Column</label>
-      <ejs-dropdownlist [dataSource]='FieldNamesArray' [allowFiltering]="true"  [(ngModel)]="selectedUniqueColumn" 
-       #tableDropdown class=" tableNameDropdown"></ejs-dropdownlist>
-    </div> -->
-
-    <div style="margin-top:25px">
-      <!-- <label for="" class="comment_label">Enter Comment</label> -->
-      <textarea [(ngModel)]="commentText" rows="4" class="form-control" style="width:100%"
-        placeholder="Enter comment"></textarea>
+@if (showCommentDialog) {
+<div class="cd-modal-backdrop" (click)="closeDialog()"></div>
+<div class="cd-modal cd-modal-sm">
+  <div class="cd-modal-header">
+    <div class="cd-modal-header-icon"><i class="bi bi-chat-square-text"></i></div>
+    <h3 class="cd-modal-title">Add Comment</h3>
+    <button class="cd-modal-close" type="button" (click)="closeDialog()" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+  </div>
+  <div class="cd-modal-body">
+    <div style="margin-top:8px">
+      <textarea [(ngModel)]="commentText" rows="4" class="form-control" style="width:100%" placeholder="Enter comment"></textarea>
     </div>
-
-    <div style="text-align:right; margin-top:20px;">
-      <button class="e-btn e-btn-purple" style="margin-right:10px" (click)="saveComment()">
-
-        {{ isEditing ? 'Update' : 'Save' }}
-      </button>
-      <button class="e-btn e-btn-purple" (click)="closeDialog()">Cancel</button>
-    </div>
-  </ng-template>
-</ejs-dialog>
+  </div>
+  <div class="cd-modal-footer-inline">
+    <button class="cd-btn cd-btn-sm cd-btn-primary" (click)="saveComment()">{{ isEditing ? 'Update' : 'Save' }}</button>
+    <button class="cd-btn cd-btn-sm cd-btn-ghost" (click)="closeDialog()">Cancel</button>
+  </div>
+</div>
+}

@@ -174,8 +174,6 @@ export class ViewGroupedDashboardComponent implements OnInit, OnDestroy {
 
     let userData: any = sessionStorage.getItem('userInformation');
 
-    this.loaderService.show()
-
     
     this.menuAccessSub = this.menuBasedAccessService.menuAccess$.subscribe((menuAccess) => {
       let menuBasedAccess = menuAccess;

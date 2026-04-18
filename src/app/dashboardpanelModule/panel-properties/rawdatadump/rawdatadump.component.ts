@@ -1,18 +1,21 @@
-﻿import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TabComponent, TabModule } from '@syncfusion/ej2-angular-navigations';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { NgIf, NgFor } from '@angular/common';
-import { ColorPickerModule } from '@syncfusion/ej2-angular-inputs';
+
 
 @Component({
     selector: 'app-rawdatadump',
     templateUrl: './rawdatadump.component.html',
     styleUrls: ['./rawdatadump.component.scss'],
-    imports: [TabModule, FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, ColorPickerModule, NgFor]
+    imports: [FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, NgFor]
 })
 export class RawdatadumpComponent implements OnInit, OnChanges {
+  activeTab: number = 0;
+  tabLabels: string[] = ['General', 'Raw Query', 'Last Refresh'];
+  selectTab(i: number): void { this.activeTab = i; }
+
   @Input() getPanelObj: any;
   @Output() sendBoxObj = new EventEmitter()
   connection_id!: number;
@@ -22,7 +25,6 @@ export class RawdatadumpComponent implements OnInit, OnChanges {
   iconFields: any = { text: 'PanelType', iconCss: 'Class', value: 'Class' };
   public headerText: any = [{ text: "General" },
   { text: "Raw Query" }, {text : "Last RefreshData Query"}];
-  @ViewChild('tabComponent') tab!: TabComponent
 
 
   panelTypeDataArray: any[] = [
@@ -54,10 +56,7 @@ export class RawdatadumpComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     // this.createForm()
-
-    if (this.tab) {
-      this.tab.selectedItem = 0;
-    }
+        this.activeTab = 0;
 
     let currentValue = changes['getPanelObj'].currentValue;
     let panelsArrData: any = sessionStorage.getItem('createPanelSeriesArray');

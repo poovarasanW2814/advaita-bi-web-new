@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit, Renderer2, ViewChild, inject} from '@a
 import { FormGroup, FormBuilder, FormArray, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimationModel, ChartModule } from '@syncfusion/ej2-angular-charts';
-import { GridComponent, GridModule } from '@syncfusion/ej2-angular-grids';
+import { GridComponent, GridModule, PageService, GroupService, SortService, FilterService, ResizeService, ReorderService, ColumnMenuService, ExcelExportService as GridExcelExportService, PdfExportService as GridPdfExportService, ToolbarService as GridToolbarService } from '@syncfusion/ej2-angular-grids';
 import { DialogComponent, AnimationSettingsModel, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
@@ -15,6 +15,7 @@ import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
     selector: 'app-join-table',
     templateUrl: './join-table.component.html',
     styleUrls: ['./join-table.component.scss'],
+    providers: [PageService, GroupService, SortService, FilterService, ResizeService, ReorderService, ColumnMenuService, GridExcelExportService, GridPdfExportService, GridToolbarService],
     imports: [GridModule, ChartModule, KanbanModule, ButtonModule, DialogModule, FormsModule, ReactiveFormsModule]
 })
 
@@ -23,8 +24,7 @@ export class JoinTableComponent implements OnInit {
 
   registrationForm!: FormGroup;
 
-  @ViewChild('defaultDialog')
-  defaultDialog!: DialogComponent;
+  showJoinDialog: boolean = false;
 
   rolesArray: string[] = ['Admin', 'Agent', 'Associate', 'Team Lead', 'Analyst', 'Business Head', 'Manager', 'Intern']
 
@@ -45,7 +45,7 @@ export class JoinTableComponent implements OnInit {
   activeUsersArray: any = [];
 
   dialogBtnClick = (): void => {
-    this.defaultDialog.show();
+    this.showJoinDialog = true;
     this.formInit();
     this.submitFlag = true;
     this.updateFlag = false;
@@ -258,7 +258,7 @@ export class JoinTableComponent implements OnInit {
   onEditJoin(eve: any) {
     let data = eve;
     console.log(data);
-    this.defaultDialog.show();
+    this.showJoinDialog = true;
     this.submitFlag = false;
     this.updateFlag = true;
 
@@ -384,7 +384,9 @@ export class JoinTableComponent implements OnInit {
       }
 
     )
-    this.defaultDialog.hide()
+    this.showJoinDialog = false
+
+
   }
 
   onTableDropdown(dropdownValue: any) {
@@ -491,7 +493,7 @@ export class JoinTableComponent implements OnInit {
         this.loaderService.hide();
         //  this.showPopup(res.success, '30', res.message)
 
-        this.defaultDialog.hide()
+        this.showJoinDialog = false;
         this.popupService.showPopup({
           message: res.message,
           statusCode: res.status_code,

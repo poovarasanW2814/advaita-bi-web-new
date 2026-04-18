@@ -101,61 +101,65 @@
     </div>
   </div>
   <div class="grouping-dialogBox">
-    <ejs-dialog id="groupingDialog" #groupingDialog [isModal]='isModal' [visible]='visible' [header]="'Add Grouping'"
-      [allowDragging]='dialogdragging' [animationSettings]='animationSettings' [showCloseIcon]='dialogCloseIcon'
-      [width]='dialogWidth'>
-      <ng-template #content>
+    @if (showGroupingDialog) {
+    <div class="cd-modal-backdrop" (click)="showGroupingDialog = false"></div>
+    <div class="cd-modal cd-modal-md">
+      <div class="cd-modal-header">
+        <div class="cd-modal-header-icon"><i class="bi bi-collection"></i></div>
+        <h3 class="cd-modal-title">Add Grouping</h3>
+        <button class="cd-modal-close" type="button" (click)="showGroupingDialog = false" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <div class="cd-modal-body">
         <div class="dialog-content">
           <form [formGroup]="groupForm">
-            <!-- Create Group Name Input (if custom entry) -->
             <div class="form-group">
-              <label>Enter New Group Name <span class="required">*</span></label>
+              <label>Enter New Group Name <span class="cd-req">*</span></label>
               <input type="text" class="form-control" formControlName="group_name" placeholder="Enter new group name" />
             </div>
-            <!-- Dashboard Multi-Select Dropdown -->
             <div class="form-group">
-              <label>Dashboard Name <span class="required">*</span></label>
+              <label>Dashboard Name <span class="cd-req">*</span></label>
               <ejs-multiselect [dataSource]="flattenedDashboards" formControlName="dashboardNames"
                 class="multiSelectField" [fields]="{ text: 'dashboard_name', value: 'dashboard_id' }"
                 [placeholder]="'Select Dashboard Name'" [popupHeight]="'200px'" [showDropDownIcon]='true'
                 mode="CheckBox">
               </ejs-multiselect>
             </div>
-            <!-- Submit -->
-            <div class="form-actions">
-              <button class="e-btn e-btn-purple" (click)="onSubmit()" [disabled]="groupForm.invalid">
-                <i class="bi bi-save"></i> Save Grouping
-              </button>
-            </div>
           </form>
         </div>
-      </ng-template>
-    </ejs-dialog>
+      </div>
+      <div class="cd-modal-footer-inline">
+        <button class="cd-btn cd-btn-sm cd-btn-primary" (click)="onSubmit()" [disabled]="groupForm.invalid">
+          <i class="bi bi-save"></i> Save Grouping
+        </button>
+      </div>
+    </div>
+    }
   </div>
   <div class="edit-dashboard-dialogBox">
-    <ejs-dialog id="editDashboardDialog" #editDashboardDialog [isModal]="isModal" [visible]="editDashboardDialogVisible"
-      [header]="'Create Groups'" [allowDragging]="dialogdragging" [animationSettings]="animationSettings"
-      [showCloseIcon]="dialogCloseIcon" [width]="dialogWidth">
-      <ng-template #content>
+    @if (editDashboardDialogVisible) {
+    <div class="cd-modal-backdrop" (click)="editDashboardDialogVisible = false"></div>
+    <div class="cd-modal cd-modal-sm">
+      <div class="cd-modal-header">
+        <div class="cd-modal-header-icon"><i class="bi bi-folder-plus"></i></div>
+        <h3 class="cd-modal-title">Create Groups</h3>
+        <button class="cd-modal-close" type="button" (click)="editDashboardDialogVisible = false" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <div class="cd-modal-body">
         <div class="dialog-content">
           <form action="" [formGroup]="createGroupForm">
             <div class="form-group">
               <label for="selectGroup">Create Group</label>
               <input type="text" class="form-control" formControlName="group_name" placeholder="Enter new group name" />
             </div>
-            <!-- <div class="form-group">
-              <label for="selectGroup">Create description</label>
-              <input type="text" class="form-control" formControlName="group_description"
-                placeholder="Enter new group name" />
-            </div> -->
-            <div class="form-actions">
-              <button class="e-btn e-btn-purple" (click)="onCreateGroupSubmit()" [disabled]="createGroupForm.invalid">
-                <i class="bi bi-save"></i> Save
-              </button>
-            </div>
           </form>
         </div>
-      </ng-template>
-    </ejs-dialog>
+      </div>
+      <div class="cd-modal-footer-inline">
+        <button class="cd-btn cd-btn-sm cd-btn-primary" (click)="onCreateGroupSubmit()" [disabled]="createGroupForm.invalid">
+          <i class="bi bi-save"></i> Save
+        </button>
+      </div>
+    </div>
+    }
   </div>
 </div>

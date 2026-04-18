@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TabComponent, TabModule } from '@syncfusion/ej2-angular-navigations';
 import { Draggable } from '@syncfusion/ej2/base';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
@@ -10,16 +9,19 @@ import { NgIf, NgFor } from '@angular/common';
     selector: 'app-dropdown-properties',
     templateUrl: './dropdown-properties.component.html',
     styleUrls: ['./dropdown-properties.component.scss'],
-    imports: [TabModule, FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, NgFor]
+    imports: [FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, NgFor]
 })
 
 
 export class DropdownPropertiesComponent implements OnInit, OnChanges {
+  activeTab: number = 0;
+  tabLabels: string[] = ['General', 'Condition', 'Raw Query'];
+  selectTab(i: number): void { this.activeTab = i; }
+
   @Input() getPanelObj: any;
   public headerText: any = [{ text: "General" },
   { text: "Condition" }, { text: "Raw Query" }];
   @ViewChild('selectedtablelist', { static: false }) element: any;
-  @ViewChild('tabComponent') tab!: TabComponent
 
   @ViewChild('expression', { static: false }) element1: any;
   showUpdateButton: boolean = false;
@@ -63,10 +65,8 @@ export class DropdownPropertiesComponent implements OnInit, OnChanges {
       let panelsArrData: any = sessionStorage.getItem('createPanelSeriesArray');
       this.panelSeriesArray = panelsArrData
       this.getPanelObj = currentValue;
-      // this.tab.selectedItem = 0;
-      if (this.tab) {
-        this.tab.selectedItem = 0;
-      }
+      // this.activeTab = 0;
+        this.activeTab = 0;
       if (this.panelSeriesArray) {
 
         this.panelSeriesArray = JSON.parse(this.panelSeriesArray)

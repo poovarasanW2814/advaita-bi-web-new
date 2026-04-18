@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TabComponent, TabModule } from '@syncfusion/ej2-angular-navigations';
 import { Draggable } from '@syncfusion/ej2/base';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
@@ -10,10 +9,14 @@ import { NgIf, NgFor } from '@angular/common';
     selector: 'app-listbox-properties',
     templateUrl: './listbox-properties.component.html',
     styleUrls: ['./listbox-properties.component.scss'],
-    imports: [TabModule, FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, NgFor]
+    imports: [FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, NgFor]
 })
 
 export class ListboxPropertiesComponent implements OnInit, OnChanges {
+  activeTab: number = 0;
+  tabLabels: string[] = ['General', 'Condition', 'Raw Query'];
+  selectTab(i: number): void { this.activeTab = i; }
+
   @Input() getPanelObj : any;
   // public headerText: any = [{ text: "General" },
   // { text: "Fields" }, { text: "Condition" }];
@@ -27,7 +30,6 @@ export class ListboxPropertiesComponent implements OnInit, OnChanges {
   @Output() sendBoxObj = new EventEmitter()
   boxIdCount :any = 0; 
   boxTemplateForm!: FormGroup;
-  @ViewChild('tabComponent') tab! : TabComponent
 
   tableNamesArray : any = [];
   selectedTableFieldName : any[] = [];
@@ -65,10 +67,8 @@ export class ListboxPropertiesComponent implements OnInit, OnChanges {
       
       this.panelSeriesArray = panelsArrData
       this.getPanelObj = currentValue;
-      // this.tab.selectedItem = 0;
-      if (this.tab) {
-        this.tab.selectedItem = 0;
-      }
+      // this.activeTab = 0;
+        this.activeTab = 0;
       if(this.panelSeriesArray){
 
         this.panelSeriesArray = JSON.parse(this.panelSeriesArray)

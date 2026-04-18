@@ -1,1485 +1,737 @@
-<div class="control-section e-tab-section">
-    <div class="e-sample-resize-container">
-        <ejs-tab (selected)="onTabChange($event)" id="tab_default" #tabComponent heightAdjustMode='Auto' [selectedItem]='selectedTabIndex'>
-            <e-tabitems >
+<div class="pt-tab-shell">
 
-                <!-- Tab0: General -->
-                <e-tabitem [header]='headerText[0]'>
-                    <ng-template #content>
-                        <form [formGroup]="dashboardCreationForm" (ngSubmit)="onDashboardCreationForm()">
-                            <div class="row">
-                                <div class="col-md-4 form-group">
-                                    <label class="inputTitle" for="header">Title</label>
-                                    <input type="text" formControlName="title" class="form-control inputFeild">
-                                </div>
+  <!-- Sidebar nav -->
+  <nav class="pt-tab-nav">
+    <span class="pt-nav-label">Configuration</span>
+    <button type="button" class="pt-nav-item" [class.pt-nav-active]="activeTab === 0" (click)="selectTab(0)">
+      <span class="pt-nav-num">1</span>
+      <span class="pt-nav-text">General</span>
+    </button>
+    <button type="button" class="pt-nav-item" [class.pt-nav-active]="activeTab === 1" (click)="selectTab(1)">
+      <span class="pt-nav-num">2</span>
+      <span class="pt-nav-text">Dimension</span>
+    </button>
+    <button type="button" class="pt-nav-item" [class.pt-nav-active]="activeTab === 2" (click)="selectTab(2)">
+      <span class="pt-nav-num">3</span>
+      <span class="pt-nav-text">Measure</span>
+    </button>
+    <button type="button" class="pt-nav-item" [class.pt-nav-active]="activeTab === 3" (click)="selectTab(3)">
+      <span class="pt-nav-num">4</span>
+      <span class="pt-nav-text">Condition</span>
+    </button>
+    <button type="button" class="pt-nav-item" [class.pt-nav-active]="activeTab === 4" (click)="selectTab(4)">
+      <span class="pt-nav-num">5</span>
+      <span class="pt-nav-text">Gauge Props</span>
+    </button>
+    <button type="button" class="pt-nav-item" [class.pt-nav-active]="activeTab === 5" (click)="selectTab(5)">
+      <span class="pt-nav-num">6</span>
+      <span class="pt-nav-text">Axis</span>
+    </button>
+    <button type="button" class="pt-nav-item" [class.pt-nav-active]="activeTab === 6" (click)="selectTab(6)">
+      <span class="pt-nav-num">7</span>
+      <span class="pt-nav-text">Pointers</span>
+    </button>
+    <button type="button" class="pt-nav-item" [class.pt-nav-active]="activeTab === 7" (click)="selectTab(7)">
+      <span class="pt-nav-num">8</span>
+      <span class="pt-nav-text">Ranges</span>
+    </button>
+  </nav>
 
-                                <div class="col-md-4 form-group">
-                                    <label for="tableName" class="inputTitle">Table Name
-                                        <span style="color:red; font-size: 14px;font-weight:600">*</span>
-                                    </label>
-                                    <ejs-dropdownlist style="margin-top:-3px" [dataSource]='tableNamesArray' [allowFiltering]="true"
-                                        formControlName="tableName" (change)="onTableDropdown(tableDropdown.value)"
-                                        #tableDropdown class="tableNameDropdown"></ejs-dropdownlist>
+  <!-- Content panels -->
+  <div class="pt-tab-content">
 
-                                    <div *ngIf="dashboardCreationForm.get('tableName')?.invalid && dashboardCreationForm.get('tableName')?.touched"
-                                        class="error-message">
-                                        Table Name is required.
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4 form-group">
-                                    <label for="backgroundColor" class="inputTitle">Background Color</label>
-                                    <input type="color" ejs-colorpicker formControlName="background"
-                                        class="form-control colorInput">
-                                </div>
-                            </div>
-
-                            <!-- <div class="row">
-                                <div class="col-md-4 form-group">
-                                    <label for="backgroundColor" class="inputTitle">Background Color</label>
-                                    <input type="color" ejs-colorpicker formControlName="background"
-                                        class="form-control colorInput">
-                                </div>
-                            </div> -->
-
-                            <!-- Dummy Data Switcher (for testing only) -->
-<!-- <div class="row" style="background:#fff3cd; padding:8px; border-radius:4px; margin-bottom:10px;">
-  <div class="col-md-6 form-group">
-    <label class="inputTitle" style="color:#856404;">
-      🧪 Test Dummy Data 
-      
-    </label>
-<select class="form-control selectFeild" (change)="onDummyDataChange($event)">     
-     <option *ngFor="let g of gaugeData; let i = index" [value]="i">
-        {{ g['Id'] }} — {{ g['GaugeTitle'] }}
-      </option>
-    </select>
-  </div>
-</div> -->
-<!-- Dummy end -->
-                        </form>
-                    </ng-template>
-                </e-tabitem>
-
-                <!-- Tab1: Dimension -->
-                <e-tabitem [header]='headerText[1]'>
-                    <ng-template #content>
-                        <form action="" [formGroup]="dashboardCreationForm">
-                            <div formGroupName="dimension">
-                                <div class="row">
-
-                                    <div class="col-md-3 form-group">
-                                        <!-- <div class="col-md-9"> -->
-                                        <label for="feildName" class="inputTitle">Field Name
-                                            <span style="color:red; font-size: 14px;font-weight:600">*</span>
-                                        </label>
-                                        <!-- FIX: Renamed template ref to dimensionFieldDropdown to avoid conflict with Tab2 -->
-                                        <ejs-dropdownlist [dataSource]='selectedTableFieldName' [allowFiltering]="true"
-                                            formControlName="fieldName"
-                                            (change)="onDimensionFieldDropdown(dimensionFieldDropdown.value)"
-                                            #dimensionFieldDropdown class="tableNameDropdown"></ejs-dropdownlist>
-
-                                        <div *ngIf="dashboardCreationForm.get('dimension.fieldName')?.invalid && dashboardCreationForm.get('dimension.fieldName')?.touched"
-                                            class="error-message">
-                                            Field Name is required.
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3 form-group">
-                                        <label for="labelName" class="inputTitle">Label Name</label>
-                                        <input type="text" style="margin-top:10px" formControlName="labelName"
-                                            class="form-control inputFeild">
-                                    </div>
-
-                                    <div class="col-md-3 form-group">
-                                        <label for="levelTitle" class="inputTitle">Title Name</label>
-                                        <input type="text" style="margin-top:10px" formControlName="levelTitle"
-                                            class="form-control inputFeild">
-                                    </div>
-
-                                    <div class="col-md-3 form-group">
-                                        <label for="levelNo" class="inputTitle">Level Number</label>
-                                        <select formControlName="level" style="margin-top:10px"
-                                            class="form-control selectFeild">
-                                            <option value="0">0</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                            <option value="9">9</option>
-                                            <option value="10">10</option>
-                                        </select>
-                                    </div>
-
-                                    <!-- FIX: Use showDimensionUpdateButton for dimension tab -->
-                                    <div class="col-md-12 form-group" style="text-align: right;">
-                                        <button type="button" class="e-btn e-btn-purple"
-                                            *ngIf="!showDimensionUpdateButton" (click)="onAddGrouping()">
-                                            Add
-                                        </button>
-                                    </div>
-
-                                    <div class="col-md-12 form-group" style="text-align: right; margin:10px">
-                                        <button class="e-btn e-btn-purple" *ngIf="showDimensionUpdateButton"
-                                            (click)="onUpdateDimensionSeries()" type="button">
-                                            Update
-                                        </button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </form>
-
-                        <div class="table-container">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 20px;">Sr No</th>
-                                        <th style="width: 100px;">Field Name</th>
-                                        <th style="width: 100px;">Label Name</th>
-                                        <th style="width: 100px;">Title Name</th>
-                                        <th style="width: 20px;">Level No</th>
-                                        <th style="width: 180px;">Raw Query</th>
-                                        <th style="width: 50px">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let item of dimensionGroupingArray; let i = index">
-                                        <td>{{ i + 1 }}</td>
-                                        <td style="max-width: 150px; word-wrap: break-word;">{{ item.fieldName }}</td>
-                                        <td style="max-width: 150px; word-wrap: break-word;">{{ item.labelName }}</td>
-                                        <td style="max-width: 150px; word-wrap: break-word;">{{ item.levelTitle }}</td>
-                                        <td>{{ item.level }}</td>
-                                        <td style="max-width: 250px; word-wrap: break-word;">{{ item.rawQuery }}</td>
-                                        <td style="cursor: pointer;">
-                                            <i class="bi bi-pencil-square" style="margin-right:10px; cursor: pointer;"
-                                                [title]="'Edit'" (click)="onEditDiemsionSeries(item, i)"></i>
-                                            <i class="bi bi-trash" [title]="'Delete'" style="cursor: pointer;"
-                                                (click)="onDeleteDiemnsionSeries(i, item)"></i>
-                                            <i class="bi bi-database" [title]="'Add Query'"
-                                                style="margin-left:10px; cursor: pointer;"
-                                                (click)="onOpenrawQuery(item, i, item.level)"></i>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </ng-template>
-                </e-tabitem>
-
-                <!-- Tab2: Measure -->
-                <e-tabitem [header]='headerText[2]'>
-                    <ng-template #content>
-                        <form action="" [formGroup]="dashboardCreationForm">
-                            <div formGroupName="measure">
-                                <div class="row">
-
-                                    <div class="form-group col-md-3">
-                                        <label for="feildName" class="inputTitle">Field Name
-                                            <span style="color: #f11313; font-size: 11px; font-weight: 700;"> *</span>
-                                        </label>
-                                        <!-- FIX: Renamed template ref to measureFieldDropdown -->
-                                        <ejs-dropdownlist [dataSource]='selectedTableFieldName' [allowFiltering]="true"
-                                            formControlName="fieldName"
-                                            (change)="onMeasureFieldDropdown(measureFieldDropdown.value)"
-                                            #measureFieldDropdown class="tableNameDropdown"></ejs-dropdownlist>
-
-                                        <div *ngIf="dashboardCreationForm.get('measure.fieldName')?.invalid &&
-                                            dashboardCreationForm.get('measure.fieldName')?.touched"
-                                            class="error-message">
-                                            Field Name is required.
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group col-md-3">
-                                        <label for="labelName" class="inputTitle">Label Name</label>
-                                        <input type="text" formControlName="labelName" class="form-control inputFeild">
-                                    </div>
-
-                                    <!-- FIX: seriesColor at measure level, not inside font group -->
-                                    <div class="col-md-2 form-group">
-                                        <label class="inputTitle">Series Color</label>
-                                        <input type="color" ejs-colorpicker formControlName="seriesColor" class="form-control colorInput">
-
-                                    </div>
-                                     <div class="col-md-3 form-group">
-                                        <label for="expression" class="inputTitle">Expression</label>
-                                        <textarea rows="1" cols="60" style="height: 24px; width:100%;
-                                        border: 1px solid lightgray;
-                                        border-radius: 4px;
-                                        font-size: 10px;
-                                        padding: 8px 5px;"
-                                            formControlName="expression"></textarea>
-
-                                        <div *ngIf="validationMessage && dashboardCreationForm.touched"
-                                            class="error-message">
-                                            Either Expression or Raw Query is required.
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-
-                                <!-- <div class="row">
-                                    <div class="col-md-6 form-group">
-                                        <label for="expression" class="inputTitle">Expression</label>
-                                        <textarea rows="1" cols="60" style="height: 29px; width: 475px;
-                                            border: 1px solid lightgray; border-radius: 4px;
-                                            font-size: 10px; padding: 8px 5px;"
-                                            formControlName="expression"></textarea>
-
-                                        <div *ngIf="validationMessage && dashboardCreationForm.touched"
-                                            class="error-message">
-                                            Either Expression or Raw Query is required.
-                                        </div>
-                                    </div>
-                                </div> -->
-
-                                <!-- DataLabel group -->
-                                <div formGroupName="dataLabel">
-                                    <div class="row">
-                                        <div class="col-md-3 form-group">
-                                            <label for="showDataLabel" class="inputTitle">Show DataLabels</label>
-                                            <ejs-switch formControlName="visible" cssClass="bar-color"></ejs-switch>
-                                        </div>
-
-                                        <div class="col-md-3 form-group">
-                                            <label for="dataLabelFormat" class="inputTitle">DataLabel Format</label>
-                                            <select formControlName="format" class="form-control selectFeild">
-                                                <option value="{value}">Select</option>
-                                                <option value="n">Number (1000)</option>
-                                                <option value="n1">Number (1000.0)</option>
-                                                <option value="n2">Number (1000.00)</option>
-                                                <option value="n3">Number (1000.000)</option>
-                                                <option value="p">Percentage (1%)</option>
-                                                <option value="p1">Percentage (1.0%)</option>
-                                                <option value="p2">Percentage (1.00%)</option>
-                                                <option value="p3">Percentage (1.000%)</option>
-                                                <option value="c">Currency ($1000)</option>
-                                                <option value="c1">Currency ($1000.0)</option>
-                                                <option value="c2">Currency ($1000.00)</option>
-                                                <option value="c3">Currency ($1000.000)</option>
-                                                <option value="{value}K">Thousands (K)</option>
-                                                <option value="{value}%">Percentage (%)</option>
-                                                <option value="{value}M">Millions (M)</option>
-                                                <option value="${value}">Currency</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-md-3 form-group">
-                                            <label class="inputTitle">Datalabel Rotation</label>
-                                            <input type="number" class="form-control inputFeild"
-                                                formControlName="angle">
-                                        </div>
-                                    </div>
-
-                                    <!-- Font sub-group -->
-                                    <div formGroupName="font">
-                                        <div class="row">
-                                            <div class="col-md-3 form-group">
-                                                <label class="inputTitle">Font Weight</label>
-                                                <select class="form-control selectFeild" formControlName="fontWeight">
-                                                    <option *ngFor="let weight of fontWeights" [value]="weight">
-                                                        {{ weight }}
-                                                    </option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-3 form-group">
-                                                <label class="inputTitle">Font Size</label>
-                                                <input type="number" class="form-control inputFeild"
-                                                    formControlName="size">
-                                            </div>
-
-                                            <!-- FIX: Only ONE font color field (removed duplicate seriesColor inside font group) -->
-                                            <div class="col-md-3 form-group">
-                                                <label class="inputTitle">Font Color</label>
-                                                <input type="color" ejs-colorpicker formControlName="color" class="form-control colorInput">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div style="text-align: right; margin:10px; cursor: pointer;">
-                                <button class="e-btn e-btn-purple" *ngIf="showAddButton" (click)="onAddMeasure()"
-                                    type="button">
-                                    Add
-                                </button>
-                            </div>
-
-                            <div style="text-align: right; margin:10px; cursor: pointer">
-                                <button class="e-btn e-btn-purple" *ngIf="showUpdateButton" (click)="onUpdateMeasure()"
-                                    type="button">
-                                    Update
-                                </button>
-                            </div>
-                        </form>
-
-                        <div style="margin:5px" class="table-wrapper">
-                            <div class="table-container" style="max-height: 300px; overflow-y: auto;">
-                                <table class="table table-bordered interactive-table measureTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Sr No</th>
-                                            <th>Table Name</th>
-                                            <th>Field Name</th>
-                                            <th>LabelName</th>
-                                            <th>Series Color</th>
-                                            <th>Expression</th>
-                                            <th>DataLabels</th>
-                                            <th>DataLabel Format</th>
-                                            <th>DataLabel Fontsize</th>
-                                            <th>DataLabel Fontweight</th>
-                                            <th>DataLabel Fontcolor</th>
-                                            <th>DataLabel Angle</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let item of measureSeriesArray; let i=index">
-                                            <td>{{ i + 1 }}</td>
-                                            <td>{{ item.tableName }}</td>
-                                            <td>{{ item.fieldName }}</td>
-                                            <td>{{ item.labelName }}</td>
-                                            <td>{{ item.seriesColor }}</td>
-                                            <td>{{ item.expression }}</td>
-                                            <td>{{ item.dataLabel?.visible }}</td>
-                                            <td>{{ item.dataLabel?.format }}</td>
-                                            <td>{{ item.dataLabel?.font?.size }}</td>
-                                            <td>{{ item.dataLabel?.font?.fontWeight }}</td>
-                                            <td>{{ item.dataLabel?.font?.color }}</td>
-                                            <td>{{ item.dataLabel?.angle }}</td>
-                                            <td style="cursor:pointer; font-size: 11px">
-                                                <i class="bi bi-trash" (click)="onDeleteSeries(i)"></i>
-                                                <i class="bi bi-pencil-square" style="margin-left:10px"
-                                                    (click)="onEditSeries(item, i)"></i>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </ng-template>
-                </e-tabitem>
-
-                <!-- Tab3: Condition -->
-                <e-tabitem [header]='headerText[3]'>
-                    <ng-template #content>
-                        <div id="ChartCondition" class="tab-pane active">
-                            <div class="col-md-12" id="modalBody" style="margin-right:1px;margin-top: 5px;">
-                                <form action="" [formGroup]="dashboardCreationForm">
-                                    <div class="row">
-                                        <div class="col-md-4 form-group">
-                                            <label for="groupBy" class="inputTitle">Group By</label>
-                                            <ejs-multiselect class="multiSelectField" formControlName="groupBy"
-                                                [dataSource]="selectedTableFieldName" mode="CheckBox"></ejs-multiselect>
-                                        </div>
-                                        <div class="col-md-4 form-group">
-                                            <label for="orderBy" class="inputTitle">Order By</label>
-                                            <ejs-multiselect formControlName="orderBy"
-                                                [dataSource]="selectedTableFieldName" class="multiSelectField"
-                                                mode="CheckBox"></ejs-multiselect>
-                                        </div>
-                                        <div class="col-md-4 form-group">
-                                            <label for="orderByType" class="inputTitle">Order By Type</label>
-                                            <select formControlName="orderByType" class="form-control selectFeild">
-                                                <option value="">Select</option>
-                                                <option value="ASC">ASC</option>
-                                                <option value="DESC">DESC</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-9 border">
-                                            <fieldset>
-                                                <legend>Template condition:</legend>
-                                                <div class="row">
-                                                    <div class="cleardiv pull-right">
-                                                        <button type="button" (click)="onClearConditions()" ejs-button
-                                                            cssClass='e-btn e-btn-purple'
-                                                            id="chartbtnCleardimCondition">Clear</button>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <textarea name="conditions" cols="40" rows="6" class="form-control"
-                                                        id="pop_chart_condition" formControlName="conditions"
-                                                        [(ngModel)]="conditionValue"
-                                                        (click)="updateCursorPositionCondition($event)"
-                                                        (input)="updateCursorPositionCondition($event)"></textarea>
-                                                </div>
-                                                <div class="actionbuttons">
-                                                    <div class="rows">
-                                                        <button type="button" ejs-button
-                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
-                                                            value="+">+</button>
-                                                        <button type="button" ejs-button
-                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
-                                                            value="-">-</button>
-                                                        <button type="button" ejs-button
-                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
-                                                            value="*">*</button>
-                                                        <button type="button" ejs-button
-                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
-                                                            value="/">/</button>
-                                                        <button type="button" ejs-button
-                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
-                                                            value="==">==</button>
-                                                        <button type="button" ejs-button
-                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
-                                                            value="<">&lt;</button>
-                                                        <button type="button" ejs-button
-                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
-                                                            value="<=">&lt;=</button>
-                                                        <button type="button" ejs-button
-                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
-                                                            value="!=">!=</button>
-                                                        <button type="button" ejs-button
-                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
-                                                            value=">=">&gt;=</button>
-                                                        <button type="button" ejs-button
-                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
-                                                            value=">">&gt;</button>
-                                                        <button type="button" ejs-button
-                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
-                                                            value="and">and</button>
-                                                        <button type="button" ejs-button
-                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
-                                                            value="or">or</button>
-                                                        <button type="button" ejs-button
-                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
-                                                            value="not">not</button>
-                                                        <button type="button" ejs-button
-                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
-                                                            value="(">(</button>
-                                                        <button type="button" ejs-button
-                                                            cssClass='e-btn e-btn-purple oper' (click)="addText($event)"
-                                                            value=")">)</button>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-
-                                        <div class="col-md-3 border">
-                                            <fieldset>
-                                                <legend>Select Table:</legend>
-                                                <input type="text" class="form-control tableInputTitle"
-                                                    formControlName="tableName">
-                                                <div class="tabldiv">
-                                                    <div class="headerstylepopup">
-                                                        <h5 class="popuph5style">Selected Table Field Names</h5>
-                                                    </div>
-                                                    <div class="Tablelist" style="height: 101px;">
-                                                        <ul class="list-group">
-                                                            <li class="list-group-items"
-                                                                (click)="addToConditionTextarea(name)"
-                                                                *ngFor="let name of selectedTableFieldName">
-                                                                {{name}}
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </ng-template>
-                </e-tabitem>
-
-                <!-- Tab4: Gauge Props -->
-<e-tabitem [header]='headerText[4]'>
-    <ng-template #content>
-        <form [formGroup]="dashboardCreationForm" (ngSubmit)="onDashboardCreationForm()">
-            <div formGroupName="gauge">
-                <div class="row">
-                    <div class="col-md-3 form-group">
-                        <label class="inputTitle">Value Field</label>
-                        <ejs-dropdownlist [dataSource]="selectedTableFieldName" [allowFiltering]="true"
-                            formControlName="valueField" class="tableNameDropdown"
-                            placeholder="Select Value Field">
-                        </ejs-dropdownlist>
-                    </div>
-                    <div class="col-md-3 form-group">
-                        <label class="inputTitle">Min Value</label>
-                        <input type="number" formControlName="minValue" class="form-control inputFeild">
-                    </div>
-                    <div class="col-md-3 form-group">
-                        <label class="inputTitle">Max Value</label>
-                        <input type="number" formControlName="maxValue" class="form-control inputFeild">
-                    </div>
-                    <div class="col-md-3 form-group">
-                        <!-- {{dashboardCreationForm.get('gauge')?.get('radius')?.value}} -->
-                        <label class="inputTitle">Radius (%) </label>
-                        <input type="text" placeholder="enter radius in %" formControlName="radius" class="form-control inputFeild">
-                    </div>
-                    <div class="col-md-3 form-group">
-                        <label class="inputTitle">Start Angle</label>
-                        <input type="number" formControlName="startAngle" class="form-control inputFeild">
-                    </div>
-                    <div class="col-md-3 form-group">
-                        <label class="inputTitle">End Angle</label>
-                        <input type="number" formControlName="endAngle" class="form-control inputFeild">
-                    </div>
-
-                    <div class="col-md-3 form-group" formGroupName="legends">
-        <label for="legends" style="display: block;" class="inputTitle">
-        Show Legends : 
-        </label>
-        <ejs-switch formControlName="visible" cssClass="bar-color"></ejs-switch>
-    </div>
-
-                <div class="col-md-3 form-group" formGroupName="legends">
-        <label class="inputTitle">
-            Legends Position :
-        </label>
-        <select name="" id="" formControlName="position"
-            class="form-control selectFeild">
-            <option value="">Select</option>
-            <option value="Top">Top</option>
-            <option value="Bottom">Bottom</option>
-            <option value="Left">Left</option>
-            <option value="Right">Right</option>
-        </select>
-    </div>
-                </div>
-                <!-- added legends row -->
-                 
-                 <!-- <div class="row">
-                                <div class="col-md-3 form-group">
-                                    <div formGroupName="legends">
-                                        <label for="legends" style="display: block;" class="inputTitle">
-                                        Show Legends : 
-                                        </label>
-                                        <ejs-switch formControlName="visible" cssClass="bar-color"></ejs-switch>
-                                    </div>
-
-                                </div>
-                                <div class="col-md-3 form-group">
-                                    <div formGroupName="legends">
-                                        <label class="inputTitle">
-                                            Legends Position :
-                                        </label>
-                                        <select name="" id="" formControlName="position"
-                                            class="form-control selectFeild">
-                                            <option value="">Select</option>
-                                            <option value="Top">Top</option>
-                                            <option value="Bottom">Bottom</option>
-                                            <option value="Left">Left</option>
-                                            <option value="Right">Right</option>
-                                        
-                                        </select>
-                                    </div>
-
-                                </div>
-
-                                <div class="col-md-3 form-group">
-                                <div formGroupName="legends">
-                                    <label class="inputTitle">Legends Shape :</label>
-                                    <select formControlName="shape" class="form-control selectFeild">
-                                        <option value="Circle">Circle</option>
-                                        <option value="Square">Square</option>
-                                        <option value="Rectangle">Rectangle</option>
-                                        <option value="Triangle">Triangle</option>
-                                        <option value="Diamond">Diamond</option>
-                                        <option value="Cross">Cross</option>
-                                        <option value="HorizontalLine">HorizontalLine</option>
-                                        <option value="VerticalLine">VerticalLine</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                                <div class="col-md-3 form-group">
-                                    <div formGroupName="legends">
-                                        <div formGroupName="textStyle">
-                                            <label class="inputTitle">
-                                                Legends Font Size :
-                                            </label>
-                                            <input type="number" class="form-control 
-                                              inputFeild" formControlName="size" name="" id="">
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="col-md-3 form-group">
-                                    <div formGroupName="legends">
-                                        <div formGroupName="textStyle">
-                                            <label class="inputTitle">
-                                                Legends Font color :
-                                            </label>
-                                            <input type="color" ejs-colorpicker formControlName="color"
-                                                class=" form-control colorInput" name="" id="">
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                    </div> -->
-
-                    <div class="row" formGroupName="legends">
-    
-    
-    <div class="col-md-3 form-group">
-        <label class="inputTitle">Legends Shape :</label>
-        <select formControlName="shape" class="form-control selectFeild">
-            <option value="Circle">Circle</option>
-            <!-- <option value="Square">Square</option> -->
-            <option value="Rectangle">Rectangle</option>
-            <option value="Triangle">Triangle</option>
-            <option value="Diamond">Diamond</option>
-            <option value="Cross">Cross</option>
-            <option value="HorizontalLine">HorizontalLine</option>
-            <option value="VerticalLine">VerticalLine</option>
-        </select>
-    </div>
-    <div class="col-md-3 form-group" formGroupName="textStyle">
-        <label class="inputTitle">
-            Legends Font Size :
-        </label>
-        <input type="number" class="form-control 
-          inputFeild" formControlName="size" name="" id="">
-    </div>
-    <div class="col-md-3 form-group" formGroupName="textStyle">
-        <label class="inputTitle">
-            Legends Font color :
-        </label>
-        <input type="color" ejs-colorpicker formControlName="color"
-            class=" form-control colorInput" name="" id="">
-    </div>
-</div>
-                 <!-- end legends -->
+    <!-- ===== TAB 0 – General ===== -->
+    <div class="pt-tab-pane" [class.pt-tab-active]="activeTab === 0">
+      <form [formGroup]="dashboardCreationForm" (ngSubmit)="onDashboardCreationForm()">
+        <div class="gen-grid">
+          <div class="gen-field">
+            <label class="gen-label">Title</label>
+            <input type="text" formControlName="title" class="gen-input">
+          </div>
+          <div class="gen-field">
+            <label class="gen-label">Table Name <span class="gen-req">*</span></label>
+            <div class="gen-dropdown">
+              <ejs-dropdownlist [dataSource]="tableNamesArray" [allowFiltering]="true"
+                formControlName="tableName" (change)="onTableDropdown(tableDropdown.value)"
+                #tableDropdown></ejs-dropdownlist>
             </div>
-        </form>
-    </ng-template>
-</e-tabitem>
-
-
-<!-- Tab5: Axis -->
-<e-tabitem [header]='headerText[5]'>
-    <ng-template #content>
-        <form [formGroup]="dashboardCreationForm" (ngSubmit)="onDashboardCreationForm()">
-            <div formGroupName="gauge">
-                <div formGroupName="axis" class="mt-4">
-                    
-                    <div class="row">
-                        <div class="col-md-3 form-group-">
-                            <label class="inputTitle">Line Width</label>
-                            <input type="number" formControlName="lineWidth" style="height:24px"  class="form-control inputField">
-                        </div>
-                        <div class="col-md-3 form-group-">
-                            <label for="backgroundColor" class="inputTitle">Color</label>
-                            <input type="color" ejs-colorpicker formControlName="color" class="form-control colorInput">
-                        </div>
-                        <div class="col-md-3 form-group-">
-                            <label class="inputTitle">Label Style</label>
-                            <input type="text" formControlName="labelStyle" class="form-control inputFeild">
-                        </div>
-                        <div class="col-md-3 form-group-">
-                            <label class="inputTitle">Label Format</label>
-                            <input type="text" formControlName="labelFormat" class="form-control inputFeild">
-                        </div>
-                    </div>
-
-                    <div formGroupName="majorTicks" class="mt-3">
-                        <h6>Major Ticks</h6>
-                        <div class="row">
-                            <div class="col-md-3 form-group-">
-                                <label class="inputTitle">Width</label>
-                                <input type="number" formControlName="width" class="form-control inputFeild">
-                            </div>
-                            <div class="col-md-3 form-group-">
-                                <label class="inputTitle">Height</label>
-                                <input type="number" formControlName="height" class="form-control inputFeild">
-                            </div>
-                            <div class="col-md-3 form-group-">
-                                <label class="inputTitle">Interval</label>
-                                <input type="number" formControlName="interval" class="form-control inputFeild">
-                            </div>
-                            <div class="col-md-3 form-group-">
-                                <label for="backgroundColor" class="inputTitle">Color</label>
-                                <input type="color" ejs-colorpicker formControlName="color" class="form-control colorInput">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div formGroupName="minorTicks" class="mt-3">
-                        <h6>Minor Ticks</h6>
-                        <div class="row">
-                            <div class="col-md-3 form-group-">
-                                <label class="inputTitle">Width</label>
-                                <input type="number" formControlName="width" class="form-control inputFeild">
-                            </div>
-                            <div class="col-md-3 form-group-">
-                                <label class="inputTitle">Height</label>
-                                <input type="number" formControlName="height" class="form-control inputFeild">
-                            </div>
-                            <div class="col-md-3 form-group-">
-                                <label class="inputTitle">Interval</label>
-                                <input type="number" formControlName="interval" class="form-control inputFeild">
-                            </div>
-                            <div class="col-md-3 form-group-">
-                                <label for="backgroundColor" class="inputTitle">Color</label>
-                                <input type="color" ejs-colorpicker formControlName="color" class="form-control colorInput">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div *ngIf="dashboardCreationForm.get('tableName')?.invalid && dashboardCreationForm.get('tableName')?.touched" class="gen-error">
+              Table Name is required.
             </div>
-        </form>
-    </ng-template>
-</e-tabitem>
-
-<!-- Tab6: Pointers -->
-<!-- <e-tabitem [header]='headerText[6]'>
-    <ng-template #content>
-        <form [formGroup]="dashboardCreationForm" (ngSubmit)="onDashboardCreationForm()">
-            <div formGroupName="gauge">
-                <div formGroupName="pointer">
-                
-                    <div class="row">
-                        <div class="col-md-3 form-group-">
-                            <label class="inputTitle">Type</label>
-                            <select formControlName="type" style="height: 24px; padding:3px;" class="form-control inputFeild">
-                                <option value="Needle">Needle</option>
-                                <option value="Marker">Marker</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 form-group-">
-                            <label class="inputTitle">Value</label>
-                            <input type="number" formControlName="value" class="form-control inputFeild">
-                        </div>
-                        <div class="col-md-3 form-group-">
-                            <label class="inputTitle">Width</label>
-                            <input type="number" formControlName="width" class="form-control inputFeild">
-                        </div>
-                        <div class="col-md-3 form-group-">
-                            <label for="backgroundColor" class="inputTitle">Color</label>
-                            <input type="color" ejs-colorpicker formControlName="color" class="form-control colorInput">
-                        </div>
-                    </div>
-
-                    <div formGroupName="capStyle" class="mt-3">
-                        <h6>Cap Style</h6>
-                        <div class="row">
-                            <div class="col-md-3 form-group-">
-                                <label class="inputTitle">Radius</label>
-                                <input type="number" formControlName="radius" class="form-control inputFeild">
-                            </div>
-                            <div class="col-md-3 form-group-">
-                                <label for="backgroundColor" class="inputTitle">Color</label>
-                                <input type="color" ejs-colorpicker formControlName="color" class="form-control colorInput">
-                            </div>
-                            <div class="col-md-3 form-group-">
-                                <label class="inputTitle">Border Width</label>
-                                <input type="number" formControlName="borderWidth" class="form-control inputFeild">
-                            </div>
-                            <div class="col-md-3 form-group-">
-                                <label for="backgroundColor" class="inputTitle">Border Color</label>
-                                <input type="color" ejs-colorpicker formControlName="borderColor" class="form-control colorInput">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div formGroupName="needleTail" class="mt-3">
-                        <h6>Needle Tail</h6>
-                        <div class="row">
-                            <div class="col-md-3 form-group-">
-                                <label class="inputTitle">Length</label>
-                                <input type="text" placeholder="Length" formControlName="length" class="form-control inputFeild">
-                            </div>
-                            <div class="col-md-3 form-group-">
-                                <label for="backgroundColor" class="inputTitle">Color</label>
-                                <input type="color" ejs-colorpicker formControlName="color" class="form-control colorInput">
-                            </div>
-                            <div class="col-md-3 form-group-">
-                                <label class="inputTitle">Border Width</label>
-                                <input type="number" placeholder="Border Width" formControlName="borderWidth" class="form-control inputFeild">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div formGroupName="animation" class="mt-3">
-                        <h6>Animation</h6>
-                        <div class="row">
-                            <div class="col-md-3 form-group-">
-                                <ejs-switch formControlName="enable"></ejs-switch>
-                            </div>
-                            <div class="col-md-3 form-group-" style="margin-top:-20px;">
-                                <label class="inputTitle">Duration (ms)</label>
-                                <input type="number"  formControlName="duration" class="form-control inputFeild">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          </div>
+          <div class="gen-field">
+            <label class="gen-label">Background Color</label>
+            <div class="gen-color-row">
+              <input type="color" formControlName="background" class="gen-color-input">
+              <span class="gen-color-hint">Pick colour</span>
             </div>
-        </form>
-    </ng-template>
-</e-tabitem> -->
-
-<!-- Tab6: Pointers -->
-<e-tabitem [header]='headerText[6]'>
-    <ng-template #content>
-        <form [formGroup]="dashboardCreationForm" (ngSubmit)="onDashboardCreationForm()">
-            <div formGroupName="gauge">
-                <div formGroupName="pointer">
-                    <div class="row">
-                        <div class="col-md-3 form-group-">
-                            <label class="inputTitle">Type</label>
-                            <select formControlName="type" style="height: 24px; padding:3px;" class="form-control inputFeild">
-                                <option value="Needle">Needle</option>
-                                <option value="Marker">Marker</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 form-group-">
-                            <label class="inputTitle">Value</label>
-                            <input type="number" formControlName="value" class="form-control inputFeild">
-                        </div>
-                        <div class="col-md-3 form-group-">
-                            <label class="inputTitle">Width</label>
-                            <input type="number" formControlName="width" class="form-control inputFeild">
-                        </div>
-                        <div class="col-md-3 form-group-">
-                            <label for="backgroundColor" class="inputTitle">Color</label>
-                            <input type="color" ejs-colorpicker formControlName="color" class="form-control colorInput">
-                        </div>
-                    </div>
-                    <!-- Marker fields - only show when type is Marker -->
-                    <div class="row mt-3" *ngIf="dashboardCreationForm.get('gauge.pointer.type')?.value === 'Marker'">
-                        <div class="col-md-3 form-group-">
-                            <label class="inputTitle">Marker Shape</label>
-                            <select formControlName="markerShape" style="height: 24px; padding:3px;" class="form-control inputFeild">
-                                <option value="Circle">Circle</option>
-                                <option value="Rectangle">Rectangle</option>
-                                <option value="Triangle">Triangle</option>
-                                <option value="InvertedTriangle">InvertedTriangle</option>
-                                <option value="Diamond">Diamond</option>
-                                <option value="Arrow">Arrow</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 form-group-">
-                            <label class="inputTitle">Marker Height</label>
-                            <input type="number" formControlName="markerHeight" class="form-control inputFeild">
-                        </div>
-                        <div class="col-md-3 form-group-">
-                            <label class="inputTitle">Marker Radius (%)</label>
-                            <input type="text" formControlName="markerRadius" placeholder="e.g. 100%" class="form-control inputFeild">
-                        </div>
-                    </div>
-                    <!-- Needle fields - only show when type is Needle -->
-                    <div formGroupName="capStyle" class="mt-3" *ngIf="dashboardCreationForm.get('gauge.pointer.type')?.value !== 'Marker'">
-                        <h6>Cap Style</h6>
-                        <div class="row">
-                            <div class="col-md-3 form-group-">
-                                <label class="inputTitle">Radius</label>
-                                <input type="number" formControlName="radius" class="form-control inputFeild">
-                            </div>
-                            <div class="col-md-3 form-group-">
-                                <label for="backgroundColor" class="inputTitle">Color</label>
-                                <input type="color" ejs-colorpicker formControlName="color" class="form-control colorInput">
-                            </div>
-                            <div class="col-md-3 form-group-">
-                                <label class="inputTitle">Border Width</label>
-                                <input type="number" formControlName="borderWidth" class="form-control inputFeild">
-                            </div>
-                            <div class="col-md-3 form-group-">
-                                <label for="backgroundColor" class="inputTitle">Border Color</label>
-                                <input type="color" ejs-colorpicker formControlName="borderColor" class="form-control colorInput">
-                            </div>
-                        </div>
-                    </div>
-                    <div formGroupName="needleTail" class="mt-3" *ngIf="dashboardCreationForm.get('gauge.pointer.type')?.value !== 'Marker'">
-                        <h6>Needle Tail</h6>
-                        <div class="row">
-                            <div class="col-md-3 form-group-">
-                                <label class="inputTitle">Length</label>
-                                <input type="text" placeholder="Length" formControlName="length" class="form-control inputFeild">
-                            </div>
-                            <div class="col-md-3 form-group-">
-                                <label for="backgroundColor" class="inputTitle">Color</label>
-                                <input type="color" ejs-colorpicker formControlName="color" class="form-control colorInput">
-                            </div>
-                            <div class="col-md-3 form-group-">
-                                <label class="inputTitle">Border Width</label>
-                                <input type="number" placeholder="Border Width" formControlName="borderWidth" class="form-control inputFeild">
-                            </div>
-                        </div>
-                    </div>
-                    <div formGroupName="animation" class="mt-3" *ngIf="dashboardCreationForm.get('gauge.pointer.type')?.value !== 'Marker'">
-                        <h6>Animation</h6>
-                        <div class="row">
-                            <div class="col-md-3 form-group-">
-                                <ejs-switch formControlName="enable"></ejs-switch>
-                            </div>
-                            <div class="col-md-3 form-group-" style="margin-top:-20px;">
-                                <label class="inputTitle">Duration (ms)</label>
-                                <input type="number" formControlName="duration" class="form-control inputFeild">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </ng-template>
-</e-tabitem>
-
-<!-- Tab7: Ranges -->
-<e-tabitem [header]='headerText[7]' >
-    <ng-template #content>
-        <!-- <form [formGroup]="dashboardCreationForm" (ngSubmit)="onDashboardCreationForm()">
-            <div formGroupName="gauge">
-                <div formArrayName="ranges" class="mt-4">
-                    
-
-                    <button type="button" class="e-btn e-btn-purple mb-3" (click)="addRange()">
-                        + Add Range
-                    </button>
-
-                    <div *ngFor="let range of ranges.controls; let i = index" [formGroupName]="i"
-                        class="border p-3 mb-3">
-
-                        <div class="row">
-                            <div class="col-md-2 form-group">
-                                <label class="inputTitle">Start</label>
-                                <input type="number" formControlName="startValue" class="form-control inputFeild">
-                            </div>
-                            <div class="col-md-2 form-group">
-                                <label class="inputTitle">End</label>
-                                <input type="number" formControlName="endValue" class="form-control inputFeild">
-                            </div>
-                            <div class="col-md-2 form-group">
-                                <label for="backgroundColor" class="inputTitle">Color</label>
-                                <input type="color" ejs-colorpicker formControlName="color" class="form-control colorInput">
-                            </div>
-                            <div class="col-md-2 form-group">
-                                <label class="inputTitle">Width</label>
-                                <input type="number" formControlName="width" class="form-control inputFeild">
-                            </div>
-                            
-
-                        </div>
-                        <div class="row mt-3">
-                        <div class="col-md-2 form-group">
-                                <label class="inputTitle">Radius</label>
-                                <input type="number" formControlName="radius" class="form-control inputFeild">
-                            </div>
-                            <div class="col-md-2 form-group">
-                                <label class="inputTitle">Rounded Corner</label>
-                                <input type="number" formControlName="roundedCornerRadius" class="form-control inputFeild">
-                            </div>
-                        <div class="col-md-6 form-group">
-                            <label class="inputTitle">Legend Text</label>
-                            <input type="text" formControlName="legendText" placeholder="e.g. Low / Medium / High"  class="form-control inputFeild"/>
-                        </div>
-                        </div>
-
-                        <div formGroupName="gradient" class="mt-3">
-                            <div class="row">
-                                <div class="col-md-3 form-group">
-                                    <label class="inputTitle">Gradient Type</label>
-                                    <select formControlName="type" class="form-control inputFeild">
-                                        <option value="">None</option>
-                                        <option value="Linear">Linear</option>
-                                        <option value="Radial">Radial</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3 form-group" formArrayName="colors">
-                                    <label for="backgroundColor" class="inputTitle">Gradient Colors</label>
-                                    <div *ngFor="let color of getGradientColors(i).controls; let j=index"
-                                        style="display:inline-block; margin-right:8px; margin-bottom:5px;">
-                                        <input type="color" ejs-colorpicker [formControlName]="j"
-                                            class="form-control colorInput" style="width:50px;">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-2" style="text-align:right;">
-                            <button type="button" class="e-btn" style="color:rgb(75, 38, 238);" (click)="removeRange(i)">
-                                Remove Range
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                
-            </div>
-        </form> -->
-        <!-- {{dashboardCreationForm.value?.gauge?.ranges | json}} -->
-         <form [formGroup]="dashboardCreationForm"
-      (ngSubmit)="onDashboardCreationForm()">
-
-  <div formGroupName="gauge">
-
-    <!-- ================= RANGESS FORM ================= -->
-    <div formGroupName="rangess" class="mt-4 border p-3 rounded">
-
-      <div class="row">
-        <div class="col-md-3 form-group">
-          <label class="inputTitle">StartRange</label>
-          <input type="number"
-                 formControlName="startValue"
-                 class="form-control inputFeild">
+          </div>
         </div>
+      </form>
+    </div>
 
-        <div class="col-md-3 form-group">
-          <label class="inputTitle">EndRange</label>
-          <input type="number"
-                 formControlName="endValue"
-                 class="form-control inputFeild">
+    <!-- ===== TAB 1 – Dimension ===== -->
+    <div class="pt-tab-pane" [class.pt-tab-active]="activeTab === 1">
+      <form [formGroup]="dashboardCreationForm">
+        <div formGroupName="dimension" class="gen-grid" style="grid-template-columns:repeat(4,1fr)">
+          <div class="gen-field">
+            <label class="gen-label">Field Name <span class="gen-req">*</span></label>
+            <div class="gen-dropdown">
+              <ejs-dropdownlist [dataSource]="selectedTableFieldName" [allowFiltering]="true"
+                formControlName="fieldName" (change)="onDimensionFieldDropdown(dimensionFieldDropdown.value)"
+                #dimensionFieldDropdown></ejs-dropdownlist>
+            </div>
+            <div *ngIf="dashboardCreationForm.get('dimension.fieldName')?.invalid && dashboardCreationForm.get('dimension.fieldName')?.touched" class="gen-error">
+              Field Name is required.
+            </div>
+          </div>
+          <div class="gen-field">
+            <label class="gen-label">Label Name</label>
+            <input type="text" formControlName="labelName" class="gen-input">
+          </div>
+          <div class="gen-field">
+            <label class="gen-label">Title Name</label>
+            <input type="text" formControlName="levelTitle" class="gen-input">
+          </div>
+          <div class="gen-field">
+            <label class="gen-label">Level Number</label>
+            <div class="gen-dropdown">
+              <ejs-dropdownlist [dataSource]="levelOptions" [fields]="ddlFields"
+                formControlName="level"></ejs-dropdownlist>
+            </div>
+          </div>
         </div>
-
-        <div class="col-md-3 form-group">
-          <label class="inputTitle">Color</label>
-          <input type="color"
-                 ejs-colorpicker
-                 formControlName="color"
-                 class="form-control colorInput">
+        <div style="text-align:right;margin-bottom:10px">
+          <button type="button" class="e-btn e-btn-purple" *ngIf="!showDimensionUpdateButton" (click)="onAddGrouping()">Add</button>
+          <button type="button" class="e-btn e-btn-purple" *ngIf="showDimensionUpdateButton" (click)="onUpdateDimensionSeries()">Update</button>
         </div>
-
-        <div class="col-md-3 form-group">
-          <label class="inputTitle">Width</label>
-          <input type="number"
-                 formControlName="width"
-                 class="form-control inputFeild">
-        </div>
+      </form>
+      <div class="table-container">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Sr No</th><th>Field Name</th><th>Label Name</th><th>Title Name</th>
+              <th>Level No</th><th>Raw Query</th><th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of dimensionGroupingArray; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td style="max-width:150px;word-wrap:break-word">{{ item.fieldName }}</td>
+              <td style="max-width:150px;word-wrap:break-word">{{ item.labelName }}</td>
+              <td style="max-width:150px;word-wrap:break-word">{{ item.levelTitle }}</td>
+              <td>{{ item.level }}</td>
+              <td style="max-width:250px;word-wrap:break-word">{{ item.rawQuery }}</td>
+              <td style="cursor:pointer">
+                <i class="bi bi-pencil-square" style="margin-right:10px" (click)="onEditDiemsionSeries(item, i)"></i>
+                <i class="bi bi-trash" (click)="onDeleteDiemnsionSeries(i, item)"></i>
+                <i class="bi bi-database" style="margin-left:10px" (click)="onOpenrawQuery(item, i, item.level)"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+    </div>
 
-      <div class="row mt-3">
-        <div class="col-md-3 form-group">
-          <label class="inputTitle">Radius</label>
-          <input type="text"
-                     placeholder="enter radius in %"                 formControlName="radius"
-                 class="form-control inputFeild">
-        </div>
-
-        <div class="col-md-3 form-group">
-          <label class="inputTitle">Rounded Corner Radius</label>
-          <input type="number"
-                 formControlName="roundedCornerRadius"
-                 class="form-control inputFeild">
-        </div>
-
-        <div class="col-md-3 form-group">
-          <label class="inputTitle">Legend Text</label>
-          <input type="text"
-                 formControlName="legendText"
-                 placeholder="e.g. Low / Medium / High"
-                 class="form-control inputFeild">
-        </div>
-      </div>
-
-      <!-- ============ Gradient Section ============ -->
-      <!-- <div formGroupName="gradient" class="mt-3">
-        <div class="row">
-
-          <div class="col-md-3 form-group">
-            <label class="inputTitle">Gradient Type</label>
-            <select formControlName="type"
-                    class="form-control inputFeild">
-              <option value="">None</option>
-              <option value="Linear">Linear</option>
-              <option value="Radial">Radial</option>
-            </select>
+    <!-- ===== TAB 2 – Measure ===== -->
+    <div class="pt-tab-pane" [class.pt-tab-active]="activeTab === 2">
+      <form [formGroup]="dashboardCreationForm">
+        <div formGroupName="measure">
+          <div class="gen-grid" style="grid-template-columns:repeat(4,1fr)">
+            <div class="gen-field">
+              <label class="gen-label">Field Name <span class="gen-req">*</span></label>
+              <div class="gen-dropdown">
+                <ejs-dropdownlist [dataSource]="selectedTableFieldName" [allowFiltering]="true"
+                  formControlName="fieldName" (change)="onMeasureFieldDropdown(measureFieldDropdown.value)"
+                  #measureFieldDropdown></ejs-dropdownlist>
+              </div>
+              <div *ngIf="dashboardCreationForm.get('measure.fieldName')?.invalid && dashboardCreationForm.get('measure.fieldName')?.touched" class="gen-error">
+                Field Name is required.
+              </div>
+            </div>
+            <div class="gen-field">
+              <label class="gen-label">Label Name</label>
+              <input type="text" formControlName="labelName" class="gen-input">
+            </div>
+            <div class="gen-field">
+              <label class="gen-label">Series Color</label>
+              <div class="gen-color-row">
+                <input type="color" formControlName="seriesColor" class="gen-color-input">
+                <span class="gen-color-hint">Pick colour</span>
+              </div>
+            </div>
+            <div class="gen-field">
+              <label class="gen-label">Expression</label>
+              <textarea rows="1" formControlName="expression" class="gen-input" style="height:28px;resize:none;padding:4px 8px"></textarea>
+              <div *ngIf="validationMessage && dashboardCreationForm.touched" class="gen-error">
+                Either Expression or Raw Query is required.
+              </div>
+            </div>
           </div>
 
-           
-
-          <div class="col-md-6 form-group" formArrayName="colors">
-
-  <label class="inputTitle">Gradient Colors</label>
-
-  <div *ngFor="let color of getGradientColorss().controls; let j = index"
-       style="display:inline-flex; align-items:center; margin-right:8px; margin-bottom:8px;">
-
-    <input type="color"
-           ejs-colorpicker
-           [formControlName]="j"
-           (change)="getgradientColorI($event,j)"
-           class="form-control colorInput"
-           style="width:50px; margin-right:5px;">
-
-    
-    <svg (click)="removeGradientColors(j)"
-         xmlns="http://www.w3.org/2000/svg"
-         width="16"
-         height="16"
-         fill="red"
-         viewBox="0 0 24 24"
-         style="cursor:pointer;">
-      <path d="M6 7h12v14H6z"/>
-      <path d="M9 4h6l1 1h4v2H4V5h4z"/>
-    </svg>
-
-  </div>
-
-  <br>
-
-  <button type="button"
-          class="e-btn e-btn-sm mt-2"
-          (click)="addGradientColors()">
-    + Add Color
-  </button>
-
-</div>
-
-        </div>
-      </div> -->
-
-      <!-- ============ ADD / UPDATE BUTTON ============ -->
-      <div class="mt-4 text-end addrange-btn">
-        <button type="button"
-                class="e-btn e-btn-purple"
-                (click)="addRangess()">
-          {{ editIndex !== null ? 'Update Range' : 'Add Range' }}
-        </button>
-      </div>
-
-    </div>
-    <!-- ================= END FORM ================= -->
-
-
-    <!-- ================= TABLE ================= -->
-     <!-- rangessList{{rangessList | json}} -->
-    <div class="mt-4 guage-table" *ngIf="(rangessList.length > 0) || (this.dashboardCreationForm.value?.gauge?.ranges).length > 0">
-
-      <table class="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th>SNo</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Color</th>
-            <th>Width</th>
-            <th>Radius</th>
-            <th>Rounded Corner Radius</th>
-            <th>Legend Text</th>
-            <!-- <th>Gradient Type</th>
-            <th>Gradient Colors</th> -->
-            <th style="width:100px;">Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-            <!-- (rangessList.length > 0 ? rangessList : this.dashboardCreationForm.value?.gauge?.ranges) -->
-          <tr *ngFor="let item of rangessList; let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ item?.startValue >= 0 ? item?.startValue : 'N/A' }}</td>
-            <td>{{ item?.endValue || 'N/A' }}</td>
-
-            <td>
-                {{ item?.color || 'N/A' }}
-                <!-- <div style="width:100px;
-                          height:20px;
-                          border-radius:4px;
-                          border:1px solid #ccc;"
-                   [style.background]="item.color">
-              </div> -->
-              
-            </td>
-
-            <td>{{ item?.width || 'N/A' }}</td>
-            <td>{{ item?.radius || 'N/A' }}</td>
-            <td>{{ item?.roundedCornerRadius || 'N/A' }}</td>
-            <td>{{ item?.legendText || 'N/A' }}</td>
-            <!-- <td>{{ item?.gradient?.type }}</td> -->
-
-<!-- <td>
-
-<div style="width:100px;
-
-height:20px;
-
-border-radius:4px;
-
-border:1px solid #ccc;"
-
-[style.background]="generateGradient(item?.gradient?.colors, item?.gradient?.type || 'Linear')">
-
-</div>
-
-</td> -->
-            <td style="display:flex; gap:10px; cursor:pointer; border-bottom: transparent;">
-                <i class="bi bi-pencil-square" style="margin-right:10px; cursor: pointer;"
-                    [title]="'Edit'" (click)="editRangess(i)"></i>
-                <i class="bi bi-trash" [title]="'Delete'" style="cursor: pointer;"
-                    (click)="deleteRangess(i)"></i>
-             
-              
-
-            </td>
-
-          </tr>
-        </tbody>
-      </table>
-
-    </div>
-    <!-- ================= END TABLE ================= -->
-
-  </div>
-</form>
-
-    </ng-template>
-</e-tabitem>
-                  
-<!-- Tab7: Ranges -->
-<!-- <e-tabitem [header]='headerText[7]'>
-    <ng-template #content>
-        <form [formGroup]="dashboardCreationForm" (ngSubmit)="onDashboardCreationForm()">
-            <div formGroupName="gauge">
-                <div formArrayName="ranges" class="mt-4">
-
-                    <div *ngIf="ranges.controls.length > 0" [formGroupName]="activeRangeIndex >= 0 ? activeRangeIndex : 0">
-                        <div class="row">
-                            <div class="col-md-2 form-group">
-                                <label class="inputTitle">Start</label>
-                                <input type="number" formControlName="startValue" class="form-control inputFeild">
-                            </div>
-                            <div class="col-md-2 form-group">
-                                <label class="inputTitle">End</label>
-                                <input type="number" formControlName="endValue" class="form-control inputFeild">
-                            </div>
-                            <div class="col-md-2 form-group">
-                                <label for="backgroundColor" class="inputTitle">Color</label>
-                                <input type="color" ejs-colorpicker formControlName="color" class="form-control colorInput">
-                            </div>
-                            <div class="col-md-2 form-group">
-                                <label class="inputTitle">Width</label>
-                                <input type="number" formControlName="width" class="form-control inputFeild">
-                            </div>
-                            <div class="col-md-2 form-group">
-                                <label class="inputTitle">Radius</label>
-                                <input type="number" formControlName="radius" class="form-control inputFeild">
-                            </div>
-                            <div class="col-md-2 form-group">
-                                <label class="inputTitle">Rounded Corner</label>
-                                <input type="number" formControlName="roundedCornerRadius" class="form-control inputFeild">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 form-group">
-                                <label class="inputTitle">Legend Text</label>
-                                <input type="text" formControlName="legendText"
-                                    placeholder="e.g. Low / Medium / High" class="form-control inputFeild"/>
-                            </div>
-                        </div>
-
-                        <div formGroupName="gradient">
-                            <div class="row">
-                                <div class="col-md-3 form-group">
-                                    <label class="inputTitle">Gradient Type</label>
-                                    <select formControlName="type" class="form-control inputFeild">
-                                        <option value="">None</option>
-                                        <option value="Linear">Linear</option>
-                                        <option value="Radial">Radial</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3 form-group" formArrayName="colors">
-                                    <label class="inputTitle">Gradient Colors</label>
-                                    <div *ngFor="let color of getGradientColors(activeRangeIndex >= 0 ? activeRangeIndex : 0).controls; let j=index"
-                                        style="display:inline-block; margin-right:8px; margin-bottom:5px;">
-                                        <input type="color" ejs-colorpicker [formControlName]="j"
-                                            class="form-control colorInput" style="width:50px;">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12 form-group" style="text-align: right; margin:10px">
-                            <button type="button" class="e-btn e-btn-purple"
-                                *ngIf="!showRangeUpdateButton" (click)="onAddRangeToTable()">
-                                Add
-                            </button>
-                            <button type="button" class="e-btn e-btn-purple"
-                                *ngIf="showRangeUpdateButton" (click)="onUpdateRangeInTable()">
-                                Update
-                            </button>
-                        </div>
-                    </div>
-
+          <label class="gen-sub-label" style="margin:10px 0 6px">Data Labels</label>
+          <div formGroupName="dataLabel">
+            <div class="gen-grid" style="grid-template-columns:repeat(4,1fr)">
+              <div class="gen-toggle-field">
+                <label class="gen-label">Show DataLabels</label>
+                <div class="gen-toggle-box">
+                  <ejs-switch formControlName="visible" cssClass="bar-color"></ejs-switch>
                 </div>
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">DataLabel Format</label>
+                <div class="gen-dropdown">
+                  <ejs-dropdownlist [dataSource]="dataLabelFormatOptions" [fields]="ddlFields"
+                    formControlName="format"></ejs-dropdownlist>
+                </div>
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Datalabel Rotation</label>
+                <input type="number" class="gen-input" formControlName="angle">
+              </div>
             </div>
-        </form>
-
-        
-        <div class="table-container">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th style="width: 20px;">Sr No</th>
-                        <th style="width: 60px;">Start</th>
-                        <th style="width: 60px;">End</th>
-                        <th style="width: 60px;">Color</th>
-                        <th style="width: 60px;">Width</th>
-                        <th style="width: 60px;">Radius</th>
-                        <th style="width: 80px;">Rounded Corner</th>
-                        <th style="width: 100px;">Legend Text</th>
-                        <th style="width: 80px;">Gradient Type</th>
-                        <th style="width: 50px;">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of rangeTableArray; let i = index">
-                        <td>{{ i + 1 }}</td>
-                        <td>{{ item.startValue }}</td>
-                        <td>{{ item.endValue }}</td>
-                        <td>
-                            <span [style.background]="item.color"
-                                style="display:inline-block; width:20px; height:20px; border-radius:3px; border:1px solid #ccc;">
-                            </span>
-                        </td>
-                        <td>{{ item.width }}</td>
-                        <td>{{ item.radius }}</td>
-                        <td>{{ item.roundedCornerRadius }}</td>
-                        <td>{{ item.legendText }}</td>
-                        <td>{{ item.gradient?.type }}</td>
-                        <td style="cursor: pointer;">
-                            <i class="bi bi-pencil-square" style="margin-right:10px; cursor: pointer;"
-                                [title]="'Edit'" (click)="onEditRange(item, i)"></i>
-                            <i class="bi bi-trash" [title]="'Delete'" style="cursor: pointer;"
-                                (click)="onDeleteRange(i)"></i>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div formGroupName="font" class="gen-grid" style="grid-template-columns:repeat(4,1fr)">
+              <div class="gen-field">
+                <label class="gen-label">Font Weight</label>
+                <div class="gen-dropdown">
+                  <ejs-dropdownlist [dataSource]="fontWeightOptions" [fields]="ddlFields"
+                    formControlName="fontWeight"></ejs-dropdownlist>
+                </div>
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Font Size</label>
+                <input type="number" class="gen-input" formControlName="size">
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Font Color</label>
+                <div class="gen-color-row">
+                  <input type="color" formControlName="color" class="gen-color-input">
+                  <span class="gen-color-hint">Pick colour</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-
-    </ng-template>
-</e-tabitem> -->
-            </e-tabitems>
-        </ejs-tab>
-
-        <!-- Raw Query Dialog -->
-        <div>
-            <ejs-dialog id="rawQueryDimension" #rawQueryDimension [isModal]='isModal' [visible]='false'
-                [header]="'Add Raw Query'" [allowDragging]='true' [animationSettings]='animationSettings'
-                [showCloseIcon]='true' [target]='target' [width]='1000'>
-
-                <ng-template #content>
-                    <div style="padding:20px 10px">
-                        <form action="" [formGroup]="dashboardCreationForm">
-                            <div formGroupName="dimension">
-                                <div class="row">
-                                    <div class="col-md-9">
-                                        <fieldset>
-                                            <legend>Raw Query:
-
-                                            </legend>
-                                            <div class="row">
-                                                <div class="cleardiv pull-right">
-                                                    <button type="button" (click)="onCopyRawQuery()"
-                                                        class="e-btn e-btn-purple">Copy</button>
-                                                    &nbsp;
-                                                    <span *ngIf="copyMessage" style="position:absolute; top:10px;
-                                                        left:50%; transform:translateX(-50%); background:#323232;
-                                                        color:#fff; padding:6px 12px; border-radius:6px; font-size:13px;">
-                                                        {{ copyMessage }}
-                                                    </span>
-                                                    <button type="button" (click)="onClearRawQuery()" ejs-button
-                                                        cssClass='e-btn e-btn-purple'
-                                                        id="chartbtnCleardimCondition">Clear</button>
-                                                </div>
-                                            </div>
-
-                                            <div class="">
-                                                <textarea name="conditions" cols="40" rows="8" class="form-control"
-                                                    id="pop_chart_expression" formControlName="rawQuery"
-                                                    [(ngModel)]="rawQueryValue"
-                                                    (click)="updateCursorPosition($event)"
-                                                    (input)="updateCursorPosition($event)">
-
-                                                    <div *ngIf="validationMessage && dashboardCreationForm.touched"
-                                                    class="error-message">
-                                                        Either Expression or Raw Query is required.
-                                                    </div>
-
-                                                </textarea>
-                                            </div>
-
-                                            <div class="actionbuttons">
-                                                <div class="border">
-                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
-                                                        style="margin-left:0px" (click)="addRawQueryText($event)"
-                                                        value="+">+</button>
-                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
-                                                        (click)="addRawQueryText($event)" value="-">-</button>
-                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
-                                                        (click)="addRawQueryText($event)" value="*">*</button>
-                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
-                                                        (click)="addRawQueryText($event)" value="/">/</button>
-                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
-                                                        (click)="addRawQueryText($event)" value="==">==</button>
-                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
-                                                        (click)="addRawQueryText($event)" value="<">&lt;</button>
-                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
-                                                        (click)="addRawQueryText($event)" value="<=">&lt;=</button>
-                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
-                                                        (click)="addRawQueryText($event)" value="!=">!=</button>
-                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
-                                                        (click)="addRawQueryText($event)" value=">=">&gt;=</button>
-                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
-                                                        (click)="addRawQueryText($event)" value=">">&gt;</button>
-                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
-                                                        (click)="addRawQueryText($event)" value="and">and</button>
-                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
-                                                        (click)="addRawQueryText($event)" value="or">or</button>
-                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
-                                                        (click)="addRawQueryText($event)" value="not">not</button>
-                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
-                                                        (click)="addRawQueryText($event)" value="(">(</button>
-                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
-                                                        (click)="addRawQueryText($event)" value=")">)</button>
-                                                    <button type="button" ejs-button cssClass='e-btn e-btn-purple oper'
-                                                        (click)="addRawQueryText($event)"
-                                                        value="{apply_filters}">Apply_Filters</button>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-                                    </div>
-
-                                    <div class="col-md-3 border">
-                                        <fieldset>
-                                            <legend>Select Table:
-
-                                            </legend>
-                                            <input type="text" class="form-control tableInputTitle"
-                                                formControlName="tableName">
-                                            <div class="tabldiv">
-                                                <div class="headerstylepopup">
-                                                    <h5 class="popuph5style">Selected Table Field Names</h5>
-                                                </div>
-                                                <div class="Tablelist" style="height: 142px;">
-                                                    <ul class="list-group">
-                                                        <li class="list-group-items" (click)="addToTextarea(name)"
-                                                            *ngFor="let name of selectedTableFieldName">
-                                                            {{name}}
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="col-md-12 form-group" style="text-align: right; margin-top:15px">
-                                    <button class="e-btn e-btn-purple" type="button" (click)="onOkButtonClick()">
-                                        Add
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </ng-template>
-            </ejs-dialog>
+        <div style="text-align:right;margin-bottom:10px">
+          <button type="button" class="e-btn e-btn-purple" *ngIf="showAddButton" (click)="onAddMeasure()">Add</button>
+          <button type="button" class="e-btn e-btn-purple" *ngIf="showUpdateButton" (click)="onUpdateMeasure()">Update</button>
         </div>
-
+      </form>
+      <div class="table-container" style="max-height:300px;overflow-y:auto">
+        <table class="table table-bordered interactive-table measureTable">
+          <thead>
+            <tr>
+              <th>Sr No</th><th>Table Name</th><th>Field Name</th><th>LabelName</th>
+              <th>Series Color</th><th>Expression</th><th>DataLabels</th><th>DataLabel Format</th>
+              <th>DataLabel Fontsize</th><th>DataLabel Fontweight</th><th>DataLabel Fontcolor</th>
+              <th>DataLabel Angle</th><th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of measureSeriesArray; let i=index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ item.tableName }}</td>
+              <td>{{ item.fieldName }}</td>
+              <td>{{ item.labelName }}</td>
+              <td>{{ item.seriesColor }}</td>
+              <td>{{ item.expression }}</td>
+              <td>{{ item.dataLabel?.visible }}</td>
+              <td>{{ item.dataLabel?.format }}</td>
+              <td>{{ item.dataLabel?.font?.size }}</td>
+              <td>{{ item.dataLabel?.font?.fontWeight }}</td>
+              <td>{{ item.dataLabel?.font?.color }}</td>
+              <td>{{ item.dataLabel?.angle }}</td>
+              <td style="cursor:pointer">
+                <i class="bi bi-trash" (click)="onDeleteSeries(i)"></i>
+                <i class="bi bi-pencil-square" style="margin-left:10px" (click)="onEditSeries(item, i)"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-</div>
+
+    <!-- ===== TAB 3 – Condition ===== -->
+    <div class="pt-tab-pane pt-tab-pane--flex" [class.pt-tab-active]="activeTab === 3">
+      <form [formGroup]="dashboardCreationForm" class="cond-form">
+        <div class="gen-grid" style="margin-bottom:8px">
+          <div class="gen-field">
+            <label class="gen-label">Group By</label>
+            <div class="gen-multiselect">
+              <ejs-multiselect formControlName="groupBy" [dataSource]="selectedTableFieldName"
+                mode="CheckBox"></ejs-multiselect>
+            </div>
+          </div>
+          <div class="gen-field">
+            <label class="gen-label">Order By</label>
+            <div class="gen-multiselect">
+              <ejs-multiselect formControlName="orderBy" [dataSource]="selectedTableFieldName"
+                mode="CheckBox"></ejs-multiselect>
+            </div>
+          </div>
+          <div class="gen-field">
+            <label class="gen-label">Order By Type</label>
+            <div class="gen-dropdown">
+              <ejs-dropdownlist [dataSource]="orderByTypeOptions" [fields]="ddlFields"
+                formControlName="orderByType" placeholder="Select"></ejs-dropdownlist>
+            </div>
+          </div>
+        </div>
+
+        <div class="cond-builder-row">
+          <div class="cond-left">
+            <div class="cond-legend-bar">
+              <span class="gen-sub-label">Template Condition</span>
+              <div style="display:flex;gap:6px;align-items:center">
+                <button type="button" (click)="onClearConditions()" class="cond-clear-btn">Clear</button>
+              </div>
+            </div>
+            <textarea name="conditions" rows="5" class="cond-textarea" id="pop_chart_condition"
+              formControlName="conditions" [(ngModel)]="conditionValue"
+              (click)="updateCursorPositionCondition($event)"
+              (input)="updateCursorPositionCondition($event)"></textarea>
+            <div class="cond-operators">
+              <button type="button" class="e-btn e-btn-purple oper" (click)="addText($event)" value="+">+</button>
+              <button type="button" class="e-btn e-btn-purple oper" (click)="addText($event)" value="-">-</button>
+              <button type="button" class="e-btn e-btn-purple oper" (click)="addText($event)" value="*">*</button>
+              <button type="button" class="e-btn e-btn-purple oper" (click)="addText($event)" value="/">/</button>
+              <button type="button" class="e-btn e-btn-purple oper" (click)="addText($event)" value="==">==</button>
+              <button type="button" class="e-btn e-btn-purple oper" (click)="addText($event)" value="<">&lt;</button>
+              <button type="button" class="e-btn e-btn-purple oper" (click)="addText($event)" value="<=">&lt;=</button>
+              <button type="button" class="e-btn e-btn-purple oper" (click)="addText($event)" value="!=">!=</button>
+              <button type="button" class="e-btn e-btn-purple oper" (click)="addText($event)" value=">=">&gt;=</button>
+              <button type="button" class="e-btn e-btn-purple oper" (click)="addText($event)" value=">">&gt;</button>
+              <button type="button" class="e-btn e-btn-purple oper" (click)="addText($event)" value="and">and</button>
+              <button type="button" class="e-btn e-btn-purple oper" (click)="addText($event)" value="or">or</button>
+              <button type="button" class="e-btn e-btn-purple oper" (click)="addText($event)" value="not">not</button>
+              <button type="button" class="e-btn e-btn-purple oper" (click)="addText($event)" value="(">(</button>
+              <button type="button" class="e-btn e-btn-purple oper" (click)="addText($event)" value=")">)</button>
+            </div>
+          </div>
+          <div class="cond-right">
+            <div class="cond-field-list-header">Selected Table Field Names</div>
+            <ul class="cond-field-list">
+              <li *ngFor="let name of selectedTableFieldName" (click)="addToConditionTextarea(name)">{{ name }}</li>
+            </ul>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- ===== TAB 4 – Gauge Props ===== -->
+    <div class="pt-tab-pane" [class.pt-tab-active]="activeTab === 4">
+      <form [formGroup]="dashboardCreationForm" (ngSubmit)="onDashboardCreationForm()">
+        <div formGroupName="gauge">
+          <div class="gen-grid" style="grid-template-columns:repeat(4,1fr)">
+            <div class="gen-field">
+              <label class="gen-label">Value Field</label>
+              <div class="gen-dropdown">
+                <ejs-dropdownlist [dataSource]="selectedTableFieldName" [allowFiltering]="true"
+                  formControlName="valueField" placeholder="Select Value Field"></ejs-dropdownlist>
+              </div>
+            </div>
+            <div class="gen-field">
+              <label class="gen-label">Min Value</label>
+              <input type="number" formControlName="minValue" class="gen-input">
+            </div>
+            <div class="gen-field">
+              <label class="gen-label">Max Value</label>
+              <input type="number" formControlName="maxValue" class="gen-input">
+            </div>
+            <div class="gen-field">
+              <label class="gen-label">Radius (%)</label>
+              <input type="text" placeholder="enter radius in %" formControlName="radius" class="gen-input">
+            </div>
+            <div class="gen-field">
+              <label class="gen-label">Start Angle</label>
+              <input type="number" formControlName="startAngle" class="gen-input">
+            </div>
+            <div class="gen-field">
+              <label class="gen-label">End Angle</label>
+              <input type="number" formControlName="endAngle" class="gen-input">
+            </div>
+            <div class="gen-toggle-field" formGroupName="legends">
+              <label class="gen-label">Show Legends</label>
+              <div class="gen-toggle-box">
+                <ejs-switch formControlName="visible" cssClass="bar-color"></ejs-switch>
+              </div>
+            </div>
+            <div class="gen-field" formGroupName="legends">
+              <label class="gen-label">Legends Position</label>
+              <div class="gen-dropdown">
+                <ejs-dropdownlist [dataSource]="legendsPositionOptions" [fields]="ddlFields"
+                  formControlName="position" placeholder="Select"></ejs-dropdownlist>
+              </div>
+            </div>
+          </div>
+
+          <label class="gen-sub-label" style="margin:10px 0 6px">Legends Style</label>
+          <div formGroupName="legends" class="gen-grid" style="grid-template-columns:repeat(4,1fr)">
+            <div class="gen-field">
+              <label class="gen-label">Legends Shape</label>
+              <div class="gen-dropdown">
+                <ejs-dropdownlist [dataSource]="legendsShapeOptions" [fields]="ddlFields"
+                  formControlName="shape"></ejs-dropdownlist>
+              </div>
+            </div>
+            <div class="gen-field" formGroupName="textStyle">
+              <label class="gen-label">Legends Font Size</label>
+              <input type="number" class="gen-input" formControlName="size">
+            </div>
+            <div class="gen-field" formGroupName="textStyle">
+              <label class="gen-label">Legends Font Color</label>
+              <div class="gen-color-row">
+                <input type="color" formControlName="color" class="gen-color-input">
+                <span class="gen-color-hint">Pick colour</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- ===== TAB 5 – Axis ===== -->
+    <div class="pt-tab-pane" [class.pt-tab-active]="activeTab === 5">
+      <form [formGroup]="dashboardCreationForm" (ngSubmit)="onDashboardCreationForm()">
+        <div formGroupName="gauge">
+          <div formGroupName="axis">
+            <div class="gen-grid" style="grid-template-columns:repeat(4,1fr)">
+              <div class="gen-field">
+                <label class="gen-label">Line Width</label>
+                <input type="number" formControlName="lineWidth" class="gen-input">
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Color</label>
+                <div class="gen-color-row">
+                  <input type="color" formControlName="color" class="gen-color-input">
+                  <span class="gen-color-hint">Pick colour</span>
+                </div>
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Label Style</label>
+                <input type="text" formControlName="labelStyle" class="gen-input">
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Label Format</label>
+                <input type="text" formControlName="labelFormat" class="gen-input">
+              </div>
+            </div>
+
+            <label class="gen-sub-label" style="margin:10px 0 6px">Major Ticks</label>
+            <div formGroupName="majorTicks" class="gen-grid" style="grid-template-columns:repeat(4,1fr)">
+              <div class="gen-field">
+                <label class="gen-label">Width</label>
+                <input type="number" formControlName="width" class="gen-input">
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Height</label>
+                <input type="number" formControlName="height" class="gen-input">
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Interval</label>
+                <input type="number" formControlName="interval" class="gen-input">
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Color</label>
+                <div class="gen-color-row">
+                  <input type="color" formControlName="color" class="gen-color-input">
+                  <span class="gen-color-hint">Pick colour</span>
+                </div>
+              </div>
+            </div>
+
+            <label class="gen-sub-label" style="margin:10px 0 6px">Minor Ticks</label>
+            <div formGroupName="minorTicks" class="gen-grid" style="grid-template-columns:repeat(4,1fr)">
+              <div class="gen-field">
+                <label class="gen-label">Width</label>
+                <input type="number" formControlName="width" class="gen-input">
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Height</label>
+                <input type="number" formControlName="height" class="gen-input">
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Interval</label>
+                <input type="number" formControlName="interval" class="gen-input">
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Color</label>
+                <div class="gen-color-row">
+                  <input type="color" formControlName="color" class="gen-color-input">
+                  <span class="gen-color-hint">Pick colour</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- ===== TAB 6 – Pointers ===== -->
+    <div class="pt-tab-pane" [class.pt-tab-active]="activeTab === 6">
+      <form [formGroup]="dashboardCreationForm" (ngSubmit)="onDashboardCreationForm()">
+        <div formGroupName="gauge">
+          <div formGroupName="pointer">
+            <div class="gen-grid" style="grid-template-columns:repeat(4,1fr)">
+              <div class="gen-field">
+                <label class="gen-label">Type</label>
+                <div class="gen-dropdown">
+                  <ejs-dropdownlist [dataSource]="pointerTypeOptions" [fields]="ddlFields"
+                    formControlName="type"></ejs-dropdownlist>
+                </div>
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Value</label>
+                <input type="number" formControlName="value" class="gen-input">
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Width</label>
+                <input type="number" formControlName="width" class="gen-input">
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Color</label>
+                <div class="gen-color-row">
+                  <input type="color" formControlName="color" class="gen-color-input">
+                  <span class="gen-color-hint">Pick colour</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Marker fields -->
+            <div *ngIf="dashboardCreationForm.get('gauge.pointer.type')?.value === 'Marker'"
+              class="gen-grid" style="grid-template-columns:repeat(4,1fr);margin-top:6px">
+              <div class="gen-field">
+                <label class="gen-label">Marker Shape</label>
+                <div class="gen-dropdown">
+                  <ejs-dropdownlist [dataSource]="markerShapeOptions" [fields]="ddlFields"
+                    formControlName="markerShape"></ejs-dropdownlist>
+                </div>
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Marker Height</label>
+                <input type="number" formControlName="markerHeight" class="gen-input">
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Marker Radius (%)</label>
+                <input type="text" formControlName="markerRadius" placeholder="e.g. 100%" class="gen-input">
+              </div>
+            </div>
+
+            <!-- Cap Style (Needle only) -->
+            <div formGroupName="capStyle" *ngIf="dashboardCreationForm.get('gauge.pointer.type')?.value !== 'Marker'">
+              <label class="gen-sub-label" style="margin:10px 0 6px">Cap Style</label>
+              <div class="gen-grid" style="grid-template-columns:repeat(4,1fr)">
+                <div class="gen-field">
+                  <label class="gen-label">Radius</label>
+                  <input type="number" formControlName="radius" class="gen-input">
+                </div>
+                <div class="gen-field">
+                  <label class="gen-label">Color</label>
+                  <div class="gen-color-row">
+                    <input type="color" formControlName="color" class="gen-color-input">
+                    <span class="gen-color-hint">Pick colour</span>
+                  </div>
+                </div>
+                <div class="gen-field">
+                  <label class="gen-label">Border Width</label>
+                  <input type="number" formControlName="borderWidth" class="gen-input">
+                </div>
+                <div class="gen-field">
+                  <label class="gen-label">Border Color</label>
+                  <div class="gen-color-row">
+                    <input type="color" formControlName="borderColor" class="gen-color-input">
+                    <span class="gen-color-hint">Pick colour</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Needle Tail (Needle only) -->
+            <div formGroupName="needleTail" *ngIf="dashboardCreationForm.get('gauge.pointer.type')?.value !== 'Marker'">
+              <label class="gen-sub-label" style="margin:10px 0 6px">Needle Tail</label>
+              <div class="gen-grid" style="grid-template-columns:repeat(4,1fr)">
+                <div class="gen-field">
+                  <label class="gen-label">Length</label>
+                  <input type="text" placeholder="Length" formControlName="length" class="gen-input">
+                </div>
+                <div class="gen-field">
+                  <label class="gen-label">Color</label>
+                  <div class="gen-color-row">
+                    <input type="color" formControlName="color" class="gen-color-input">
+                    <span class="gen-color-hint">Pick colour</span>
+                  </div>
+                </div>
+                <div class="gen-field">
+                  <label class="gen-label">Border Width</label>
+                  <input type="number" placeholder="Border Width" formControlName="borderWidth" class="gen-input">
+                </div>
+              </div>
+            </div>
+
+            <!-- Animation (Needle only) -->
+            <div formGroupName="animation" *ngIf="dashboardCreationForm.get('gauge.pointer.type')?.value !== 'Marker'">
+              <label class="gen-sub-label" style="margin:10px 0 6px">Animation</label>
+              <div class="gen-grid" style="grid-template-columns:repeat(4,1fr)">
+                <div class="gen-toggle-field">
+                  <label class="gen-label">Enable</label>
+                  <div class="gen-toggle-box">
+                    <ejs-switch formControlName="enable"></ejs-switch>
+                  </div>
+                </div>
+                <div class="gen-field">
+                  <label class="gen-label">Duration (ms)</label>
+                  <input type="number" formControlName="duration" class="gen-input">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- ===== TAB 7 – Ranges ===== -->
+    <div class="pt-tab-pane" [class.pt-tab-active]="activeTab === 7">
+      <form [formGroup]="dashboardCreationForm" (ngSubmit)="onDashboardCreationForm()">
+        <div formGroupName="gauge">
+          <div formGroupName="rangess">
+            <div class="gen-grid" style="grid-template-columns:repeat(4,1fr)">
+              <div class="gen-field">
+                <label class="gen-label">StartRange</label>
+                <input type="number" formControlName="startValue" class="gen-input">
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">EndRange</label>
+                <input type="number" formControlName="endValue" class="gen-input">
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Color</label>
+                <div class="gen-color-row">
+                  <input type="color" formControlName="color" class="gen-color-input">
+                  <span class="gen-color-hint">Pick colour</span>
+                </div>
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Width</label>
+                <input type="number" formControlName="width" class="gen-input">
+              </div>
+            </div>
+            <div class="gen-grid" style="grid-template-columns:repeat(4,1fr)">
+              <div class="gen-field">
+                <label class="gen-label">Radius</label>
+                <input type="text" placeholder="enter radius in %" formControlName="radius" class="gen-input">
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Rounded Corner Radius</label>
+                <input type="number" formControlName="roundedCornerRadius" class="gen-input">
+              </div>
+              <div class="gen-field">
+                <label class="gen-label">Legend Text</label>
+                <input type="text" formControlName="legendText" placeholder="e.g. Low / Medium / High" class="gen-input">
+              </div>
+            </div>
+            <div style="text-align:right;margin-bottom:10px">
+              <button type="button" class="e-btn e-btn-purple" (click)="addRangess()">
+                {{ editIndex !== null ? 'Update Range' : 'Add Range' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div *ngIf="(rangessList.length > 0) || (this.dashboardCreationForm.value?.gauge?.ranges).length > 0">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>SNo</th><th>Start</th><th>End</th><th>Color</th><th>Width</th>
+              <th>Radius</th><th>Rounded Corner Radius</th><th>Legend Text</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of rangessList; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ item?.startValue >= 0 ? item?.startValue : 'N/A' }}</td>
+              <td>{{ item?.endValue || 'N/A' }}</td>
+              <td>{{ item?.color || 'N/A' }}</td>
+              <td>{{ item?.width || 'N/A' }}</td>
+              <td>{{ item?.radius || 'N/A' }}</td>
+              <td>{{ item?.roundedCornerRadius || 'N/A' }}</td>
+              <td>{{ item?.legendText || 'N/A' }}</td>
+              <td style="cursor:pointer">
+                <i class="bi bi-pencil-square" style="margin-right:10px" (click)="editRangess(i)"></i>
+                <i class="bi bi-trash" (click)="deleteRangess(i)"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- end pt-tab-content -->
+</div><!-- end pt-tab-shell -->
+
+<ng-container>
+  <!-- Raw Query Dialog -->
+  <div>
+    @if (showRawQueryDimensionDialog) {
+    <div class="cd-modal-backdrop" (click)="showRawQueryDimensionDialog = false"></div>
+    <div class="cd-modal cd-modal-xl">
+      <div class="cd-modal-header">
+        <div class="cd-modal-header-icon"><i class="bi bi-code-slash"></i></div>
+        <h3 class="cd-modal-title">Add Raw Query</h3>
+        <button class="cd-modal-close" type="button" (click)="showRawQueryDimensionDialog = false" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <div class="cd-modal-body">
+        <form [formGroup]="dashboardCreationForm">
+          <div formGroupName="dimension" class="cond-form">
+            <div class="cond-builder-row">
+              <div class="cond-left">
+                <div class="cond-legend-bar">
+                  <span class="gen-sub-label">Raw Query</span>
+                  <div style="display:flex;gap:6px;align-items:center">
+                    <button type="button" (click)="onCopyRawQuery()" class="cond-clear-btn">Copy</button>
+                    <span *ngIf="copyMessage" class="rq-copy-toast">{{ copyMessage }}</span>
+                    <button type="button" (click)="onClearRawQuery()" class="cond-clear-btn">Clear</button>
+                  </div>
+                </div>
+                <textarea name="rawQuery" rows="8" class="cond-textarea" id="pop_chart_expression"
+                  formControlName="rawQuery" [(ngModel)]="rawQueryValue"
+                  (click)="updateCursorPosition($event)" (input)="updateCursorPosition($event)"></textarea>
+                <div *ngIf="validationMessage && dashboardCreationForm.touched" class="gen-error">
+                  Either Expression or Raw Query is required.
+                </div>
+                <div class="cond-operators">
+                  <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)" value="+">+</button>
+                  <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)" value="-">-</button>
+                  <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)" value="*">*</button>
+                  <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)" value="/">/</button>
+                  <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)" value="==">==</button>
+                  <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)" value="<">&lt;</button>
+                  <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)" value="<=">&lt;=</button>
+                  <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)" value="!=">!=</button>
+                  <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)" value=">=">&gt;=</button>
+                  <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)" value=">">&gt;</button>
+                  <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)" value="and">and</button>
+                  <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)" value="or">or</button>
+                  <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)" value="not">not</button>
+                  <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)" value="(">(</button>
+                  <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)" value=")">)</button>
+                  <button type="button" class="e-btn e-btn-purple oper" (click)="addRawQueryText($event)" value="{apply_filters}">Apply_Filters</button>
+                </div>
+              </div>
+              <div class="cond-right">
+                <div class="cond-field-list-header">Selected Table Field Names</div>
+                <ul class="cond-field-list">
+                  <li *ngFor="let name of selectedTableFieldName" (click)="addToTextarea(name)">{{ name }}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="cd-modal-footer-inline">
+        <button class="cd-btn cd-btn-sm cd-btn-primary" type="button" (click)="onOkButtonClick()">Add</button>
+      </div>
+    </div>
+    }
+  </div>
+</ng-container>

@@ -39,73 +39,65 @@
   </div>
 
   <div class="row" style="margin-top: 10px;">
-
-
-    <ejs-grid [dataSource]='filteredUsersArray' allowSorting="true" [showColumnMenu]="true" #grid id="adaptivebrowser"
-      [allowPaging]="true" [pageSettings]='initialPage' height='300'>
-      <e-columns>
-        <e-column field="username" headerText="User Name"></e-column>
-        <e-column field="first_name" headerText="First Name"></e-column>
-        <e-column field="last_name" headerText="Last Name"></e-column>
-        <e-column field="email" headerText="Email"></e-column>
-        <e-column field="role" headerText="Role"></e-column>
-        <e-column field="is_active" headerText="Active">
-
-
-          <ng-template #template let-filteredUsersArray>
-            <span [ngStyle]="{ color: filteredUsersArray.is_active ? 'green' : 'red' }">
-              {{ filteredUsersArray.is_active ? 'Active' : 'Inactive' }}
-            </span>
-          </ng-template>
-        </e-column>
-        <e-column headerText='Action' textAlign="Center" width="200">
-          <ng-template #template let-filteredUsersArray>
-
-            <button ejs-button cssClass="e-btn e-btn-purple pointer" [title]="'Edit'"
-              *ngIf="(!permissionObj || permissionObj?.can_update) !== false" (click)="editRecord(filteredUsersArray)">
-              <i class="bi bi-pencil-square"></i>
-            </button>
-            <button style="margin-left:7px; cursor: pointer;"
-              *ngIf="(!userBasedAcessObj || userBasedAcessObj?.can_view) !== false" ejs-button
-              cssClass="e-btn e-btn-purple pointer" [title]="'User Permissions'"
-              (click)="onRoleFormClick(filteredUsersArray)">
-              <i class="bi bi-person-lock"></i>
-
-            </button>
-
-            <!-- <button style="margin-left:7px" title="Dashboard Permission"
-            *ngIf="(!userBasedAcessObj || userBasedAcessObj?.can_view) !== false"
-            ejs-button cssClass="e-btn e-btn-purple pointer" (click)="openDashboardPopup(filteredUsersArray)">
-              <i class="bi bi-list-ul"></i>
-
-            </button> -->
-
-            <button ejs-button cssClass="e-btn e-btn-purple pointer" [title]="'Delete'"
-              *ngIf="(!permissionObj || permissionObj?.can_delete) !== false" style="margin-left:7px; cursor: pointer;"
-              (click)="deleteRecord(filteredUsersArray)">
-              <i class="bi bi-trash"></i>
-            </button>
-
-            <button style="margin-left:7px" title="Dashboard Permission"
-              *ngIf="(!userDashboardPermissionObj || userDashboardPermissionObj?.can_view) !== false" ejs-button
-              cssClass="e-btn e-btn-purple pointer" (click)="openDashboardPermissionPopup(filteredUsersArray)">
-              <i class="bi bi-list-ul"></i>
-
-            </button>
-
-            <button  *ngIf="userInfoData.username === 'superadmin'" style="margin-left:7px" title="Reset Password" ejs-button
-              cssClass="e-btn e-btn-purple pointer" (click)="openResetPasswordDialog(filteredUsersArray)">
-              <i class="bi bi-key"></i>
-
-            </button>
-
-
-
-          </ng-template>
-
-        </e-column>
-      </e-columns>
-    </ejs-grid>
+    <div style="overflow-x: auto; max-height: 400px; overflow-y: auto;">
+      <table class="table table-bordered table-hover" style="width:100%; min-width:800px;">
+        <thead style="position: sticky; top: 0; background: #fff; z-index:1;">
+          <tr>
+            <th>User Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Active</th>
+            <th style="text-align:center;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="filteredUsersArray?.length === 0">
+            <td colspan="7" style="text-align:center;">No records to display</td>
+          </tr>
+          <tr *ngFor="let user of filteredUsersArray">
+            <td>{{ user.username }}</td>
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.last_name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role }}</td>
+            <td>
+              <span [ngStyle]="{ color: user.is_active ? 'green' : 'red' }">
+                {{ user.is_active ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+            <td style="text-align:center; white-space:nowrap;">
+              <button class="e-btn e-btn-purple pointer" title="Edit"
+                *ngIf="(!permissionObj || permissionObj?.can_update) !== false"
+                (click)="editRecord(user)">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+              <button class="e-btn e-btn-purple pointer" title="User Permissions" style="margin-left:7px;"
+                *ngIf="(!userBasedAcessObj || userBasedAcessObj?.can_view) !== false"
+                (click)="onRoleFormClick(user)">
+                <i class="bi bi-person-lock"></i>
+              </button>
+              <button class="e-btn e-btn-purple pointer" title="Delete" style="margin-left:7px;"
+                *ngIf="(!permissionObj || permissionObj?.can_delete) !== false"
+                (click)="deleteRecord(user)">
+                <i class="bi bi-trash"></i>
+              </button>
+              <button class="e-btn e-btn-purple pointer" title="Dashboard Permission" style="margin-left:7px;"
+                *ngIf="(!userDashboardPermissionObj || userDashboardPermissionObj?.can_view) !== false"
+                (click)="openDashboardPermissionPopup(user)">
+                <i class="bi bi-list-ul"></i>
+              </button>
+              <button class="e-btn e-btn-purple pointer" title="Reset Password" style="margin-left:7px;"
+                *ngIf="userInfoData?.username === 'superadmin'"
+                (click)="openResetPasswordDialog(user)">
+                <i class="bi bi-key"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
 
@@ -120,20 +112,21 @@
    -->
 
 
-  <ejs-dialog id="defaultDialog" #defaultDialog [isModal]='isModal' [visible]='visible' [header]="FormTitle"
-    [allowDragging]='dialogdragging' [animationSettings]='animationSettings' [showCloseIcon]='dialogCloseIcon'
-    [target]='target' [width]='dialogWidth'>
-    <div class=" registrationform">
-
-      <div>
-
+  <!-- Add / Edit User Modal -->
+  @if (showDefaultDialog) {
+    <div class="au-modal-backdrop" [class.closing]="isModalClosing" (click)="closeDefaultDialog()"></div>
+    <div class="au-modal au-modal-xl" [class.closing]="isModalClosing">
+      <div class="au-modal-header">
+        <h3 class="au-modal-title">{{ FormTitle }}</h3>
+        <button type="button" class="au-modal-close" (click)="closeDefaultDialog()">&times;</button>
+      </div>
+      <div class="au-modal-body registrationform">
         <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-
           <div class="formInfo">
             <div class="row">
               <div class="col-md-4 form-group">
                 <div class="inputValue">
-                  <label class="labelName"> UserName <span style="color:red; font-size: 14px;font-weight:600">*</span>
+                  <label class="labelName"> UserName <span class="cd-req">*</span>
                   </label>
                   <input type="text" formControlName="username" (input)="onCheckUserName($event)" class="form-control"
                     (focus)="onInputFocus($event)"  (blur)="onInputBlur($event)"   />
@@ -144,13 +137,11 @@
                   <div class="validation-error" *ngIf="roleValid">
                     {{ roleErrorMessage }}
                   </div>
-
-
                 </div>
               </div>
               <div class="col-md-4 form-group">
                 <div class="inputValue">
-                  <label class="labelName"> FirstName <span style="color:red; font-size: 14px;font-weight:600">*</span>
+                  <label class="labelName"> FirstName <span class="cd-req">*</span>
                   </label>
                   <input type="text" formControlName="firstName" class="form-control" (focus)="onInputFocus($event)"
                     (blur)="onInputBlur($event)" />
@@ -162,8 +153,7 @@
               </div>
               <div class="col-md-4 form-group">
                 <div class="inputValue">
-                  <label class="labelName"> LastName <span
-                      style="color:red; font-size: 14px;font-weight:600">*</span></label>
+                  <label class="labelName"> LastName <span class="cd-req">*</span></label>
                   <input type="text" class="form-control" formControlName="lastName" (focus)="onInputFocus($event)"
                     (blur)="onInputBlur($event)" />
                   <div class="validation-error"
@@ -174,14 +164,10 @@
               </div>
               <div class="col-md-4 form-group">
                 <div class="inputValue">
-                  <label class="labelName"> Roles <span
-                      style="color:red; font-size: 14px;font-weight:600">*</span></label>
-
+                  <label class="labelName"> Roles <span class="cd-req">*</span></label>
                   <ejs-dropdownlist [dataSource]='rolesObjArr' [allowFiltering]="true" formControlName="role"
                     [popupHeight]="200" (focus)="onInputFocus($event)" (blur)="onInputBlur($event)"
                     [fields]="rolefields" class="tableNameDropdown"></ejs-dropdownlist>
-
-
                   <div class="validation-error"
                     *ngIf="registrationForm.get('role')!.invalid && (registrationForm.get('role')!.touched || registrationForm.get('role')!.dirty)">
                     Role is required
@@ -190,108 +176,59 @@
               </div>
               <div class="col-md-4 form-group">
                 <div class="inputValue">
-                  <label class="labelName"> Email <span
-                      style="color:red; font-size: 14px;font-weight:600">*</span></label>
+                  <label class="labelName"> Email <span class="cd-req">*</span></label>
                   <input type="email" class="form-control" (input)="onEmailCheck($event)" formControlName="email"
                     (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" />
                   <div class="validation-error"
                     *ngIf="registrationForm.get('email')!.invalid && (registrationForm.get('email')!.touched || registrationForm.get('email')!.dirty)">
-                    Email is required & must be a valid email address.
-
+                    Email is required &amp; must be a valid email address.
                   </div>
                   <div class="validation-error" *ngIf="isEmailValid">
                     {{ email }}
                   </div>
                 </div>
-
               </div>
-              <div class="col-md-4 form-group" >
+              <div class="col-md-4 form-group">
                 <div class="inputValue">
-                  <label class="labelName">Password 
-                    <!-- <i class="bi bi-info-circle" (click)="togglePasswordRequirements($event)"></i>  -->
-                    
-                    
-                    </label>
+                  <label class="labelName">Password</label>
                   <input  #password
-                  [type]="isRegistedPasswordVisible ? 'text' : 'password'"
-                  class="form-control"
-                  placeholder="Password *"
-                   formControlName="password" 
-                   (focus)="onInputFocus($event)"
-                    (blur)="onInputBlur($event)"
-                    required
-                    
-                    />
-
-                    <i class="password-eye-icon" (click)="toggleRegisterPasswordVisibility(password)">
-                      <i [ngClass]="isRegistedPasswordVisible ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
-                    </i>
-
-                    <div class="validation-error" *ngIf="getRegisteredPasswordErrors('password').length > 0">
-                      <div *ngFor="let error of getRegisteredPasswordErrors('password')">{{error}}</div>
-                    </div>
-
-                    <div class="password-info validation-error" *ngIf="showPasswordRequirements">
-                      <ul>
-                        <li>{{passwordRequirements.minLength}}</li>
-                        <li>{{passwordRequirements.uppercase}}</li>
-                        <li>{{passwordRequirements.lowercase}}</li>
-                        <li>{{passwordRequirements.number}}</li>
-                        <li>{{passwordRequirements.special}}</li>
-                      </ul>
-                    </div>
-
+                    [type]="isRegistedPasswordVisible ? 'text' : 'password'"
+                    class="form-control" placeholder="Password *"
+                    formControlName="password"
+                    (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" required />
+                  <i class="password-eye-icon" (click)="toggleRegisterPasswordVisibility(password)">
+                    <i [ngClass]="isRegistedPasswordVisible ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+                  </i>
+                  <div class="validation-error" *ngIf="getRegisteredPasswordErrors('password').length > 0">
+                    <div *ngFor="let error of getRegisteredPasswordErrors('password')">{{error}}</div>
+                  </div>
                 </div>
-
-
-
               </div>
-              <div class="col-md-4 form-group" >
+              <div class="col-md-4 form-group">
                 <div class="inputValue">
-                  <label class="labelName">Confirm Password <span
-                      style="color:red; font-size: 14px;font-weight:600">*
-                    
-                    </span></label>
-
+                  <label class="labelName">Confirm Password <span class="cd-req">*</span></label>
                   <input #confirmRegisteredPassword [type]="isRegistedConfirmPasswordVisible ? 'text' : 'password'" class="form-control" formControlName="confirmPassword"
                     (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" />
-
-                    <i class="password-eye-icon" (click)="toggleRegisterConfirmPasswordVisibility(confirmRegisteredPassword)">
-                      <i [ngClass]="isRegistedConfirmPasswordVisible ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
-                    </i>
-
+                  <i class="password-eye-icon" (click)="toggleRegisterConfirmPasswordVisibility(confirmRegisteredPassword)">
+                    <i [ngClass]="isRegistedConfirmPasswordVisible ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+                  </i>
                   <div class="validation-error"
-                    *ngIf="registrationForm.get('confirmPassword')!.invalid 
+                    *ngIf="registrationForm.get('confirmPassword')!.invalid
                             && (registrationForm.get('confirmPassword')!.touched || registrationForm.get('confirmPassword')!.dirty)">
-                    <div *ngIf="registrationForm.get('confirmPassword')!.errors?.['required']">
-                      Confirm Password is required.
-                    </div>
-                    <div *ngIf="registrationForm.get('confirmPassword')!.errors?.['minLength']">
-                      Confirm Password must be at least 8 characters long.
-                    </div>
-                    <div *ngIf="registrationForm.get('confirmPassword')!.errors?.['invalidPasswordFormat']">
-                      Confirm Password should have at least 5 letters, 1 special character, and 1 number.
-                    </div>
                     <div *ngIf="registrationForm.get('confirmPassword')!.errors?.['passwordMismatch']">
                       Password and Confirm Password didn't matched.
                     </div>
-
                   </div>
                 </div>
-
               </div>
               <div class="col-md-4 form-group">
                 <label for="active" class="labelName" style="display:block">Active</label>
-                <!-- <input type="checkbox" formControlName="isActive" style="display: block;" name=""> -->
-                <!-- <ejs-switch cssClass="bar-color"  formControlName="isActive"></ejs-switch> -->
-                    <ejs-switch cssClass="bar-color" formControlName="isActive"></ejs-switch>
+                <ejs-switch cssClass="bar-color" formControlName="isActive"></ejs-switch>
               </div>
               <div class="col-md-12">
                 <div [align]="'right'">
-                  <button type="submit" ejs-button *ngIf="submitFlag" 
-                    class="e-btn e-btn-purple">Submit</button>
-                  <button type="button" ejs-button *ngIf="updateFlag" 
-                    (click)="onUpdate()" class="e-btn e-btn-purple">Update</button>
+                  <button type="submit" ejs-button *ngIf="submitFlag" class="e-btn e-btn-purple">Submit</button>
+                  <button type="button" ejs-button *ngIf="updateFlag" (click)="onUpdate()" class="e-btn e-btn-purple">Update</button>
                 </div>
               </div>
             </div>
@@ -299,106 +236,88 @@
         </form>
       </div>
     </div>
-  </ejs-dialog>
+  }
 
-  <ejs-dialog id="roleDialogBox" #roleDialogBox [isModal]='isModal' [visible]='visible' [header]="'User Permissions'"
-    [allowDragging]='dialogdragging' [animationSettings]='animationSettings' [showCloseIcon]='dialogCloseIcon'
-    [target]='target' [width]='900'>
-
-    <ng-template #content>
-      <div class="formInfo">
-        <app-user-based-permission [getUserObj]="sendUserObj"
-          (resMessage)="getResponseMessage($event)"></app-user-based-permission>
-
+  <!-- User Permissions Modal -->
+  @if (showRoleDialog) {
+    <div class="au-modal-backdrop" [class.closing]="isModalClosing" (click)="closeRoleDialog()"></div>
+    <div class="au-modal au-modal-xl" [class.closing]="isModalClosing">
+      <div class="au-modal-header">
+        <h3 class="au-modal-title">User Permissions</h3>
+        <button type="button" class="au-modal-close" (click)="closeRoleDialog()">&times;</button>
       </div>
-
-    </ng-template>
-
-    <ng-template #footerTemplate>
-
-
-      <ng-container
-        *ngIf="((!userBasedAcessObj || userBasedAcessObj?.can_create) !== false) && submitRolePermissionBtn">
-
-      </ng-container>
-
-
-      <button class="e-btn e-btn-purple"
-        *ngIf="((!userBasedAcessObj || userBasedAcessObj?.can_create) !== false) && submitRolePermissionBtn"
-        (click)="onUserBasedFormSubmit()">
-        Submit
-      </button>
-
-      <button class="e-btn e-btn-purple"
-        *ngIf="((!userBasedAcessObj || userBasedAcessObj?.can_update) !== false) && updateRolePermissionBtn"
-        (click)="onUpdateUserPermission()">
-        Update
-      </button>
-
-      <button class="e-btn e-btn-purple"
-        *ngIf="((!userBasedAcessObj || userBasedAcessObj?.can_update) !== false) && updateRolePermissionBtn"
-        (click)="onDeleteUserPermission()">
-        Delete
-      </button>
-
-    </ng-template>
-
-  </ejs-dialog>
+      <div class="au-modal-body">
+        <app-user-based-permission *ngIf="permissionDialogOpen"
+          [getUserObj]="sendUserObj"
+          (resMessage)="getResponseMessage($event)"></app-user-based-permission>
+      </div>
+      <div class="au-modal-footer">
+        <button class="e-btn e-btn-purple"
+          *ngIf="((!userBasedAcessObj || userBasedAcessObj?.can_create) !== false) && submitRolePermissionBtn"
+          (click)="onUserBasedFormSubmit()">
+          Submit
+        </button>
+        <button class="e-btn e-btn-purple"
+          *ngIf="((!userBasedAcessObj || userBasedAcessObj?.can_update) !== false) && updateRolePermissionBtn"
+          (click)="onUpdateUserPermission()">
+          Update
+        </button>
+        <button class="e-btn e-btn-purple"
+          *ngIf="((!userBasedAcessObj || userBasedAcessObj?.can_update) !== false) && updateRolePermissionBtn"
+          (click)="onDeleteUserPermission()">
+          Delete
+        </button>
+      </div>
+    </div>
+  }
 
 
 
-  <ejs-dialog id="userUploadPopup" #userUploadPopup [isModal]='isModal' [visible]='visible' [header]="'Upload Users'"
-    [allowDragging]='dialogdragging' [animationSettings]='animationSettings' [showCloseIcon]='dialogCloseIcon'
-    [target]='target' [width]='400'>
-
-    <ng-template #content>
-
-      <div class="formInfo">
+  <!-- Upload Users Modal -->
+  @if (showUserUploadPopup) {
+    <div class="au-modal-backdrop" [class.closing]="isModalClosing" (click)="closeUserUploadPopup()"></div>
+    <div class="au-modal au-modal-sm" [class.closing]="isModalClosing">
+      <div class="au-modal-header">
+        <h3 class="au-modal-title">Upload Users</h3>
+        <button type="button" class="au-modal-close" (click)="closeUserUploadPopup()">&times;</button>
+      </div>
+      <div class="au-modal-body">
         <div class="row">
-          <div class="col-md-12" style="margin-bottom:15px; ">
-            <label for="" style="display:block; font-weight: 500; font-size: 12px;">Download Format</label>
-
+          <div class="col-md-12" style="margin-bottom:15px;">
+            <label class="labelName">Download Format</label>
             <button class="e-btn e-btn-purple" title="Download Format" (click)="downloadTemplate()">
               <i class="bi bi-download"></i>
             </button>
           </div>
-
           <div class="col-md-12">
-            <label for="" style="display:block; font-weight: 500; font-size: 12px">Upload Users</label>
+            <label class="labelName">Upload Users</label>
             <input type="file" class="form-control" (change)="onFileChange($event)" accept=".xlsx, .xls" />
-
           </div>
         </div>
       </div>
+      <div class="au-modal-footer">
+        <button class="e-btn e-btn-purple" (click)="onUsersUpload()"
+          *ngIf="((!permissionObj || permissionObj?.can_create) !== false) && submitRolePermissionBtn">
+          Upload Users
+        </button>
+        <button class="e-btn e-btn-purple" (click)="onUsersUpdateUpload()"
+          *ngIf="((!permissionObj || permissionObj?.can_update) !== false) && submitRolePermissionBtn">
+          Update Users
+        </button>
+      </div>
+    </div>
+  }
 
-
-
-    </ng-template>
-
-    <ng-template #footerTemplate>
-
-
-      <button class="e-btn e-btn-purple" (click)="onUsersUpload()"
-        *ngIf="((!permissionObj || permissionObj?.can_create) !== false) && submitRolePermissionBtn">
-        Upload Users
-      </button>
-
-      <button class="e-btn e-btn-purple" (click)="onUsersUpdateUpload()"
-        *ngIf="((!permissionObj || permissionObj?.can_update) !== false) && submitRolePermissionBtn">
-        Update Users
-      </button>
-
-    </ng-template>
-
-  </ejs-dialog>
-
-  <ejs-dialog id="roleDbPermissionDlgBox" #roleDbPermissionDlgBox [isModal]='isModal' [visible]='visible'
-    [header]="UserName" [allowDragging]='dialogdragging' [animationSettings]='animationSettings'
-    [showCloseIcon]='dialogCloseIcon' [target]='target' [width]='1000' height="400">
-
-    <ng-template #content>
-      <div>
-        <div style="padding:15px 5px">
+  <!-- View Dashboard Permissions Modal -->
+  @if (showDbPermissionDialog) {
+    <div class="au-modal-backdrop" [class.closing]="isModalClosing" (click)="closeDbPermissionDialog()"></div>
+    <div class="au-modal au-modal-xl" [class.closing]="isModalClosing">
+      <div class="au-modal-header">
+        <h3 class="au-modal-title">{{ UserName }}</h3>
+        <button type="button" class="au-modal-close" (click)="closeDbPermissionDialog()">&times;</button>
+      </div>
+      <div class="au-modal-body">
+        <div style="padding:10px 5px">
           <table class="table table-striped">
             <thead>
               <tr>
@@ -422,120 +341,89 @@
             </tbody>
           </table>
         </div>
-
       </div>
-    </ng-template>
+    </div>
+  }
 
 
-
-  </ejs-dialog>
-
-
-  <ejs-dialog id="multipleDbPermission" #multipleDbPermission [isModal]='isModal' [visible]='visible'
-    [header]="UserName" [allowDragging]='dialogdragging' [animationSettings]='animationSettings'
-    [showCloseIcon]='dialogCloseIcon' [target]='target' [width]='1000' height="450">
-
-    <ng-template #content>
-      <div>
+  <!-- Dashboard Permissions Edit Modal -->
+  @if (showMultipleDbPermission) {
+    <div class="au-modal-backdrop" [class.closing]="isModalClosing" (click)="closeMultipleDbPermission()"></div>
+    <div class="au-modal au-modal-xl" [class.closing]="isModalClosing">
+      <div class="au-modal-header">
+        <h3 class="au-modal-title">{{ UserName }}</h3>
+        <button type="button" class="au-modal-close" (click)="closeMultipleDbPermission()">&times;</button>
+      </div>
+      <div class="au-modal-body">
         <app-multiple-dashboard-user-permission [getUserObj]="sendUserDashboardObj"
           (resMessage)="getResponseMessage($event)"></app-multiple-dashboard-user-permission>
       </div>
-    </ng-template>
+      <div class="au-modal-footer">
+        <button class="e-btn e-btn-purple"
+          *ngIf="((!userDashboardPermissionObj || userDashboardPermissionObj?.can_create) !== false) && isSubmitUserDashboardFlag"
+          (click)="onDashboardRoleUserSubmit()">
+          Submit
+        </button>
+        <button class="e-btn e-btn-purple"
+          *ngIf="((!userDashboardPermissionObj || userDashboardPermissionObj?.can_update) !== false) && isUpdateUserDashboardFlag"
+          (click)="onDashboardRoleUserUpdate()">
+          Update
+        </button>
+      </div>
+    </div>
+  }
 
-    <ng-template #footerTemplate>
-      <button class="e-btn e-btn-purple"
-        *ngIf="((!userDashboardPermissionObj || userDashboardPermissionObj?.can_create) !== false) && isSubmitUserDashboardFlag"
-        (click)="onDashboardRoleUserSubmit()">
-        Submit
-      </button>
-
-      <button class="e-btn e-btn-purple"
-        *ngIf="((!userDashboardPermissionObj || userDashboardPermissionObj?.can_update) !== false) && isUpdateUserDashboardFlag"
-        (click)="onDashboardRoleUserUpdate()">
-        Update
-      </button>
-    </ng-template>
-
-  </ejs-dialog>
-
-  <ejs-dialog id="resetPasswordPopup" #resetPasswordPopup [isModal]="isModal" [visible]="visible"
-    [header]="resetPasswordHeader" [allowDragging]="dialogdragging" [animationSettings]="animationSettings"
-    [showCloseIcon]="dialogCloseIcon" [target]="target" [width]="'400px'">
-
-    <!-- Content Template -->
-    <ng-template #content>
-      <div class="registrationform" style="margin-top:10px">
+  <!-- Reset Password Modal -->
+  @if (showResetPasswordPopup) {
+    <div class="au-modal-backdrop" [class.closing]="isModalClosing" (click)="closeResetPasswordPopup()"></div>
+    <div class="au-modal au-modal-sm" [class.closing]="isModalClosing">
+      <div class="au-modal-header">
+        <h3 class="au-modal-title">{{ resetPasswordHeader }}</h3>
+        <button type="button" class="au-modal-close" (click)="closeResetPasswordPopup()">&times;</button>
+      </div>
+      <div class="au-modal-body registrationform" style="margin-top:10px">
         <form [formGroup]="resetPasswordForm">
           <div class="form-container">
-
-            <!-- New Password Field -->
             <div class="field-container">
               <div class="field position-relative">
-                <label class="labelName">New Password 
-                  
-                  <!-- <i class="bi bi-info-circle" (click)="togglePasswordRequirements($event)"></i>  -->
-           
-                  
-                  </label>
-
-                <input #newPasswordInput [type]="isResetPasswordVisible ? 'text' : 'password'" placeholder="New Password *"
-                  formControlName="new_password" (focus)="onInputFocus($event)" (blur)="onInputBlur($event)"
+                <label class="labelName">New Password</label>
+                <input #newPasswordInput [type]="isResetPasswordVisible ? 'text' : 'password'"
+                  placeholder="New Password *" formControlName="new_password"
+                  (focus)="onInputFocus($event)" (blur)="onInputBlur($event)"
                   class="form-control" required />
-                <span class="bi bi-lock"></span>
                 <i class="eye-icon" (click)="toggleResetPasswordVisibility(newPasswordInput)">
                   <i [ngClass]="isResetPasswordVisible ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
                 </i>
               </div>
-
               <div class="validation-error" *ngIf="getPasswordErrors('new_password').length > 0">
                 <div *ngFor="let error of getPasswordErrors('new_password')">{{error}}</div>
               </div>
-
-              <div class="password-info" *ngIf="showPasswordRequirements">
-                <ul>
-                  <li>{{passwordRequirements.minLength}}</li>
-                  <li>{{passwordRequirements.uppercase}}</li>
-                  <li>{{passwordRequirements.lowercase}}</li>
-                  <li>{{passwordRequirements.number}}</li>
-                  <li>{{passwordRequirements.special}}</li>
-                </ul>
-              </div>
             </div>
-
-            <!-- Confirm Password Field -->
             <div class="field-container">
               <div class="field position-relative">
-                <label class="labelName">Confirm Password <span
-                    style="color:red; font-size: 14px;font-weight:600">*</span></label>
-
+                <label class="labelName">Confirm Password <span style="color:red">*</span></label>
                 <input #confirmPasswordInput [type]="isResetConfirmPasswordVisible ? 'text' : 'password'"
-                  placeholder="Confirm Password *" formControlName="confirm_password" (focus)="onInputFocus($event)"
-                  (blur)="onInputBlur($event)" class="form-control" required />
-                <span class="bi bi-lock"></span>
+                  placeholder="Confirm Password *" formControlName="confirm_password"
+                  (focus)="onInputFocus($event)" (blur)="onInputBlur($event)"
+                  class="form-control" required />
                 <i class="eye-icon" (click)="toggleResetConfirmPasswordVisibility(confirmPasswordInput)">
                   <i [ngClass]="isResetConfirmPasswordVisible ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
                 </i>
               </div>
-
               <div class="validation-error" *ngIf="shouldShowPasswordMismatch()">
                 Passwords do not match
               </div>
             </div>
-
           </div>
         </form>
       </div>
+      <div class="au-modal-footer">
+        <button class="e-btn e-btn-purple" type="button" (click)="onPasswordResetSubmit()">Save</button>
+      </div>
+    </div>
+  }
 
-    </ng-template>
 
-    <!-- Footer Template -->
-    <ng-template #footerTemplate>
-      <button class="e-btn e-btn-purple" style="margin-right: 10px;" type="button" (click)="onPasswordResetSubmit()">
-        Save
-      </button>
-    </ng-template>
-
-  </ejs-dialog>
 
 
 

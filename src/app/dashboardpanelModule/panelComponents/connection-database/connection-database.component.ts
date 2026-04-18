@@ -28,7 +28,7 @@ import { NgStyle } from '@angular/common';
         ])
     ],
     styleUrls: ['./connection-database.component.scss'],
-    imports: [FormsModule, ButtonModule, DialogModule, ReactiveFormsModule, NgStyle]
+    imports: [FormsModule, ButtonModule, DialogModule, ReactiveFormsModule]
 })
 
 export class ConnectionDatabaseComponent implements OnInit {
@@ -37,7 +37,8 @@ export class ConnectionDatabaseComponent implements OnInit {
   connectionForm!: FormGroup;
 
   @ViewChild('defaultDialog')
-  defaultDialog!: DialogComponent;
+  defaultDialog!: any; // kept for compatibility
+  showConnectionFormDialog: boolean = false;
 
 
   dialogCloseIcon: Boolean = true;
@@ -75,12 +76,16 @@ export class ConnectionDatabaseComponent implements OnInit {
     this.initForm();
     this.submitFlag = true;
     this.updateFlag = false;
-    this.defaultDialog.show();
+    this.showConnectionFormDialog = true;
     // this.message = "";
     this.dialogOpen();
     this.formTitle = 'Add Database Connection '
     // this.messageBackgroundColor = ''
     this.isMessageVisible = false
+  }
+
+  closeConnectionFormDialog(): void {
+    this.showConnectionFormDialog = false;
   }
 
   dialogClose = (): void => {
@@ -325,7 +330,7 @@ export class ConnectionDatabaseComponent implements OnInit {
     this.submitFlag = false;
     this.updateFlag = true;
     this.updateIndex = id;
-    this.defaultDialog.show();
+    this.showConnectionFormDialog = true;
     this.isMessageVisible = false;
 
     this.message = "";
@@ -371,7 +376,7 @@ export class ConnectionDatabaseComponent implements OnInit {
     this.submitFlag = false;
     this.updateFlag = true;
     this.editColumnObjIndex = data.connection_id;
-    this.defaultDialog.show()
+    this.showConnectionFormDialog = true;
 
     let obj = {
       "connection_name": data.connection_name || '',
@@ -499,7 +504,7 @@ export class ConnectionDatabaseComponent implements OnInit {
         this.loaderService.show()
         this.chartService.createDatabase(obj).subscribe(
           (res: any) => {
-            this.defaultDialog.hide()
+        this.showConnectionFormDialog = false;
             // this.registeredUsersArray.push(obj);
             this.loaderService.hide()
 

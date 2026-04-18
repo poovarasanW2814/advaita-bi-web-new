@@ -1,85 +1,77 @@
-<div class="formDiv" style="padding:20px 10px">
-    <!-- Form -->
-    <form action="" [formGroup]="boxTemplateForm" (ngSubmit)="onBoxFormSubmit()">
+<div class="pt-tab-shell">
 
-        <div class="row">
+  <!-- Sidebar nav -->
+  <nav class="pt-tab-nav">
+    <span class="pt-nav-label">Configuration</span>
+    <button type="button" class="pt-nav-item pt-nav-active">
+      <span class="pt-nav-num">1</span>
+      <span class="pt-nav-text">General</span>
+    </button>
+  </nav>
 
-          <div class="col-md-4 form-group">
-            <label for="labelName" class="labelFeild">Title</label>
-            <input type="text" [formControlName]="'labelName'" class="form-control">
+  <!-- Content panels -->
+  <div class="pt-tab-content">
+    <div class="pt-tab-pane pt-tab-active">
+      <form [formGroup]="boxTemplateForm" (ngSubmit)="onBoxFormSubmit()">
+
+        <div class="gen-grid">
+
+          <div class="gen-field">
+            <label class="gen-label">Title</label>
+            <input type="text" formControlName="labelName" class="gen-input">
           </div>
 
-          
-          <div class="col-md-4 form-group">
-            <label for="labelName" class="labelFeild">Title FontSize</label>
-            <input type="number" [formControlName]="'labelFontSize'" class="form-control">
-          </div>
-          
-          <div class="col-md-4 form-group">
-            <label for="labelName" class="labelFeild">Title FontColor</label>
-            <input type="color" ejs-colorpicker [formControlName]="'labelFontColor'" class="form-control">
+          <div class="gen-field">
+            <label class="gen-label">Title FontSize</label>
+            <input type="number" formControlName="labelFontSize" class="gen-input">
           </div>
 
-
-        </div>
-        <div class="row">
-
-            <div class="col-md-4 form-group">
-                <label for="labelName" class="labelFeild">Background Color</label>
-                <input type="color" ejs-colorpicker [formControlName]="'backgroundColor'" class="form-control">
-              </div>
-            
-          <!-- <div class="col-md-4 form-group">
-            <label for="labelName" class="labelFeild">Title Alignment</label>
-
-            <select name="" id="" [formControlName]="'labelAlignment'" class="form-control">
-                <option value="">Select</option>
-                <option value="Left">Left</option>
-                <option value="Right">Right</option>
-                <option value="Center">Center</option>
-            </select>
-          </div> -->
-
-          <div class="col-md-4 form-group">
-            <label for="labelName" class="labelFeild">Layout Type</label>
-            <!-- <input type="text" [formControlName]="'labelAlignment'" class="form-control"> -->
-
-            <select name="" id="" [formControlName]="'layout'" class="form-control">
-                <option value="">Select</option>
-                <!-- <option value="left-label-right-icon">left-label-right-icon</option> -->
-                <option value="space-between">space-between-layout</option>
-                <option value="reverse-horizontal">reverse-horizontal-layout</option>
-                <option value="vertical">vertical-layout </option>
-                <option value="horizontal">horizontal-layout</option>
-            </select>
-          </div>
-
-          <div class="col-md-4 form-group">
-            <label for="icon" class="labelFeild"> Select Icon</label>
-            <ejs-dropdownlist #icon id='icons' formControlName="icon" [dataSource]='panelTypeDataArray'
-            [placeholder]='"Select type"'  class="tableNameDropdown" [fields]='iconFields'></ejs-dropdownlist>
-
-          </div>
-
-
-
-        </div>
-
-        <div class="row">
-            <div class="col-md-4 form-group">
-                <label for="" class="labelFeild">Icon Color</label>
-                <input type="color"  formControlName="iconColor"  ejs-colorpicker>
+          <div class="gen-field">
+            <label class="gen-label">Title FontColor</label>
+            <div class="gen-color-row">
+              <input type="color" formControlName="labelFontColor" class="gen-color-input">
+              <span class="gen-color-hint">Click to pick</span>
             </div>
+          </div>
 
-            <div class="col-md-4 form-group">
-                <label for="" class="labelFeild">Icon FontSize</label>
-                <input type="number"  formControlName="iconFontSize"  class="form-control">
+          <div class="gen-field">
+            <label class="gen-label">Background Color</label>
+            <div class="gen-color-row">
+              <input type="color" formControlName="backgroundColor" class="gen-color-input">
+              <span class="gen-color-hint">Click to pick</span>
             </div>
+          </div>
+
+          <div class="gen-field">
+            <label class="gen-label">Layout Type</label>
+            <ejs-dropdownlist [dataSource]="layoutOptions" [fields]="ddlFields"
+              formControlName="layout" placeholder="Select" class="gen-dropdown"></ejs-dropdownlist>
+          </div>
+
+          <div class="gen-field">
+            <label class="gen-label">Select Icon</label>
+            <ejs-dropdownlist #icon id="icons" formControlName="icon"
+              [dataSource]="panelTypeDataArray" [fields]="iconFields"
+              placeholder="Select type" class="gen-dropdown"></ejs-dropdownlist>
+          </div>
+
+          <div class="gen-field">
+            <label class="gen-label">Icon Color</label>
+            <div class="gen-color-row">
+              <input type="color" formControlName="iconColor" class="gen-color-input">
+              <span class="gen-color-hint">Click to pick</span>
+            </div>
+          </div>
+
+          <div class="gen-field">
+            <label class="gen-label">Icon FontSize</label>
+            <input type="number" formControlName="iconFontSize" class="gen-input">
+          </div>
+
         </div>
 
-
-
-    </form>
-
-  </div>
+      </form>
+    </div>
+  </div><!-- end pt-tab-content -->
+</div><!-- end pt-tab-shell -->
   

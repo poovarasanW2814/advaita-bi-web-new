@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from 'src/app/core/auth-services/user.service';
 import { ChartService } from 'src/app/core/services/chart.service';
@@ -47,45 +47,36 @@ export class UserBasedPermissionComponent implements OnInit, OnChanges {
   private readonly fb = inject(FormBuilder);
   private readonly chartService = inject(ChartService);
   private readonly userService = inject(UserService);
+
   ngOnChanges(changes: SimpleChanges): void {
+    const userObj = changes['getUserObj']?.currentValue;
+    if (!userObj) return;
 
-    let userObj = changes['getUserObj'].currentValue;
+    this.userAccessObj = userObj;
+    this.userObjId = null;
+    this.seletedUserObj = null;
+    this.formNameMapping = {};
+    this.formInit();
 
-
-    if (userObj != undefined || userObj != null) {
-      this.userAccessObj = userObj;
-      console.log(userObj);
-
-      this.chartService.getRoleDetailsByRolename(this.userAccessObj.role).subscribe((res: any) => {
-        let roleData = res['data'];
-        let roleId = roleData.id;
-
-        this.chartService.getUserPermissionByRoleIdUserId(roleId, this.userAccessObj.user_id).subscribe(
-          (res: any) => {
-
-            console.log(res);
-
-            if (res.success) {
-              let data = res['data'];
-              console.log(data)
-              this.userObjId = data.id;
-              this.seletedUserObj = data;
-              let permissionDetials = data.permission_details;
-              this.updateFormWithApiData(data);
-
-            } else {
-              this.formInit()
-            }
-          })
-      })
-
-    }
-
+    this.chartService.getRoleDetailsByRolename(userObj.role).subscribe((res: any) => {
+      const roleId = res['data'].id;
+      this.chartService.getUserPermissionByRoleIdUserId(roleId, userObj.user_id).subscribe((res: any) => {
+        if (res.success && res['data']) {
+          const data = res['data'];
+          this.userObjId = data.id;
+          this.seletedUserObj = data;
+          this.formInit();
+          this.updateFormWithApiData(data);
+        }
+        // else: no custom permissions — blank form already shown by formInit() above
+      });
+    });
   }
   private formNameMapping: { [formName: string]: { id: number, userPermission_id: number } } = {};
 
   private updateFormWithApiData(apiData: any): void {
     const permissions = apiData.permission_details;
+    if (!permissions || !Array.isArray(permissions)) return;
 
     permissions.forEach((permission: any) => {
       const permissionKey = permission.form_name;

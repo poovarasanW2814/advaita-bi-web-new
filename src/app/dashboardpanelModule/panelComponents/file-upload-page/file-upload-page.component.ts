@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } 
 import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonComponent, SwitchModule } from '@syncfusion/ej2-angular-buttons';
 import { AnimationModel } from '@syncfusion/ej2-angular-charts';
-import { GridComponent, GridModule } from '@syncfusion/ej2-angular-grids';
+import { GridComponent, GridModule, PageService, GroupService, SortService, FilterService, ResizeService, ReorderService, ColumnMenuService, ExcelExportService as GridExcelExportService, PdfExportService as GridPdfExportService, ToolbarService as GridToolbarService } from '@syncfusion/ej2-angular-grids';
 import { DialogComponent, AnimationSettingsModel, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
@@ -15,6 +15,7 @@ import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
     selector: 'app-file-upload-page',
     templateUrl: './file-upload-page.component.html',
     styleUrls: ['./file-upload-page.component.scss'],
+    providers: [PageService, GroupService, SortService, FilterService, ResizeService, ReorderService, ColumnMenuService, GridExcelExportService, GridPdfExportService, GridToolbarService],
     imports: [FormsModule, ReactiveFormsModule, DropDownListModule, SwitchModule, DialogModule, GridModule]
 })
 
@@ -206,14 +207,16 @@ onFileChange(event: any) {
 }
 
 @ViewChild('grid')  grid! : GridComponent
-onDataBound(grid : GridComponent){
+  showPreviewDialog: boolean = false;
+
+  onDataBound(grid : GridComponent){
   grid.autoFitColumns([])
 }
 gridDatasource : any = [];
 
 readExcel(file: any) {
   let fileReader = new FileReader();
-  this.defaultDialog.show();
+  this.showPreviewDialog = true;
   fileReader.onload = (e) => {
     if (e.target) {
       let data = new Uint8Array((e.target as FileReader).result as ArrayBuffer);
@@ -268,7 +271,7 @@ readCSV(file: any) {
         this.grid.columns = [];
 
         this.gridDatasource =  this.jsonData;
-        this.defaultDialog.show();
+        this.showPreviewDialog = true;
       } else {
         console.log('No data found in the CSV file.');
       }
@@ -372,7 +375,7 @@ public onUploadFailure(args: any): void  {
   
 
   onCancel(){
-    this.defaultDialog.hide()
+    this.showPreviewDialog = false;
     this.gridDatasource = [];
   }
   // onSubmit() {
@@ -449,12 +452,8 @@ public onUploadFailure(args: any): void  {
 
    if (formData.selectedOption==='existing' && formData.existingTableData)
     {
-     const appendFlag =formData.existingTableData.is_append===true;
-
-   formData.existingTableData.is_append = !appendFlag;
-   formData.existingTableData.is_replace = appendFlag;
-   console.log('switch value (is_append):',appendFlag);
-   console.log('after: is_append=',formData.existingTableData.is_append,',is_replace=',formData.existingTableData.is_append);
+     const appendFlag = formData.existingTableData.is_append === true;
+     formData.existingTableData.is_replace = !appendFlag;
     }
     let connectionId=formData.target_db == 'internal' ? (this.connectionDetailsArray.find((conn:any) => conn.connection_name?.toLowerCase() === 'internal')?.connection_id || 0): this.connectionId;
 
@@ -471,7 +470,7 @@ public onUploadFailure(args: any): void  {
     }
 
 
-    this.defaultDialog.hide()
+    this.showPreviewDialog = false;
     this.myForm.reset()
     this.chartService.uploadFileApi(apiObj).subscribe(
       (res : any) =>{
@@ -572,10 +571,6 @@ public onUploadFailure(args: any): void  {
 
   ////////////////////////////////////
 
-  @ViewChild('defaultDialog')
-  public defaultDialog!: DialogComponent;
-
-
   public dialogHeader: string = '';
   public dialogCloseIcon: Boolean = true;
   public dialogWidth: string = '900px';
@@ -586,11 +581,6 @@ public onUploadFailure(args: any): void  {
   public target: string = '.control-section';
   public showCloseIcon: Boolean = false;
   public visible: Boolean = false;
-
-  public dialogBtnClick = (): void => {
-      this.defaultDialog.show();
-      this.dialogOpen();
-  }
 
   public dialogClose = (): void => {
   }

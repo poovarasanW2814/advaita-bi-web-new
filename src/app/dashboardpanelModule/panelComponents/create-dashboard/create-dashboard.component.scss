@@ -413,6 +413,418 @@ background-color: transparent !important;
   }
 }
 
+// ════════════════════════════════════════════════════
+//  CREATE-DASHBOARD CUSTOM MODALS  (cd-modal-*)
+//  Design system: DM Sans · --bi-primary (#0D5C7A)
+// ════════════════════════════════════════════════════
+
+$cd-primary:       #0D5C7A;
+$cd-primary-dark:  #0a4e69;
+$cd-primary-bg:    rgba(13, 92, 122, 0.07);
+$cd-primary-ring:  rgba(13, 92, 122, 0.15);
+$cd-border:        #E4E7ED;
+$cd-border-light:  #F0F2F5;
+$cd-surface:       #F8F9FB;
+$cd-text-strong:   #0F1623;
+$cd-text-body:     #374151;
+$cd-text-muted:    #8C93A6;
+
+// ── Backdrop ─────────────────────────────────────────
+.cd-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1100;
+  animation: cdFadeIn 0.15s ease;
+}
+
+// ── Dialog shell ─────────────────────────────────────
+.cd-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  animation: cdSlideUp 0.2s ease;
+  width: 90vw;
+  border: 1px solid #DFE2E8;
+  font-family: 'DM Sans', system-ui, sans-serif;
+
+  &.cd-modal-sm    { max-width: 420px; max-height: 90vh; }
+  &.cd-modal-md    { max-width: 540px; max-height: 90vh; }
+  &.cd-modal-xl    { max-width: 980px;  max-height: 90vh; }
+  &.cd-modal-panel { max-width: 980px;  max-height: 90vh; }
+}
+
+// ── Header ───────────────────────────────────────────
+.cd-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 22px;
+  background: #ffffff;
+  border-bottom: 1px solid $cd-border-light;
+  flex-shrink: 0;
+
+  .cd-modal-header-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: $cd-primary-bg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    i { font-size: 16px; color: $cd-primary; }
+  }
+
+  .cd-modal-title-block {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .cd-modal-title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: $cd-text-strong;
+    letter-spacing: -0.1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .cd-modal-subtitle {
+    font-size: 12px;
+    color: $cd-text-muted;
+    display: block;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cd-modal-header-pills {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .cd-panel-type-pill {
+    background: $cd-primary-bg;
+    color: $cd-primary;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    border: 1px solid rgba(13, 92, 122, 0.2);
+  }
+
+  .cd-modal-close {
+    width: 28px;
+    height: 28px;
+    border: 1px solid $cd-border;
+    background: #fff;
+    border-radius: 6px;
+    color: $cd-text-muted;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.12s;
+
+    &:hover { background: $cd-surface; color: $cd-text-strong; }
+    i { font-size: 12px; }
+  }
+}
+
+// ── Body ─────────────────────────────────────────────
+.cd-modal-body {
+  padding: 20px 22px 12px;
+  flex: 1;
+  min-height: 0;
+  background: #fff;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+
+  &::-webkit-scrollbar       { width: 5px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 4px; }
+
+  &.cd-modal-body-scroll {
+    // already scrollable via base rules above
+  }
+}
+
+// Form wrapper inside modal — stretches to fill the flex column
+.cd-modal-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+// Panel modal: remove body padding — ejs-tab owns the layout
+.cd-modal-panel .cd-modal-body {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+// ── Footer ───────────────────────────────────────────
+.cd-modal-footer,
+.cd-modal-footer-inline {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 14px 22px;
+  border-top: 1px solid $cd-border-light;
+  background: #FAFBFC;
+  flex-shrink: 0;
+}
+
+.cd-modal-footer {
+  justify-content: space-between;
+
+  .cd-footer-info {
+    font-size: 12px;
+    color: $cd-text-muted;
+
+    strong { color: $cd-text-body; font-weight: 500; }
+  }
+}
+
+// ── Form elements ────────────────────────────────────
+.cd-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 16px;
+
+  &:last-of-type { margin-bottom: 0; }
+}
+
+.cd-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #4B5563;
+}
+
+.cd-required { color: #EF4444; margin-left: 2px; }
+
+.cd-input {
+  width: 100%;
+  height: 36px;
+  padding: 0 11px;
+  font-size: 13px;
+  font-family: inherit;
+  border: 1.5px solid $cd-border;
+  border-radius: 7px;
+  background: #fff;
+  color: $cd-text-strong;
+  outline: none;
+  transition: border-color 0.12s, box-shadow 0.12s;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: $cd-primary;
+    box-shadow: 0 0 0 3px $cd-primary-ring;
+  }
+
+  &::placeholder { color: #9CA3AF; }
+}
+
+.cd-field-error { font-size: 11px; color: #EF4444; margin-top: 3px; }
+
+// ── Syncfusion dropdown override ─────────────────────
+.cd-dropdown {
+  display: block;
+  width: 100%;
+
+  ::ng-deep .e-input-group.e-control-wrapper.e-ddl,
+  ::ng-deep .e-input-group.e-control-wrapper {
+    box-sizing: border-box !important;
+    height: 36px !important;
+    width: 100% !important;
+    border: 1.5px solid $cd-border !important;
+    border-radius: 7px !important;
+    font-size: 13px !important;
+    background: #fff !important;
+    padding: 0 !important;
+    transition: border-color 0.12s, box-shadow 0.12s;
+
+    &::before,
+    &::after {
+      display: none !important;
+      background: transparent !important;
+    }
+
+    .e-input {
+      height: 34px !important;
+      font-size: 13px !important;
+      padding: 0 11px !important;
+      line-height: 34px !important;
+      color: $cd-text-strong !important;
+    }
+
+    .e-input-group-icon {
+      min-height: 34px !important;
+      min-width: 28px !important;
+    }
+
+    &.e-input-focus {
+      border-color: $cd-primary !important;
+      box-shadow: 0 0 0 3px $cd-primary-ring !important;
+    }
+  }
+
+  // Syncfusion multiselect override
+  ::ng-deep .e-multi-select-wrapper {
+    box-sizing: border-box !important;
+    min-height: 36px !important;
+    width: 100% !important;
+    border: 1.5px solid $cd-border !important;
+    border-radius: 7px !important;
+    font-size: 13px !important;
+    background: #fff !important;
+    padding: 2px 8px !important;
+    transition: border-color 0.12s, box-shadow 0.12s;
+
+    &::before,
+    &::after {
+      display: none !important;
+      background: transparent !important;
+    }
+
+    .e-chips { font-size: 11px !important; }
+
+    .e-searcher input {
+      font-size: 13px !important;
+      color: $cd-text-strong !important;
+    }
+  }
+
+  ::ng-deep .e-input-group.e-control-wrapper.e-input-focus .e-multi-select-wrapper,
+  ::ng-deep .e-multi-select-wrapper.e-input-focus {
+    border-color: $cd-primary !important;
+    box-shadow: 0 0 0 3px $cd-primary-ring !important;
+  }
+}
+
+.cd-file-upload {
+  border: 1.5px dashed $cd-border;
+  border-radius: 8px;
+  padding: 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.12s, background 0.12s;
+  &:hover { border-color: $cd-primary; background: $cd-primary-bg; }
+}
+
+.cd-file-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  color: $cd-text-muted;
+  font-size: 12px;
+  i { font-size: 20px; color: $cd-primary; }
+}
+
+.cd-image-preview {
+  margin-top: 8px;
+  img {
+    width: 100%; height: 78px;
+    object-fit: cover; border-radius: 7px;
+    border: 1px solid $cd-border;
+  }
+}
+
+// ── Buttons ──────────────────────────────────────────
+.cd-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.12s;
+  white-space: nowrap;
+
+  i { font-size: 12px; }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  &.cd-btn-sm {
+    padding: 5px 12px;
+    font-size: 11px;
+    border-radius: 6px;
+    gap: 5px;
+    i { font-size: 11px; }
+  }
+
+  &.cd-btn-primary {
+    background: $cd-primary;
+    color: #fff;
+    &:hover:not(:disabled) { background: $cd-primary-dark; box-shadow: 0 2px 8px rgba(13,92,122,0.3); }
+  }
+
+  &.cd-btn-ghost {
+    background: #fff;
+    color: $cd-text-body;
+    border: 1.5px solid $cd-border;
+    &:hover { background: $cd-surface; }
+  }
+
+  &.cd-btn-danger {
+    background: #fff;
+    color: #EF4444;
+    border: 1.5px solid #FCA5A5;
+    &:hover { background: #FEF2F2; border-color: #F87171; }
+  }
+
+  &.cd-btn-outline {
+    background: #fff;
+    color: $cd-text-body;
+    border: 1.5px solid $cd-border;
+    &:hover { background: $cd-surface; border-color: darken($cd-border, 8%); }
+  }
+}
+
+// ── Animations ────────────────────────────────────────
+@keyframes cdFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes cdSlideUp {
+  from { opacity: 0; transform: translate(-50%, calc(-50% + 16px)); }
+  to   { opacity: 1; transform: translate(-50%, -50%); }
+}
+
 /* Workspace refresh */
 :host {
   display: block;

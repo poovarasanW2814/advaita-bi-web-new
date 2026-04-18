@@ -1,13 +1,13 @@
-﻿import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren, inject} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren, inject} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { ChartComponent, AccumulationChartComponent, ToolbarItems, AnimationModel, ILoadedEventArgs, IAccTooltipRenderEventArgs, IAccTextRenderEventArgs, ITooltipRenderEventArgs, IAxisLabelRenderEventArgs, IPointRenderEventArgs, ChartModule, AccumulationChartModule } from '@syncfusion/ej2-angular-charts';
 import { CheckBoxSelection, DropDownListComponent, MultiSelectComponent, SelectionSettingsModel, VirtualScroll, DropDownListModule, ListBoxModule, MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns';
-import { GridComponent, GroupSettingsModel, FilterSettingsModel, QueryCellInfoEventArgs, PageEventArgs, DataStateChangeEventArgs, PagerComponent, GridModule } from '@syncfusion/ej2-angular-grids';
+import { GridComponent, GroupSettingsModel, FilterSettingsModel, QueryCellInfoEventArgs, PageEventArgs, DataStateChangeEventArgs, PagerComponent, GridModule, PageService, GroupService, SortService, FilterService, ResizeService, ReorderService, ColumnMenuService, ExcelExportService as GridExcelExportService, PdfExportService as GridPdfExportService, ToolbarService as GridToolbarService } from '@syncfusion/ej2-angular-grids';
 import { DashboardLayoutComponent, PanelModel, DashboardLayoutModule } from '@syncfusion/ej2-angular-layouts';
 import { ClickEventArgs, DataBoundEventArgs } from '@syncfusion/ej2-angular-navigations';
-import { DisplayOption, EnginePopulatedEventArgs, PivotView, PivotViewComponent, PivotViewModule } from '@syncfusion/ej2-angular-pivotview';
-import { DialogComponent, AnimationSettingsModel, hideSpinner, ButtonPropsModel, DialogModule } from '@syncfusion/ej2-angular-popups';
+import { DisplayOption, EnginePopulatedEventArgs, PivotView, PivotViewComponent, PivotViewModule, ToolbarService, ExcelExportService as PivotExcelExportService, PDFExportService, ConditionalFormattingService } from '@syncfusion/ej2-angular-pivotview';
+import { AnimationSettingsModel, hideSpinner, ButtonPropsModel, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { ChartService } from 'src/app/core/services/chart.service';
 import { PanelServiceService } from 'src/app/core/services/panel-service.service';
 import { GridSettings } from '@syncfusion/ej2-pivotview/src/pivotview/model/gridsettings';
@@ -56,7 +56,7 @@ MultiSelectComponent.Inject(CheckBoxSelection);
     templateUrl: './edit-dashboard.component.html',
     styleUrls: ['./edit-dashboard.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [LegendService, GaugeTooltipService],
+    providers: [LegendService, GaugeTooltipService, ToolbarService, PivotExcelExportService, PDFExportService, ConditionalFormattingService, PageService, GroupService, SortService, FilterService, ResizeService, ReorderService, ColumnMenuService, GridExcelExportService, GridPdfExportService, GridToolbarService],
     imports: [ButtonModule, NgIf, DashboardLayoutModule, NgFor, GridModule, NgClass, ChartModule, KanbanModule, PivotViewModule, AccumulationChartModule, NgStyle, DateRangePickerModule, DatePickerModule, DropDownListModule, ListBoxModule, MultiSelectModule, ScheduleModule, AIAssistViewModule, CircularGaugeModule, DialogModule, FormsModule, ReactiveFormsModule, SwitchModule, RoleMappingComponent, InitialFiltersComponent, PropertyChartComponent, PropertyTableComponent, PivotPropertiesComponent, PropertyBoxComponent, ListboxPropertiesComponent, DropdownPropertiesComponent, DatepickerComponent, DaterangepickerComponent, PropertyMultiselectdropdownComponent, PropertySceduleComponent, InputBoxPropertiesComponent, RawdatadumpComponent, CardTemplateComponent, KanbanComponent, guageChartPropertiesComponent]
 })
 
@@ -69,16 +69,14 @@ export class EditDashboardComponent implements OnInit {
   @ViewChild('grid') grid!: GridComponent;
   @ViewChild('grid1') grid1!: GridComponent;
 
-  @ViewChild('defaultDialog') defaultDialog!: DialogComponent;
-  @ViewChild('tabelNameDlg') tabelNameDlg!: DialogComponent;
-
-
-  @ViewChild('formPopup') formPopup!: DialogComponent;
+  showDefaultDialog: boolean = false;
+  showTabelNameDlg: boolean = false;
+  showFormPopup: boolean = false;
   @ViewChild('dialogRef', { static: false }) dialogRef!: ElementRef;
   @ViewChild('pivotview') pivotview!: PivotViewComponent;
 
-  @ViewChild('dashboardTitlePopup') dashboardTitlePopup!: DialogComponent;
-  @ViewChild('connectionFormPopup') connectionFormPopup!: DialogComponent;
+  showDashboardTitlePopup: boolean = false;
+  showConnectionFormPopup: boolean = false;
   @ViewChild('icons') iconDropDownList!: DropDownListComponent;
 
   @ViewChild(DropdownPropertiesComponent) DropdownPropertiesComponent!: DropdownPropertiesComponent;
@@ -93,7 +91,7 @@ export class EditDashboardComponent implements OnInit {
   @ViewChild(CardTemplateComponent) CardTemplateComponent!: CardTemplateComponent;
 
   @ViewChild(DatepickerComponent) DatepickerComponent!: DatepickerComponent;
-  @ViewChild('userMappingModel') userMappingModel!: DialogComponent;
+  showUserMappingModel: boolean = false;
   @ViewChild(RawdatadumpComponent) RawdatadumpComponent!: RawdatadumpComponent;
   @ViewChild(PropertySceduleComponent) PropertySceduleComponent!: PropertySceduleComponent;
   @ViewChild(KanbanComponent) KanbanPropertiesComponent!: KanbanComponent;
@@ -202,7 +200,7 @@ export class EditDashboardComponent implements OnInit {
   //   const topPosition = scrollTop + (viewportHeight / 2) - (dialogHeight / 2);
 
   //   // Set the dialog position dynamically
-  //   this.formPopup.position = { X: 'center', Y: scrollPosition };
+  //   // formPopup position removed
   // }
 
 
@@ -364,7 +362,8 @@ export class EditDashboardComponent implements OnInit {
   tableDatasource: any = []
   tableNamesArray: any[] = [];
   showTablePopup() {
-    this.tabelNameDlg.show();
+    this.showTabelNameDlg = true;
+    this.syncOverlay();
     this.chartService.getTableNamesArrary(this.connection_id).subscribe((res: any) => {
       let data = res['data'];
       this.tableNamesArray = data;
@@ -396,7 +395,8 @@ export class EditDashboardComponent implements OnInit {
 
 
     // //console.log('Updated panelSeriesArray:', this.panelSeriesArray);
-    this.tabelNameDlg.hide()
+    this.showTabelNameDlg = false;
+    this.syncOverlay();
   }
 
 
@@ -1141,7 +1141,7 @@ export class EditDashboardComponent implements OnInit {
 
 
 
-              //console.log('âœ” Total Valid Seconds:', total);
+              //console.log('✔ Total Valid Seconds:', total);
 
 
               //console.log('data', data)
@@ -1344,7 +1344,7 @@ export class EditDashboardComponent implements OnInit {
         if (value === null || value === undefined) return NaN;
         if (typeof value === 'number') return value;
         if (typeof value === 'string') {
-          const cleaned = value.replace(/[%,\s$â‚¬Â£Â¥]/g, '').trim();
+          const cleaned = value.replace(/[%,\s$€£¥]/g, '').trim();
           return parseFloat(cleaned);
         }
         return NaN;
@@ -1441,11 +1441,13 @@ export class EditDashboardComponent implements OnInit {
 
 
   pivottoolbarClick(args: any, pivotviewInstance: PivotViewComponent, item: any) {
-    args.customToolbar.splice(3, 0, {
+    if (!args?.customToolbar) return;
+    const insertAt = Math.min(3, args.customToolbar.length);
+    args.customToolbar.splice(insertAt, 0, {
       prefixIcon: 'e-icons e-expand',
       tooltipText: 'Expand/Collapse',
       cssClass: 'e-btn',
-      click: () => this.toolbarClicked(pivotviewInstance, item), // Bind to specific instance
+      click: () => this.toolbarClicked(pivotviewInstance, item),
     });
   }
 
@@ -1460,7 +1462,7 @@ export class EditDashboardComponent implements OnInit {
 
   onPopupOpen(args: any, item: any) {
     console.log('onPopupOpen args', args, item.content.enablePopup);
-    // ðŸ‘‰ Option: disable popup for event clicks
+    // 👉 Option: disable popup for event clicks
 
     if (item.content.enablePopup) {
       if (args.type === 'QuickInfo') {
@@ -1905,7 +1907,7 @@ export class EditDashboardComponent implements OnInit {
     }
     matchTable.grid.headerCellInfo = this.queryCellHeaderINfo.bind(this);
 
-    // â”€â”€ STRING VALUE FIELD OVERRIDE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── STRING VALUE FIELD OVERRIDE ──────────────────────────────────────────
     const fieldDetails = item?.content?.fieldDetails || [];
 
     const stringValueFields: string[] = fieldDetails
@@ -1940,7 +1942,7 @@ export class EditDashboardComponent implements OnInit {
       args.skipFormatting = true;
       return;
     }
-    // â”€â”€ END STRING VALUE FIELD OVERRIDE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── END STRING VALUE FIELD OVERRIDE ──────────────────────────────────────
     const timeFields = item.content.fieldDetails.filter(
       (f: any) => f.formatType === 'string' && f.name
     ).map((f: { name: any; }) => f.name);
@@ -2791,7 +2793,7 @@ export class EditDashboardComponent implements OnInit {
 
 
 
-            //console.log('âœ” Total Valid Seconds:', total);
+            //console.log('✔ Total Valid Seconds:', total);
 
 
             //console.log('data', data)
@@ -2955,7 +2957,7 @@ export class EditDashboardComponent implements OnInit {
     let data = item.content.dataSource[0];
 
     if (item.content.autoFitColumns === true) {
-      grid.autoFitColumns([]);
+      setTimeout(() => grid.autoFitColumns([]), 0);
     }
 
     if (item.content.allowWrapping == true) {
@@ -3049,7 +3051,11 @@ export class EditDashboardComponent implements OnInit {
 
     // //console.log(state, 'dataStateChange')
   }
-  onActionComplete(args: PageEventArgs, item: any) {
+  onActionBegin(args: PageEventArgs) {
+    // handle paging or other grid action begins if needed
+  }
+
+  onActionComplete(args: PageEventArgs, item: any, grid?: GridComponent) {
     // //console.log('onActionComplete', args, item.content)
 
     let panelObj = this.panelSeriesArray.find((ele: any) => ele.id == item.id);
@@ -3073,32 +3079,12 @@ export class EditDashboardComponent implements OnInit {
             "current_page": args.currentPage
           }
         }
+      }
 
-        // //  //console.log(obj)
-        //  this.chartService.getTablePaginationByPageNumber(this.editDashboardId,panelId, obj ).subscribe((res : any) =>{
-        // //  //  //console.log(res);
-
-        //    let data = res['data'];
-        //    let tablePagination = data.content.table_pagination
-
-        //    item.content.dataSource = data.content.dataSource;
-
-        // //     setTimeout(() => {
-
-        // //     this.initialPage = {
-        // //       pageSizes: true,
-        // //      "pageSize": pagingObj.items_per_page,
-        // //      "pageCount": pagingObj.total_pages,
-        // //      "totalRecordsCount": pagingObj.total_records,
-        // //      "currentPage": args.currentPage
-        // //     }
-        // // //     //console.log(this.initialPage)
-        // //   }, 300);
-
-        //   })
-
-
-
+      // Clear the grid spinner after any action (grouping, sorting, filtering, etc.)
+      if (grid) {
+        setTimeout(() => this.clearGridSpinner(grid), 0);
+        setTimeout(() => this.clearGridSpinner(grid), 150);
       }
     }
 
@@ -3155,7 +3141,7 @@ export class EditDashboardComponent implements OnInit {
   // }
 
   closePopup(): void {
-    console.log('ðŸ” CLOSE POPUP CALLED');
+    console.log('🔍 CLOSE POPUP CALLED');
     console.trace(); // This shows WHERE closePopup was called from
 
     const popup = document.getElementById('popup');
@@ -3240,10 +3226,10 @@ export class EditDashboardComponent implements OnInit {
 
               console.log(`Calculated values for ${condition.measure} - Sum: ${sum}, Average: ${avg}`);
 
-              // âœ… Assign the computed value back to condition.value1 dynamically
+              // ✅ Assign the computed value back to condition.value1 dynamically
               // condition.value1 = calculatedValue.toLowerCase() === 'sum' ? sum : avg;
 
-              // âœ… Only override if Sum or Average; else keep user's entered value
+              // ✅ Only override if Sum or Average; else keep user's entered value
               if (calculatedValue.toLowerCase() === 'sum') {
                 condition.value1 = sum;
               } else if (calculatedValue.toLowerCase() === 'average') {
@@ -3388,7 +3374,7 @@ export class EditDashboardComponent implements OnInit {
       return !(value === null || value === undefined);
     }
 
-    // At this point, if value is null but condition is not about null â†’ false
+    // At this point, if value is null but condition is not about null → false
     if (value === null || value === undefined) {
       return false;
     }
@@ -3461,7 +3447,8 @@ export class EditDashboardComponent implements OnInit {
   public BtnClick = (): void => {
     this.connectionSubmitFlag = false;
     this.connectionUpdateFlag = true;
-    this.connectionFormPopup.show();
+    this.showConnectionFormPopup = true;
+    this.syncOverlay();
     this.changeDetectorRef.markForCheck();
     let storedConnectionId: any = sessionStorage.getItem('connectionIdObj')
     // let storedConnectionId: any = localStorage.getItem('connectionIdObj')
@@ -3986,7 +3973,8 @@ export class EditDashboardComponent implements OnInit {
 
     this.connectionSubmitFlag = true;
     this.connectionUpdateFlag = false;
-    this.connectionFormPopup.hide();
+    this.showConnectionFormPopup = false;
+    this.syncOverlay();
     this.changeDetectorRef.markForCheck();
 
 
@@ -4029,7 +4017,8 @@ export class EditDashboardComponent implements OnInit {
 
     }
     this.connectionIdFlag = false;
-    this.connectionFormPopup.hide()
+    this.showConnectionFormPopup = false;
+    this.syncOverlay();
     this.changeDetectorRef.markForCheck();
 
     // const [connectionName, connectionId] = formValue.connectionName.split('-');
@@ -4377,7 +4366,8 @@ export class EditDashboardComponent implements OnInit {
       console.error('Error saving to localStorage:', error);
     }
     this.panelTypeForm.reset()
-    this.defaultDialog.hide();
+    this.showDefaultDialog = false;
+    this.syncOverlay();
 
   }
   onPanelDropdownSubmit() {
@@ -4467,12 +4457,14 @@ export class EditDashboardComponent implements OnInit {
     }
 
     this.panelTypeForm.reset();
-    this.defaultDialog.hide();
+    this.showDefaultDialog = false;
+    this.syncOverlay();
     this.changeDetectorRef.markForCheck();
   }
 
   onAddPanel() {
-    this.defaultDialog.show();
+    this.showDefaultDialog = true;
+    this.syncOverlay();
     // this.positionDialog();
     this.changeDetectorRef.markForCheck();
   }
@@ -4622,7 +4614,7 @@ export class EditDashboardComponent implements OnInit {
     // //console.log("Panel Top:", panelTop, "Panel Left:", panelLeft, "ScrollY:", window.scrollY);
 
     // Set the popup position dynamically
-    this.formPopup.position = { X: 'center', Y: currentPosition + 50 }; // Show below the clicked panel
+    // formPopup position removed // Show below the clicked panel
 
     // **Prevent Syncfusion from changing scroll position**
     // setTimeout(() => {
@@ -4673,9 +4665,9 @@ export class EditDashboardComponent implements OnInit {
         this.selectedPanelType = panel.panelType;
 
         // Set dialog to center position
-        this.formPopup.position = { X: 'center', Y: 'center' };
-        this.formPopup.show()
+        this.showFormPopup = true;
         this.visible = true;
+        this.syncOverlay();
         this.changeDetectorRef.markForCheck();
       }
 
@@ -4982,7 +4974,8 @@ export class EditDashboardComponent implements OnInit {
       storedConnectionId = JSON.parse(storedConnectionId);
       // //console.log(storedConnectionId)
 
-      this.userMappingModel.show();
+      this.showUserMappingModel = true;
+      this.syncOverlay();
       // const [connectionName, connectionId] = storedConnectionId.connectionName.split('-')
       // // //console.log(connectionName, 'id', connectionId)
       let obj = {
@@ -5024,7 +5017,8 @@ export class EditDashboardComponent implements OnInit {
 
 
 
-    this.userMappingModel.hide()
+    this.showUserMappingModel = false;
+    this.syncOverlay();
 
   }
 
@@ -5266,7 +5260,8 @@ export class EditDashboardComponent implements OnInit {
 
 
 
-      this.dashboardTitlePopup.hide()
+      this.showDashboardTitlePopup = false;
+      this.syncOverlay();
     } else {
       this.dashboardTitleForm.markAllAsTouched(); // Mark all fields as touched to show validation messages
     }
@@ -5293,57 +5288,57 @@ export class EditDashboardComponent implements OnInit {
 
       this.PropertyChartComponent.onDashboardCreationForm();
       // this.columnChart.refresh();
-      this.formPopup.hide();
+      this.showFormPopup = false;
     }
     if (this.selectedPanelType == "Table") {
 
 
       this.PropertyTableComponent.onTableFormSubmit();
-      this.formPopup.hide()
+      this.showFormPopup = false
 
     }
     if (this.selectedPanelType == "Pivot") {
 
       this.PivotPropertiesComponent.onGeneralFormSubmit();
-      this.formPopup.hide()
+      this.showFormPopup = false
 
     }
     if (this.selectedPanelType == "Box") {
 
       this.PropertyBoxComponent.onBoxFormSubmit();
-      this.formPopup.hide()
+      this.showFormPopup = false
 
     }
     if (this.selectedPanelType == "ListBox") {
 
 
       this.ListboxPropertiesComponent.onBoxFormSubmit();
-      this.formPopup.hide();
+      this.showFormPopup = false;
 
     }
     if (this.selectedPanelType == "DropdownList") {
 
 
       this.DropdownPropertiesComponent.onBoxFormSubmit();
-      this.formPopup.hide();
+      this.showFormPopup = false;
 
     }
     if (this.selectedPanelType == "DatePicker") {
 
 
       this.DatepickerComponent.onBoxFormSubmit();
-      this.formPopup.hide();
+      this.showFormPopup = false;
     }
     if (this.selectedPanelType == "DateRangePicker") {
 
 
       this.DaterangepickerComponent.onBoxFormSubmit();
-      this.formPopup.hide()
+      this.showFormPopup = false
     }
     if (this.selectedPanelType == "MultiSelectDropDown") {
 
       this.PropertyMultiselectdropdownComponent.onBoxFormSubmit();
-      this.formPopup.hide();
+      this.showFormPopup = false;
 
     }
 
@@ -5353,10 +5348,11 @@ export class EditDashboardComponent implements OnInit {
       const isFormValid = this.RawdatadumpComponent.onSubmit();
       this.loaderService.hide()
       if (isFormValid) {
-        this.formPopup.hide();
+        this.showFormPopup = false;
       }
 
     }
+    this.syncOverlay();
   }
 
   submitForm() {
@@ -5369,7 +5365,7 @@ export class EditDashboardComponent implements OnInit {
 
       if (validForm) {
 
-        this.formPopup.hide()
+        this.showFormPopup = false
       } else {
         this.loaderService.hide()
 
@@ -5382,7 +5378,7 @@ export class EditDashboardComponent implements OnInit {
       // console.log('isFormValid', isFormValid)
       this.PropertySceduleComponent.onSubmit();
       this.loaderService.hide()
-      this.formPopup.hide();
+      this.showFormPopup = false;
 
 
     }
@@ -5395,7 +5391,7 @@ export class EditDashboardComponent implements OnInit {
 
       if (validForm) {
 
-        this.formPopup.hide()
+        this.showFormPopup = false
       } else {
         this.loaderService.hide()
 
@@ -5406,13 +5402,13 @@ export class EditDashboardComponent implements OnInit {
       this.loaderService.hide()
 
       this.PivotPropertiesComponent.onGeneralFormSubmit();
-      this.formPopup.hide()
+      this.showFormPopup = false
 
     }
     if (this.selectedPanelType == "Box") {
 
       // this.PropertyBoxComponent.onBoxFormSubmit();
-      // this.formPopup.hide()
+      // this.showFormPopup = false
 
 
 
@@ -5420,7 +5416,7 @@ export class EditDashboardComponent implements OnInit {
 
       if (validForm) {
 
-        this.formPopup.hide()
+        this.showFormPopup = false
       } else {
         this.loaderService.hide()
 
@@ -5430,12 +5426,12 @@ export class EditDashboardComponent implements OnInit {
     if (this.selectedPanelType == "ListBox") {
 
       let validForm: any = this.ListboxPropertiesComponent.onBoxFormSubmit();
-      // this.formPopup.hide();
+      // this.showFormPopup = false;
 
 
       if (validForm) {
 
-        this.formPopup.hide()
+        this.showFormPopup = false
       } else {
         this.loaderService.hide()
 
@@ -5445,14 +5441,14 @@ export class EditDashboardComponent implements OnInit {
     if (this.selectedPanelType == "DropdownList") {
 
       // this.DropdownPropertiesComponent.onBoxFormSubmit();
-      // this.formPopup.hide();
+      // this.showFormPopup = false;
 
 
       let validForm: any = this.DropdownPropertiesComponent.onBoxFormSubmit();
 
       if (validForm) {
 
-        this.formPopup.hide()
+        this.showFormPopup = false
       } else {
         this.loaderService.hide()
 
@@ -5467,7 +5463,7 @@ export class EditDashboardComponent implements OnInit {
 
       if (validForm) {
 
-        this.formPopup.hide()
+        this.showFormPopup = false
       } else {
         this.loaderService.hide()
 
@@ -5482,7 +5478,7 @@ export class EditDashboardComponent implements OnInit {
 
       if (validForm) {
 
-        this.formPopup.hide()
+        this.showFormPopup = false
       } else {
         this.loaderService.hide()
 
@@ -5493,15 +5489,15 @@ export class EditDashboardComponent implements OnInit {
 
     if (this.selectedPanelType == "MultiSelectDropDown") {
       // this.PropertyMultiselectdropdownComponent.onBoxFormSubmit();
-      // this.formPopup.hide();
+      // this.showFormPopup = false;
 
       let validForm: any = this.PropertyMultiselectdropdownComponent.onBoxFormSubmit();
-      // this.formPopup.hide();
+      // this.showFormPopup = false;
 
 
       if (validForm) {
 
-        this.formPopup.hide()
+        this.showFormPopup = false
       } else {
         this.loaderService.hide()
 
@@ -5511,15 +5507,15 @@ export class EditDashboardComponent implements OnInit {
 
     if (this.selectedPanelType == "InputBox") {
       // this.PropertyMultiselectdropdownComponent.onBoxFormSubmit();
-      // this.formPopup.hide();
+      // this.showFormPopup = false;
 
       let validForm: any = this.InputBoxPropertiesComponent.onBoxFormSubmit();
-      // this.formPopup.hide();
+      // this.showFormPopup = false;
 
 
       if (validForm) {
 
-        this.formPopup.hide()
+        this.showFormPopup = false
       } else {
         this.loaderService.hide()
 
@@ -5534,7 +5530,7 @@ export class EditDashboardComponent implements OnInit {
       // //console.log('isFormValid', isFormValid)
 
       if (isFormValid) {
-        this.formPopup.hide();
+        this.showFormPopup = false;
       } else {
         this.loaderService.hide()
 
@@ -5547,7 +5543,7 @@ export class EditDashboardComponent implements OnInit {
       // //console.log('isFormValid', isFormValid)
       this.CardTemplateComponent.onBoxFormSubmit();
       this.loaderService.hide()
-      this.formPopup.hide();
+      this.showFormPopup = false;
 
 
     }
@@ -5556,7 +5552,7 @@ export class EditDashboardComponent implements OnInit {
       let validForm: any = this.KanbanPropertiesComponent.onKanbanFormSubmit();
 
       if (validForm) {
-        this.formPopup.hide();
+        this.showFormPopup = false;
       } else {
         this.loaderService.hide();
       }
@@ -5566,16 +5562,18 @@ export class EditDashboardComponent implements OnInit {
       let validForm: any = this.guageChartPropertiesComponent.onDashboardCreationForm();
 
       if (validForm) {
-        this.formPopup.hide();
+        this.showFormPopup = false;
       } else {
         this.loaderService.hide();
       }
     }
+    this.syncOverlay();
   }
 
 
   onDashboardSave() {
-    this.dashboardTitlePopup.show()
+    this.showDashboardTitlePopup = true;
+    this.syncOverlay();
     this.changeDetectorRef.markForCheck();
   }
   imageUrl: any;
@@ -5598,7 +5596,7 @@ export class EditDashboardComponent implements OnInit {
     }
   }
 
-  @ViewChild('initalFilterPopup') initalFilterPopup!: DialogComponent;
+  showInitalFilterPopup: boolean = false;
   @ViewChild(InitialFiltersComponent) InitialFiltersComponent!: InitialFiltersComponent;
 
   // initial filters
@@ -5616,7 +5614,8 @@ export class EditDashboardComponent implements OnInit {
       storedConnectionId = JSON.parse(storedConnectionId);
       // //console.log(storedConnectionId, 'storedConnectionId');
       this.connectionId = storedConnectionId.connection_Id
-      this.initalFilterPopup.show()
+      this.showInitalFilterPopup = true;
+      this.syncOverlay();
       let obj = {
         connection_id: this.connectionId,
         ...this.initialFilterObj
@@ -5652,7 +5651,8 @@ export class EditDashboardComponent implements OnInit {
     let isValidFilters = this.InitialFiltersComponent.onInitialFilterSubmit();
 
     if (isValidFilters) {
-      this.initalFilterPopup.hide()
+      this.showInitalFilterPopup = false;
+      this.syncOverlay();
 
     }
 
@@ -5661,7 +5661,8 @@ export class EditDashboardComponent implements OnInit {
   initialFilterDeleteClose() {
     this.InitialFiltersComponent.deleteInitialFilter()
 
-    this.initalFilterPopup.hide()
+    this.showInitalFilterPopup = false;
+    this.syncOverlay();
 
 
   }
@@ -5731,12 +5732,12 @@ export class EditDashboardComponent implements OnInit {
   // code for ai chatbot 
   @ViewChild('dialogAIAssistView')
   dialogAIAssistView!: AIAssistViewComponent;
-  @ViewChild('AssistViewDlg')
-  AssistViewDlg!: DialogComponent;
+  showAssistViewDlg: boolean = false;
 
   openChatbot() {
     console.log('hello')
-    this.AssistViewDlg.show()
+    this.showAssistViewDlg = true;
+    this.syncOverlay();
   }
 
 
@@ -5782,7 +5783,7 @@ export class EditDashboardComponent implements OnInit {
     },
     {
       prompt: "What are common mistakes to avoid in e-book covers?",
-      response: "<p>Here are some common mistakes to avoid when designing an e-book cover:</p> <ol><li><strong>Cluttered design:</strong> Overloading the cover with too many elements can make it look messy and unprofessional. Keep it simple and focused.</li> <li><strong>Poor quality images:</strong> Using low-resolution or generic stock images can detract from the overall appeal. Always opt for high-quality, relevant visuals.</li> <li><strong>Unreadable fonts:</strong> Fancy or overly intricate fonts can be hard to read, especially in thumbnail size. Choose clear, legible fonts for the title and author name.</li> <li><strong>Ignoring genre conventions:</strong> Each genre has its own visual cues. Not adhering to these can confuse potential readers about the bookâ€™s content.</li> <li><strong>Inconsistent branding:</strong> If you have a series or multiple books, ensure a consistent style across all covers to build a recognizable brand.</li></ol> <p>Would you like any specific advice on designing your cover?</p>"
+      response: "<p>Here are some common mistakes to avoid when designing an e-book cover:</p> <ol><li><strong>Cluttered design:</strong> Overloading the cover with too many elements can make it look messy and unprofessional. Keep it simple and focused.</li> <li><strong>Poor quality images:</strong> Using low-resolution or generic stock images can detract from the overall appeal. Always opt for high-quality, relevant visuals.</li> <li><strong>Unreadable fonts:</strong> Fancy or overly intricate fonts can be hard to read, especially in thumbnail size. Choose clear, legible fonts for the title and author name.</li> <li><strong>Ignoring genre conventions:</strong> Each genre has its own visual cues. Not adhering to these can confuse potential readers about the book’s content.</li> <li><strong>Inconsistent branding:</strong> If you have a series or multiple books, ensure a consistent style across all covers to build a recognizable brand.</li></ol> <p>Would you like any specific advice on designing your cover?</p>"
     }
   ];
 
@@ -5805,7 +5806,7 @@ export class EditDashboardComponent implements OnInit {
   };
 
   dialogOpenClose = () => {
-    this.AssistViewDlg.visible = !this.AssistViewDlg.visible;
+    this.showAssistViewDlg = !this.showAssistViewDlg;
   };
 
 
@@ -6193,7 +6194,7 @@ export class EditDashboardComponent implements OnInit {
         '.e-rowsheader, .e-columnsheader, .e-columnheader, .e-stackedheadercelldiv'
       );
 
-      // console.log('ðŸ“Œ Total header cells found:', allHeaders.length);
+      // console.log('📌 Total header cells found:', allHeaders.length);
 
       allHeaders.forEach((headerCell: Element) => {
         const headerElement = headerCell as HTMLElement;
@@ -6218,7 +6219,7 @@ export class EditDashboardComponent implements OnInit {
 
         if (!headerText) return;
 
-        // console.log('ðŸ“Œ Processing header:', headerText, 'Classes:', headerElement.className);
+        // console.log('📌 Processing header:', headerText, 'Classes:', headerElement.className);
 
         // Determine field ownership
         let belongsToField: string | null = null;
@@ -6282,7 +6283,7 @@ export class EditDashboardComponent implements OnInit {
           }
 
           if (matched) {
-            // âœ… Apply styles with !important to prevent overriding
+            // ✅ Apply styles with !important to prevent overriding
             if (format.backgroundColor) {
               headerElement.style.setProperty('background-color', format.backgroundColor, 'important');
             }
@@ -6308,7 +6309,7 @@ export class EditDashboardComponent implements OnInit {
               headerElement.style.setProperty('font-style', format.fontStyle, 'important');
             }
 
-            // âœ… Also apply to nested .e-cellvalue
+            // ✅ Also apply to nested .e-cellvalue
             if (cellValue) {
               const cellValueEl = cellValue as HTMLElement;
 
@@ -6330,10 +6331,10 @@ export class EditDashboardComponent implements OnInit {
       });
     };
 
-    // âœ… Apply immediately
+    // ✅ Apply immediately
     applyFormatting();
 
-    // âœ… Re-apply after a delay to catch any re-renders
+    // ✅ Re-apply after a delay to catch any re-renders
     setTimeout(() => applyFormatting(), 100);
     setTimeout(() => applyFormatting(), 300);
     setTimeout(() => applyFormatting(), 500);
@@ -6589,6 +6590,37 @@ export class EditDashboardComponent implements OnInit {
       'background-color': '#ffffff'
     };
   }
+
+  // ── Modal stacking fix ─────────────────────────────
+  // #target has position:relative + z-index from Syncfusion sidebar,
+  // creating a stacking context that traps position:fixed modals.
+  // Set z-index to 'auto' when any modal is open to break the context.
+  private syncOverlay(): void {
+    const anyOpen = this.showDefaultDialog       ||
+                    this.showTabelNameDlg         ||
+                    this.showFormPopup             ||
+                    this.showDashboardTitlePopup   ||
+                    this.showConnectionFormPopup   ||
+                    this.showUserMappingModel      ||
+                    this.showInitalFilterPopup     ||
+                    this.showAssistViewDlg;
+    const zVal = anyOpen ? 'auto' : '';
+    const t = document.getElementById('target') as HTMLElement | null;
+    const d = document.querySelector<HTMLElement>('.dashboardParent');
+    if (t) t.style.zIndex = zVal;
+    if (d) d.style.zIndex = zVal;
+  }
+
+  closeDefaultDialog()        { this.showDefaultDialog       = false; this.syncOverlay(); this.changeDetectorRef.detectChanges(); }
+  closeTabelNameDlg()         { this.showTabelNameDlg        = false; this.syncOverlay(); this.changeDetectorRef.detectChanges(); }
+  closeFormPopup()            { this.showFormPopup            = false; this.syncOverlay(); this.changeDetectorRef.detectChanges(); }
+  closeDashboardTitlePopup()  { this.showDashboardTitlePopup  = false; this.syncOverlay(); this.changeDetectorRef.detectChanges(); }
+  closeConnectionFormPopup()  { this.showConnectionFormPopup  = false; this.syncOverlay(); this.changeDetectorRef.detectChanges(); }
+  closeUserMappingModel()     { this.showUserMappingModel     = false; this.syncOverlay(); this.changeDetectorRef.detectChanges(); }
+  closeInitalFilterPopup()    { this.showInitalFilterPopup    = false; this.syncOverlay(); this.changeDetectorRef.detectChanges(); }
+  closeAssistViewDlg()        { this.showAssistViewDlg        = false; this.syncOverlay(); this.changeDetectorRef.detectChanges(); }
+
+  openOverlay(): void { this.syncOverlay(); this.changeDetectorRef.detectChanges(); }
 }
 
 

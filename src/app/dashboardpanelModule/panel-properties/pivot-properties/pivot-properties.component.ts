@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
 import { FormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TabComponent, TabModule } from '@syncfusion/ej2-angular-navigations';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { hide } from '@syncfusion/ej2/treemap';
 import { ChartService } from 'src/app/core/services/chart.service';
@@ -13,15 +12,107 @@ import { ColorPickerModule } from '@syncfusion/ej2-angular-inputs';
     selector: 'app-pivot-properties',
     templateUrl: './pivot-properties.component.html',
     styleUrls: ['./pivot-properties.component.scss'],
-    imports: [TabModule, FormsModule, ReactiveFormsModule, DropDownListModule, SwitchModule, NgIf, NgFor, MultiSelectModule, ColorPickerModule, ButtonModule]
+    imports: [FormsModule, ReactiveFormsModule, DropDownListModule, SwitchModule, NgIf, NgFor, MultiSelectModule, ColorPickerModule, ButtonModule]
 })
 
 
 export class PivotPropertiesComponent implements OnInit, OnChanges {
+  activeTab: number = 0;
+  tabLabels: string[] = ['General', 'Fields', 'Condition', 'Raw Query', 'Cond. Format', 'Header Format', 'Chart Props'];
+  selectTab(i: number): void { this.activeTab = i; }
+
+  ddlFields: any = { text: 'text', value: 'value' };
+
+  grandTotalAverageTypeOptions: any[] = [
+    { text: 'Average with visible data', value: 'AverageWithZero' },
+    { text: 'Average excluding 0', value: 'AverageWithoutZero' },
+    { text: 'Average with all data', value: 'AverageWithAllData' }
+  ];
+  displayOptions: any[] = [
+    { text: 'Table', value: 'table' }, { text: 'Chart', value: 'chart' }, { text: 'Both', value: 'both' }
+  ];
+  chartTypeOptions: any[] = [
+    { text: 'Column', value: 'Column' }, { text: 'Bar', value: 'Bar' },
+    { text: 'Line', value: 'Line' }, { text: 'Area', value: 'Area' },
+    { text: 'Scatter', value: 'Scatter' }, { text: 'Polar', value: 'Polar' },
+    { text: 'Stacking Column', value: 'StackingColumn' }, { text: 'Stacking Bar', value: 'StackingBar' },
+    { text: 'Stacking Area', value: 'StackingArea' }, { text: 'Stacking Line', value: 'StackingLine' },
+    { text: 'Step Line', value: 'StepLine' }, { text: 'Step Area', value: 'StepArea' },
+    { text: 'Spline', value: 'Spline' }, { text: 'Spline Area', value: 'SplineArea' },
+    { text: 'Stacking Column 100%', value: 'StackingColumn100' }, { text: 'Stacking Bar 100%', value: 'StackingBar100' },
+    { text: 'Stacking Area 100%', value: 'StackingArea100' }, { text: 'Stacking Line 100%', value: 'StackingLine100' },
+    { text: 'Bubble', value: 'Bubble' }, { text: 'Pareto', value: 'Pareto' },
+    { text: 'Radar', value: 'Radar' }, { text: 'Pie', value: 'Pie' },
+    { text: 'Doughnut', value: 'Doughnut' }, { text: 'Funnel', value: 'Funnel' },
+    { text: 'Pyramid', value: 'Pyramid' }
+  ];
+  fieldTypeOptions: string[] = ['Column', 'Value', 'Row', 'format'];
+  formatTypeOptions: any[] = [
+    { text: 'CalculatedField', value: 'CalculatedField' }, { text: 'String', value: 'string' },
+    { text: 'Date', value: 'date' }, { text: 'Number', value: 'Number' },
+    { text: 'Currency', value: 'Currency' }, { text: 'Percentage', value: 'Percentage' }
+  ];
+  sortingOrderOptions: string[] = ['Ascending', 'Descending'];
+  sortingTypeOptions: any[] = [
+    { text: 'Alphabetical', value: 'string' }, { text: 'Alphanumeric', value: 'number' }
+  ];
+  pivotConditionOptions: any[] = [
+    { text: 'Less Than', value: 'LessThan' }, { text: 'Between', value: 'Between' },
+    { text: 'Less Than Or Equal To', value: 'LessThanOrEqualTo' },
+    { text: 'Greater Than', value: 'GreaterThan' },
+    { text: 'Greater Than Or Equal To', value: 'GreaterThanOrEqualTo' },
+    { text: 'Equals', value: 'Equals' }, { text: 'Not Equals', value: 'NotEquals' }
+  ];
+  referenceValueOptions: any[] = [
+    { text: 'Grand Total', value: 'grandTotal' }, { text: 'Grand Average Total', value: 'grandAverage' }
+  ];
+  fontStyleOptions: any[] = [
+    { text: 'Normal', value: 'normal' }, { text: 'Italic', value: 'italic' }, { text: 'Bold', value: 'bold' }
+  ];
+  fontWeightOptions: any[] = [
+    { text: '100', value: '100' }, { text: '200', value: '200' }, { text: '300', value: '300' },
+    { text: '400 (Normal)', value: '400' }, { text: '500', value: '500' }, { text: '600', value: '600' },
+    { text: '700 (Bold)', value: '700' }, { text: '800', value: '800' }, { text: '900', value: '900' }
+  ];
+  scrollbarPercentageOptions: any[] = [
+    { text: '1%', value: '0.01' }, { text: '2%', value: '0.02' }, { text: '3%', value: '0.03' },
+    { text: '4%', value: '0.04' }, { text: '5%', value: '0.05' }, { text: '6%', value: '0.06' },
+    { text: '7%', value: '0.07' }, { text: '8%', value: '0.08' }, { text: '9%', value: '0.09' },
+    { text: '10%', value: '0.1' }, { text: '20%', value: '0.2' }, { text: '30%', value: '0.3' },
+    { text: '40%', value: '0.4' }, { text: '50%', value: '0.5' }, { text: '60%', value: '0.6' },
+    { text: '70%', value: '0.7' }, { text: '80%', value: '0.8' }, { text: '90%', value: '0.9' },
+    { text: '100%', value: '1' }
+  ];
+
+  get pivotFormatOptions(): any[] {
+    const ft = this.selectedFormatType;
+    if (ft === 'Number') return [
+      { text: 'Number (0 decimal)', value: 'N0' }, { text: 'Number (1 decimal)', value: 'N1' },
+      { text: 'Number (2 decimals)', value: 'N2' }, { text: 'Number (with commas)', value: '#,##0' }
+    ];
+    if (ft === 'Currency') return [
+      { text: 'Currency (0 decimal)', value: 'C0' }, { text: 'Currency (1 decimal)', value: 'C1' },
+      { text: 'Currency (2 decimals)', value: 'C2' }
+    ];
+    if (ft === 'Percentage') return [
+      { text: 'Percentage (0 decimal)', value: 'P0' }, { text: 'Percentage (1 decimal)', value: 'P1' },
+      { text: 'Percentage (2 decimals)', value: 'P2' },
+      { text: 'Percent (0 decimal)', value: "###0 '%'" }, { text: 'Percent (1 decimal)', value: "###0.0 '%'" },
+      { text: 'Percent (2 decimals)', value: "###0.00 '%'" }, { text: 'Percent (3 decimals)', value: "###0.000 '%'" }
+    ];
+    if (ft === 'date') return [
+      { text: 'Month', value: 'MMMM' }, { text: 'Year', value: 'yyyy' },
+      { text: 'Year-Month', value: 'yyyy-MMM' }, { text: 'Month-Year', value: 'MMM-yyyy' },
+      { text: 'Year-Month-Date', value: 'yyyy-MM-dd' }, { text: 'Month-Year-Date', value: 'MM-yyyy-dd' },
+      { text: 'Date/Month/Year', value: 'dd/MM/yyyy' }, { text: 'YYYY-mmm-dd', value: 'yyyy-MMM-dd' },
+      { text: 'Date/Month/Year hh:mm', value: 'dd/MM/yyyy hh:mm' }
+    ];
+    return [];
+  }
+
 
   @ViewChild('defaultDialog')
   defaultDialog!: DialogComponent;
-  @ViewChild('tabComponent') tab!: TabComponent
 
   @Input() getPanelType: any;
   @Input() getPanelObj: any;
@@ -166,10 +257,8 @@ export class PivotPropertiesComponent implements OnInit, OnChanges {
 ngOnChanges(changes: SimpleChanges): void {
     let currentValue = changes['getPanelObj'].currentValue;
     if (currentValue != undefined || currentValue != null) {
-      // this.tab.selectedItem = 0;
-      if (this.tab) {
-        this.tab.selectedItem = 0;
-      }
+      // this.activeTab = 0;
+        this.activeTab = 0;
       console.log('panel changed obj', currentValue)
       this.getPanelObj = currentValue;
       let panelObj = this.getPanelObj;
@@ -322,7 +411,7 @@ console.log('array', arr)
 
 
   onSelectCondtionFormatValue(eve: any) {
-    let value = eve.target.value;
+    let value = eve?.value ?? eve?.target?.value;
     this.selectedConditionType = value
   }
   onDeleteConditionObj(id: any) {
@@ -827,14 +916,14 @@ console.log('array', arr)
   selectedFieldType!: string;
   selectedFormatType!: string;
   onFieldTypeChange(selectedFieldType: any): void {
-    console.log(selectedFieldType.target.value);
-    let value = selectedFieldType.target.value;
+    console.log(selectedFieldType?.value ?? selectedFieldType?.target?.value);
+    let value = selectedFieldType?.value ?? selectedFieldType?.target?.value;
     this.selectedFieldType = value
 
   }
 
   onFormatTypeChange(eve: any) {
-    let value = eve.target.value;
+    let value = eve?.value ?? eve?.target?.value;
     this.selectedFormatType = value
   }
 
@@ -891,7 +980,7 @@ valueFieldFormatOptions: string[] = [
 
 
   onExpressionDropdownChange(event: any) {
-  const selectedValue = event.target.value;
+  const selectedValue = event?.value ?? event?.target?.value;
   if (selectedValue === 'Custom Expression') {
     this.showCustomExpressionBox = true;
     // Clear the expression field so the user types new one
@@ -1971,7 +2060,7 @@ valueFieldFormatOptions: string[] = [
 
 selectedDefaultView: string = 'table';
 onDefaultViewChange(event: any) {
-  const selectedView = event.target.value;
+  const selectedView = event?.value ?? event?.target?.value;
   this.selectedDefaultView = selectedView;
   
   if (selectedView !== 'chart' && selectedView !== 'both') {

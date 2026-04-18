@@ -1,4 +1,3 @@
-import { TabComponent, TabModule } from '@syncfusion/ej2-angular-navigations';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AnimationSettingsModel, Dialog, DialogComponent } from '@syncfusion/ej2-angular-popups';
@@ -12,10 +11,13 @@ import { NgIf, NgFor } from '@angular/common';
     selector: 'app-kanban',
     templateUrl: './kanban.component.html',
     styleUrls: ['./kanban.component.scss'],
-    imports: [TabModule, FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, MultiSelectModule, NgFor]
+    imports: [FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, MultiSelectModule, NgFor]
 })
 export class KanbanComponent implements OnInit, OnChanges {
-  @ViewChild('tabComponent') tab!: TabComponent;
+  activeTab: number = 0;
+  tabLabels: string[] = ['General', 'Measure', 'Condition', 'Raw Query'];
+  selectTab(i: number): void { this.activeTab = i; }
+
   @ViewChild('grid') grid!: GridComponent;
   @Input() getPanelType: any;
   @Input() getPanelObj: any;
@@ -498,10 +500,7 @@ export class KanbanComponent implements OnInit, OnChanges {
 
     let currentValue = changes['getPanelObj'].currentValue;
     if (currentValue != undefined || currentValue != null) {
-
-      if (this.tab) {
-        this.tab.selectedItem = 0;
-      }
+        this.activeTab = 0;
 
       let panelsArrData: any = sessionStorage.getItem('createPanelSeriesArray');
       this.panelSeriesArray = panelsArrData
@@ -662,6 +661,12 @@ export class KanbanComponent implements OnInit, OnChanges {
   }
   selectedFieldNameModel: any;
   fields: { text: string; value: string } = { text: 'value', value: 'value' };
+  ddlFields: Object = { text: 'text', value: 'value' };
+  orderByTypeOptions: any[] = [
+    { text: '--Select--', value: '' },
+    { text: 'ASC', value: 'ASC' },
+    { text: 'DESC', value: 'DESC' }
+  ];
   onClearConditions() {
     this.conditionValue = "";
     this.columnTemplateForm.get('conditions')!.setValue("");

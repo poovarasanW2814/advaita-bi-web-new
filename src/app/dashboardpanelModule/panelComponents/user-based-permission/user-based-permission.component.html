@@ -38,109 +38,54 @@
 
   <br>
 
-    <div formGroupName="permissions" style="border: 1px solid lightgray;max-height: 300px; overflow-y: auto; ">
-      <div class="headingDiv bg-warning" style="background-color: lightgray;">
-        <div class="row" >
-
-          <div class="col-md-2">
-            <label for="">
-              Form Name
-            </label>
-          </div>
-          <div class="col-md-2">
-            <label for="">Select All</label>
-
-          </div>
-          <div class="col-md-2">
-            <label for="">
-              View
-            </label>
-
-          </div>
-          <div class="col-md-2">
-            <label for="">
-              Create
-            </label>
-          </div>
-          <div class="col-md-2">
-            <label for="">
-              Update
-            </label>
-
-          </div>
-
-
-          <div class="col-md-2">
-            <label for="">
-              Delete
-            </label>
-
-          </div>
-          <!-- <div class="col-md-2">
-          <label for="">
-            Download
-          </label>
-
-        </div> -->
-      </div>
+    <div formGroupName="permissions" style="border: 1px solid #e0e0e0; border-radius: 8px;">
+      <table style="width:100%; border-collapse: collapse;">
+        <thead>
+          <tr style="background-color: #f0f0f0; position: sticky; top: 0; z-index: 1;">
+            <th style="padding: 10px 14px; text-align: left; font-size: 13px; font-weight: 600; width: 34%;">Form Name</th>
+            <th style="padding: 10px 8px; text-align: center; font-size: 13px; font-weight: 600; width: 12%;">Select All</th>
+            <th style="padding: 10px 8px; text-align: center; font-size: 13px; font-weight: 600; width: 11%;">View</th>
+            <th style="padding: 10px 8px; text-align: center; font-size: 13px; font-weight: 600; width: 11%;">Create</th>
+            <th style="padding: 10px 8px; text-align: center; font-size: 13px; font-weight: 600; width: 11%;">Update</th>
+            <th style="padding: 10px 8px; text-align: center; font-size: 13px; font-weight: 600; width: 11%;">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (permission of permissionRows; track permission) {
+            <tr style="border-top: 1px solid #f0f0f0;">
+              <td style="padding: 8px 14px; font-size: 13px;">{{ permission.label }}</td>
+              <td style="padding: 8px; text-align: center;">
+                <div formGroupName="{{ permission.key }}">
+                  <input type="checkbox" style="cursor:pointer; width:16px; height:16px;" class="selectBox"
+                    formControlName="selectAll"
+                    (change)="toggleAllPermissions(permission.key,$event)" />
+                </div>
+              </td>
+              <td style="padding: 8px; text-align: center;">
+                <div formGroupName="{{ permission.key }}">
+                  <input type="checkbox" style="cursor:pointer; width:16px; height:16px;" formControlName="view" />
+                </div>
+              </td>
+              <td style="padding: 8px; text-align: center;">
+                <div formGroupName="{{ permission.key }}">
+                  <input type="checkbox" style="cursor:pointer; width:16px; height:16px;" formControlName="create" />
+                </div>
+              </td>
+              <td style="padding: 8px; text-align: center;">
+                <div formGroupName="{{ permission.key }}">
+                  <input type="checkbox" style="cursor:pointer; width:16px; height:16px;" formControlName="update" />
+                </div>
+              </td>
+              <td style="padding: 8px; text-align: center;">
+                <div formGroupName="{{ permission.key }}">
+                  <input type="checkbox" style="cursor:pointer; width:16px; height:16px;" formControlName="delete" />
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
     </div>
-
-    @for (permission of permissionRows; track permission) {
-      <div>
-        <div class="row">
-          <div class="col-md-2">
-            <span style="font-size: 13px;">
-              {{ permission.label }}
-            </span>
-            <!-- <label for="">{{ permission.key }}</label> -->
-            <!-- <h4>{{ permission.key }}</h4> -->
-          </div>
-          <div class="col-md-2" >
-            <!-- <input type="checkbox"    formControlName="selectAll" (change)="selectAll(permission.key)"> -->
-            <div formGroupName="{{ permission.key }}">
-              <input style="cursor:pointer"
-                type="checkbox"
-                class="selectBox"
-                formControlName="selectAll"
-                (change)="toggleAllPermissions(permission.key,$event)"
-                />
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div formGroupName="{{ permission.key }}">
-                <!-- <label for="view">View:</label> -->
-                <input style="cursor:pointer" type="checkbox" formControlName="view">
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div formGroupName="{{ permission.key }}">
-                <!-- <label for="view">View:</label> -->
-                <input style="cursor:pointer" type="checkbox" formControlName="create">
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div formGroupName="{{ permission.key }}">
-                <!-- <label for="view">View:</label> -->
-                <input style="cursor:pointer" type="checkbox" formControlName="update">
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div formGroupName="{{ permission.key }}">
-                <!-- <label for="view">View:</label> -->
-                <input style="cursor:pointer" type="checkbox" formControlName="delete">
-              </div>
-            </div>
-            <!-- <div class="col-md-2">
-            <div formGroupName="{{ permission.key }}">
-              <input type="checkbox" formControlName="download">
-            </div>
-          </div> -->
-        </div>
-      </div>
-    }
-
-
-  </div>
 
   <!-- <div style="text-align: right; margin-top:10px">
   <button class="e-btn e-info" ejs-button>

@@ -1,7 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn, ValidationErrors, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
-import { TabComponent, TabModule } from '@syncfusion/ej2-angular-navigations';
 import { AnimationSettingsModel, DialogComponent, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { Browser } from '@syncfusion/ej2/base';
 import { Subject } from 'rxjs';
@@ -15,12 +14,15 @@ import { SwitchModule, ButtonModule } from '@syncfusion/ej2-angular-buttons';
     selector: 'app-property-chart',
     templateUrl: './property-chart.component.html',
     styleUrls: ['./property-chart.component.scss'],
-    imports: [TabModule, FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, ColorPickerModule, SwitchModule, NgFor, MultiSelectModule, ButtonModule, DialogModule]
+    imports: [FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, ColorPickerModule, SwitchModule, NgFor, MultiSelectModule, ButtonModule, DialogModule]
 })
 
 export class PropertyChartComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
+  activeTab: number = 0;
+  tabLabels: string[] = ['General', 'Dimension', 'Measure', 'Condition', 'Chart Props', 'X-Axis', 'Y1-Axis', 'Y2-Axis', 'Cond. Format'];
+  selectTab(i: number): void { this.activeTab = i; }
+
   @Input() getPanelObj: any;
-  @ViewChild('tabComponent', { static: true }) tab!: TabComponent;
   @Output() sendBoxObj = new EventEmitter()
 
   @Output() sendChartOBj = new EventEmitter();
@@ -29,6 +31,18 @@ export class PropertyChartComponent implements OnInit, OnChanges, OnDestroy, Aft
   @ViewChild('defaultDialog')
   defaultDialog!: DialogComponent;
   measureSeriesArray: any = [];
+  showToaster: boolean = false;
+  toasterMessage: string = '';
+  toasterType: 'success' | 'error' = 'error';
+  private toasterTimer: any;
+
+  showToasterMessage(message: string, type: 'success' | 'error' = 'error') {
+    this.toasterMessage = message;
+    this.toasterType = type;
+    this.showToaster = true;
+    clearTimeout(this.toasterTimer);
+    this.toasterTimer = setTimeout(() => { this.showToaster = false; }, 4000);
+  }
   ApiPanelSeriesArray: any[] = [];
   dimensionGroupingArray: any[] = [];
 
@@ -51,7 +65,113 @@ export class PropertyChartComponent implements OnInit, OnChanges, OnDestroy, Aft
   isSecondTableNameDisabled = false;
 
   fontWeights: number[] = [100, 200, 300, 400, 500, 600, 700, 800, 900];
+
+  dataLabelFormatOptions: { text: string; value: string }[] = [
+    { text: 'Select', value: '{value}' },
+    { text: 'Number (1000)', value: 'n' },
+    { text: 'Number (1000.0)', value: 'n1' },
+    { text: 'Number (1000.00)', value: 'n2' },
+    { text: 'Number (1000.000)', value: 'n3' },
+    { text: 'Percentage (1%)', value: 'p' },
+    { text: 'Percentage (1.0%)', value: 'p1' },
+    { text: 'Percentage (1.00%)', value: 'p2' },
+    { text: 'Percentage (1.000%)', value: 'p3' },
+    { text: 'Currency ($1000)', value: 'c' },
+    { text: 'Currency ($1000.0)', value: 'c1' },
+    { text: 'Currency ($1000.00)', value: 'c2' },
+    { text: 'Currency ($1000.000)', value: 'c3' },
+    { text: 'Thousands (K)', value: '{value}K' },
+    { text: 'Percentage (%)', value: '{value}%' },
+    { text: 'Millions (M)', value: '{value}M' },
+    { text: 'Currency ($)', value: '${value}' },
+  ];
+
   generalChartType: any = ["Column", "Line", "Area", "Pie"]
+
+  chartTypeOptions: { text: string; value: string }[] = [
+    { text: '-- Select --', value: '' },
+    { text: 'Column', value: 'Column' },
+    { text: 'Line', value: 'Line' },
+    { text: 'Area', value: 'Area' },
+    { text: 'Combine Chart', value: 'CombineChart' },
+    { text: 'Pie', value: 'Pie' },
+    { text: 'Donut', value: 'Donut' },
+    { text: 'Polar', value: 'Polar' },
+  ];
+
+  scrollbarPercentageOptions: { text: string; value: string }[] = [
+    { text: '1%', value: '0.01' }, { text: '2%', value: '0.02' }, { text: '3%', value: '0.03' },
+    { text: '4%', value: '0.04' }, { text: '5%', value: '0.05' }, { text: '6%', value: '0.06' },
+    { text: '7%', value: '0.07' }, { text: '8%', value: '0.08' }, { text: '9%', value: '0.09' },
+    { text: '10%', value: '0.1' }, { text: '20%', value: '0.2' }, { text: '30%', value: '0.3' },
+    { text: '40%', value: '0.4' }, { text: '50%', value: '0.5' }, { text: '60%', value: '0.6' },
+    { text: '70%', value: '0.7' }, { text: '80%', value: '0.8' }, { text: '90%', value: '0.9' },
+    { text: '100%', value: '1' },
+  ];
+
+  clickTypeOptions: { text: string; value: string }[] = [
+    { text: 'Single Click', value: 'Single' },
+    { text: 'Double Click', value: 'Double' },
+  ];
+
+  levelOptions: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+
+  orderByTypeOptions: string[] = ['ASC', 'DESC'];
+
+  tooltipFormatOptions: string[] = ['Percentage', 'Value'];
+
+  datalabelFormatChartOptions: { text: string; value: string }[] = [
+    { text: 'Percentage', value: 'Percentage' },
+    { text: 'Value', value: 'Value' },
+    { text: 'Both', value: 'Both' },
+    { text: 'Value With Label', value: 'ValueWithLabel' },
+    { text: 'Percentage With Label', value: 'ValueWithPercentage' },
+  ];
+
+  legendsPositionOptions: string[] = ['Top', 'Bottom', 'Left', 'Right'];
+
+  xAxisLabelFormatOptions: { text: string; value: string }[] = [
+    { text: 'yMMM', value: 'yMMM' },
+    { text: 'Year-Month (yy-MMM)', value: 'yy-MMM' },
+    { text: 'Year (y)', value: 'y' },
+    { text: 'Year-Month-Date', value: 'yMd' },
+    { text: 'Week Days', value: 'EEEE' },
+    { text: 'Month (MMM)', value: 'MMM' },
+    { text: 'Hours:Minutes', value: 'hm' },
+    { text: 'hms', value: 'hms' },
+    { text: 'dd MMM', value: 'dd MMM' },
+    { text: 'dd-MMM-yy', value: 'dd-MMM-yy' },
+  ];
+
+  labelPositionOptions: string[] = ['Outside', 'Inside'];
+
+  labelRotationOptions: string[] = ['30', '-45', '45', '60', '90', '120'];
+
+  labelIntersectActionOptions: string[] = ['Hide', 'Trim', 'Wrap', 'MultipleRows', 'Rotate45', 'Rotate90', 'None'];
+
+  labelPlacementOptions: string[] = ['OnTicks', 'BetweenTicks'];
+
+  yAxisLabelFormatOptions: { text: string; value: string }[] = [
+    { text: '%', value: '{value}%' },
+    { text: '$', value: '${value}' },
+    { text: '#', value: '{value}#' },
+    { text: '\u00b0C', value: '{value}\u00b0C' },
+    { text: '\u00b0F', value: '{value}\u00b0F' },
+    { text: 'K', value: '{value}K' },
+    { text: 'M', value: '{value}M' },
+    { text: 'MB', value: '{value}MB' },
+    { text: 'c', value: '{value}c' },
+  ];
+
+  conditionOptions: { text: string; value: string }[] = [
+    { text: 'Less Than', value: '<' },
+    { text: 'Between', value: 'Between' },
+    { text: 'Less Than Or Equal To', value: '<=' },
+    { text: 'Greater Than', value: '>' },
+    { text: 'Greater Than Or Equal To', value: '>=' },
+    { text: 'Equals', value: '=' },
+    { text: 'Not Equals', value: '!=' },
+  ];
 
   private readonly fb = inject(FormBuilder);
   private readonly chartService = inject(ChartService);
@@ -69,9 +189,7 @@ export class PropertyChartComponent implements OnInit, OnChanges, OnDestroy, Aft
     if (changes['getPanelObj']) {
       let currentValue = changes['getPanelObj'].currentValue;
       this.getPanelObj = currentValue;
-      if (this.tab) {
-        this.tab.selectedItem = 0;
-      }
+        this.activeTab = 0;
 
       let panelsArrData: any = sessionStorage.getItem('createPanelSeriesArray');
 
@@ -230,7 +348,6 @@ export class PropertyChartComponent implements OnInit, OnChanges, OnDestroy, Aft
               this.onTableDropdown(matchingPanel.content.tableName);
             }
             // Refresh tab component after data is loaded
-            this.refreshTabComponent();
           });
 
         }
@@ -238,8 +355,7 @@ export class PropertyChartComponent implements OnInit, OnChanges, OnDestroy, Aft
     }
 
   }
-  @ViewChild('rawQueryDimension')
-  rawQueryDimension!: DialogComponent;
+  showRawQueryDimensionDialog: boolean = false;
 
 
   columnsArr: any = [];
@@ -288,7 +404,7 @@ export class PropertyChartComponent implements OnInit, OnChanges, OnDestroy, Aft
       rawQuery: rawQueryValue
     });
 
-    this.rawQueryDimension.show();
+    this.showRawQueryDimensionDialog = true;
     console.log(item, index, level);
   }
 
@@ -314,21 +430,11 @@ export class PropertyChartComponent implements OnInit, OnChanges, OnDestroy, Aft
       }
     });
 
-    this.rawQueryDimension.hide();
+    this.showRawQueryDimensionDialog = false;
   }
 
   ngAfterViewInit() {
     // Initial tab refresh
-    this.refreshTabComponent();
-  }
-
-  refreshTabComponent() {
-    // Force tab component to refresh and recalculate its width
-    setTimeout(() => {
-      if (this.tab) {
-        this.tab.refresh();
-      }
-    }, 100);
   }
 
   onAddGrouping() {
@@ -364,6 +470,7 @@ export class PropertyChartComponent implements OnInit, OnChanges, OnDestroy, Aft
 
 
     this.dimensionGroupingArray.push(obj);
+    this.showToaster = false;
 
     // Reset form controls except for 'tableName'
     for (const controlName in dimensionFormGroup.controls) {
@@ -619,8 +726,8 @@ export class PropertyChartComponent implements OnInit, OnChanges, OnDestroy, Aft
 
 selectedConditionType : string = '';
   onSelectCondtionFormatValue(eve: any) {
-    let value = eve.target.value;
-    this.selectedConditionType = value
+    let value = eve.value ?? eve.target?.value;
+    this.selectedConditionType = value;
   }
 
 
@@ -820,6 +927,7 @@ selectedConditionType : string = '';
 
     // Push the new object to the array
     this.measureSeriesArray.push(newSeries);
+    this.showToaster = false;
 
     // Reset form controls except for 'tableName'
     const measureFormGroup = this.dashboardCreationForm.get('measure');
@@ -873,6 +981,18 @@ selectedConditionType : string = '';
     let id = this.getPanelObj.id;
     let formValue = this.dashboardCreationForm.value;
     // console.log(formValue, 'chartObj');
+
+    if (!this.dimensionGroupingArray || this.dimensionGroupingArray.length === 0) {
+      this.showToasterMessage('At least one dimension is required. Please add a dimension before applying.');
+      this.activeTab = 1;
+      return false;
+    }
+
+    if (!this.measureSeriesArray || this.measureSeriesArray.length === 0) {
+      this.showToasterMessage('At least one measure series is required. Please add a series before applying.');
+      this.activeTab = 2;
+      return false;
+    }
 
     if (this.dashboardCreationForm.invalid) {
       console.log(this.dashboardCreationForm.invalid);

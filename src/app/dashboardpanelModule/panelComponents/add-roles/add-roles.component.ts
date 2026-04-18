@@ -2,12 +2,11 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { Component, HostListener, OnInit, ViewChild, inject} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DialogComponent, AnimationSettingsModel, DialogModule } from '@syncfusion/ej2-angular-popups';
 
 import { ChartService } from 'src/app/core/services/chart.service';
 import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.service';
 import { RoleBasedPermissionComponent } from '../role-based-permission/role-based-permission.component';
-import { GridComponent, GridModule } from '@syncfusion/ej2-angular-grids';
+import { GridComponent, GridModule, PageService, GroupService, SortService, FilterService, ResizeService, ReorderService, ColumnMenuService, ExcelExportService as GridExcelExportService, PdfExportService as GridPdfExportService, ToolbarService as GridToolbarService } from '@syncfusion/ej2-angular-grids';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PopupService } from 'src/app/core/services/popup.service';
@@ -33,25 +32,38 @@ import { KanbanModule } from '@syncfusion/ej2-angular-kanban';
         ])
     ],
     styleUrls: ['./add-roles.component.scss'],
-    imports: [FormsModule, NgIf, ButtonModule, GridModule, ChartModule, KanbanModule, NgStyle, DialogModule, ReactiveFormsModule, SwitchModule, RoleBasedPermissionComponent, NgFor, MultipleDashboardRolePermissionComponent]
+    providers: [PageService, GroupService, SortService, FilterService, ResizeService, ReorderService, ColumnMenuService, GridExcelExportService, GridPdfExportService, GridToolbarService],
+    imports: [FormsModule, NgIf, ButtonModule, GridModule, ChartModule, KanbanModule, NgStyle, ReactiveFormsModule, SwitchModule, RoleBasedPermissionComponent, NgFor, MultipleDashboardRolePermissionComponent]
 })
 
 export class AddRolesComponent implements OnInit {
 
   registrationForm!: FormGroup;
 
-  @ViewChild('defaultDialog')
-  defaultDialog!: DialogComponent;
-  @ViewChild('roleDialogBox')
-  roleDialogBox!: DialogComponent;
-  @ViewChild('roleDbPermissionDlgBox')
-  roleDbPermissionDlgBox!: DialogComponent;
-  @ViewChild('multipleDbPermission')
-  multipleDbPermission!: DialogComponent;
-  
-  
   @ViewChild(RoleBasedPermissionComponent) RoleBasedPermissionComponent!: RoleBasedPermissionComponent;
   @ViewChild(MultipleDashboardRolePermissionComponent) MultipleDashboardRolePermissionComponent!: MultipleDashboardRolePermissionComponent;
+
+  showDefaultDialog = false;
+  showRoleDialog = false;
+  showDbPermissionDialog = false;
+  showMultipleDbPermission = false;
+  isModalClosing = false;
+
+  private openModal(modalFlag: 'showDefaultDialog' | 'showRoleDialog' | 'showDbPermissionDialog' | 'showMultipleDbPermission'): void {
+    (this as any)[modalFlag] = true;
+    document.body.classList.add('ar-modal-open');
+  }
+
+  private closeModalWithAnimation(modalFlag: 'showDefaultDialog' | 'showRoleDialog' | 'showDbPermissionDialog' | 'showMultipleDbPermission'): void {
+    this.isModalClosing = true;
+    setTimeout(() => {
+      (this as any)[modalFlag] = false;
+      this.isModalClosing = false;
+      if (!this.showDefaultDialog && !this.showRoleDialog && !this.showDbPermissionDialog && !this.showMultipleDbPermission) {
+        document.body.classList.remove('ar-modal-open');
+      }
+    }, 250);
+  }
 
   
   sendRoleObj: any;
@@ -63,7 +75,6 @@ export class AddRolesComponent implements OnInit {
   dialogCloseIcon: Boolean = true;
   dialogWidth: string = '400px';
   dialogdragging: Boolean = true;
-  animationSettings: AnimationSettingsModel = { effect: 'Zoom' };
   isModal: Boolean = true;
   target: string = '.control-section';
   visible: Boolean = false;
@@ -79,10 +90,36 @@ export class AddRolesComponent implements OnInit {
     this.isActiveToggle = true;
     this.submitFlag = true;
     this.updateFlag = false;
-    this.defaultDialog.show();
-    this.dialogOpen();
+    this.openModal('showDefaultDialog');
     this.formTitle = "Add Role"
+  }
 
+  closeDefaultDialog(): void {
+    this.closeModalWithAnimation('showDefaultDialog');
+  }
+
+  closeRoleDialog(): void {
+    this.closeModalWithAnimation('showRoleDialog');
+  }
+
+  closeDbPermissionDialog(): void {
+    this.closeModalWithAnimation('showDbPermissionDialog');
+  }
+
+  closeMultipleDbPermission(): void {
+    this.closeModalWithAnimation('showMultipleDbPermission');
+  }
+
+  roleDialogBox_show(): void {
+    this.openModal('showRoleDialog');
+  }
+
+  roleDbPermissionDlgBox_show(): void {
+    this.openModal('showDbPermissionDialog');
+  }
+
+  showMultipleDbPermission_open(): void {
+    this.openModal('showMultipleDbPermission');
   }
 
   dialogClose = (): void => {
@@ -394,7 +431,7 @@ export class AddRolesComponent implements OnInit {
     this.formTitle = "Update Role"
 
     console.log(data)
-    this.defaultDialog.show();
+    this.openModal('showDefaultDialog');
 
     this.chartService.getRoleDetailsByRolename(data.role).subscribe((res: any) => {
       let data = res['data'];
@@ -451,7 +488,7 @@ export class AddRolesComponent implements OnInit {
       role_id: matchRoleId.id,
       role: matchRoleId.role
     }
-    this.roleDialogBox.show();
+    this.roleDialogBox_show();
     this.sendRoleObj = obj;
     
     this.chartService.getroleBasedPermissionByroleId(obj.role_id).subscribe((res: any) => {
@@ -502,7 +539,7 @@ export class AddRolesComponent implements OnInit {
 
   onUpdateRolebasedForm() {
     this.RoleBasedPermissionComponent.onUpdateForm();
-    this.roleDialogBox.hide();
+    this.showRoleDialog = false;
     this.formTitle = "Add Role"
 
     // this.refreshPage()
@@ -510,7 +547,7 @@ export class AddRolesComponent implements OnInit {
 
   onDeleteRolebasedForm(){
     this.RoleBasedPermissionComponent.deletePermission();
-    this.roleDialogBox.hide();
+    this.showRoleDialog = false;
   }
 
 
@@ -628,7 +665,7 @@ export class AddRolesComponent implements OnInit {
         this.chartService.createRole(apiObj).subscribe(
           (res: any) => {
             console.log('res', res);
-            this.defaultDialog.hide();
+            this.showDefaultDialog = false;
             this.registrationForm.reset({ role: '', description: '' });
             this.isActiveToggle = true;
             this.loadRoles();
@@ -672,7 +709,7 @@ export class AddRolesComponent implements OnInit {
     const updatedObj = this.registrationForm.value;
     this.submitFlag = true;
     this.updateFlag = false;
-    this.defaultDialog.hide();
+    this.showDefaultDialog = false;
     console.log(updatedObj)
 
     if (this.registrationForm.valid) {
@@ -721,7 +758,7 @@ export class AddRolesComponent implements OnInit {
   }
   onRoleBasedFormSubmit() {
     this.RoleBasedPermissionComponent.onFormSubmit();
-    this.roleDialogBox.hide();
+    this.showRoleDialog = false;
     // this.refreshPage()
   }
   getResponseMessage(eve: any) {
@@ -741,7 +778,7 @@ dashboardPermissionsList : any
 openDashboardPopup(data : any){
     console.log('data', data);
     this.RoleName = "Dashboard Permissions For Role : " +  data.role
-    this.roleDbPermissionDlgBox.show();
+    this.roleDbPermissionDlgBox_show();
 
     this.chartService.getAllRoleDashboardPermissionByRoleid(data.id).subscribe(
       (res: any) => {
@@ -778,7 +815,7 @@ isUpdateDashboardFlag: boolean = false;
       role_id: matchRoleId.id,
       role: matchRoleId.role
     }
-    this.multipleDbPermission.show();
+    this.showMultipleDbPermission_open();
     this.sendRoleObjToPermissionPage = obj;
 
     // this.chartService.getAllRoleDashboardPermissionByRoleid(currentValue.role_id)
@@ -817,13 +854,13 @@ isUpdateDashboardFlag: boolean = false;
 
 onDashboardRoleSubmit(){
   this.MultipleDashboardRolePermissionComponent.submitPermissions();
-  this.multipleDbPermission.hide();
+  this.showMultipleDbPermission = false;
  
 }
 
 onDashboardRoleUpdate(){
   this.MultipleDashboardRolePermissionComponent.updatePermissions();
-  this.multipleDbPermission.hide();
+  this.showMultipleDbPermission = false;
  
 }
 

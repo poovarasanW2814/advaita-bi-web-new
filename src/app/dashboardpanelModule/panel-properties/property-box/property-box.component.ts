@@ -1,6 +1,5 @@
-﻿import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TabComponent, TabModule } from '@syncfusion/ej2-angular-navigations';
 import { DataManager } from '@syncfusion/ej2-data';
 import { Draggable } from '@syncfusion/ej2/base';
 import { ChartService } from 'src/app/core/services/chart.service';
@@ -13,14 +12,27 @@ import { SwitchModule } from '@syncfusion/ej2-angular-buttons';
     selector: 'app-property-box',
     templateUrl: './property-box.component.html',
     styleUrls: ['./property-box.component.scss'],
-    imports: [TabModule, FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, ColorPickerModule, SwitchModule, NgFor]
+    imports: [FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, ColorPickerModule, SwitchModule, NgFor]
 })
 
 export class PropertyBoxComponent implements OnInit, OnChanges {
+  activeTab: number = 0;
+  tabLabels: string[] = ['General', 'Measure', 'Condition', 'Raw Query'];
+  selectTab(i: number): void { this.activeTab = i; }
+
+  valueFormatOptions: any[] = [
+    { text: 'None', value: '' },
+    { text: 'Currency (USD)', value: 'currency-usd' },
+    { text: 'Currency (INR)', value: 'currency-inr' },
+    { text: 'Percent', value: 'percent' },
+    { text: 'Decimal', value: 'decimal' },
+    { text: 'Round-2', value: 'round-2' },
+    { text: 'Round-3', value: 'round-3' }
+  ];
+  valueFormatFields: any = { text: 'text', value: 'value' };
+
   @Input() getPanelObj : any;
   @Output() sendBoxObj = new EventEmitter()
-
-  @ViewChild('tabComponent') tab! : TabComponent
   public headerText: any = [{ text: "General" },
   { text: "Measure" }, { text: "Condition" }, { text: "Raw Query" }];
   @ViewChild('selectedtablelist',{static: false})element:any;
@@ -163,10 +175,7 @@ export class PropertyBoxComponent implements OnInit, OnChanges {
     console.log(currentValue);
     
     if (currentValue != undefined || currentValue != null) {
-  
-      if (this.tab) {
-        this.tab.selectedItem = 0;
-      }
+        this.activeTab = 0;
       let panelsArrData: any = sessionStorage.getItem('createPanelSeriesArray');
       // let panelsArrData: any = localStorage.getItem('createPanelSeriesArray');
       this.panelSeriesArray = panelsArrData

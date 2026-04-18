@@ -57,6 +57,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   showChatPopup: boolean = false;
+  isDashboardViewRoute: boolean = false;
+  isRoleRoute: boolean = false;
   userEmail: string = '';
   userMessage: string = '';
   loggedUserInformationData: any;
@@ -288,9 +290,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.applySidebarLayout();
     this.sidebarIsOpen = this.windowWidth > 1024;
 
+    this.updateRouteFlags(this.router.url);
+
     this.router.events.pipe(
       filter(_ => _ instanceof NavigationEnd) // Use _ to indicate that the variable is not used
     ).subscribe(() => { // Remove event parameter as it's not used
+      this.updateRouteFlags(this.router.url);
       // Reset sidebar height whenever navigation changes
       this.resetSidebarHeight();
       if (this.windowWidth <= 1024) {
@@ -517,6 +522,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
     const arr = this.dashboardBasedPermssionArray || [];
     // ensure safe access, include superadmin override
     return arr.filter((d: any) => !!d?.can_view || this.role === 'superadmin');
+  }
+
+  private updateRouteFlags(url: string): void {
+    const safeUrl = url || '';
+    this.isDashboardViewRoute = safeUrl.includes('/panel/panelView/');
+    this.isRoleRoute = safeUrl.includes('/panel/role');
   }
 
 

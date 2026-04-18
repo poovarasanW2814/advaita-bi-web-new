@@ -53,208 +53,143 @@
     </ejs-grid>
   </div>
 
-  <ejs-dialog id="defaultDialog" #defaultDialog [isModal]='isModal' [visible]='visible' [header]="'Add Table Join'"
-    [allowDragging]='dialogdragging' [animationSettings]='animationSettings' [showCloseIcon]='dialogCloseIcon'
-    (open)="dialogOpen()" (close)="dialogClose()" [target]='target' [width]='dialogWidth'>
-    <div class=" registrationforms">
+  @if (showJoinDialog) {
+  <div class="cd-modal-backdrop" (click)="showJoinDialog = false"></div>
+  <div class="cd-modal cd-modal-xl">
+    <div class="cd-modal-header">
+      <div class="cd-modal-header-icon"><i class="bi bi-intersect"></i></div>
+      <h3 class="cd-modal-title">Add Table Join</h3>
+      <button class="cd-modal-close" type="button" (click)="showJoinDialog = false" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="cd-modal-body registrationforms">
       <form id="metadata_create_form_id" [formGroup]="myForm" (ngSubmit)="onSubmit()">
-
         <div class="modal-body metadeta-firstpopup">
-          <!-- <div class="first-process">
-          <div class="row first-row">
-            <div class="col-md-6 dataset_form">
-              <div class="form-group">
-                <label for="" class="inputLabel">Table Join Name*</label>
-                <input type="text" class="form-control inputBox "
-                  formControlName="jointTableName">
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div>
-
-                </div>
-              </div>
-              <div class="col-md-2 dataset_form">
-                <div class="form-group">
-                  <label for="">Add Row</label>
-                  <button class="e-btn e-btn-purple" type="button" (click)="addTableJoint()">
-                    Add Row
-                  </button>
-                </div>
-              </div>
-            </div>
-
-          </div> -->
           <div class="row">
             <div class="col-md-6 dataset_form">
               <div class="form-group">
                 <label for="" class="inputLabel">Table Join Name </label>
-                <input type="text" class="form-control inputBox "
-                  formControlName="table_join_name">
-                </div>
+                <input type="text" class="form-control inputBox" formControlName="table_join_name">
               </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="connectionName"  class="inputLabel">Connection Name</label>
-                  <select name="" id="" (change)="onConnectionNameSelect($event)" formControlName="connection_id"
-                    class="form-control inputBox">
-                    <option value=""></option>
-                    <option [value]="'internal' + '-' + 0">{{ 'internal' }}</option>
-                    @for (dbName of connectionDetailsArray; track dbName; let i = $index) {
-                      <option [value]="dbName.connection_id "
-                        >{{dbName.connection_name}}
-                      </option>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="connectionName" class="inputLabel">Connection Name</label>
+                <select name="" id="" (change)="onConnectionNameSelect($event)" formControlName="connection_id" class="form-control inputBox">
+                  <option value=""></option>
+                  <option [value]="'internal' + '-' + 0">{{ 'internal' }}</option>
+                  @for (dbName of connectionDetailsArray; track dbName; let i = $index) {
+                    <option [value]="dbName.connection_id">{{dbName.connection_name}}</option>
+                  }
+                </select>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="jointableDiv">
+              <div class="row joinTableMainDiv">
+                <div class="col-md-4 form-group">
+                  <label for="" class="inputLabel">Select Primary Table </label>
+                  <select name="" id="" class="form-control inputBox" formControlName="primaryTableName" #tableNameDropdown (click)="onTableDropdown(tableNameDropdown.value)">
+                    <option value="">Select</option>
+                    @for (name of tableNamesArray; track name; let i = $index) {
+                      <option [value]="name">{{name}}</option>
                     }
-
                   </select>
                 </div>
+                <div class="col-md-4 form-group">
+                  <div id="metadata_create_join_type">
+                    <label for="" class="inputLabel">Select Join Type </label>
+                    <select class="form-control inputBox" formControlName="join_type">
+                      <option value="">Join Type</option>
+                      <option value="left">Left</option>
+                      <option value="right">Right</option>
+                      <option value="inner">Inner JOIN</option>
+                      <option value="outer"> OUTER JOIN</option>
+                      <option value="cross"> Cross JOIN</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4 form-group">
+                  <label for="" class="inputLabel">Select Secondary Table </label>
+                  <select name="" id="" class="form-control inputBox" formControlName="secondaryTableName" #tableNameTwoDropdown (click)="onTableTwoDropdown(tableNameTwoDropdown.value)">
+                    <option value="">Select</option>
+                    @for (name of tableNamesArray; track name; let i = $index) {
+                      <option [value]="name">{{name}}</option>
+                    }
+                  </select>
+                </div>
+                <div class="col-md-4 form-group">
+                  <div class="form-group">
+                    <label for="" class="inputLabel">Primary Table Alias Name </label>
+                    <input type="text" class="form-control inputBox" formControlName="primary_table_alias">
+                  </div>
+                </div>
+                <div class="col-md-4 form-group"></div>
+                <div class="col-md-4 form-group">
+                  <div class="form-group">
+                    <label for="" class="inputLabel">Secondary Table Alias Name </label>
+                    <input type="text" class="form-control inputBox" formControlName="secondary_table_alias">
+                  </div>
+                </div>
               </div>
-
-            </div>
-            <div>
-
-              <div
-                class="jointableDiv">
-
-                <div class="row joinTableMainDiv" >
-                  <div class="col-md-4 form-group">
-                    <label for="" class="inputLabel">Select Primary Table </label>
-
-                    <select name="" id="" class="form-control  inputBox" formControlName="primaryTableName"
-                      #tableNameDropdown (click)="onTableDropdown(tableNameDropdown.value)">
-                      <option value="">Select</option>
-                      @for (name of tableNamesArray; track name; let i = $index) {
-                        <option [value]="name">{{name}}</option>
-                      }
-                    </select>
-                  </div>
-                  <div class="col-md-4 form-group">
-                    <div id="metadata_create_join_type">
-                      <label for="" class="inputLabel">Select Join Type </label>
-
-                      <select class="form-control inputBox" formControlName="join_type">
-
-                        <option value="">Join Type</option>
-                        <option value="left">Left</option>
-
-                        <option value="right">Right</option>
-
-                        <option value="inner">Inner JOIN</option>
-
-                        <option value="outer"> OUTER JOIN</option>
-
-                        <option value="cross"> Cross JOIN</option>
-
-
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-md-4 form-group">
-                    <label for="" class="inputLabel">Select Secondary Table </label>
-
-                    <select name="" id="" class="form-control inputBox" formControlName="secondaryTableName"
-                      #tableNameTwoDropdown (click)="onTableTwoDropdown(tableNameTwoDropdown.value)">
-                      <option value="">Select</option>
-
-                      @for (name of tableNamesArray; track name; let i = $index) {
-                        <option [value]="name">{{name}}</option>
-                      }
-                    </select>
-                  </div>
-                  <div class="col-md-4 form-group">
-                    <div class="form-group">
-                      <label for="" class="inputLabel">Primary Table Alias Name </label>
-                      <input type="text" class="form-control inputBox "
-                        formControlName="primary_table_alias">
+              <div formArrayName="tableJointsArr">
+                @for (tbleJoint of tableJointsArrControls; track tbleJoint; let i = $index) {
+                  <ng-container [formGroupName]="i">
+                    <div class="row" style="margin-bottom: 6px;">
+                      <div class="col-md-3">
+                        <select name="" id="" formControlName="primary_table_param" class="form-control inputBox">
+                          <option value="">--Select--</option>
+                          @for (name of selectedTableFieldName; track name; let i = $index) {
+                            <option [value]="name">{{name}}</option>
+                          }
+                        </select>
                       </div>
-                    </div>
-                    <div class="col-md-4 form-group">
-
-                    </div>
-                    <div class="col-md-4 form-group">
-                      <div class="form-group">
-                        <label for="" class="inputLabel">Secondary Table Alias Name  </label>
-                        <input type="text" class="form-control inputBox "
-                          formControlName="secondary_table_alias">
+                      <div class="col-md-3">
+                        <select class="form-control inputBox" formControlName="operator">
+                          <option value="">Select Operator</option>
+                          <option value="=">=</option>
+                          <option value="<="><=</option>
+                          <option value=">=">>=</option>
+                          <option value=""> !=</option>
+                          <option value="<"> <</option>
+                          <option value=">"> ></option>
+                        </select>
+                      </div>
+                      <div class="col-md-3">
+                        <select name="" id="" formControlName="secondary_table_param" class="form-control inputBox">
+                          <option value="">--Select--</option>
+                          @for (name of selectedSecondaryTableFieldNameArr; track name; let i = $index) {
+                            <option [value]="name">{{name}}</option>
+                          }
+                        </select>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="fieldBtns">
+                          <span id="target2" type="button" (click)="addTableJoint()" style="display: inline-block; margin-right:10px"><i class="bi bi-plus-circle"></i></span>
+                          @if (i > 0) {
+                            <span (click)="removeTableJoint(i)"><i class="bi bi-dash-circle"></i></span>
+                          }
                         </div>
                       </div>
-
                     </div>
-                    <div formArrayName="tableJointsArr">
-                      @for (tbleJoint of tableJointsArrControls; track tbleJoint; let i = $index) {
-                        <ng-container   [formGroupName]="i">
-                          <div class="row" style="margin-bottom: 6px;">
-                            <div class="col-md-3">
-                              <select name="" id="" formControlName="primary_table_param"
-                                class="form-control inputBox">
-                                <option value="">--Select--</option>
-                                @for (name of selectedTableFieldName; track name; let i = $index) {
-                                  <option [value]="name">
-                                    {{name}}
-                                  </option>
-                                }
-                              </select>
-                            </div>
-                            <div class="col-md-3">
-                              <select class="form-control inputBox" formControlName="operator">
-                                <option value="">Select Operator</option>
-                                    <option value="=">
-                                       = </option>
-                                    <option value="<=">
-                                       <= </option>
-                                    <option value=">="> >= </option>
-                                    <option value=""> != </option>
-                                    <option value="<"> < </option>
-                                    <option value=">"> > </option>
-                                 </select>
-                              </div>
-                              <div class="col-md-3">
-
-                                 <select name="" id="" formControlName="secondary_table_param"
-                                    class="form-control inputBox">
-                                <option value="">--Select--</option>
-                                @for (name of selectedSecondaryTableFieldNameArr; track name; let i = $index) {
-                                  <option [value]="name">
-                                    {{name}}
-                                  </option>
-                                }
-                              </select>
-                            </div>
-                            <div class="col-md-3">
-                              <div class="fieldBtns">
-                                <span id="target2" type="button" (click)="addTableJoint()"
-                                  style="display: inline-block; margin-right:10px">
-                                  <i class="bi bi-plus-circle"></i>
-                                </span>
-                                @if (i > 0) {
-                                  <span (click)="removeTableJoint(i)">
-                                    <i class="bi bi-dash-circle"></i>
-                                  </span>
-                                }
-                              </div>
-                            </div>
-                          </div>
-                        </ng-container>
-                      }
-                    </div>
-
-                  </div>
-
-                </div>
-                <div class="mt_28 d-flex" style="text-align: right;">
-                  @if (submitFlag) {
-                    <button class="e-btn e-btn-purple" id="create_btn" type="submit">Create</button>
-                  }
-                  @if (updateFlag) {
-                    <button class="e-btn e-btn-purple" (click)="updateTableJoin()" id="update_btn" type="button">Update</button>
-                  }
-
-                </div>
+                  </ng-container>
+                }
               </div>
-            </form>
-
+            </div>
           </div>
-        </ejs-dialog>
+          <div class="cd-modal-footer-inline" style="margin-top:8px">
+            @if (submitFlag) {
+              <button class="cd-btn cd-btn-sm cd-btn-primary" id="create_btn" type="submit">Create</button>
+            }
+            @if (updateFlag) {
+              <button class="cd-btn cd-btn-sm cd-btn-primary" (click)="updateTableJoin()" id="update_btn" type="button">Update</button>
+            }
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
 
         <!-- <div class="popup" id="popup">
         <div class="popup-content">

@@ -90,62 +90,50 @@
 
 
 
-
-  <ejs-dialog id="defaultDialog" #defaultDialog [isModal]='isModal' [visible]='visible' [header]="formTitle"
-    [allowDragging]='dialogdragging' [animationSettings]='animationSettings' [showCloseIcon]='dialogCloseIcon'
-    (open)="dialogOpen()" (close)="dialogClose()" [target]='target' [width]='dialogWidth' height="350">
-    <div class=" registrationform">
-
-      <div>
-
+  <!-- Add/Edit Role Modal -->
+  @if (showDefaultDialog) {
+    <div class="ar-modal-backdrop" [class.closing]="isModalClosing" (click)="closeDefaultDialog()"></div>
+    <div class="ar-modal ar-modal-sm" [class.closing]="isModalClosing">
+      <div class="ar-modal-header">
+        <h3 class="ar-modal-title">{{ formTitle }}</h3>
+        <button type="button" class="ar-modal-close" (click)="closeDefaultDialog()">&times;</button>
+      </div>
+      <div class="ar-modal-body">
         <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-
           <div class="formInfo">
             <div class="row">
-
-
               <div class="col-md-12 form-group">
                 <div class="inputValue">
-                  <label class="labelName"> Role <span style="color:red; font-size: 14px;font-weight:600">*</span>
-                  </label>
+                  <label class="labelName">Role <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
                   <input type="text" formControlName="role" (input)="onRoleSerach($event)" class="form-control">
                   <div class="validation-error"
                     *ngIf="registrationForm.get('role')!.invalid && (registrationForm.get('role')!.touched || registrationForm.get('role')!.dirty)">
                     Role is required
                   </div>
-
                   <div class="validation-error" *ngIf="roleValid">
                     {{ roleErrorMessage }}
                   </div>
-
                 </div>
               </div>
               <div class="col-md-12 form-group">
                 <div class="inputValue">
-                  <label class="labelName"> Description </label>
-                  <!-- <input  type="text" formControlName="description" class="form-control"  (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" /> -->
-
-                  <textarea name="" id="" cols="48" rows="3" style=" border: 1px solid #ccc; border-radius: 4px;"
+                  <label class="labelName">Description</label>
+                  <textarea cols="48" rows="3" style="border: 1px solid #ccc; border-radius: 4px;"
                     formControlName="description"></textarea>
                   <div class="validation-error"
                     *ngIf="registrationForm.get('description')!.invalid && (registrationForm.get('description')!.touched || registrationForm.get('description')!.dirty)">
                     Description is required
                   </div>
-
-
                 </div>
               </div>
               <div class="col-md-12">
-                <label for="" class="labelName" style="display: block;" style="display: block;">Active</label>
-                <!-- <input type="checkbox" cssClass="e-small"  formControlName="is_active"> -->
+                <label class="labelName" style="display: block;">Active</label>
                 <ejs-switch cssClass="bar-color" [(checked)]="isActiveToggle"></ejs-switch>
               </div>
-
               <div class="col-md-12" style="margin-top:10px">
                 <div [align]="'right'">
                   <button type="submit" *ngIf="submitFlag" ejs-button class="e-btn e-btn-purple">Submit</button>
-                  <button type="button" *ngIf="updateFlag" ejs-button (click)="onUpdate()"
-                    class="e-btn e-btn-purple">Update</button>
+                  <button type="button" *ngIf="updateFlag" ejs-button (click)="onUpdate()" class="e-btn e-btn-purple">Update</button>
                 </div>
               </div>
             </div>
@@ -153,49 +141,51 @@
         </form>
       </div>
     </div>
-  </ejs-dialog>
+  }
 
-  <ejs-dialog id="roleDialogBox" #roleDialogBox [isModal]='isModal' [visible]='visible' [header]="'Role Permissions'"
-    [allowDragging]='dialogdragging' [animationSettings]='animationSettings' [showCloseIcon]='dialogCloseIcon'
-    (open)="dialogOpen()" (close)="dialogClose()" [target]='target' [width]='900'>
-
-    <ng-template #content>
-      <div class="accessDiv">
-        <app-role-based-permission [getRoleObj]="sendRoleObj"
-          (resMessage)="getResponseMessage($event)"></app-role-based-permission>
+  <!-- Role Permissions Modal -->
+  @if (showRoleDialog) {
+    <div class="ar-modal-backdrop" [class.closing]="isModalClosing" (click)="closeRoleDialog()"></div>
+    <div class="ar-modal ar-modal-lg" [class.closing]="isModalClosing">
+      <div class="ar-modal-header">
+        <h3 class="ar-modal-title">Role Permissions</h3>
+        <button type="button" class="ar-modal-close" (click)="closeRoleDialog()">&times;</button>
       </div>
-    </ng-template>
+      <div class="ar-modal-body">
+        <div class="accessDiv">
+          <app-role-based-permission [getRoleObj]="sendRoleObj"
+            (resMessage)="getResponseMessage($event)"></app-role-based-permission>
+        </div>
+      </div>
+      <div class="ar-modal-footer">
+        <button class="e-btn e-btn-purple"
+          *ngIf="((!roleBasedAccessObj || roleBasedAccessObj?.can_create) !== false) && submitRolePermissionBtn"
+          (click)="onRoleBasedFormSubmit()">
+          Submit
+        </button>
+        <button class="e-btn e-btn-purple"
+          *ngIf="((!roleBasedAccessObj || roleBasedAccessObj?.can_update) !== false) && updateRolePermissionBtn"
+          (click)="onUpdateRolebasedForm()">
+          Update
+        </button>
+        <button class="e-btn e-btn-purple"
+          *ngIf="((!roleBasedAccessObj || roleBasedAccessObj?.can_delete) !== false) && updateRolePermissionBtn"
+          (click)="onDeleteRolebasedForm()">
+          Delete
+        </button>
+      </div>
+    </div>
+  }
 
-    <ng-template #footerTemplate>
-      <button class="e-btn e-btn-purple"
-        *ngIf="((!roleBasedAccessObj || roleBasedAccessObj?.can_create) !== false) && submitRolePermissionBtn"
-        (click)="onRoleBasedFormSubmit()">
-        Submit
-      </button>
-
-      <button class="e-btn e-btn-purple"
-        *ngIf="((!roleBasedAccessObj || roleBasedAccessObj?.can_update) !== false) && updateRolePermissionBtn"
-        (click)="onUpdateRolebasedForm()">
-        Update
-      </button>
-
-       <button class="e-btn e-btn-purple"
-        *ngIf="((!roleBasedAccessObj || roleBasedAccessObj?.can_delete) !== false) && updateRolePermissionBtn"
-        (click)="onDeleteRolebasedForm()">
-        Delete
-      </button>
-
-
-    </ng-template>
-
-  </ejs-dialog>
-
-  <ejs-dialog id="roleDbPermissionDlgBox" #roleDbPermissionDlgBox [isModal]='isModal' [visible]='visible'
-    [header]="RoleName" [allowDragging]='dialogdragging' [animationSettings]='animationSettings'
-    [showCloseIcon]='dialogCloseIcon' [target]='target' [width]='1000' height="450">
-
-    <ng-template #content>
-      <div>
+  <!-- Dashboard Permissions View Modal -->
+  @if (showDbPermissionDialog) {
+    <div class="ar-modal-backdrop" [class.closing]="isModalClosing" (click)="closeDbPermissionDialog()"></div>
+    <div class="ar-modal ar-modal-xl" [class.closing]="isModalClosing">
+      <div class="ar-modal-header">
+        <h3 class="ar-modal-title">{{ RoleName }}</h3>
+        <button type="button" class="ar-modal-close" (click)="closeDbPermissionDialog()">&times;</button>
+      </div>
+      <div class="ar-modal-body">
         <div style="padding:10px 5px">
           <table class="table table-striped">
             <thead>
@@ -220,40 +210,35 @@
             </tbody>
           </table>
         </div>
-
       </div>
-    </ng-template>
+    </div>
+  }
 
-
-
-  </ejs-dialog>
-
-
-  <ejs-dialog id="multipleDbPermission" #multipleDbPermission [isModal]='isModal' [visible]='visible'
-    [header]="RoleName" [allowDragging]='dialogdragging' [animationSettings]='animationSettings'
-    [showCloseIcon]='dialogCloseIcon' [target]='target' [width]='1000' height="450">
-
-    <ng-template #content>
-      <div>
+  <!-- Multiple Dashboard Permission Modal -->
+  @if (showMultipleDbPermission) {
+    <div class="ar-modal-backdrop" [class.closing]="isModalClosing" (click)="closeMultipleDbPermission()"></div>
+    <div class="ar-modal ar-modal-xl" [class.closing]="isModalClosing">
+      <div class="ar-modal-header">
+        <h3 class="ar-modal-title">{{ RoleName }}</h3>
+        <button type="button" class="ar-modal-close" (click)="closeMultipleDbPermission()">&times;</button>
+      </div>
+      <div class="ar-modal-body">
         <app-multiple-dashboard-role-permission [getRoleObj]="sendRoleObjToPermissionPage"
           (resMessage)="getResponseMessage($event)"></app-multiple-dashboard-role-permission>
       </div>
-    </ng-template>
-
-    <ng-template #footerTemplate>
-      <button class="e-btn e-btn-purple"
-        *ngIf="((!roleDashboardPermissionObj || roleDashboardPermissionObj?.can_create) !== false) && isSubmitDashboardFlag"
-        (click)="onDashboardRoleSubmit()">
-        Submit
-      </button>
-
-      <button class="e-btn e-btn-purple"
-        *ngIf="((!roleDashboardPermissionObj || roleDashboardPermissionObj?.can_update) !== false) && isUpdateDashboardFlag"
-        (click)="onDashboardRoleUpdate()">
-        Update
-      </button>
-    </ng-template>
-
-  </ejs-dialog>
+      <div class="ar-modal-footer">
+        <button class="e-btn e-btn-purple"
+          *ngIf="((!roleDashboardPermissionObj || roleDashboardPermissionObj?.can_create) !== false) && isSubmitDashboardFlag"
+          (click)="onDashboardRoleSubmit()">
+          Submit
+        </button>
+        <button class="e-btn e-btn-purple"
+          *ngIf="((!roleDashboardPermissionObj || roleDashboardPermissionObj?.can_update) !== false) && isUpdateDashboardFlag"
+          (click)="onDashboardRoleUpdate()">
+          Update
+        </button>
+      </div>
+    </div>
+  }
 
 </div>

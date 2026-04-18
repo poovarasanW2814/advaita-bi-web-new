@@ -11,7 +11,7 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 export class LoaderComponent implements OnInit {
 
 
-  isVisible: boolean = true;
+  isVisible: boolean = false;
   animation: AnimationModel = { enable: true, duration: 200, delay: 0 }; // Reduced duration to 500ms for faster loading
   colorPalette: string[] = [
     '#FFD700', '#FF69B4', '#BA55D3', '#7B68EE', '#00FA9A',

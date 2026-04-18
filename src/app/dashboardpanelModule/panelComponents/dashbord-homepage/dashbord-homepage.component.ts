@@ -31,18 +31,11 @@ import { FilterPipe } from '../../services/filter.pipe';
 
 export class DashbordHomepageComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @ViewChild('roleDialogBox')
-  roleDialogBox!: DialogComponent;
+  showRoleDialog: boolean = false;
 
+  showUserDialog: boolean = false;
 
-  @ViewChild('defaultDialog')
-  defaultDialog!: DialogComponent;
-
-  @ViewChild('userDialogBox')
-  userDialogBox!: DialogComponent;
-
-  @ViewChild('dashboardPopup')
-  dashboardPopup!: DialogComponent;
+  showDashboardPopup: boolean = false;
 
 
   @ViewChild('responseMessageDialog')
@@ -111,7 +104,7 @@ export class DashbordHomepageComponent implements OnInit, AfterViewInit, OnDestr
 
 
   dialogBtnClick = (): void => {
-    this.defaultDialog.show();
+    // dialog removed
     this.dialogOpen();
   }
 
@@ -344,7 +337,7 @@ export class DashbordHomepageComponent implements OnInit, AfterViewInit, OnDestr
   currentDashboardObj: any = {}
   copyDashboard(obj: any) {
     console.log('copied obj', obj)
-    this.dashboardPopup.show()
+    this.showDashboardPopup = true
     // this.dashboardCreationForm.patchValue(obj);
 
     this.dashboardCreationForm.patchValue({
@@ -391,7 +384,7 @@ export class DashbordHomepageComponent implements OnInit, AfterViewInit, OnDestr
 
 
     console.log('Updated Dashboard:', dashboardApiObj);
-    this.dashboardPopup.hide()
+    this.showDashboardPopup = false
     this.chartService.postDashboardCreationObj(dashboardApiObj).subscribe(
       (res: any) => {
         console.log('dashboard api obj', res);
@@ -773,7 +766,7 @@ export class DashbordHomepageComponent implements OnInit, AfterViewInit, OnDestr
     }
     this.showChildComponent = false
 
-    this.roleDialogBox.hide();
+    this.showRoleDialog = false;
   }
 
   onUserBasedAccess(obj: any) {
@@ -784,7 +777,7 @@ export class DashbordHomepageComponent implements OnInit, AfterViewInit, OnDestr
     }
 
     this.showUserPopup = true;
-    this.userDialogBox.show();
+    this.showUserDialog = true;
     this.userSubmitFlag = true;
     this.userUpdateFlag = false;
 
@@ -800,7 +793,7 @@ export class DashbordHomepageComponent implements OnInit, AfterViewInit, OnDestr
     }
     console.log(obj)
     this.showChildComponent = true
-    this.roleDialogBox.show();
+    this.showRoleDialog = true;
     this.submitFlag = true;
     this.updateFlag = false;
 
@@ -821,38 +814,38 @@ export class DashbordHomepageComponent implements OnInit, AfterViewInit, OnDestr
 
   onRoleBasedAccessSubmit() {
     this.roleBasedDialog.onFormSubmit();
-    this.roleDialogBox.hide();
+    this.showRoleDialog = false;
     this.loaderService.show()
   }
 
   onUserBasedAccessSubmit() {
     this.userBasedDialog.onFormSubmit()
-    this.userDialogBox.hide();
+    this.showUserDialog = false;
     this.loaderService.show()
 
   }
   onUpdateRoleBasedAccess() {
     this.roleBasedDialog.onUpdateForm();
-    this.roleDialogBox.hide();
+    this.showRoleDialog = false;
     // this.showChildComponent = false
     this.loaderService.show()
   }
 
   delteRolePermission() {
     this.roleBasedDialog.onDelete();
-    this.roleDialogBox.hide();
+    this.showRoleDialog = false;
     this.loaderService.show()
   }
 
   deleteUserPermission() {
     this.userBasedDialog.onDelete();
-    this.userDialogBox.hide();
+    this.showUserDialog = false;
     this.loaderService.show()
   }
 
 
   onUserUpdateDashboardAccess() {
-    this.userDialogBox.hide();
+    this.showUserDialog = false;
     this.userBasedDialog.onformUpdate()
     // this.showUserPopup = false;
     this.loaderService.show()

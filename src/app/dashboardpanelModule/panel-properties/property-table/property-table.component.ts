@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Freeze, Grid, GridComponent, RowDD, GridModule } from '@syncfusion/ej2-angular-grids';
-import { TabComponent, TabModule } from '@syncfusion/ej2-angular-navigations';
+import { Freeze, Grid, GridComponent, RowDD, GridModule, PageService, GroupService, SortService, FilterService, ResizeService, ReorderService, ColumnMenuService, ExcelExportService as GridExcelExportService, PdfExportService as GridPdfExportService, ToolbarService as GridToolbarService, RowDDService, FreezeService } from '@syncfusion/ej2-angular-grids';
+
 import { AnimationSettingsModel, Dialog, DialogComponent, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
 import { ChartService } from 'src/app/core/services/chart.service';
@@ -20,7 +20,8 @@ Grid.Inject(RowDD, Freeze);
     selector: 'app-property-table',
     templateUrl: './property-table.component.html',
     styleUrls: ['./property-table.component.scss'],
-    imports: [TabModule, FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, SwitchModule, MultiSelectModule, ButtonModule, GridModule, ChartModule, KanbanModule, NgFor, ColorPickerModule, DialogModule]
+    providers: [PageService, GroupService, SortService, FilterService, ResizeService, ReorderService, ColumnMenuService, GridExcelExportService, GridPdfExportService, GridToolbarService, RowDDService, FreezeService],
+    imports: [FormsModule, ReactiveFormsModule, DropDownListModule, NgIf, SwitchModule, MultiSelectModule, ButtonModule, GridModule, ChartModule, KanbanModule, NgFor, ColorPickerModule, DialogModule]
 })
 
 export class PropertyTableComponent implements OnInit, OnChanges {
@@ -47,8 +48,7 @@ export class PropertyTableComponent implements OnInit, OnChanges {
   animationSettings: AnimationSettingsModel = { effect: 'SlideBottom' };
   target: string = ".control-section";
 
-  @ViewChild('rawQueryDimension')
-  rawQueryDimension!: Dialog;
+  showRawQueryDimensionDialog: boolean = false;
 
 
   showUpdateButton: boolean = false;
@@ -68,12 +68,56 @@ export class PropertyTableComponent implements OnInit, OnChanges {
   columnObj: any;
   idCount: any = 0;
 
+  activeTab: number = 0;
+  tabLabels: string[] = ['General', 'Measure', 'Grouping', 'Condition', 'Raw Query', 'Conditional Formatting', 'Header Formatting'];
+  selectTab(i: number): void { this.activeTab = i; }
+
+  textAlignOptions: string[] = ['Left', 'Right', 'Center'];
+  columnTypeOptions: string[] = ['date', 'number', 'string'];
+  levelOptions: number[] = [0,1,2,3,4,5,6,7,8,9,10];
+  conditionFormatOptions: any[] = [
+    { text: 'Less Than', value: '<' }, { text: 'Between', value: 'Between' },
+    { text: 'Less Than Or Equal To', value: '<=' }, { text: 'Greater Than', value: '>' },
+    { text: 'Greater Than Or Equal To', value: '>=' }, { text: 'Equals', value: '=' },
+    { text: 'Not Equals', value: '!=' }, { text: 'Contains', value: 'contains' },
+    { text: 'Not Contains', value: 'notContains' }, { text: 'None', value: 'None' }
+  ];
+  calculatedValueOptions: any[] = [
+    { text: 'Grand Total', value: 'Sum' }, { text: 'Average Count', value: 'Average' }
+  ];
+  fontStyleOptions: any[] = [
+    { text: 'Normal', value: 'normal' }, { text: 'Italic', value: 'italic' }, { text: 'Bold', value: 'bold' }
+  ];
+  fontWeightOptions: any[] = [
+    { text: '100', value: '100' }, { text: '200', value: '200' }, { text: '300', value: '300' },
+    { text: '400 (Normal)', value: '400' }, { text: '500', value: '500' }, { text: '600', value: '600' },
+    { text: '700 (Bold)', value: '700' }, { text: '800', value: '800' }, { text: '900', value: '900' }
+  ];
+  ddlFields: any = { text: 'text', value: 'value' };
+
+  get tableFormatOptions(): any[] {
+    const type = this.generalForm?.get('fieldDetails.type')?.value;
+    if (type === 'date') {
+      return [
+        { text: 'Year/Month/Date', value: 'yMd' }, { text: 'Month-Year', value: 'MMM-yyyy' },
+        { text: 'Year-Month', value: 'yyyy-MMM' }, { text: 'Date-Month-Year', value: 'dd-MM-yyyy' },
+        { text: 'Year-Month-Date', value: 'yyyy-MM-dd' }, { text: 'Date/Month/Year', value: 'dd/MM/yyyy' },
+        { text: 'YYYY-mmm-dd', value: 'yyyy-MMM-dd' }, { text: 'Date/Month/Year hh:mm', value: 'dd/MM/yyyy hh:mm' }
+      ];
+    } else if (type === 'number') {
+      return [
+        { text: 'Percentage', value: 'P' }, { text: 'Currency', value: 'C' }, { text: 'Numeric', value: 'N2' }
+      ];
+    }
+    return [];
+  }
+
   selectionSettings: any = { type: 'Multiple' };
   rowDropSettings: any = { targetID: 'DestGrid' };
   editFieldName: string = "";
 
   panelSeriesArray: any = [];
-  @ViewChild('tabComponent') tab!: TabComponent
+
 
 
   private readonly fb = inject(FormBuilder);
@@ -145,11 +189,7 @@ export class PropertyTableComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     let currentValue = changes['getPanelObj'].currentValue;
     if (currentValue != undefined || currentValue != null) {
-      // this.tab.selectedItem = 0;
-
-      if (this.tab) {
-        this.tab.selectedItem = 0;
-      }
+      this.activeTab = 0;
       let panelsArrData: any = sessionStorage.getItem('createPanelSeriesArray');
       // let panelsArrData: any = localStorage.getItem('createPanelSeriesArray');
       this.panelSeriesArray = panelsArrData
@@ -351,7 +391,7 @@ export class PropertyTableComponent implements OnInit, OnChanges {
     this.gridData.autoFitColumns([])
   }
   onSelectCondtionFormatValue(eve: any) {
-    let value = eve.target.value;
+    let value = eve?.value ?? eve?.target?.value;
     this.selectedConditionType = value
   }
   onDeleteConditionObj(id: any) {
@@ -1085,7 +1125,7 @@ export class PropertyTableComponent implements OnInit, OnChanges {
       rawQuery: rawQueryValue
     });
 
-    this.rawQueryDimension.show();
+    this.showRawQueryDimensionDialog = true;
     console.log(item, index, level);
   }
 
@@ -1114,7 +1154,7 @@ export class PropertyTableComponent implements OnInit, OnChanges {
     });
 
     // Close the dialog
-    this.rawQueryDimension.hide();
+    this.showRawQueryDimensionDialog = false;
   }
 
 
