@@ -1,142 +1,72 @@
-<div class="row">
-
-  <div class="col-md-12" style="padding:25px 15px 0px">
-    <!-- <div class="table-contaier" style="height: 300px;overflow-y: auto;">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>
-            <span style="display: block;">Dashboard Name</span>
-            <span>Select All</span>
-
-          </th>
-          <th>
-
-            <span style="display: block;">
-              View
-            </span>
-
-            <span> <input type="checkbox" [(ngModel)]="selectAllPermissions.can_view"
-              (change)="toggleGlobalSelect('can_view')">
-            </span>
-          </th>
-          <th>
-
-
-            <span style="display: block;">
-              Create
-            </span>
-
-            <span> <input type="checkbox" [(ngModel)]="selectAllPermissions.can_create"
-              (change)="toggleGlobalSelect('can_create')">
-
-            </span>
-          </th>
-          <th>
-
-
-            <span style="display: block;">
-              Update
-            </span>
-
-            <span> <input type="checkbox" [(ngModel)]="selectAllPermissions.can_update"
-              (change)="toggleGlobalSelect('can_update')">
-            </span>
-
-
-          </th>
-          <th>
-
-
-            <span style="display: block;">
-              Delete
-            </span>
-
-            <span> <input type="checkbox" [(ngModel)]="selectAllPermissions.can_delete"
-              (change)="toggleGlobalSelect('can_delete')">
-            </span>
-
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-
-        <tr *ngFor="let dashboard of dashboards">
-          <td>{{ dashboard.dashboard_name }}</td>
-          <td>
-            <input type="checkbox" [(ngModel)]="dashboard.can_view">
-          </td>
-          <td>
-            <input type="checkbox" [(ngModel)]="dashboard.can_create">
-          </td>
-          <td>
-            <input type="checkbox" [(ngModel)]="dashboard.can_update">
-          </td>
-          <td>
-            <input type="checkbox" [(ngModel)]="dashboard.can_delete">
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div> -->
+<div class="pm-root">
   @if (isLoading) {
-    <div class="loader-overlay">
-      <div class="loader-circle"></div>
+    <div class="pm-loader">
+      <div class="pm-spinner"></div>
+      <span>Loading permissions…</span>
     </div>
   }
-  <div class="table-container" style="height: 300px; overflow-y: auto;">
 
+  @if (!isLoading) {
+    <!-- Top bar: bulk actions -->
+    <div class="pm-topbar">
+      <div class="pm-bulk">
+        <label class="pm-bulk-btn">
+          <input type="checkbox" hidden [(ngModel)]="selectAllPermissions.can_view" (change)="toggleGlobalSelect('can_view')">
+          <span class="pm-bbtn" [class.active]="selectAllPermissions.can_view">All view</span>
+        </label>
+        <label class="pm-bulk-btn">
+          <input type="checkbox" hidden [(ngModel)]="selectAllPermissions.can_create" (change)="toggleGlobalSelect('can_create')">
+          <span class="pm-bbtn" [class.active]="selectAllPermissions.can_create">All create</span>
+        </label>
+        <label class="pm-bulk-btn">
+          <input type="checkbox" hidden [(ngModel)]="selectAllPermissions.can_update" (change)="toggleGlobalSelect('can_update')">
+          <span class="pm-bbtn" [class.active]="selectAllPermissions.can_update">All update</span>
+        </label>
+        <label class="pm-bulk-btn">
+          <input type="checkbox" hidden [(ngModel)]="selectAllPermissions.can_delete" (change)="toggleGlobalSelect('can_delete')">
+          <span class="pm-bbtn" [class.active]="selectAllPermissions.can_delete">All delete</span>
+        </label>
+      </div>
+    </div>
 
-    @if (!isLoading) {
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th style="width: 40%;">Dashboard Name</th>
-            <th style="width: 15%;">View</th>
-            <th style="width: 15%;">Create</th>
-            <th style="width: 15%;">Update</th>
-            <th style="width: 15%;">Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Select All Row -->
-          <tr>
-            <td><strong>Select All</strong></td>
-            <td>
-              <input type="checkbox" [(ngModel)]="selectAllPermissions.can_view" (change)="toggleGlobalSelect('can_view')">
-            </td>
-            <td>
-              <input type="checkbox" [(ngModel)]="selectAllPermissions.can_create" (change)="toggleGlobalSelect('can_create')">
-            </td>
-            <td>
-              <input type="checkbox" [(ngModel)]="selectAllPermissions.can_update" (change)="toggleGlobalSelect('can_update')">
-            </td>
-            <td>
-              <input type="checkbox" [(ngModel)]="selectAllPermissions.can_delete" (change)="toggleGlobalSelect('can_delete')">
-            </td>
-          </tr>
-          <!-- Dashboard Rows -->
-          @for (dashboard of dashboards; track dashboard) {
-            <tr>
-              <td>{{ dashboard.dashboard_name }}</td>
-              <td>
-                <input type="checkbox" [(ngModel)]="dashboard.can_view" >
-              </td>
-              <td>
-                <input type="checkbox" [(ngModel)]="dashboard.can_create">
-              </td>
-              <td>
-                <input type="checkbox" [(ngModel)]="dashboard.can_update">
-              </td>
-              <td>
-                <input type="checkbox" [(ngModel)]="dashboard.can_delete">
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    }
-  </div>
+    <!-- Dashboard cards -->
+    <div class="pm-cards">
+      @for (dashboard of dashboards; track dashboard) {
+        <div class="pm-card">
+          <div class="pm-card-left">
+            <div class="pm-card-icon">
+              <i class="bi bi-grid-1x2"></i>
+            </div>
+            <span class="pm-card-name" [title]="dashboard.dashboard_name">{{ dashboard.dashboard_name }}</span>
+          </div>
+          <div class="pm-chip-row">
+            <label class="pm-chip-wrap">
+              <input type="checkbox" hidden [(ngModel)]="dashboard.can_view">
+              <span class="pm-chip" [class.on]="dashboard.can_view" [class.off]="!dashboard.can_view" [class.v]="true">
+                <i class="bi bi-eye"></i> View
+              </span>
+            </label>
+            <label class="pm-chip-wrap">
+              <input type="checkbox" hidden [(ngModel)]="dashboard.can_create">
+              <span class="pm-chip" [class.on]="dashboard.can_create" [class.off]="!dashboard.can_create" [class.c]="true">
+                <i class="bi bi-plus-lg"></i> Create
+              </span>
+            </label>
+            <label class="pm-chip-wrap">
+              <input type="checkbox" hidden [(ngModel)]="dashboard.can_update">
+              <span class="pm-chip" [class.on]="dashboard.can_update" [class.off]="!dashboard.can_update" [class.u]="true">
+                <i class="bi bi-pencil"></i> Update
+              </span>
+            </label>
+            <label class="pm-chip-wrap">
+              <input type="checkbox" hidden [(ngModel)]="dashboard.can_delete">
+              <span class="pm-chip" [class.on]="dashboard.can_delete" [class.off]="!dashboard.can_delete" [class.d]="true">
+                <i class="bi bi-trash3"></i> Delete
+              </span>
+            </label>
+          </div>
+        </div>
+      }
+    </div>
+  }
 </div>
-</div>
-<!-- <button (click)="submitPermissions()">Submit</button> -->

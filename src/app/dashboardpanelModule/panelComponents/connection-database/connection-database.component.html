@@ -1,80 +1,91 @@
-<div class="control-section" style="padding:15px" >
-  <div class="row">
-    <div class="col-md-8" style="padding-left:0">
-      <div class="tableTitle popupHeader"  >
-        <span>
-          Database Connection Settings
-        </span>
-      </div>
-      <div class="row">
-        <div class="col-md-6" >
-          <input class="form-control filterInputIcon" (input)="onSearch($event)" [(ngModel)]="filterTerm" placeholder="Search...">
-        </div>
-
-      </div>
+<div class="db-page">
+  <!-- Page header -->
+  <div class="db-hdr">
+    <div>
+      <div class="db-title">DB Connections</div>
+      <div class="db-sub">Manage database connections &amp; credentials</div>
     </div>
-    <div style="text-align: right; padding-top:10px" class="col-md-4">
+    <div class="db-hdr-right">
+      <div class="db-scard">
+        <div class="db-scard-accent" style="background:#4F46E5"></div>
+        <div class="db-scard-val">{{ dbConnectionArr?.length || 0 }}</div>
+        <div class="db-scard-lbl">Total connections</div>
+        <div class="db-scard-icon" style="background:#EEF2FF"><i class="bi bi-database" style="color:#4F46E5"></i></div>
+      </div>
       @if ((!permissionObj || permissionObj?.can_create) !== false) {
-        <button ejs-button class="e-flat-icon e-btn-purple-sm"  title="Create"
-          (click)="dialogBtnClick()">
-          <i class="bi bi-plus-lg" title="Create"></i>
+        <button class="db-hbtn db-hbtn-primary" title="Create" (click)="dialogBtnClick()">
+          <i class="bi bi-plus-lg"></i> Add connection
         </button>
       }
     </div>
   </div>
 
-  <div class="row" style="margin-top: 10px;" >
+  <!-- Search bar -->
+  <div class="db-toolbar">
+    <div class="db-sbox">
+      <i class="bi bi-search"></i>
+      <input placeholder="Search by connection name…" (input)="onSearch($event)" [(ngModel)]="filterTerm">
+    </div>
+  </div>
 
-    @if (dbConnectionArr.length > 0) {
-      <div class="table-container">
-        <table class="table table-bordered table-hover " style="background-color: white;">
-          <thead>
-            <tr>
-              <th>Sr No</th>
-              <th>Connection Name</th>
-              <th>Host Name</th>
-              <th>Database Name</th>
-              <th>Database Type</th>
-              <th>Port</th>
-              <th>User Name</th>
-              <th>Schema Name</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (item of dbConnectionArr; track item; let i = $index) {
-              <tr>
-                <td>{{ i + 1}}</td>
-                <td>{{item.connection_name}}</td>
-                <td>{{item.host_ip_or_name}}</td>
-                <td>{{item.default_database_name}}</td>
-                <td>{{item.database_type}}</td>
-                <td>{{item.port}}</td>
-                <td>{{item.user_name}}</td>
-                <td>{{item.schema_name}}</td>
-                <td class="action-column" >
-                  @if ((!permissionObj || permissionObj?.can_update) !== false) {
-                    <button ejs-button cssClass="e-flat-icon e-btn-purple-sm "
-                      (click)="editDbObj(item, i)" title="Edit">
-                      <!-- <span class="e-btn-icon e-icons"></span> -->
-                      <i class="bi bi-pencil-square" title="Edit"></i>
-                    </button>
-                  }
-                  @if ((!permissionObj || permissionObj?.can_delete) !== false) {
-                    <button ejs-button cssClass="e-flat-icon e-btn-purple-sm  deleteBtn"
-                      (click)="deleteDbObj(item, i)" title="Delete">
-                      <!-- <span class="e-btn-icon e-icons"></span> -->
-                      <i class="bi bi-trash"  title="Delete"></i>
-                    </button>
-                  }
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
+  <!-- Column header -->
+  <div class="db-col-hdr">
+    <span>Connection</span>
+    <span>Host</span>
+    <span>Database</span>
+    <span>Type</span>
+    <span>Port</span>
+    <span style="text-align:right">Actions</span>
+  </div>
+
+  <!-- Connection list -->
+  <div class="db-list">
+    @if (dbConnectionArr.length === 0) {
+      <div class="db-empty">No connections to display</div>
+    }
+    @for (item of paginatedConnections(); track item; let i = $index) {
+      <div class="db-card">
+        <div class="db-identity">
+          <div class="db-av" [style.background]="getAvatarBg(i + (currentPage - 1) * pageSize)" [style.color]="getAvatarFg(i + (currentPage - 1) * pageSize)">
+            <i class="bi bi-database"></i>
+          </div>
+          <div class="db-name-col">
+            <div class="db-cname">{{ item.connection_name }}</div>
+            <div class="db-cuname">{{ item.user_name }}</div>
+          </div>
+        </div>
+        <div class="db-cell">{{ item.host_ip_or_name }}</div>
+        <div class="db-cell">{{ item.default_database_name }}</div>
+        <div>
+          <span class="db-type-badge">{{ item.database_type }}</span>
+        </div>
+        <div class="db-cell">{{ item.port }}</div>
+        <div class="db-actions">
+          @if ((!permissionObj || permissionObj?.can_update) !== false) {
+            <button class="db-abtn" title="Edit" (click)="editDbObj(item, i)">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+          }
+          @if ((!permissionObj || permissionObj?.can_delete) !== false) {
+            <button class="db-abtn db-abtn-del" title="Delete" (click)="deleteDbObj(item, i)">
+              <i class="bi bi-trash"></i>
+            </button>
+          }
+        </div>
       </div>
     }
+  </div>
 
+  <!-- Footer / Pagination -->
+  <div class="db-footer">
+    <span class="db-ft-info">Showing {{ getPageStart() }}–{{ getPageEnd() }} of {{ dbConnectionArr?.length || 0 }} connections</span>
+    <div class="db-pg-btns">
+      <button class="db-pgb" [disabled]="currentPage === 1" (click)="currentPage = currentPage - 1">‹</button>
+      @for (p of getPageNumbers(); track p) {
+        <button class="db-pgb" [class.on]="p === currentPage" (click)="currentPage = p">{{ p }}</button>
+      }
+      <button class="db-pgb" [disabled]="currentPage === getTotalPages()" (click)="currentPage = currentPage + 1">›</button>
+    </div>
   </div>
 
   @if (showConnectionFormDialog) {
@@ -214,4 +225,3 @@
 <div class="backdrop" id="backdrop"></div>
 -->
 </div>
-

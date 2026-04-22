@@ -17,35 +17,31 @@
 
 
 
-  <div class="sticky-header">
-    <div class="search-bar-top">
-      <input type="text" class="search-input" placeholder="Search dashboards..." [(ngModel)]="searchQuery"
+  <div class="sticky-header dc-header">
+    <div class="dc-search-wrap">
+      <i class="bi bi-search dc-search-icon"></i>
+      <input type="text" class="dc-search-input" placeholder="Search dashboards..." [(ngModel)]="searchQuery"
         (input)="onSearch()">
-      <i class="bi bi-search search-icon"></i>
     </div>
 
-    <div class="text-right rightMenuBtn">
-
-
+    <div class="dc-toolbar">
       <!-- List/Card View Toggle Button (only if ungrouped) -->
-      <button class="e-btn e-btn-purple toolbar-toggle" [title]="isListview ? 'Show Card View' : 'Show List View'"
+      <button class="dc-toolbar-btn" [title]="isListview ? 'Show Card View' : 'Show List View'"
         *ngIf="!isGroupedView" (click)="toggleListCardView()">
         <i [class]="isListview ? 'bi bi-grid-3x3-gap-fill' : 'bi bi-list-ul'"></i>
       </button>
 
       <!-- Grouped/Ungrouped Toggle Button -->
-      <button class="e-btn e-btn-purple toolbar-toggle view-switch" [title]="isGroupedView ? 'Show Ungrouped' : 'Show Grouped'"
+      <button class="dc-toolbar-btn" [title]="isGroupedView ? 'Show Ungrouped' : 'Show Grouped'"
         (click)="toggleView()">
         <i [class]="isGroupedView ? 'bi bi-grid-3x3-gap-fill' : 'bi bi-diagram-3'"></i>
       </button>
 
-      <button class="e-btn e-btn-purple toolbar-toggle"
+      <button class="dc-toolbar-btn"
         *ngIf="(dashboardSetupPermissionObj && dashboardSetupPermissionObj?.can_view !== false) || role == 'superadmin'"
         title="Dashboard Setup" routerLink="/sidebar/panel/dashboardRearrage">
-        <i class="bi bi-sliders2" title="Dashboard Setup"></i>
+        <i class="bi bi-sliders2"></i>
       </button>
-
-
     </div>
   </div>
 
@@ -175,77 +171,73 @@
     </div>
   </div>
 
-  <div class="ungrouped-dashboard-cards" *ngIf="!isGroupedView && !isListview"
-    >
+  <div class="ungrouped-dashboard-cards" *ngIf="!isGroupedView && !isListview">
     <ng-container *ngFor="let dashboard of unGroupedDashboards; let i = index">
-      <!-- {{dashboard| json}} -->
-      <div *ngIf="dashboard['can_view'] || role === 'superadmin'" class="group-card ungrouped-card-style"
+      <div *ngIf="dashboard['can_view'] || role === 'superadmin'" class="dc-card"
         [routerLink]="['/sidebar/panel/panelView', dashboard.dashboard_id]">
-        <div>
-          <div class="ungrouped-card-media">
-            <!-- <img [src]="imageUrls[i % imageUrls.length]" alt="Dashboard Image" style="width: 100%; height: 100%; object-fit: cover;"> -->
 
+        <!-- Thumbnail -->
+        <div class="dc-thumbnail" [class.dc-thumb-grad]="!imageFlag">
+          <ng-container *ngIf="imageFlag; else cardFallback">
+            <img
+              [src]="dashboard['dashboard_image'] || imageUrls[i % imageUrls.length]"
+              [alt]="dashboard.dashboard_name"
+              class="dc-thumb-img">
+          </ng-container>
+          <ng-template #cardFallback>
+            <div class="dc-thumb-fallback" [ngStyle]="{'background': dashboard['backgroundColor']}"></div>
+          </ng-template>
+          <div class="dc-thumb-overlay"></div>
 
-            <ng-container *ngIf="imageFlag; else backgroundDiv">
-              <!-- <img [src]="dashboard['dashboard_image'] || imageUrls[i % imageUrls.length]" alt="Dashboard Image"
-                style="width: 100%; height: 100%; object-fit: cover;"> -->
+          <!-- Floating badge -->
+          <span class="dc-badge">
+            <i class="bi bi-bar-chart-line"></i> Dashboard
+          </span>
 
-              <img
-                [src]="dashboard['dashboard_image'] || imageUrls[i % imageUrls.length]"
-                [alt]="dashboard.dashboard_name"
-                class="ungrouped-card-image">
-            </ng-container>
-            <ng-template #backgroundDiv>
-              <div class="ungrouped-card-fallback" [ngStyle]="{'background': dashboard['backgroundColor']}">
-              </div>
-            </ng-template>
-
-          </div>
-
-          <div class="card-body ungrouped-card-body">
-            <div>
-              <h5 class="ungrouped_card_dashboardName">
-                {{dashboard.dashboard_name}}
-              </h5>
-              <p class="ungrouped-card-description">
-                {{dashboard.description }}</p>
-            </div>
-            <div class="dashboard-actions d-flex gap-2">
-              <button *ngIf="dashboard['can_view'] || role == 'superadmin' " class="e-btn e-btn-purple mr-5 action-chip"
-                title="View" [routerLink]="['/sidebar/panel/panelView', dashboard.dashboard_id]">
-                <i class="bi bi-eye"></i>
-              </button>
-              <button *ngIf="dashboard['can_update'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5 action-chip"
-                title="Edit" (click)="$event.stopPropagation()"
-                [routerLink]="['/sidebar/panel/edit', dashboard.dashboard_id]">
-                <i class="bi bi-pencil-square"></i>
-              </button>
-              <button *ngIf="dashboard['can_create'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5 action-chip"
-                title="Copy Dashboard" (click)="showDialog(dashboard, 'copy'); $event.stopPropagation()">
-                <i class="bi bi-files"></i>
-              </button>
-              <button
-                *ngIf="role == 'superadmin' || (roleDashboardPermissionObj &&  roleDashboardPermissionObj?.can_view !== false)"
-                class="e-btn e-btn-purple mr-5 action-chip" title="Role Dashboard Permission"
-                (click)="showDialog(dashboard, 'role'); $event.stopPropagation()">
-                <i class="bi bi-shield-lock"></i>
-              </button>
-              <button
-                *ngIf="role == 'superadmin' || (userDashboardPermissionObj && userDashboardPermissionObj?.can_view !== false)"
-                class="e-btn e-btn-purple mr-5 action-chip" title="User Dashboard Permission"
-                (click)="showDialog(dashboard, 'user'); $event.stopPropagation()">
-                <i class="bi bi-people"></i>
-              </button>
-              <button *ngIf="dashboard['can_delete'] || role == 'superadmin'" class="e-btn e-btn-purple mr-5 action-chip"
-                (click)="onDeleteClick(dashboard); $event.stopPropagation()" title="Delete">
-                <i class="bi bi-trash3"></i>
-              </button>
-            </div>
+          <!-- Action bar slides up on hover -->
+          <div class="dc-action-bar" (click)="$event.stopPropagation()">
+            <button *ngIf="dashboard['can_view'] || role == 'superadmin'" class="dc-action-btn"
+              title="View" [routerLink]="['/sidebar/panel/panelView', dashboard.dashboard_id]">
+              <i class="bi bi-eye"></i>
+            </button>
+            <button *ngIf="dashboard['can_update'] || role == 'superadmin'" class="dc-action-btn"
+              title="Edit" (click)="$event.stopPropagation()"
+              [routerLink]="['/sidebar/panel/edit', dashboard.dashboard_id]">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <button *ngIf="dashboard['can_create'] || role == 'superadmin'" class="dc-action-btn"
+              title="Clone" (click)="showDialog(dashboard, 'copy'); $event.stopPropagation()">
+              <i class="bi bi-files"></i>
+            </button>
+            <button *ngIf="role == 'superadmin' || (roleDashboardPermissionObj && roleDashboardPermissionObj?.can_view !== false)"
+              class="dc-action-btn" title="Roles"
+              (click)="showDialog(dashboard, 'role'); $event.stopPropagation()">
+              <i class="bi bi-shield-lock"></i>
+            </button>
+            <button *ngIf="role == 'superadmin' || (userDashboardPermissionObj && userDashboardPermissionObj?.can_view !== false)"
+              class="dc-action-btn" title="Users"
+              (click)="showDialog(dashboard, 'user'); $event.stopPropagation()">
+              <i class="bi bi-people"></i>
+            </button>
+            <button *ngIf="dashboard['can_delete'] || role == 'superadmin'" class="dc-action-btn dc-delete-btn"
+              title="Delete" (click)="onDeleteClick(dashboard); $event.stopPropagation()">
+              <i class="bi bi-trash3"></i>
+            </button>
           </div>
         </div>
+
+        <!-- Card body -->
+        <div class="dc-body">
+          <h5 class="dc-title" [title]="dashboard.dashboard_name">
+            {{ dashboard.dashboard_name }}
+          </h5>
+          <p class="dc-desc" *ngIf="dashboard.description">
+            {{ dashboard.description }}
+          </p>
+        </div>
+
       </div>
     </ng-container>
-
   </div>
 
   <!-- List View for Ungrouped Dashboards -->

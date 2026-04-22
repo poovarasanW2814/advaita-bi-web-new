@@ -61,7 +61,7 @@
   height: calc(100vh - var(--etl-header-height));
   background: linear-gradient(180deg, var(--etl-surface) 0%, var(--etl-surface-2) 100%) !important;
   border-right: 1px solid var(--etl-border) !important;
-  transition: all var(--etl-transition-normal);
+  transition: width 300ms ease, box-shadow 300ms ease;
   z-index: 900;
   overflow: hidden;
   box-shadow: 4px 0 6px -1px rgba(0, 0, 0, 0.1);

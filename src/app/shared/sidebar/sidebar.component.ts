@@ -536,6 +536,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.applySidebarLayout();
     this.sidebarIsOpen = !this.sidebarIsOpen;
     this.isSidebarExpanded = false;
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 310);
   }
 
 
@@ -1304,6 +1305,7 @@ promptRequest = (args: PromptRequestEventArgs) => {
       // Reset animation flag after sidebar animation completes
       setTimeout(() => {
         this.isAnimating = false;
+        window.dispatchEvent(new Event('resize'));
       }, 300); // Match your sidebar animation duration
     }
   }
@@ -1314,6 +1316,7 @@ promptRequest = (args: PromptRequestEventArgs) => {
 
       setTimeout(() => {
         this.isAnimating = false;
+        window.dispatchEvent(new Event('resize'));
       }, 300);
     }
   }

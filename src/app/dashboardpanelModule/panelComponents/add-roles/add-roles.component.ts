@@ -11,7 +11,7 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PopupService } from 'src/app/core/services/popup.service';
 import { MultipleDashboardRolePermissionComponent } from '../multiple-dashboard-role-permission/multiple-dashboard-role-permission.component';
-import { NgIf, NgStyle, NgFor } from '@angular/common';
+import { NgIf, NgFor } from '@angular/common';
 import { ButtonModule, SwitchModule } from '@syncfusion/ej2-angular-buttons';
 import { ChartModule } from '@syncfusion/ej2-angular-charts';
 import { KanbanModule } from '@syncfusion/ej2-angular-kanban';
@@ -33,7 +33,7 @@ import { KanbanModule } from '@syncfusion/ej2-angular-kanban';
     ],
     styleUrls: ['./add-roles.component.scss'],
     providers: [PageService, GroupService, SortService, FilterService, ResizeService, ReorderService, ColumnMenuService, GridExcelExportService, GridPdfExportService, GridToolbarService],
-    imports: [FormsModule, NgIf, ButtonModule, GridModule, ChartModule, KanbanModule, NgStyle, ReactiveFormsModule, SwitchModule, RoleBasedPermissionComponent, NgFor, MultipleDashboardRolePermissionComponent]
+    imports: [FormsModule, NgIf, ButtonModule, GridModule, ChartModule, KanbanModule, ReactiveFormsModule, SwitchModule, RoleBasedPermissionComponent, NgFor, MultipleDashboardRolePermissionComponent]
 })
 
 export class AddRolesComponent implements OnInit {
@@ -47,22 +47,17 @@ export class AddRolesComponent implements OnInit {
   showRoleDialog = false;
   showDbPermissionDialog = false;
   showMultipleDbPermission = false;
-  isModalClosing = false;
 
   private openModal(modalFlag: 'showDefaultDialog' | 'showRoleDialog' | 'showDbPermissionDialog' | 'showMultipleDbPermission'): void {
     (this as any)[modalFlag] = true;
     document.body.classList.add('ar-modal-open');
   }
 
-  private closeModalWithAnimation(modalFlag: 'showDefaultDialog' | 'showRoleDialog' | 'showDbPermissionDialog' | 'showMultipleDbPermission'): void {
-    this.isModalClosing = true;
-    setTimeout(() => {
-      (this as any)[modalFlag] = false;
-      this.isModalClosing = false;
-      if (!this.showDefaultDialog && !this.showRoleDialog && !this.showDbPermissionDialog && !this.showMultipleDbPermission) {
-        document.body.classList.remove('ar-modal-open');
-      }
-    }, 250);
+  private closeModal(modalFlag: 'showDefaultDialog' | 'showRoleDialog' | 'showDbPermissionDialog' | 'showMultipleDbPermission'): void {
+    (this as any)[modalFlag] = false;
+    if (!this.showDefaultDialog && !this.showRoleDialog && !this.showDbPermissionDialog && !this.showMultipleDbPermission) {
+      document.body.classList.remove('ar-modal-open');
+    }
   }
 
   
@@ -95,19 +90,19 @@ export class AddRolesComponent implements OnInit {
   }
 
   closeDefaultDialog(): void {
-    this.closeModalWithAnimation('showDefaultDialog');
+    this.closeModal('showDefaultDialog');
   }
 
   closeRoleDialog(): void {
-    this.closeModalWithAnimation('showRoleDialog');
+    this.closeModal('showRoleDialog');
   }
 
   closeDbPermissionDialog(): void {
-    this.closeModalWithAnimation('showDbPermissionDialog');
+    this.closeModal('showDbPermissionDialog');
   }
 
   closeMultipleDbPermission(): void {
-    this.closeModalWithAnimation('showMultipleDbPermission');
+    this.closeModal('showMultipleDbPermission');
   }
 
   roleDialogBox_show(): void {
@@ -454,6 +449,47 @@ export class AddRolesComponent implements OnInit {
   filterTerm: string = '';
   filteredRolesArray: any = [];
 
+  // Pagination
+  currentPage = 1;
+  pageSize = 10;
+
+  private avColors = [
+    ['#EEF2FF','#4338CA'],['#ECFDF5','#065F46'],['#FFF7ED','#9A3412'],
+    ['#EFF6FF','#1E40AF'],['#FAF5FF','#6B21A8'],['#F0FDF4','#166534'],
+    ['#FFFBEB','#92400E'],['#EEF2FF','#3730A3'],
+  ];
+
+  getAvatarBg(i: number): string { return this.avColors[i % this.avColors.length][0]; }
+  getAvatarFg(i: number): string { return this.avColors[i % this.avColors.length][1]; }
+
+  getActiveCount(): number {
+    return this.filteredRolesArray?.filter((r: any) => r.is_active).length || 0;
+  }
+
+  paginatedRoles(): any[] {
+    const start = (this.currentPage - 1) * this.pageSize;
+    return this.filteredRolesArray?.slice(start, start + this.pageSize) || [];
+  }
+
+  getTotalPages(): number {
+    return Math.max(1, Math.ceil((this.filteredRolesArray?.length || 0) / this.pageSize));
+  }
+
+  getPageNumbers(): number[] {
+    const total = this.getTotalPages();
+    const pages: number[] = [];
+    for (let i = 1; i <= total; i++) pages.push(i);
+    return pages;
+  }
+
+  getPageStart(): number {
+    return this.filteredRolesArray?.length ? (this.currentPage - 1) * this.pageSize + 1 : 0;
+  }
+
+  getPageEnd(): number {
+    return Math.min(this.currentPage * this.pageSize, this.filteredRolesArray?.length || 0);
+  }
+
 
   onSearchChange(eve: any) {
     console.log('typed value', this.filterTerm);
@@ -469,6 +505,7 @@ export class AddRolesComponent implements OnInit {
     this.filteredRolesArray = this.registeredUsersArray.filter((user: any) =>
       user.role.toLowerCase().includes(this.filterTerm.toLowerCase())
     );
+    this.currentPage = 1;
 
     console.log('this.filteredUsersArray after filtering', this.filteredRolesArray);
 

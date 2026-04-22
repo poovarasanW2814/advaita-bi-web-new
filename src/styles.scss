@@ -918,7 +918,9 @@ html:not([data-theme='dark']) #head .profile-dropdown {
 body.au-modal-open #target,
 body.au-modal-open .dashboardParent,
 body.ar-modal-open #target,
-body.ar-modal-open .dashboardParent {
+body.ar-modal-open .dashboardParent,
+body.db-modal-open #target,
+body.db-modal-open .dashboardParent {
   z-index: auto !important;
 }
 

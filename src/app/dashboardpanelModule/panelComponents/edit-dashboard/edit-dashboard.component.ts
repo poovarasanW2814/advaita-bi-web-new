@@ -291,7 +291,15 @@ export class EditDashboardComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.checkView();
-
+    let screenWidth = window.innerWidth;
+    let landscapeView = window.matchMedia('(orientation: landscape)').matches;
+    if (screenWidth <= 760 && landscapeView) {
+      this.cellAspectRatio = 0.45;
+    } else if (screenWidth <= 760 && !landscapeView) {
+      this.cellAspectRatio = 100 / 8;
+    } else {
+      this.cellAspectRatio = 100 / 80;
+    }
   }
 
   positionDialog() {

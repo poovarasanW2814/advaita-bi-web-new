@@ -1,64 +1,208 @@
-// table {
-//     width: 100%;
-//     border-collapse: collapse;
-//   }
-  
-//   th, td {
-//     padding: 8px;
-//     text-align: center;
-//     border: 1px solid #ccc;
-//   }
-  
-//   th {
-//     background-color: #d3d3d3;
-//   }
-  
-/* Loader Overlay */
-.loader-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    // background: rgba(247, 245, 245, 0.8); /* Semi-transparent white overlay */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Ensure it's on top */
-  }
-  
-  /* Circular Loader */
-  .loader-circle {
-    border: 5px solid #f3f3f3; /* Light grey */
-    border-top: 5px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  /* Table Container */
-  .table-container {
-    width: 100%;
-    position: relative;
-  }
-  
-  .table {
-    width: 100%;
-    table-layout: fixed;
-  }
-  
-  .table th, .table td {
-    text-align: center;
-    vertical-align: middle;
-  }
+// Dashboard Permissions - Card + Chip design (matches User Dashboard Permissions)
 
-  input{
-    cursor: pointer;
+.pm-root {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  position: relative;
+  min-height: 100px;
+}
 
+// Loader
+.pm-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 48px 0;
+  color: #9CA3AF;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.pm-spinner {
+  width: 26px;
+  height: 26px;
+  border: 2.5px solid #E5E7EB;
+  border-top-color: #185FA5;
+  border-radius: 50%;
+  animation: pmSpin 0.6s linear infinite;
+}
+
+@keyframes pmSpin {
+  to { transform: rotate(360deg); }
+}
+
+// Top bar
+.pm-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+  padding-right: 17px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+// Bulk buttons
+.pm-bulk {
+  display: flex;
+  gap: 6px;
+}
+
+.pm-bulk-btn {
+  cursor: pointer;
+  user-select: none;
+}
+
+.pm-bbtn {
+  font-size: 12px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #E5E7EB;
+  background: #fff;
+  color: #6B7280;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-block;
+  min-width: 90px;
+  text-align: center;
+}
+
+.pm-bbtn:hover {
+  background: #F3F4F6;
+}
+
+.pm-bbtn.active {
+  background: #DBEAFE;
+  border-color: #93C5FD;
+  color: #1E40AF;
+}
+
+// Cards
+.pm-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pm-card {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #F0F0F0;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: border-color 0.15s ease;
+}
+
+.pm-card:hover {
+  border-color: #D1D5DB;
+}
+
+// Card left
+.pm-card-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+
+.pm-card-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #E6F1FB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  i {
+    font-size: 14px;
+    color: #185FA5;
   }
+}
+
+.pm-card-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1F2937;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 260px;
+}
+
+// Chip row
+.pm-chip-row {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.pm-chip-wrap {
+  cursor: pointer;
+  user-select: none;
+}
+
+// Chip
+.pm-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 5px 11px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  user-select: none;
+  white-space: nowrap;
+  min-width: 90px;
+
+  i {
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+}
+
+// Off state
+.pm-chip.off {
+  background: #F3F4F6;
+  color: #9CA3AF;
+  border-color: #E5E7EB;
+}
+
+.pm-chip.off:hover {
+  border-color: #D1D5DB;
+  color: #6B7280;
+}
+
+// On states by type
+.pm-chip.on.v {
+  background: #DBEAFE;
+  color: #1E40AF;
+  border-color: #93C5FD;
+}
+
+.pm-chip.on.c {
+  background: #D1FAE5;
+  color: #065F46;
+  border-color: #6EE7B7;
+}
+
+.pm-chip.on.u {
+  background: #FEF3C7;
+  color: #92400E;
+  border-color: #FCD34D;
+}
+
+.pm-chip.on.d {
+  background: #FEE2E2;
+  color: #991B1B;
+  border-color: #FCA5A5;
+}

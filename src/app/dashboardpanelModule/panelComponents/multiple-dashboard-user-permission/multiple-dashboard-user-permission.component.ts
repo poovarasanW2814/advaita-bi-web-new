@@ -6,7 +6,7 @@ import { MenuBasedAccessService } from 'src/app/core/services/menu-based-access.
 @Component({
     selector: 'app-multiple-dashboard-user-permission',
     templateUrl: './multiple-dashboard-user-permission.component.html',
-    styleUrls: ['./multiple-dashboard-user-permission.component.scss'],
+    styleUrl: './multiple-dashboard-user-permission.component.scss',
     imports: [FormsModule]
 })
 export class MultipleDashboardUserPermissionComponent implements OnInit, OnChanges {
@@ -52,6 +52,7 @@ export class MultipleDashboardUserPermissionComponent implements OnInit, OnChang
           this.isSubmitFlag = true;
           this.isUpdateFlag = false;
         }
+        this.emitFlagValue.emit({ isSubmit: this.isSubmitFlag, isUpdate: this.isUpdateFlag });
       
         this.chartService.getAllDashboardDetails().subscribe((res: any) => {
           console.log('response', res);
@@ -91,6 +92,7 @@ export class MultipleDashboardUserPermissionComponent implements OnInit, OnChang
           this.updateRoleId = null;
           this.isSubmitFlag = true;
           this.isUpdateFlag = false;
+          this.emitFlagValue.emit({ isSubmit: this.isSubmitFlag, isUpdate: this.isUpdateFlag });
           
           this.chartService.getAllDashboardDetails().subscribe((res: any) => {
             console.log('response (no permissions case)', res);

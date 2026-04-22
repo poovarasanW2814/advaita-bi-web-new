@@ -1006,6 +1006,8 @@ onSearch(): void {
     }
 
     this.dialogVisible = true;
+    this.syncOverlay();
+    this.cdr.detectChanges();
   }
 
   resFlag(eve: any) {
@@ -1079,29 +1081,34 @@ onSearch(): void {
   onRoleBasedAccessSubmit() {
     this.roleBasedDialog.onFormSubmit();
     this.dialogVisible = false;
+    this.syncOverlay();
     this.loaderService.show()
   }
   onUpdateRoleBasedAccess() {
     this.roleBasedDialog.onUpdateForm();
     this.dialogVisible = false;
+    this.syncOverlay();
     this.loaderService.show()
   }
 
   delteRolePermission() {
     this.roleBasedDialog.onDelete();
     this.dialogVisible = false;
+    this.syncOverlay();
     this.loaderService.show()
   }
   onUserBasedAccessSubmit() {
     this.userBasedDialog.onFormSubmit()
     this.loaderService.show()
     this.dialogVisible = false;
+    this.syncOverlay();
 
   }
 
 
   onUserUpdateDashboardAccess() {
     this.dialogVisible = false;
+    this.syncOverlay();
 
     this.userBasedDialog.onformUpdate()
     // this.showUserPopup = false;
@@ -1112,6 +1119,7 @@ onSearch(): void {
   deleteUserPermission() {
     this.userBasedDialog.onDelete();
     this.dialogVisible = false;
+    this.syncOverlay();
 
     this.loaderService.show()
   }
@@ -1121,6 +1129,7 @@ onSearch(): void {
   onRolePermissionSubmit() {
     // Implement role permission submission logic here
     this.dialogVisible = false;
+    this.syncOverlay();
 
     //this.showToasterMessage('Role permissions updated successfully');
   }
@@ -1128,6 +1137,8 @@ onSearch(): void {
   onDialogClose() {
     this.dialogVisible = false;
     this.selectedDashboard = null;
+    this.syncOverlay();
+    this.cdr.detectChanges();
   }
 
   onDialogSubmit() {
@@ -1558,6 +1569,14 @@ onCopyDashboardSubmit() {
     this.selectedGroup = null;
   }
 
+  private syncOverlay(): void {
+    const anyOpen = this.dialogVisible;
+    const val = anyOpen ? 'auto' : '';
+    const target = document.getElementById('target');
+    const parent = document.querySelector('.dashboardParent') as HTMLElement;
+    if (target) target.style.zIndex = val;
+    if (parent) parent.style.zIndex = val;
+  }
 
 }
 

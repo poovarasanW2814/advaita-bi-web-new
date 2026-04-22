@@ -14,6 +14,7 @@ export class UserBasedPermissionComponent implements OnInit, OnChanges {
 
   tableForm!: FormGroup;
   @Output() resMessage = new EventEmitter()
+  @Output() permissionLoaded = new EventEmitter<{hasExisting: boolean}>()
 
   @Input() getUserObj: any;
   userAccessObj: any;
@@ -60,16 +61,26 @@ export class UserBasedPermissionComponent implements OnInit, OnChanges {
 
     this.chartService.getRoleDetailsByRolename(userObj.role).subscribe((res: any) => {
       const roleId = res['data'].id;
-      this.chartService.getUserPermissionByRoleIdUserId(roleId, userObj.user_id).subscribe((res: any) => {
-        if (res.success && res['data']) {
-          const data = res['data'];
-          this.userObjId = data.id;
-          this.seletedUserObj = data;
-          this.formInit();
-          this.updateFormWithApiData(data);
+      this.chartService.getUserPermissionByRoleIdUserId(roleId, userObj.user_id).subscribe(
+        (res: any) => {
+          if (res.success && res['data']) {
+            const data = res['data'];
+            this.userObjId = data.id;
+            this.seletedUserObj = data;
+            this.formInit();
+            this.updateFormWithApiData(data);
+            this.permissionLoaded.emit({ hasExisting: true });
+          } else {
+            this.permissionLoaded.emit({ hasExisting: false });
+          }
+        },
+        (err: any) => {
+          this.permissionLoaded.emit({ hasExisting: false });
         }
-        // else: no custom permissions — blank form already shown by formInit() above
-      });
+      );
+    },
+    (err: any) => {
+      this.permissionLoaded.emit({ hasExisting: false });
     });
   }
   private formNameMapping: { [formName: string]: { id: number, userPermission_id: number } } = {};

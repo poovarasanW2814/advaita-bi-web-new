@@ -1,26 +1,158 @@
-table {
-  width: 100%;
-  border-collapse: collapse;
+// Role Permissions - Card + Chip design (matches User Permissions)
+
+.pm-root {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  position: relative;
+  min-height: 100px;
 }
 
-tr {
-  border-bottom: 1px solid #ddd;
+// Info bar
+.pm-info-bar {
+  display: flex;
+  gap: 32px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: #374151;
 }
 
-.col-md-2 {
-  padding: 8px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-  
+.pm-info-item {
+  strong {
+    font-weight: 600;
+    color: #1F2937;
+  }
 }
 
-input[type="checkbox"] {
-  margin: 0;
+// Cards
+.pm-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
-.row{
-  margin-right: 0px;
-  margin-left: 0px;
+
+.pm-card {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #F0F0F0;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: border-color 0.15s ease;
 }
-.selectBox{
+
+.pm-card:hover {
+  border-color: #D1D5DB;
+}
+
+// Card left
+.pm-card-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+
+.pm-card-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #E6F1FB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  i {
+    font-size: 14px;
+    color: #185FA5;
+  }
+}
+
+.pm-card-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1F2937;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 260px;
+}
+
+// Chip row
+.pm-chip-row {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.pm-chip-wrap {
   cursor: pointer;
+  user-select: none;
+}
+
+// Chip
+.pm-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 11px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  user-select: none;
+  white-space: nowrap;
+
+  i {
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+}
+
+// Off state
+.pm-chip.off {
+  background: #F3F4F6;
+  color: #9CA3AF;
+  border-color: #E5E7EB;
+}
+
+.pm-chip.off:hover {
+  border-color: #D1D5DB;
+  color: #6B7280;
+}
+
+// On states by type
+.pm-chip.on.a {
+  background: #E0E7FF;
+  color: #3730A3;
+  border-color: #A5B4FC;
+}
+
+.pm-chip.on.v {
+  background: #DBEAFE;
+  color: #1E40AF;
+  border-color: #93C5FD;
+}
+
+.pm-chip.on.c {
+  background: #D1FAE5;
+  color: #065F46;
+  border-color: #6EE7B7;
+}
+
+.pm-chip.on.u {
+  background: #FEF3C7;
+  color: #92400E;
+  border-color: #FCD34D;
+}
+
+.pm-chip.on.d {
+  background: #FEE2E2;
+  color: #991B1B;
+  border-color: #FCA5A5;
 }

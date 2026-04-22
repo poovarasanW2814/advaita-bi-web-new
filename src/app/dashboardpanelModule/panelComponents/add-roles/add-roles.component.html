@@ -1,89 +1,95 @@
-<div class="control-section" style="padding:15px">
-  <div class="row">
-    <div class="col-md-10" style="padding-left:0">
-      <div class="tableTitle popupHeader">
-        <span>
-          Roles
-        </span>
-      </div>
-      <div class="row">
-        <div class="col-md-4">
-          <input type="text" placeholder="Search Role" class="form-control" (input)="onSearchChange($event)"
-            [(ngModel)]="filterTerm">
-        </div>
-      </div>
+<div class="rp-page">
+  <!-- Page header -->
+  <div class="rp-hdr">
+    <div>
+      <div class="rp-title">Roles</div>
+      <div class="rp-sub">Manage workspace roles &amp; permissions</div>
     </div>
-    <div class="col-md-1">
-
-    </div>
-    <div class="col-md-1">
-      <button ejs-button class="e-btn e-btn-purple" title="Create"
-        *ngIf="(!permissionObj || permissionObj?.can_create) !== false" style="margin-top:10px"
-        (click)="dialogBtnClick()">
-        <i class="bi bi-person-plus" title="Create"></i>
+    <div class="rp-hdr-right">
+      <div class="rp-scard">
+        <div class="rp-scard-accent" style="background:#4F46E5"></div>
+        <div class="rp-scard-val">{{ filteredRolesArray?.length || 0 }}</div>
+        <div class="rp-scard-lbl">Total roles</div>
+        <div class="rp-scard-icon" style="background:#EEF2FF"><i class="bi bi-shield" style="color:#4F46E5"></i></div>
+      </div>
+      <div class="rp-scard">
+        <div class="rp-scard-accent" style="background:#10B981"></div>
+        <div class="rp-scard-val">{{ getActiveCount() }}</div>
+        <div class="rp-scard-lbl">Active now</div>
+        <div class="rp-scard-icon" style="background:#ECFDF5"><i class="bi bi-activity" style="color:#10B981"></i></div>
+      </div>
+      <button class="rp-hbtn rp-hbtn-primary" title="Create" (click)="dialogBtnClick()"
+        *ngIf="(!permissionObj || permissionObj?.can_create) !== false">
+        <i class="bi bi-plus-lg"></i> Add role
       </button>
     </div>
   </div>
 
-  <div class="row dataGrid" style="margin-top: 10px;">
-    <div class="e-mobile-content">
-      <ejs-grid [dataSource]='filteredRolesArray' [pageSettings]='initialPage' #grid id="adaptivebrowser"
-        enableAdaptiveUI='true' height='300' [allowPaging]="true">
-        <e-columns>
-          <e-column field="role" headerText="Role" [textAlign]="'Left'"></e-column>
-          <e-column field="description" headerText="Description" [textAlign]="'Left'"></e-column>
+  <!-- Search bar -->
+  <div class="rp-toolbar">
+    <div class="rp-sbox">
+      <i class="bi bi-search"></i>
+      <input placeholder="Search by role name…" (input)="onSearchChange($event)" [(ngModel)]="filterTerm">
+    </div>
+  </div>
 
-          <e-column field="is_active" headerText="Active" [textAlign]="'Left'">
-            <ng-template #template let-filteredRolesArray>
-              <span [ngStyle]="{ color: filteredRolesArray.is_active ? 'green' : 'red' }">
-                {{ filteredRolesArray.is_active ? 'Active' : 'Inactive' }}
-              </span>
-            </ng-template>
-          </e-column>
-          <e-column headerText='Action' [textAlign]="'Center'">
-            <ng-template #template let-filteredRolesArray>
-              <button ejs-button cssClass="e-btn e-btn-purple" title="Edit"
-                *ngIf="(!permissionObj || permissionObj?.can_update) !== false"
-                (click)="editRecord(filteredRolesArray)">
-                <i class="bi bi-pencil-square"></i>
-              </button>
-              <!-- <i class="bi bi-pencil-square " style="color:rgb(162, 90, 230); margin-right:10px"></i> -->
+  <!-- Column header -->
+  <div class="rp-col-hdr">
+    <span>Role</span>
+    <span>Description</span>
+    <span>Status</span>
+    <span style="text-align:right">Actions</span>
+  </div>
 
+  <!-- Roles list -->
+  <div class="rp-ulist">
+    <div class="rp-empty" *ngIf="filteredRolesArray?.length === 0">No records to display</div>
+    <div class="rp-ucard" *ngFor="let role of paginatedRoles(); let i = index">
+      <div class="rp-identity">
+        <div class="rp-av" [style.background]="getAvatarBg(i + (currentPage - 1) * pageSize)" [style.color]="getAvatarFg(i + (currentPage - 1) * pageSize)">
+          <i class="bi bi-shield-check"></i>
+        </div>
+        <div class="rp-name-col">
+          <div class="rp-uname">{{ role.role }}</div>
+        </div>
+      </div>
+      <div class="rp-desc">{{ role.description || '—' }}</div>
+      <div class="rp-status">
+        <span class="rp-sdot" [class.inactive]="!role.is_active"></span>
+        {{ role.is_active ? 'Active' : 'Inactive' }}
+      </div>
+      <div class="rp-actions">
+        <button class="rp-abtn" title="Edit"
+          *ngIf="(!permissionObj || permissionObj?.can_update) !== false"
+          (click)="editRecord(role)">
+          <i class="bi bi-pencil-square"></i>
+        </button>
+        <button class="rp-abtn" title="Role Permission"
+          *ngIf="(!roleBasedAccessObj || roleBasedAccessObj?.can_view) !== false"
+          (click)="onRoleFormClick(role)">
+          <i class="bi bi-person-lock"></i>
+        </button>
+        <button class="rp-abtn rp-abtn-del" title="Delete"
+          *ngIf="(!permissionObj || permissionObj?.can_delete) !== false"
+          (click)="deleteRecord(role)">
+          <i class="bi bi-trash"></i>
+        </button>
+        <button class="rp-abtn" title="Role Dashboard Permission"
+          *ngIf="(!roleDashboardPermissionObj || roleDashboardPermissionObj?.can_view) !== false"
+          (click)="onRoledashboardFormClick(role)">
+          <i class="bi bi-list-ul"></i>
+        </button>
+      </div>
+    </div>
+  </div>
 
-              <button style="margin-left:7px" title="Role Permission"
-                *ngIf="(!roleBasedAccessObj || roleBasedAccessObj?.can_view) !== false" ejs-button
-                cssClass="e-btn e-btn-purple" (click)="onRoleFormClick(filteredRolesArray)">
-                <i class="bi bi-person-lock"></i>
-              </button>
-              <!-- <i class="bi bi-person-lock" style="color:rgb(162, 90, 230)"></i> -->
-
-              <!-- <button style="margin-left:7px" title="Dashboard Permission"
-                *ngIf="(!roleBasedAccessObj || roleBasedAccessObj?.can_view) !== false"
-                ejs-button cssClass="e-btn e-btn-purple" (click)="openDashboardPopup(filteredRolesArray)">
-                  <i class="bi bi-list-ul"></i>
-
-                </button> -->
-              <!-- <i class="bi bi-list-ul" style="color:rgb(162, 90, 230); margin:0px 10px"></i> -->
-
-
-              <button ejs-button cssClass="e-btn e-btn-purple" title="Delete"
-                *ngIf="(!permissionObj || permissionObj?.can_delete) !== false" style="margin-left:7px "
-                (click)="deleteRecord(filteredRolesArray)">
-                <i class="bi bi-trash"></i>
-              </button>
-
-              <button style="margin-left:7px" title="Role dashboard Permission"
-                *ngIf="(!roleDashboardPermissionObj || roleDashboardPermissionObj?.can_view) !== false" ejs-button
-                cssClass="e-btn e-btn-purple" (click)="onRoledashboardFormClick(filteredRolesArray)">
-                <i class="bi bi-list-ul"></i>
-              </button>
-              <!-- <i class="bi bi-trash" style="color:rgb(162, 90, 230)"></i> -->
-
-            </ng-template>
-          </e-column>
-
-        </e-columns>
-      </ejs-grid>
+  <!-- Footer -->
+  <div class="rp-footer">
+    <span class="rp-ft-info">Showing {{ getPageStart() }}–{{ getPageEnd() }} of {{ filteredRolesArray?.length || 0 }} roles</span>
+    <div class="rp-pg-btns">
+      <button class="rp-pgb" [disabled]="currentPage === 1" (click)="currentPage = currentPage - 1">‹</button>
+      <button class="rp-pgb" *ngFor="let p of getPageNumbers()" [class.on]="p === currentPage" (click)="currentPage = p">{{ p }}</button>
+      <button class="rp-pgb" [disabled]="currentPage === getTotalPages()" (click)="currentPage = currentPage + 1">›</button>
     </div>
   </div>
 
@@ -92,19 +98,20 @@
 
   <!-- Add/Edit Role Modal -->
   @if (showDefaultDialog) {
-    <div class="ar-modal-backdrop" [class.closing]="isModalClosing" (click)="closeDefaultDialog()"></div>
-    <div class="ar-modal ar-modal-sm" [class.closing]="isModalClosing">
-      <div class="ar-modal-header">
-        <h3 class="ar-modal-title">{{ formTitle }}</h3>
-        <button type="button" class="ar-modal-close" (click)="closeDefaultDialog()">&times;</button>
+    <div class="cd-modal-backdrop" (click)="closeDefaultDialog()"></div>
+    <div class="cd-modal cd-modal-sm">
+      <div class="cd-modal-header">
+        <div class="cd-modal-header-icon"><i class="bi bi-shield-plus"></i></div>
+        <h3 class="cd-modal-title">{{ formTitle }}</h3>
+        <button type="button" class="cd-modal-close" (click)="closeDefaultDialog()"><i class="bi bi-x-lg"></i></button>
       </div>
-      <div class="ar-modal-body">
+      <div class="cd-modal-body">
         <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
           <div class="formInfo">
             <div class="row">
               <div class="col-md-12 form-group">
                 <div class="inputValue">
-                  <label class="labelName">Role <span style="color:red; font-size: 14px;font-weight:600">*</span></label>
+                  <label class="labelName">Role <span class="cd-req">*</span></label>
                   <input type="text" formControlName="role" (input)="onRoleSerach($event)" class="form-control">
                   <div class="validation-error"
                     *ngIf="registrationForm.get('role')!.invalid && (registrationForm.get('role')!.touched || registrationForm.get('role')!.dirty)">
@@ -118,8 +125,7 @@
               <div class="col-md-12 form-group">
                 <div class="inputValue">
                   <label class="labelName">Description</label>
-                  <textarea cols="48" rows="3" style="border: 1px solid #ccc; border-radius: 4px;"
-                    formControlName="description"></textarea>
+                  <textarea cols="48" rows="3" formControlName="description" class="form-control" style="height:auto"></textarea>
                   <div class="validation-error"
                     *ngIf="registrationForm.get('description')!.invalid && (registrationForm.get('description')!.touched || registrationForm.get('description')!.dirty)">
                     Description is required
@@ -132,8 +138,8 @@
               </div>
               <div class="col-md-12" style="margin-top:10px">
                 <div [align]="'right'">
-                  <button type="submit" *ngIf="submitFlag" ejs-button class="e-btn e-btn-purple">Submit</button>
-                  <button type="button" *ngIf="updateFlag" ejs-button (click)="onUpdate()" class="e-btn e-btn-purple">Update</button>
+                  <button type="submit" *ngIf="submitFlag" ejs-button class="cd-btn cd-btn-sm cd-btn-primary">Submit</button>
+                  <button type="button" *ngIf="updateFlag" ejs-button (click)="onUpdate()" class="cd-btn cd-btn-sm cd-btn-primary">Update</button>
                 </div>
               </div>
             </div>
@@ -145,30 +151,31 @@
 
   <!-- Role Permissions Modal -->
   @if (showRoleDialog) {
-    <div class="ar-modal-backdrop" [class.closing]="isModalClosing" (click)="closeRoleDialog()"></div>
-    <div class="ar-modal ar-modal-lg" [class.closing]="isModalClosing">
-      <div class="ar-modal-header">
-        <h3 class="ar-modal-title">Role Permissions</h3>
-        <button type="button" class="ar-modal-close" (click)="closeRoleDialog()">&times;</button>
+    <div class="cd-modal-backdrop" (click)="closeRoleDialog()"></div>
+    <div class="cd-modal cd-modal-xl">
+      <div class="cd-modal-header">
+        <div class="cd-modal-header-icon"><i class="bi bi-shield-check"></i></div>
+        <h3 class="cd-modal-title">Role Permissions</h3>
+        <button type="button" class="cd-modal-close" (click)="closeRoleDialog()"><i class="bi bi-x-lg"></i></button>
       </div>
-      <div class="ar-modal-body">
+      <div class="cd-modal-body">
         <div class="accessDiv">
           <app-role-based-permission [getRoleObj]="sendRoleObj"
             (resMessage)="getResponseMessage($event)"></app-role-based-permission>
         </div>
       </div>
-      <div class="ar-modal-footer">
-        <button class="e-btn e-btn-purple"
+      <div class="cd-modal-footer-inline">
+        <button class="cd-btn cd-btn-sm cd-btn-primary"
           *ngIf="((!roleBasedAccessObj || roleBasedAccessObj?.can_create) !== false) && submitRolePermissionBtn"
           (click)="onRoleBasedFormSubmit()">
           Submit
         </button>
-        <button class="e-btn e-btn-purple"
+        <button class="cd-btn cd-btn-sm cd-btn-primary"
           *ngIf="((!roleBasedAccessObj || roleBasedAccessObj?.can_update) !== false) && updateRolePermissionBtn"
           (click)="onUpdateRolebasedForm()">
           Update
         </button>
-        <button class="e-btn e-btn-purple"
+        <button class="cd-btn cd-btn-sm cd-btn-primary"
           *ngIf="((!roleBasedAccessObj || roleBasedAccessObj?.can_delete) !== false) && updateRolePermissionBtn"
           (click)="onDeleteRolebasedForm()">
           Delete
@@ -179,13 +186,14 @@
 
   <!-- Dashboard Permissions View Modal -->
   @if (showDbPermissionDialog) {
-    <div class="ar-modal-backdrop" [class.closing]="isModalClosing" (click)="closeDbPermissionDialog()"></div>
-    <div class="ar-modal ar-modal-xl" [class.closing]="isModalClosing">
-      <div class="ar-modal-header">
-        <h3 class="ar-modal-title">{{ RoleName }}</h3>
-        <button type="button" class="ar-modal-close" (click)="closeDbPermissionDialog()">&times;</button>
+    <div class="cd-modal-backdrop" (click)="closeDbPermissionDialog()"></div>
+    <div class="cd-modal cd-modal-xl">
+      <div class="cd-modal-header">
+        <div class="cd-modal-header-icon"><i class="bi bi-table"></i></div>
+        <h3 class="cd-modal-title">{{ RoleName }}</h3>
+        <button type="button" class="cd-modal-close" (click)="closeDbPermissionDialog()"><i class="bi bi-x-lg"></i></button>
       </div>
-      <div class="ar-modal-body">
+      <div class="cd-modal-body">
         <div style="padding:10px 5px">
           <table class="table table-striped">
             <thead>
@@ -216,23 +224,24 @@
 
   <!-- Multiple Dashboard Permission Modal -->
   @if (showMultipleDbPermission) {
-    <div class="ar-modal-backdrop" [class.closing]="isModalClosing" (click)="closeMultipleDbPermission()"></div>
-    <div class="ar-modal ar-modal-xl" [class.closing]="isModalClosing">
-      <div class="ar-modal-header">
-        <h3 class="ar-modal-title">{{ RoleName }}</h3>
-        <button type="button" class="ar-modal-close" (click)="closeMultipleDbPermission()">&times;</button>
+    <div class="cd-modal-backdrop" (click)="closeMultipleDbPermission()"></div>
+    <div class="cd-modal cd-modal-xl">
+      <div class="cd-modal-header">
+        <div class="cd-modal-header-icon"><i class="bi bi-list-ul"></i></div>
+        <h3 class="cd-modal-title">{{ RoleName }}</h3>
+        <button type="button" class="cd-modal-close" (click)="closeMultipleDbPermission()"><i class="bi bi-x-lg"></i></button>
       </div>
-      <div class="ar-modal-body">
+      <div class="cd-modal-body">
         <app-multiple-dashboard-role-permission [getRoleObj]="sendRoleObjToPermissionPage"
           (resMessage)="getResponseMessage($event)"></app-multiple-dashboard-role-permission>
       </div>
-      <div class="ar-modal-footer">
-        <button class="e-btn e-btn-purple"
+      <div class="cd-modal-footer-inline">
+        <button class="cd-btn cd-btn-sm cd-btn-primary"
           *ngIf="((!roleDashboardPermissionObj || roleDashboardPermissionObj?.can_create) !== false) && isSubmitDashboardFlag"
           (click)="onDashboardRoleSubmit()">
           Submit
         </button>
-        <button class="e-btn e-btn-purple"
+        <button class="cd-btn cd-btn-sm cd-btn-primary"
           *ngIf="((!roleDashboardPermissionObj || roleDashboardPermissionObj?.can_update) !== false) && isUpdateDashboardFlag"
           (click)="onDashboardRoleUpdate()">
           Update

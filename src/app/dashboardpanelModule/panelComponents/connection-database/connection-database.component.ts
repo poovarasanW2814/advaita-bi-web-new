@@ -38,6 +38,43 @@ export class ConnectionDatabaseComponent implements OnInit {
 
   @ViewChild('defaultDialog')
   defaultDialog!: any; // kept for compatibility
+
+  // ── Pagination ──────────────────────────────────────
+  currentPage = 1;
+  pageSize = 10;
+
+  // ── Avatar colors (light pastels) ──────────────────
+  avColors: [string, string][] = [
+    ['#EEF2FF', '#4338CA'], ['#ECFDF5', '#065F46'], ['#FEF3C7', '#92400E'],
+    ['#FEE2E2', '#991B1B'], ['#E0F2FE', '#075985'], ['#F3E8FF', '#6B21A8'],
+    ['#FFF7ED', '#9A3412'], ['#F0FDF4', '#166534'], ['#FDF2F8', '#9D174D'],
+    ['#ECFEFF', '#155E75']
+  ];
+
+  getAvatarBg(i: number): string { return this.avColors[i % this.avColors.length][0]; }
+  getAvatarFg(i: number): string { return this.avColors[i % this.avColors.length][1]; }
+
+  paginatedConnections(): any[] {
+    const start = (this.currentPage - 1) * this.pageSize;
+    return (this.dbConnectionArr || []).slice(start, start + this.pageSize);
+  }
+
+  getTotalPages(): number {
+    return Math.max(1, Math.ceil((this.dbConnectionArr?.length || 0) / this.pageSize));
+  }
+
+  getPageNumbers(): number[] {
+    const total = this.getTotalPages();
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+
+  getPageStart(): number {
+    return this.dbConnectionArr?.length ? (this.currentPage - 1) * this.pageSize + 1 : 0;
+  }
+
+  getPageEnd(): number {
+    return Math.min(this.currentPage * this.pageSize, this.dbConnectionArr?.length || 0);
+  }
   showConnectionFormDialog: boolean = false;
 
 
@@ -77,6 +114,7 @@ export class ConnectionDatabaseComponent implements OnInit {
     this.submitFlag = true;
     this.updateFlag = false;
     this.showConnectionFormDialog = true;
+    document.body.classList.add('db-modal-open');
     // this.message = "";
     this.dialogOpen();
     this.formTitle = 'Add Database Connection '
@@ -86,6 +124,7 @@ export class ConnectionDatabaseComponent implements OnInit {
 
   closeConnectionFormDialog(): void {
     this.showConnectionFormDialog = false;
+    document.body.classList.remove('db-modal-open');
   }
 
   dialogClose = (): void => {
@@ -331,6 +370,7 @@ export class ConnectionDatabaseComponent implements OnInit {
     this.updateFlag = true;
     this.updateIndex = id;
     this.showConnectionFormDialog = true;
+    document.body.classList.add('db-modal-open');
     this.isMessageVisible = false;
 
     this.message = "";
@@ -377,6 +417,7 @@ export class ConnectionDatabaseComponent implements OnInit {
     this.updateFlag = true;
     this.editColumnObjIndex = data.connection_id;
     this.showConnectionFormDialog = true;
+    document.body.classList.add('db-modal-open');
 
     let obj = {
       "connection_name": data.connection_name || '',
@@ -505,6 +546,7 @@ export class ConnectionDatabaseComponent implements OnInit {
         this.chartService.createDatabase(obj).subscribe(
           (res: any) => {
         this.showConnectionFormDialog = false;
+            document.body.classList.remove('db-modal-open');
             // this.registeredUsersArray.push(obj);
             this.loaderService.hide()
 

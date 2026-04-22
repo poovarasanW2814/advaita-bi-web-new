@@ -1,65 +1,77 @@
-<div class="">
-  <div class="formDiv">
-
-    <form [formGroup]="permissionForm" (ngSubmit)="onFormSubmit()">
-
-      <div style=" text-align: center; font-size: 18px;">
-        @if (roleValue) {
-          <label for="roleName">Role : <span style="color:blue"> {{roleValue.role}}</span>
-        </label>
+<div class="pm-root">
+  <form [formGroup]="permissionForm" (ngSubmit)="onFormSubmit()">
+    <!-- Info bar -->
+    <div class="pm-info-bar">
+      @if (roleValue) {
+        <span class="pm-info-item"><strong>Role Name :</strong> {{ roleValue.role }}</span>
       }
     </div>
 
-    <br>
-
-      <div formGroupName="permissions" style="border: 1px solid #e0e0e0; border-radius: 8px;">
-        <table style="width:100%; border-collapse: collapse;">
-          <thead>
-            <tr style="background-color: #f0f0f0; position: sticky; top: 0; z-index: 1;">
-              <th style="padding: 10px 14px; text-align: left; font-size: 13px; font-weight: 600; width: 34%;">Form Name</th>
-              <th style="padding: 10px 8px; text-align: center; font-size: 13px; font-weight: 600; width: 12%;">Select All</th>
-              <th style="padding: 10px 8px; text-align: center; font-size: 13px; font-weight: 600; width: 11%;">View</th>
-              <th style="padding: 10px 8px; text-align: center; font-size: 13px; font-weight: 600; width: 11%;">Create</th>
-              <th style="padding: 10px 8px; text-align: center; font-size: 13px; font-weight: 600; width: 11%;">Update</th>
-              <th style="padding: 10px 8px; text-align: center; font-size: 13px; font-weight: 600; width: 11%;">Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (permission of permissionRows; track permission) {
-              <tr style="border-top: 1px solid #f0f0f0;">
-                <td style="padding: 8px 14px; font-size: 13px;">{{ permission.label }}</td>
-                <td style="padding: 8px; text-align: center;">
-                  <div formGroupName="{{ permission.key }}">
-                    <input type="checkbox" style="cursor:pointer; width:16px; height:16px;" class="selectBox"
-                      formControlName="selectAll"
-                      (change)="toggleAllPermissions(permission.key,$event)" />
-                  </div>
-                </td>
-                <td style="padding: 8px; text-align: center;">
-                  <div formGroupName="{{ permission.key }}">
-                    <input type="checkbox" style="cursor:pointer; width:16px; height:16px;" class="selectBox" formControlName="view" />
-                  </div>
-                </td>
-                <td style="padding: 8px; text-align: center;">
-                  <div formGroupName="{{ permission.key }}">
-                    <input type="checkbox" style="cursor:pointer; width:16px; height:16px;" class="selectBox" formControlName="create" />
-                  </div>
-                </td>
-                <td style="padding: 8px; text-align: center;">
-                  <div formGroupName="{{ permission.key }}">
-                    <input type="checkbox" style="cursor:pointer; width:16px; height:16px;" class="selectBox" formControlName="update" />
-                  </div>
-                </td>
-                <td style="padding: 8px; text-align: center;">
-                  <div formGroupName="{{ permission.key }}">
-                    <input type="checkbox" style="cursor:pointer; width:16px; height:16px;" class="selectBox" formControlName="delete" />
-                  </div>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-    </form>
-  </div>
+    <!-- Permission cards -->
+    <div class="pm-cards" formGroupName="permissions">
+      @for (permission of permissionRows; track permission) {
+        <div class="pm-card" [formGroupName]="permission.key">
+          <div class="pm-card-left">
+            <div class="pm-card-icon">
+              <i class="bi bi-ui-checks-grid"></i>
+            </div>
+            <span class="pm-card-name" [title]="permission.label">{{ permission.label }}</span>
+          </div>
+          <div class="pm-chip-row">
+            <!-- Select All -->
+            <label class="pm-chip-wrap">
+              <input type="checkbox" hidden formControlName="selectAll"
+                (change)="toggleAllPermissions(permission.key, $event)">
+              <span class="pm-chip"
+                [class.on]="permissionForm.get('permissions.' + permission.key + '.selectAll')?.value"
+                [class.off]="!permissionForm.get('permissions.' + permission.key + '.selectAll')?.value"
+                [class.a]="true">
+                <i class="bi bi-check2-all"></i> All
+              </span>
+            </label>
+            <!-- View -->
+            <label class="pm-chip-wrap">
+              <input type="checkbox" hidden formControlName="view">
+              <span class="pm-chip"
+                [class.on]="permissionForm.get('permissions.' + permission.key + '.view')?.value"
+                [class.off]="!permissionForm.get('permissions.' + permission.key + '.view')?.value"
+                [class.v]="true">
+                <i class="bi bi-eye"></i> View
+              </span>
+            </label>
+            <!-- Create -->
+            <label class="pm-chip-wrap">
+              <input type="checkbox" hidden formControlName="create">
+              <span class="pm-chip"
+                [class.on]="permissionForm.get('permissions.' + permission.key + '.create')?.value"
+                [class.off]="!permissionForm.get('permissions.' + permission.key + '.create')?.value"
+                [class.c]="true">
+                <i class="bi bi-plus-lg"></i> Create
+              </span>
+            </label>
+            <!-- Update -->
+            <label class="pm-chip-wrap">
+              <input type="checkbox" hidden formControlName="update">
+              <span class="pm-chip"
+                [class.on]="permissionForm.get('permissions.' + permission.key + '.update')?.value"
+                [class.off]="!permissionForm.get('permissions.' + permission.key + '.update')?.value"
+                [class.u]="true">
+                <i class="bi bi-pencil"></i> Update
+              </span>
+            </label>
+            <!-- Delete -->
+            <label class="pm-chip-wrap">
+              <input type="checkbox" hidden formControlName="delete">
+              <span class="pm-chip"
+                [class.on]="permissionForm.get('permissions.' + permission.key + '.delete')?.value"
+                [class.off]="!permissionForm.get('permissions.' + permission.key + '.delete')?.value"
+                [class.d]="true">
+                <i class="bi bi-trash3"></i> Delete
+              </span>
+            </label>
+          </div>
+        </div>
+      }
+    </div>
+  </form>
 </div>

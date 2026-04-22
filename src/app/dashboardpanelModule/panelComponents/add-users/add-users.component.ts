@@ -64,8 +64,8 @@ export class AddUsersComponent implements OnInit {
 
   closeDefaultDialog(): void { this.closeModalWithAnimation('showDefaultDialog'); }
   closeRoleDialog(): void {
-    this.permissionDialogOpen = false;
     this.closeModalWithAnimation('showRoleDialog');
+    setTimeout(() => { this.permissionDialogOpen = false; }, 250);
   }
   closeUserUploadPopup(): void { this.closeModalWithAnimation('showUserUploadPopup'); }
   closeDbPermissionDialog(): void { this.closeModalWithAnimation('showDbPermissionDialog'); }
@@ -97,6 +97,57 @@ export class AddUsersComponent implements OnInit {
 
 
   activeUsersArray: any = [];
+
+  private avColors = [
+    ['#EEF2FF','#4338CA'],['#ECFDF5','#065F46'],['#FFF7ED','#9A3412'],
+    ['#EFF6FF','#1E40AF'],['#FAF5FF','#6B21A8'],['#F0FDF4','#166534'],
+    ['#FFFBEB','#92400E'],['#EEF2FF','#3730A3'],
+  ];
+
+  getInitials(first: string, last: string): string {
+    return ((first?.[0] || '') + (last?.[0] || '')).toUpperCase() || '?';
+  }
+
+  getAvatarBg(i: number): string { return this.avColors[i % this.avColors.length][0]; }
+  getAvatarFg(i: number): string { return this.avColors[i % this.avColors.length][1]; }
+
+  getSuperAdminCount(): number {
+    return this.filteredUsersArray?.filter((u: any) => u.role === 'superadmin').length || 0;
+  }
+  getAdminCount(): number {
+    return this.filteredUsersArray?.filter((u: any) => u.role === 'Admin' || u.role === 'admin').length || 0;
+  }
+  getActiveCount(): number {
+    return this.filteredUsersArray?.filter((u: any) => u.is_active).length || 0;
+  }
+
+  // Pagination
+  currentPage = 1;
+  pageSize = 10;
+
+  paginatedUsers(): any[] {
+    const start = (this.currentPage - 1) * this.pageSize;
+    return this.filteredUsersArray?.slice(start, start + this.pageSize) || [];
+  }
+
+  getTotalPages(): number {
+    return Math.max(1, Math.ceil((this.filteredUsersArray?.length || 0) / this.pageSize));
+  }
+
+  getPageNumbers(): number[] {
+    const total = this.getTotalPages();
+    const pages: number[] = [];
+    for (let i = 1; i <= total; i++) pages.push(i);
+    return pages;
+  }
+
+  getPageStart(): number {
+    return this.filteredUsersArray?.length ? (this.currentPage - 1) * this.pageSize + 1 : 0;
+  }
+
+  getPageEnd(): number {
+    return Math.min(this.currentPage * this.pageSize, this.filteredUsersArray?.length || 0);
+  }
 
   dialogBtnClick = (): void => {
     this.initForm();
@@ -552,6 +603,7 @@ export class AddUsersComponent implements OnInit {
     this.filteredUsersArray = this.registeredUsersArray.filter((user: any) =>
       user.username.toLowerCase().includes(this.filterTerm.toLowerCase())
     );
+    this.currentPage = 1;
 
     console.log('this.filteredUsersArray after filtering', this.filteredUsersArray);
 
@@ -573,6 +625,7 @@ export class AddUsersComponent implements OnInit {
     this.filteredUsersArray = this.registeredUsersArray.filter((user: any) =>
       user.role && user.role.toLowerCase().includes(this.filterRoleTerm.toLowerCase())
     );
+    this.currentPage = 1;
 
     // console.log('filterRoleTerm after filtering', this.filteredUsersArray);
 
@@ -690,7 +743,6 @@ export class AddUsersComponent implements OnInit {
 
   onUserBasedFormSubmit() {
     this.UserBasedPermissionComponent.onFormSubmit();
-    this.closeRoleDialog();
   }
   onRoleFormClick(data: any) {
     console.log(data);
@@ -702,29 +754,11 @@ export class AddUsersComponent implements OnInit {
     // Destroy child first so it recreates with fresh state
     this.permissionDialogOpen = false;
     this.sendUserObj = obj;
+    this.updateRolePermissionBtn = false;
+    this.submitRolePermissionBtn = false;
     this.openModal('showRoleDialog');
     // Let Angular destroy the old component, then recreate it with new input
     setTimeout(() => { this.permissionDialogOpen = true; }, 0);
-
-    this.chartService.getRoleDetailsByRolename(data.role).subscribe((res: any) => {
-      let roleData = res['data'];
-      let roleId = roleData.id;
-
-      this.chartService.getUserPermissionByRoleIdUserId(roleId, data.user_id).subscribe((res: any) => {
-
-        console.log(res);
-
-        if (res.success) {
-          this.updateRolePermissionBtn = true;
-          this.submitRolePermissionBtn = false;
-        } else {
-          this.updateRolePermissionBtn = false;
-          this.submitRolePermissionBtn = true;
-        }
-
-
-      })
-    })
 
     // console.log(this.registeredUsersArray, this.rolesObjArr);
 
@@ -753,12 +787,10 @@ export class AddUsersComponent implements OnInit {
   }
   onUpdateUserPermission() {
     this.UserBasedPermissionComponent.onUpdateFormSubmit();
-    this.closeRoleDialog();
   }
 
   onDeleteUserPermission() {
     this.UserBasedPermissionComponent.onDeleteUserBasedForm();
-    this.closeRoleDialog();
   }
 
 
@@ -804,15 +836,24 @@ export class AddUsersComponent implements OnInit {
 
 
 
+  onPermissionLoaded(event: { hasExisting: boolean }) {
+    if (event.hasExisting) {
+      this.updateRolePermissionBtn = true;
+      this.submitRolePermissionBtn = false;
+    } else {
+      this.updateRolePermissionBtn = false;
+      this.submitRolePermissionBtn = true;
+    }
+  }
+
   getResponseMessage(eve: any) {
+    this.closeRoleDialog();
     this.displayPopup = true;
-    // this.showPopup(eve.status, '35px', eve.message)
     this.popupService.showPopup({
       message: eve.message,
       statusCode: eve.statusCode,
       status: eve.status
     });
-
   }
   // onInputFocus(event: FocusEvent) {
   //   const input = event.target as HTMLInputElement;
@@ -1425,6 +1466,8 @@ export class AddUsersComponent implements OnInit {
   isUpdateUserDashboardFlag: boolean = false;
   openDashboardPermissionPopup(data: any) {
     console.log('data', data)
+    this.isSubmitUserDashboardFlag = false;
+    this.isUpdateUserDashboardFlag = false;
     this.openModal('showMultipleDbPermission');
     let roleId: any;
     this.UserName = 'Dashboard Permissions for User :- ' + data.username;
@@ -1441,7 +1484,7 @@ export class AddUsersComponent implements OnInit {
       this.sendUserDashboardObj = obj;
 
       this.chartService.getAllUserDashboardPermissionByRoleidUserId(roleId, data.user_id).subscribe((res: any) => {
-        if (res.success == true) {
+        if (res.success == true && res.data?.id) {
           // let data = res['data'];
           this.isUpdateUserDashboardFlag = true;
           this.isSubmitUserDashboardFlag = false;
@@ -1453,6 +1496,11 @@ export class AddUsersComponent implements OnInit {
       })
 
     })
+  }
+
+  onDashboardFlagChange(event: any) {
+    this.isSubmitUserDashboardFlag = event.isSubmit;
+    this.isUpdateUserDashboardFlag = event.isUpdate;
   }
 
   onDashboardRoleUserSubmit() {

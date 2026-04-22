@@ -225,8 +225,9 @@
 
 .workspace-pill-copy strong,
 .profile-copy strong {
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: 1.5
+  rem;
+  font-weight: 1500;
   color: var(--etl-text-primary);
   white-space: nowrap;
   overflow: hidden;
@@ -235,7 +236,7 @@
 
 .workspace-pill-copy small,
 .profile-copy small {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--etl-text-secondary);
   white-space: nowrap;
   overflow: hidden;
@@ -362,7 +363,7 @@
   padding: 0;
   background: var(--etl-surface-2);
   overflow: visible;
-  transition: margin-left var(--etl-transition-normal), padding var(--etl-transition-normal);
+  transition: margin-left 300ms ease;
   position: relative;
   z-index: 1;
 }
