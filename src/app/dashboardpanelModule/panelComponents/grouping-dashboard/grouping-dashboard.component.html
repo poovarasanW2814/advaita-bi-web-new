@@ -136,13 +136,13 @@
     }
   </div>
   <div class="edit-dashboard-dialogBox">
-    @if (editDashboardDialogVisible) {
-    <div class="cd-modal-backdrop" (click)="editDashboardDialogVisible = false"></div>
+    @if (createGroupDialogVisible) {
+    <div class="cd-modal-backdrop" (click)="createGroupDialogVisible = false"></div>
     <div class="cd-modal cd-modal-sm">
       <div class="cd-modal-header">
         <div class="cd-modal-header-icon"><i class="bi bi-folder-plus"></i></div>
         <h3 class="cd-modal-title">Create Groups</h3>
-        <button class="cd-modal-close" type="button" (click)="editDashboardDialogVisible = false" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+        <button class="cd-modal-close" type="button" (click)="createGroupDialogVisible = false" aria-label="Close"><i class="bi bi-x-lg"></i></button>
       </div>
       <div class="cd-modal-body">
         <div class="dialog-content">

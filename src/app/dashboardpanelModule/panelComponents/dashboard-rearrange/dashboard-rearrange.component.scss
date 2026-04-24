@@ -1,108 +1,516 @@
-
 @use '../../../core/sass/popup.scss';
 
-.submitBtn{
-    text-align: right;
-    margin-top:10px
+$cd-primary: #0D5C7A;
+$cd-primary-dark: #094A63;
+$cd-primary-bg: #EDF5F8;
+$cd-primary-ring: rgba(13, 92, 122, 0.12);
+$cd-accent: #4F46E5;
+$cd-accent-bg: #EEF2FF;
+$cd-accent-text: #4338CA;
+$cd-border: #E4E7ED;
+$cd-border-light: #EFF1F5;
+$cd-surface: #F7F8FA;
+$cd-text-strong: #1F2937;
+$cd-text-body: #4B5563;
+$cd-text-muted: #8C93A6;
+
+:host {
+  display: block;
+  font-family: "DM Sans", system-ui, sans-serif;
 }
-:host ::ng-deep .e-list-item {
-  margin: 13px 21px 5px;
-  border: 1px solid lightgrey;
-  border-radius: 5px;
-  box-shadow: 0px 1px 1px 1px lightgrey;
-  height: 90px !important;
+
+.ds-page {
+  padding: 24px;
 }
-:host ::ng-deep .e-list-item .dashboard_name{
-  font-size: 23px;
-  margin: 5px 5px 0px;
-  font-weight: 500;
-  font-family:  monospace
+
+.ds-hdr {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
 }
-:host ::ng-deep .e-list-item .description{
-  font-size: 18px
-}
-.heading{
-  margin-bottom: 10px;
- // padding: 5px;
-  text-align: left;
+
+.ds-title {
   font-size: 22px;
-  
-}
-.e-dialog {
-  border-radius: 10px;
-}
-
-.e-dialog .e-dlg-header-content {
-  border-radius: 10px 10px 0 0;
-}
-
-label {
-  display: inline-block;
-  max-width: 100%;
-  margin-bottom: 5px;
   font-weight: 500;
+  color: #111827;
+  letter-spacing: -0.02em;
 }
 
-
-#popup-message{
-  font-size: 30px;
-}
-.e-dialog .e-dlg-header-content+.e-dlg-content {
-  padding-top: 0;
-  background: #edf0f16e;
+.ds-sub {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #9CA3AF;
 }
 
+.ds-hdr-right {
+  display: flex;
+  align-items: center;
+}
 
-@media only screen and (max-width: 767px) and (orientation: landscape){
-  .heading {
-    font-size: 22px;
-    font-style: normal;
-    margin: 5px 0px 8px;
+.ds-scard {
+  background: #fff;
+  border: 1px solid #E5E7EF;
+  border-radius: 10px;
+  padding: 8px 48px 8px 14px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s;
+  min-width: 165px;
+
+  &:hover {
+    border-color: #CBD0E0;
   }
-  .text-danger {
-    color: #e31511;
+}
+
+.ds-scard-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  border-radius: 3px 0 0 3px;
+  background: $cd-primary;
+}
+
+.ds-scard-val {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  line-height: 1.2;
+}
+
+.ds-scard-lbl {
+  font-size: 10px;
+  color: #9CA3AF;
+}
+
+.ds-scard-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $cd-primary-bg;
+
+  i {
+    font-size: 13px;
+    color: $cd-primary;
+  }
+}
+
+.ds-toolbar-card,
+.ds-board-card {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F8FBFC 100%);
+  border: 1px solid #E5E7EF;
+  border-radius: 18px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+}
+
+.ds-toolbar-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+  padding: 18px 20px;
+}
+
+.ds-toolbar-copy {
+  min-width: 0;
+}
+
+.ds-toolbar-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: $cd-text-strong;
+  letter-spacing: -0.01em;
+}
+
+.ds-toolbar-sub {
+  margin: 4px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: $cd-text-muted;
+}
+
+.ds-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ds-board-card {
+  padding: 20px;
+}
+
+.ds-board-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.ds-board-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: $cd-text-strong;
+  letter-spacing: -0.01em;
+}
+
+.ds-board-sub {
+  margin: 4px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: $cd-text-muted;
+}
+
+.ds-board-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid $cd-accent;
+  background: $cd-accent-bg;
+  color: $cd-accent-text;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ds-board-body {
+  background: #fff;
+  border: 1px solid #E5E7EF;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.ds-listbox-shell {
+  min-height: 580px;
+}
+
+.ds-modal-body {
+  padding-top: 18px;
+}
+
+.ds-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ds-form-card {
+  background: #fff;
+  border: 1px solid #E5E7EF;
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.ds-form-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.ds-form-card-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: $cd-text-strong;
+  letter-spacing: -0.01em;
+}
+
+.ds-form-card-sub {
+  margin: 4px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: $cd-text-muted;
+}
+
+.ds-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ds-field {
+  min-width: 0;
+
+  label {
+    display: block;
+    margin-bottom: 7px;
     font-size: 12px;
-  }
-  .submitBtn[_ngcontent-fxn-c237] {
-    text-align: right;
-    margin-top: 0px;
-  }
-  :host ::ng-deep .e-list-item .dashboard_name {
-    font-size: 15px;
-    margin: 5px 5px 6px;
-    font-weight: 500;
-    font-family: system-ui;
-  }
-  :host ::ng-deep .e-list-item .description {
-    font-size: 12px;
-   }
-   #defaultDialog{
-    max-height: 284px;
-    top: 30px !important;
-    height: 225px;
-   }
-   #defaultDialog_dialog-header{
-    padding: 10px;
-   }
-}
-
-@media only screen and (max-width: 768px) and (orientation: portrait){
-  :host ::ng-deep .e-list-item .dashboard_name {
-    font-size: 14px;
-    margin: 5px 5px 4px;
-    font-weight: 500;
-  }
-
-  :host ::ng-deep .e-list-item .description {
-    font-size: 9px;
-  }
-  .heading {
-    font-size: 22px;
     font-weight: 600;
-    color: rgba(2, 2, 2, 0.54);
-    margin: 7px 5px
+    color: $cd-text-body;
   }
-
 }
 
+.ds-field-full {
+  grid-column: 1 / -1;
+}
 
+.ds-field .form-control {
+  width: 100%;
+  height: 42px !important;
+  padding: 0 12px;
+  border: 1.5px solid $cd-border;
+  border-radius: 10px;
+  background: #fff;
+  color: $cd-text-strong;
+  font-size: 13px;
+  box-sizing: border-box;
+  transition: border-color 0.12s, box-shadow 0.12s;
+
+  &:focus {
+    outline: none;
+    border-color: $cd-primary;
+    box-shadow: 0 0 0 3px $cd-primary-ring;
+  }
+}
+
+.ds-toggle-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border: 1px solid $cd-border;
+  border-radius: 14px;
+  background: $cd-surface;
+}
+
+.ds-toggle-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  strong {
+    font-size: 13px;
+    font-weight: 600;
+    color: $cd-text-strong;
+  }
+
+  small {
+    font-size: 11px;
+    line-height: 1.5;
+    color: $cd-text-muted;
+  }
+}
+
+.ds-toggle-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  span {
+    font-size: 11px;
+    font-weight: 600;
+    color: $cd-text-body;
+  }
+}
+
+.ds-form-footer {
+  margin-top: 4px;
+}
+
+:host ::ng-deep {
+  .ds-listbox-shell .e-listbox-wrapper {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .ds-listbox-shell .e-list-parent {
+    padding: 0;
+  }
+
+  .ds-listbox-shell .e-list-item {
+    margin: 0 0 12px !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    height: auto !important;
+  }
+
+  .ds-listbox-shell .e-list-item:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  .ds-listbox-shell .e-list-item .e-text-content {
+    padding: 0;
+  }
+
+  .ds-listbox-shell .e-list-item.e-selected .ds-tile,
+  .ds-listbox-shell .e-list-item.e-active .ds-tile {
+    border-color: $cd-primary;
+    box-shadow: 0 0 0 3px $cd-primary-ring;
+    background: #F8FCFD;
+  }
+
+  .ds-tile {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    min-height: 100px;
+    border: 1px solid #E5E7EF;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+    transition: border-color 0.15s, background 0.15s, transform 0.12s;
+
+    &:hover {
+      border-color: #CBD0E0;
+      background: #FAFBFF;
+      transform: translateY(-1px);
+    }
+  }
+
+  .ds-tile-cover {
+    width: 90px;
+    flex-shrink: 0;
+  }
+
+  .ds-tile-body {
+    min-width: 0;
+    flex: 1;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .ds-tile-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: $cd-text-strong;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .ds-tile-desc {
+    font-size: 12px;
+    line-height: 1.5;
+    color: $cd-text-muted;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .ds-field .e-input-group,
+  .ds-field .e-input-group.e-control-wrapper,
+  .ds-field .e-ddl.e-input-group,
+  .ds-field .e-multi-select-wrapper {
+    min-height: 42px;
+    border: 1.5px solid $cd-border;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: none;
+  }
+
+  .ds-field .e-input-group:not(.e-success):not(.e-warning):not(.e-error),
+  .ds-field .e-input-group.e-control-wrapper:not(.e-success):not(.e-warning):not(.e-error) {
+    border: 1.5px solid $cd-border;
+  }
+
+  .ds-field .e-input-group input.e-input,
+  .ds-field .e-input-group .e-input,
+  .ds-field .e-dropdownlist .e-input,
+  .ds-field .e-multiselect .e-input-group input.e-input {
+    min-height: 40px;
+    padding: 0 12px;
+    color: $cd-text-strong;
+    font-size: 13px;
+  }
+
+  .ds-field .e-input-group.e-control-wrapper.e-input-focus,
+  .ds-field .e-input-group.e-control-wrapper:focus-within,
+  .ds-field .e-ddl.e-input-focus,
+  .ds-field .e-multi-select-wrapper.e-input-focus {
+    border-color: $cd-primary;
+    box-shadow: 0 0 0 3px $cd-primary-ring;
+  }
+
+  .ds-field .e-ddl-icon,
+  .ds-field .e-chips-close,
+  .ds-field .e-delim-values,
+  .ds-field .e-down-icon {
+    color: $cd-text-muted;
+  }
+
+  .ds-toggle-control .e-switch-wrapper {
+    transform: scale(0.95);
+  }
+}
+
+@media (max-width: 1024px) {
+  .ds-toolbar-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ds-field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ds-field-full {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .ds-page {
+    padding: 16px;
+  }
+
+  .ds-hdr {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ds-board-card,
+  .ds-toolbar-card {
+    padding: 16px;
+  }
+
+  .ds-board-head,
+  .ds-toggle-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ds-toolbar-actions {
+    width: 100%;
+  }
+
+  .ds-toolbar-actions .cd-btn {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+
+  :host ::ng-deep .ds-tile {
+    min-height: 88px;
+  }
+
+  :host ::ng-deep .ds-tile-cover {
+    width: 64px;
+  }
+}

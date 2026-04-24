@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, Renderer2, ViewChild, inject} from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, Renderer2, ViewChild, inject} from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimationModel, ChartModule } from '@syncfusion/ej2-angular-charts';
@@ -19,12 +19,22 @@ import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
     imports: [GridModule, ChartModule, KanbanModule, ButtonModule, DialogModule, FormsModule, ReactiveFormsModule]
 })
 
-export class JoinTableComponent implements OnInit {
+export class JoinTableComponent implements OnInit, OnDestroy {
   [x: string]: any;
 
   registrationForm!: FormGroup;
 
   showJoinDialog: boolean = false;
+
+  private openJoinModal(): void {
+    this.showJoinDialog = true;
+    document.body.classList.add('jt-modal-open');
+  }
+
+  closeJoinDialog(): void {
+    this.showJoinDialog = false;
+    document.body.classList.remove('jt-modal-open');
+  }
 
   rolesArray: string[] = ['Admin', 'Agent', 'Associate', 'Team Lead', 'Analyst', 'Business Head', 'Manager', 'Intern']
 
@@ -45,7 +55,7 @@ export class JoinTableComponent implements OnInit {
   activeUsersArray: any = [];
 
   dialogBtnClick = (): void => {
-    this.showJoinDialog = true;
+    this.openJoinModal();
     this.formInit();
     this.submitFlag = true;
     this.updateFlag = false;
@@ -153,6 +163,10 @@ export class JoinTableComponent implements OnInit {
 
   }
 
+  ngOnDestroy(): void {
+    document.body.classList.remove('jt-modal-open');
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     if (window.innerWidth <= 768) {
@@ -258,7 +272,7 @@ export class JoinTableComponent implements OnInit {
   onEditJoin(eve: any) {
     let data = eve;
     console.log(data);
-    this.showJoinDialog = true;
+    this.openJoinModal();
     this.submitFlag = false;
     this.updateFlag = true;
 
@@ -384,7 +398,7 @@ export class JoinTableComponent implements OnInit {
       }
 
     )
-    this.showJoinDialog = false
+    this.closeJoinDialog()
 
 
   }
@@ -493,7 +507,7 @@ export class JoinTableComponent implements OnInit {
         this.loaderService.hide();
         //  this.showPopup(res.success, '30', res.message)
 
-        this.showJoinDialog = false;
+        this.closeJoinDialog();
         this.popupService.showPopup({
           message: res.message,
           statusCode: res.status_code,

@@ -920,7 +920,11 @@ body.au-modal-open .dashboardParent,
 body.ar-modal-open #target,
 body.ar-modal-open .dashboardParent,
 body.db-modal-open #target,
-body.db-modal-open .dashboardParent {
+body.db-modal-open .dashboardParent,
+body.dr-modal-open #target,
+body.dr-modal-open .dashboardParent,
+body.jt-modal-open #target,
+body.jt-modal-open .dashboardParent {
   z-index: auto !important;
 }
 

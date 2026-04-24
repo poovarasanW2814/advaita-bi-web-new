@@ -1,5 +1,5 @@
 ﻿
-import { Component, OnInit, ViewChild, inject} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, inject} from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonComponent, ButtonModule, SwitchModule } from '@syncfusion/ej2-angular-buttons';
 import { DragEventArgs, ListBoxComponent, ListBoxModule, DropDownListModule, MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns';
@@ -20,12 +20,32 @@ import { NgIf, NgFor } from '@angular/common';
     styleUrls: ['./dashboard-rearrange.component.scss'],
     imports: [NgIf, ButtonModule, ListBoxModule, DialogModule, FormsModule, ReactiveFormsModule, NgFor, SwitchModule, DropDownListModule, MultiSelectModule]
 })
-export class DashboardRearrangeComponent implements OnInit {
+export class DashboardRearrangeComponent implements OnInit, OnDestroy {
 
   @ViewChild('listbox1') listObj1!: ListBoxComponent; 
   showSetupDialog: boolean = false;
   showGroupingDialog: boolean = false;
   @ViewChild('dialogBtn')dialogBtn!: ButtonComponent;
+
+  private openModal(flag: 'showSetupDialog' | 'showGroupingDialog'): void {
+    (this as any)[flag] = true;
+    document.body.classList.add('dr-modal-open');
+  }
+
+  private closeModal(flag: 'showSetupDialog' | 'showGroupingDialog'): void {
+    (this as any)[flag] = false;
+    if (!this.showSetupDialog && !this.showGroupingDialog) {
+      document.body.classList.remove('dr-modal-open');
+    }
+  }
+
+  closeSetupDialog(): void {
+    this.closeModal('showSetupDialog');
+  }
+
+  closeGroupingDialog(): void {
+    this.closeModal('showGroupingDialog');
+  }
 
   fields: FieldSettingsModel = { text: 'dashboard_name', description : 'description', value: 'dashboard_index'};
 
@@ -168,6 +188,7 @@ export class DashboardRearrangeComponent implements OnInit {
               ...item,
               backgroundImg,
               backgroundColor,
+              description: item.description || 'Drag to reorder this dashboard',
               groupName : 'Trends'
           };
       });
@@ -236,6 +257,10 @@ export class DashboardRearrangeComponent implements OnInit {
     })
 
 
+  }
+
+  ngOnDestroy(): void {
+    document.body.classList.remove('dr-modal-open');
   }
 
   userInfoObj : any ;
@@ -481,7 +506,7 @@ export class DashboardRearrangeComponent implements OnInit {
     isSuperadmin: boolean = false;
 
 dialogBtnClick() {
-  this.showSetupDialog = true;
+  this.openModal('showSetupDialog');
   let userData : any =  sessionStorage.getItem('userInformation');
   // this.userObj = userData;
   if(userData){
@@ -517,7 +542,7 @@ createDashboardSetup(){
   console.log(formValue);
   this.loaderService.show();
 
-  this.showSetupDialog = false;
+  this.closeSetupDialog();
   this.chartService.createDashboardSetup(formValue).subscribe(
     (res : any) =>{
       console.log(res)
@@ -554,7 +579,7 @@ toggleUpdateMode(isUpdate: boolean): void {
 updateDashboardSetup(){
   let formValue = this.dashboardSetupForm.value
   console.log(this.setupId,formValue )
-  this.showSetupDialog = false;
+  this.closeSetupDialog();
   this.loaderService.show();
 
  this.chartService.updateDashboardSetup(this.setupId, formValue).subscribe(
@@ -664,5 +689,4 @@ export interface FieldSettingsModel {
   url?: string;
   isDisabled?: boolean;
 }
-
 

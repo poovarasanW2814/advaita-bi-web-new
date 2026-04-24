@@ -1,183 +1,232 @@
-<div class="control-section" style="padding:15px">
-  <div class="row">
-    <div class="col-md-11" style="padding-left:0px">
-      <div class="tableTitle">
-        <span class="heading popupHeader" style="cursor: pointer;">
-          Add Table Join
-        </span>
-
-        <div class="spinner-border text-primary" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-      </div>
+<div class="tj-page">
+  <div class="tj-hdr">
+    <div>
+      <div class="tj-title">Table Join</div>
+      <div class="tj-sub">Create and manage reusable joins between tables from the same connection.</div>
     </div>
-    <div class="col-md-1 joinBtn">
 
-
+    <div class="tj-hdr-right">
+      <div class="tj-scard">
+        <div class="tj-scard-accent"></div>
+        <div class="tj-scard-val">{{ tableJoinsArray?.length || 0 }}</div>
+        <div class="tj-scard-lbl">Saved joins</div>
+        <div class="tj-scard-icon"><i class="bi bi-intersect"></i></div>
+      </div>
 
       @if ((!permissionObj || permissionObj?.can_create) !== false) {
-        <button class="e-btn e-btn-purple"
-          (click)="dialogBtnClick()">
-          <span>
-            <i class="bi bi-plus-lg"></i>
-          </span>
+        <button class="tj-hbtn tj-hbtn-primary" type="button" (click)="dialogBtnClick()">
+          <i class="bi bi-plus-lg"></i> Add Join
         </button>
       }
     </div>
   </div>
 
+  <div class="tj-shell">
+    <div class="tj-grid-card">
+      <div class="tj-grid-head">
+        <div>
+          <h3 class="tj-grid-title">Join Definitions</h3>
+          <p class="tj-grid-sub">Review existing joins and update them when table relationships change.</p>
+        </div>
+      </div>
 
-
-  <div class="row"  style="margin-top: 17px;">
-    <ejs-grid [dataSource]='tableJoinsArray' #grid autofit="true">
-      <e-columns>
-        <e-column field= "table_join_name" headerText="Table Join Name"></e-column>
-        <e-column field= "primary_tableName" headerText="Primary TableName" ></e-column>
-        <e-column field= "secondary_tableName" headerText="Secondary TableName" ></e-column>
-        <e-column field= "primary_table_alias" headerText="PrimaryTable AliasName" ></e-column>
-        <e-column field= "secondary_table_alias" headerText="SecondaryTable AliasName" ></e-column>
-        <e-column field= "join_type" headerText="Join Type" ></e-column>
-        <e-column headerText='Action' >
-          <ng-template #template let-tableJoinsArray>
-            <button ejs-button cssClass="e-flat-icon e-btn-purple" style="cursor: pointer;" (click)="onEditJoin(tableJoinsArray)">
-              <i class="bi bi-pencil-square"></i>
-            </button>
-            <button ejs-button cssClass="e-flat-icon e-btn-purple" style="cursor: pointer;" (click)="onDeleteJoin(tableJoinsArray)" style="margin-left:10px"
-              >
-              <i class="bi bi-trash" ></i>
-            </button>
-          </ng-template>
-        </e-column>
-
-      </e-columns>
-    </ejs-grid>
+      <div class="tj-grid-body">
+        <ejs-grid [dataSource]="tableJoinsArray" #grid autofit="true" class="tj-grid">
+          <e-columns>
+            <e-column field="table_join_name" headerText="Table Join Name"></e-column>
+            <e-column field="primary_tableName" headerText="Primary Table"></e-column>
+            <e-column field="secondary_tableName" headerText="Secondary Table"></e-column>
+            <e-column field="primary_table_alias" headerText="Primary Alias"></e-column>
+            <e-column field="secondary_table_alias" headerText="Secondary Alias"></e-column>
+            <e-column field="join_type" headerText="Join Type"></e-column>
+            <e-column headerText="Actions" width="120" textAlign="Center">
+              <ng-template #template let-tableJoinsArray>
+                <div class="tj-action-group">
+                  @if ((!permissionObj || permissionObj?.can_update) !== false) {
+                    <button class="tj-icon-btn" type="button" title="Edit Join" (click)="onEditJoin(tableJoinsArray)">
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+                  }
+                  @if ((!permissionObj || permissionObj?.can_delete) !== false) {
+                    <button class="tj-icon-btn tj-icon-btn-del" type="button" title="Delete Join" (click)="onDeleteJoin(tableJoinsArray)">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  }
+                </div>
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
   </div>
 
   @if (showJoinDialog) {
-  <div class="cd-modal-backdrop" (click)="showJoinDialog = false"></div>
-  <div class="cd-modal cd-modal-xl">
-    <div class="cd-modal-header">
-      <div class="cd-modal-header-icon"><i class="bi bi-intersect"></i></div>
-      <h3 class="cd-modal-title">Add Table Join</h3>
-      <button class="cd-modal-close" type="button" (click)="showJoinDialog = false" aria-label="Close"><i class="bi bi-x-lg"></i></button>
-    </div>
-    <div class="cd-modal-body registrationforms">
-      <form id="metadata_create_form_id" [formGroup]="myForm" (ngSubmit)="onSubmit()">
-        <div class="modal-body metadeta-firstpopup">
-          <div class="row">
-            <div class="col-md-6 dataset_form">
-              <div class="form-group">
-                <label for="" class="inputLabel">Table Join Name </label>
-                <input type="text" class="form-control inputBox" formControlName="table_join_name">
+    <div class="cd-modal-backdrop" (click)="closeJoinDialog()"></div>
+    <div class="cd-modal cd-modal-xl">
+      <div class="cd-modal-header">
+        <div class="cd-modal-header-icon"><i class="bi bi-intersect"></i></div>
+        <h3 class="cd-modal-title">{{ updateFlag ? 'Update Table Join' : 'Add Table Join' }}</h3>
+        <button class="cd-modal-close" type="button" (click)="closeJoinDialog()" aria-label="Close">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <div class="cd-modal-body tj-modal-body">
+        <form id="metadata_create_form_id" [formGroup]="myForm" (ngSubmit)="onSubmit()" class="tj-form">
+          <section class="tj-form-card">
+            <div class="tj-form-card-head">
+              <div>
+                <h4 class="tj-form-card-title">Join Setup</h4>
+                <p class="tj-form-card-sub">Name the join, select the connection, and choose the join type.</p>
               </div>
             </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="connectionName" class="inputLabel">Connection Name</label>
-                <select name="" id="" (change)="onConnectionNameSelect($event)" formControlName="connection_id" class="form-control inputBox">
-                  <option value=""></option>
-                  <option [value]="'internal' + '-' + 0">{{ 'internal' }}</option>
+
+            <div class="tj-field-grid">
+              <div class="tj-field">
+                <label for="tableJoinName">Table Join Name</label>
+                <input id="tableJoinName" type="text" class="form-control" formControlName="table_join_name">
+              </div>
+
+              <div class="tj-field">
+                <label for="connectionName">Connection Name</label>
+                <select id="connectionName" (change)="onConnectionNameSelect($event)" formControlName="connection_id" class="form-control">
+                  <option value="">Select connection</option>
+                  <option [value]="0">Internal</option>
                   @for (dbName of connectionDetailsArray; track dbName; let i = $index) {
-                    <option [value]="dbName.connection_id">{{dbName.connection_name}}</option>
+                    <option [value]="dbName.connection_id">{{ dbName.connection_name }}</option>
                   }
                 </select>
               </div>
+
+              <div class="tj-field">
+                <label for="joinType">Join Type</label>
+                <select id="joinType" class="form-control" formControlName="join_type">
+                  <option value="">Select join type</option>
+                  <option value="left">Left Join</option>
+                  <option value="right">Right Join</option>
+                  <option value="inner">Inner Join</option>
+                  <option value="outer">Outer Join</option>
+                  <option value="cross">Cross Join</option>
+                </select>
+              </div>
             </div>
-          </div>
-          <div>
-            <div class="jointableDiv">
-              <div class="row joinTableMainDiv">
-                <div class="col-md-4 form-group">
-                  <label for="" class="inputLabel">Select Primary Table </label>
-                  <select name="" id="" class="form-control inputBox" formControlName="primaryTableName" #tableNameDropdown (click)="onTableDropdown(tableNameDropdown.value)">
-                    <option value="">Select</option>
-                    @for (name of tableNamesArray; track name; let i = $index) {
-                      <option [value]="name">{{name}}</option>
-                    }
-                  </select>
-                </div>
-                <div class="col-md-4 form-group">
-                  <div id="metadata_create_join_type">
-                    <label for="" class="inputLabel">Select Join Type </label>
-                    <select class="form-control inputBox" formControlName="join_type">
-                      <option value="">Join Type</option>
-                      <option value="left">Left</option>
-                      <option value="right">Right</option>
-                      <option value="inner">Inner JOIN</option>
-                      <option value="outer"> OUTER JOIN</option>
-                      <option value="cross"> Cross JOIN</option>
+          </section>
+
+          <section class="tj-form-card">
+            <div class="tj-form-card-head">
+              <div>
+                <h4 class="tj-form-card-title">Tables</h4>
+                <p class="tj-form-card-sub">Choose the source tables and define the aliases used in the join.</p>
+              </div>
+            </div>
+
+            <div class="tj-field-grid">
+              <div class="tj-field">
+                <label for="primaryTableName">Primary Table</label>
+                <select
+                  id="primaryTableName"
+                  class="form-control"
+                  formControlName="primaryTableName"
+                  #tableNameDropdown
+                  (change)="onTableDropdown(tableNameDropdown.value)">
+                  <option value="">Select primary table</option>
+                  @for (name of tableNamesArray; track name; let i = $index) {
+                    <option [value]="name">{{ name }}</option>
+                  }
+                </select>
+              </div>
+
+              <div class="tj-field">
+                <label for="secondaryTableName">Secondary Table</label>
+                <select
+                  id="secondaryTableName"
+                  class="form-control"
+                  formControlName="secondaryTableName"
+                  #tableNameTwoDropdown
+                  (change)="onTableTwoDropdown(tableNameTwoDropdown.value)">
+                  <option value="">Select secondary table</option>
+                  @for (name of tableNamesArray; track name; let i = $index) {
+                    <option [value]="name">{{ name }}</option>
+                  }
+                </select>
+              </div>
+
+              <div class="tj-field">
+                <label for="primaryAlias">Primary Table Alias</label>
+                <input id="primaryAlias" type="text" class="form-control" formControlName="primary_table_alias">
+              </div>
+
+              <div class="tj-field">
+                <label for="secondaryAlias">Secondary Table Alias</label>
+                <input id="secondaryAlias" type="text" class="form-control" formControlName="secondary_table_alias">
+              </div>
+            </div>
+          </section>
+
+          <section class="tj-form-card">
+            <div class="tj-form-card-head">
+              <div>
+                <h4 class="tj-form-card-title">Join Conditions</h4>
+                <p class="tj-form-card-sub">Add one or more matching rules between the primary and secondary tables.</p>
+              </div>
+            </div>
+
+            <div class="tj-condition-list" formArrayName="tableJointsArr">
+              @for (tbleJoint of tableJointsArrControls; track tbleJoint; let i = $index) {
+                <div class="tj-condition-row" [formGroupName]="i">
+                  <div class="tj-condition-index">#{{ i + 1 }}</div>
+
+                  <div class="tj-field">
+                    <label [for]="'primaryParam' + i">Primary Column</label>
+                    <select [id]="'primaryParam' + i" formControlName="primary_table_param" class="form-control">
+                      <option value="">Select column</option>
+                      @for (name of selectedTableFieldName; track name; let j = $index) {
+                        <option [value]="name">{{ name }}</option>
+                      }
                     </select>
                   </div>
-                </div>
-                <div class="col-md-4 form-group">
-                  <label for="" class="inputLabel">Select Secondary Table </label>
-                  <select name="" id="" class="form-control inputBox" formControlName="secondaryTableName" #tableNameTwoDropdown (click)="onTableTwoDropdown(tableNameTwoDropdown.value)">
-                    <option value="">Select</option>
-                    @for (name of tableNamesArray; track name; let i = $index) {
-                      <option [value]="name">{{name}}</option>
+
+                  <div class="tj-field tj-field-operator">
+                    <label [for]="'operator' + i">Operator</label>
+                    <select [id]="'operator' + i" class="form-control" formControlName="operator">
+                      <option value="">Select</option>
+                      <option value="=">=</option>
+                      <option value="<="><=</option>
+                      <option value=">=">>=</option>
+                      <option value="!=">!=</option>
+                      <option value="<"><</option>
+                      <option value=">">></option>
+                    </select>
+                  </div>
+
+                  <div class="tj-field">
+                    <label [for]="'secondaryParam' + i">Secondary Column</label>
+                    <select [id]="'secondaryParam' + i" formControlName="secondary_table_param" class="form-control">
+                      <option value="">Select column</option>
+                      @for (name of selectedSecondaryTableFieldNameArr; track name; let j = $index) {
+                        <option [value]="name">{{ name }}</option>
+                      }
+                    </select>
+                  </div>
+
+                  <div class="tj-condition-actions">
+                    <button class="tj-icon-btn" type="button" title="Add condition" (click)="addTableJoint()">
+                      <i class="bi bi-plus-lg"></i>
+                    </button>
+                    @if (i > 0) {
+                      <button class="tj-icon-btn tj-icon-btn-del" type="button" title="Remove condition" (click)="removeTableJoint(i)">
+                        <i class="bi bi-dash-lg"></i>
+                      </button>
                     }
-                  </select>
-                </div>
-                <div class="col-md-4 form-group">
-                  <div class="form-group">
-                    <label for="" class="inputLabel">Primary Table Alias Name </label>
-                    <input type="text" class="form-control inputBox" formControlName="primary_table_alias">
                   </div>
                 </div>
-                <div class="col-md-4 form-group"></div>
-                <div class="col-md-4 form-group">
-                  <div class="form-group">
-                    <label for="" class="inputLabel">Secondary Table Alias Name </label>
-                    <input type="text" class="form-control inputBox" formControlName="secondary_table_alias">
-                  </div>
-                </div>
-              </div>
-              <div formArrayName="tableJointsArr">
-                @for (tbleJoint of tableJointsArrControls; track tbleJoint; let i = $index) {
-                  <ng-container [formGroupName]="i">
-                    <div class="row" style="margin-bottom: 6px;">
-                      <div class="col-md-3">
-                        <select name="" id="" formControlName="primary_table_param" class="form-control inputBox">
-                          <option value="">--Select--</option>
-                          @for (name of selectedTableFieldName; track name; let i = $index) {
-                            <option [value]="name">{{name}}</option>
-                          }
-                        </select>
-                      </div>
-                      <div class="col-md-3">
-                        <select class="form-control inputBox" formControlName="operator">
-                          <option value="">Select Operator</option>
-                          <option value="=">=</option>
-                          <option value="<="><=</option>
-                          <option value=">=">>=</option>
-                          <option value=""> !=</option>
-                          <option value="<"> <</option>
-                          <option value=">"> ></option>
-                        </select>
-                      </div>
-                      <div class="col-md-3">
-                        <select name="" id="" formControlName="secondary_table_param" class="form-control inputBox">
-                          <option value="">--Select--</option>
-                          @for (name of selectedSecondaryTableFieldNameArr; track name; let i = $index) {
-                            <option [value]="name">{{name}}</option>
-                          }
-                        </select>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="fieldBtns">
-                          <span id="target2" type="button" (click)="addTableJoint()" style="display: inline-block; margin-right:10px"><i class="bi bi-plus-circle"></i></span>
-                          @if (i > 0) {
-                            <span (click)="removeTableJoint(i)"><i class="bi bi-dash-circle"></i></span>
-                          }
-                        </div>
-                      </div>
-                    </div>
-                  </ng-container>
-                }
-              </div>
+              }
             </div>
-          </div>
-          <div class="cd-modal-footer-inline" style="margin-top:8px">
+          </section>
+
+          <div class="cd-modal-footer-inline tj-form-footer">
+            <button class="cd-btn cd-btn-sm cd-btn-ghost" type="button" (click)="closeJoinDialog()">Cancel</button>
             @if (submitFlag) {
               <button class="cd-btn cd-btn-sm cd-btn-primary" id="create_btn" type="submit">Create</button>
             }
@@ -185,27 +234,8 @@
               <button class="cd-btn cd-btn-sm cd-btn-primary" (click)="updateTableJoin()" id="update_btn" type="button">Update</button>
             }
           </div>
-        </div>
-      </form>
-    </div>
-  </div>
-  }
-
-        <!-- <div class="popup" id="popup">
-        <div class="popup-content">
-          <span class="close" (click)="closePopup()">&times;</span>
-          <div id="popup-message" class="popup-message"></div>
-          <button (click)="closePopup()" class="e-btn e-btn-purple">Ok</button>
-        </div>
+        </form>
       </div>
-      <div class="backdrop" id="backdrop"></div> -->
-
-
-      <!-- <div class="progressBarEle">
-      <ejs-progressbar  *ngIf="loaderFlag"  cornerRadius='Circle' id='indeterminate' trackThickness=20  progressThickness=20  segmentCount=30  type='Circular' height='100' value=40
-        [isIndeterminate]='true' [animation]='animation' progressColor="navy"
-        >
-      </ejs-progressbar>
-    </div> -->
-
-  </div>
+    </div>
+  }
+</div>
